@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ProfileCard from "../components/ProfileCard";
+import SocialBioCard from "../components/SocialBioCard";
 import { useAuth } from "../context/AuthContext";
 import {
   addFriendship,
@@ -83,8 +83,8 @@ export default function NfcPage() {
 
   if (!isSupabaseConfigured) {
     return (
-      <main className="info-page structured-page">
-        <section className="main-width info-card">
+      <main className="nfc-page">
+        <section className="main-width info-card nfc-message-card">
           <h1>NFC</h1>
           <p>Для NFC-сценариев нужно подключить Supabase в `.env`.</p>
         </section>
@@ -93,20 +93,14 @@ export default function NfcPage() {
   }
 
   return (
-    <main className="info-page structured-page">
-      <section className="info-hero main-width">
-        <p className="eyebrow">NFC-метка</p>
-        <h1>{ownerProfile ? "Визитка участника" : "Свободная метка"}</h1>
-        <p className="info-lead">Код метки: {tagCode}</p>
-      </section>
-
-      <section className="main-width">
+    <main className="nfc-page">
+      <section className="main-width nfc-page-inner">
         {isLoading ? (
-          <article className="info-card">
+          <article className="info-card nfc-message-card">
             <h2>Считываем метку…</h2>
           </article>
         ) : ownerProfile ? (
-          <ProfileCard
+          <SocialBioCard
             profile={ownerProfile}
             actions={
               isOwnTag ? (
@@ -114,18 +108,18 @@ export default function NfcPage() {
                   Это твоя метка
                 </Link>
               ) : isAuthenticated ? (
-                <button className="text-button" type="button" onClick={handleFriendship}>
+                <button type="button" onClick={handleFriendship}>
                   Добавить знакомство
                 </button>
               ) : (
-                <Link className="text-button" to={`/auth?redirect=/nfc/${tagCode}`}>
+                <Link to={`/auth?redirect=/nfc/${tagCode}`}>
                   Войти, чтобы добавить знакомство
                 </Link>
               )
             }
           />
         ) : (
-          <article className="info-card nfc-claim-card">
+          <article className="info-card nfc-message-card nfc-claim-card">
             <p className="card-kicker">Новая метка</p>
             <h2>Эта NFC-метка ещё свободна</h2>
             <p>
@@ -133,7 +127,7 @@ export default function NfcPage() {
               ссылка будет открывать твою публичную визитку.
             </p>
             {isAuthenticated ? (
-              <button className="text-button" type="button" onClick={handleClaim}>
+              <button className="text-button auth-submit" type="button" onClick={handleClaim}>
                 Привязать к моему профилю
               </button>
             ) : (

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Api } from "../api";
 
 function normalizeSocialUrl(value, prefix) {
@@ -32,7 +31,6 @@ export default function ProfileCard({ profile, actions, compact = false }) {
 
         <div className="pill-row">
           {profile.is_admin && <span className="pill">админ</span>}
-          {profile.isu_number && <span className="pill">ИСУ {profile.isu_number}</span>}
           {profile.megaballs > 0 && <span className="pill">{profile.megaballs} мегабаллов</span>}
         </div>
 
@@ -52,9 +50,6 @@ export default function ProfileCard({ profile, actions, compact = false }) {
               {item.title}
             </a>
           ))}
-          <Link className="text-button" to={`/u/${profile.id}`}>
-            Публичная визитка
-          </Link>
         </div>
 
         {actions && <div className="profile-actions">{actions}</div>}

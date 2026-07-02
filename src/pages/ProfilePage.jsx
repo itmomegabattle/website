@@ -25,11 +25,7 @@ export default function ProfilePage() {
   return (
     <main className="info-page structured-page">
       <section className="info-hero main-width">
-        <p className="eyebrow">Личный кабинет</p>
-        <h1>Профиль участника</h1>
-        <p className="info-lead">
-          Публичная визитка, соцсети, описание и будущие NFC-метки живут здесь.
-        </p>
+        <h1>Профиль</h1>
       </section>
 
       <section className="main-width">

@@ -8,6 +8,7 @@ import {
   Route,
   RouterProvider,
   ScrollRestoration,
+  useMatches,
 } from "react-router-dom";
 import { Api } from "./api";
 import Background from "./components/Background";
@@ -31,14 +32,22 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 function App() {
+  const matches = useMatches();
+  const hideFooter = matches.some((match) => match.handle?.hideFooter);
+  const pageClassName = matches.some((match) => match.handle?.compactViewport)
+    ? "app-shell app-shell--compact"
+    : "app-shell";
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Header />
-        <Background />
-        <Outlet />
-        <ScrollRestoration />
-        <Footer />
+        <div className={pageClassName}>
+          <Header />
+          <Background />
+          <Outlet />
+          <ScrollRestoration />
+          {!hideFooter && <Footer />}
+        </div>
       </AuthProvider>
     </QueryClientProvider>
   );
@@ -59,7 +68,11 @@ const router = createBrowserRouter(
       <Route path="/auth/register" element={<AuthPage mode="signup" />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/u/:profileId" element={<PublicProfilePage />} />
-      <Route path="/nfc/:tagCode" element={<NfcPage />} />
+      <Route
+        path="/nfc/:tagCode"
+        element={<NfcPage />}
+        handle={{ hideFooter: true, compactViewport: true }}
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>,
   ),

@@ -50,6 +50,19 @@ body {
     position: relative;
 }
 
+.app-shell {
+    min-height: 100vh;
+}
+
+.app-shell--compact {
+    min-height: 100svh;
+    overflow: hidden;
+}
+
+.app-shell--compact main {
+    padding-bottom: 0;
+}
+
 /* :root {
     scroll-behavior: smooth;
 } */
@@ -139,4 +152,3 @@ main {
 /* * :not(use) {
     outline: 1px solid red;
 } */
-

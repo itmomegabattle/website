@@ -59,6 +59,16 @@ export default function ProfileEditor() {
     }));
   };
 
+  const removeSocialLink = (index) => {
+    setForm((current) => ({
+      ...current,
+      social_links:
+        current.social_links.length === 1
+          ? [emptySocialLink]
+          : current.social_links.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -85,53 +95,66 @@ export default function ProfileEditor() {
 
   return (
     <form className="info-card profile-editor" onSubmit={handleSubmit}>
-      <p className="card-kicker">Личный кабинет</p>
       <h2>Редактировать профиль</h2>
+      <p>
+        Эти данные будут показываться в NFC-визитке. Соцсети и дополнительные
+        ссылки можно не заполнять.
+      </p>
 
-      <label className="form-field">
-        <span>Никнейм</span>
-        <input name="nickname" value={form.nickname} onChange={updateField} required />
-      </label>
+      <div className="profile-editor-grid">
+        <label className="form-field">
+          <span>Никнейм</span>
+          <input name="nickname" value={form.nickname} onChange={updateField} required />
+        </label>
 
-      <label className="form-field">
-        <span>Имя</span>
-        <input name="full_name" value={form.full_name} onChange={updateField} />
-      </label>
+        <label className="form-field">
+          <span>Имя</span>
+          <input name="full_name" value={form.full_name} onChange={updateField} />
+        </label>
 
-      <label className="form-field">
-        <span>Факультет</span>
-        <input name="faculty" value={form.faculty} onChange={updateField} />
-      </label>
+        <label className="form-field">
+          <span>Факультет</span>
+          <input name="faculty" value={form.faculty} onChange={updateField} />
+        </label>
+
+        <label className="form-field">
+          <span>Фото профиля</span>
+          <input type="file" accept="image/*" onChange={(event) => setAvatarFile(event.target.files?.[0] ?? null)} />
+        </label>
+      </div>
 
       <label className="form-field">
         <span>Описание</span>
-        <textarea name="bio" value={form.bio} onChange={updateField} rows="4" />
-      </label>
-
-      <label className="form-field">
-        <span>Telegram</span>
-        <input
-          name="telegram_username"
-          value={form.telegram_username}
+        <textarea
+          name="bio"
+          value={form.bio}
           onChange={updateField}
-          placeholder="@username"
+          rows="4"
+          placeholder="Пара слов о себе, роли в проекте или любимом хаосе"
         />
       </label>
 
-      <label className="form-field">
-        <span>Instagram</span>
-        <input
-          name="instagram_username"
-          value={form.instagram_username}
-          onChange={updateField}
-          placeholder="@username"
-        />
-      </label>
+      <div className="profile-editor-grid">
+        <label className="form-field">
+          <span>Telegram</span>
+          <input
+            name="telegram_username"
+            value={form.telegram_username}
+            onChange={updateField}
+            placeholder="@username"
+          />
+        </label>
 
-      <label className="form-field">
-        <span>Фото профиля</span>
-        <input type="file" accept="image/*" onChange={(event) => setAvatarFile(event.target.files?.[0] ?? null)} />
-      </label>
+        <label className="form-field">
+          <span>Instagram</span>
+          <input
+            name="instagram_username"
+            value={form.instagram_username}
+            onChange={updateField}
+            placeholder="@username"
+          />
+        </label>
+      </div>
 
       <div className="social-links-editor">
         <span>Ссылки</span>
@@ -147,6 +170,9 @@ export default function ProfileEditor() {
               onChange={(event) => updateSocialLink(index, "url", event.target.value)}
               placeholder="https://..."
             />
+            <button className="social-link-remove" type="button" onClick={() => removeSocialLink(index)}>
+              убрать
+            </button>
           </div>
         ))}
         <button className="text-button" type="button" onClick={addSocialLink}>
