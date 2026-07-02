@@ -23,7 +23,6 @@ export default function RatingsPage() {
       )}
 
       <section className="main-width">
-        <h1>Граф знакомств</h1>
         <FriendshipGraph />
       </section>
     </main>

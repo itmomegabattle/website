@@ -968,69 +968,102 @@
 }
 
 .friendship-graph-card {
-    display: grid;
-    grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.3fr);
-    gap: 1rem;
-    min-height: 440px;
-}
-
-.friendship-graph-copy {
-    display: grid;
-    align-content: center;
-    gap: 0.7rem;
-}
-
-.friendship-graph-copy h2 {
-    font-family: var(--heading-font);
-    font-size: clamp(2rem, 4vw, 3.6rem);
-    line-height: 0.95;
-}
-
-.friendship-graph-visual {
     position: relative;
-    min-height: 380px;
+    min-height: clamp(560px, 62vw, 820px);
+    padding: 0;
     overflow: hidden;
-    border: var(--card-border);
-    border-radius: calc(var(--corner-radius) * 0.9);
     background:
-        radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent-color) 18%, transparent), transparent 42%),
+        radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--accent-color) 18%, transparent), transparent 46%),
+        linear-gradient(135deg, rgba(255,255,255,0.06), transparent 42%),
         var(--surface-color-special);
 }
 
-.friendship-edge {
+.friendship-graph-toolbar {
     position: absolute;
-    left: 12%;
-    top: calc(18% + var(--edge-index) * 10%);
-    width: 76%;
-    height: 1px;
-    transform: rotate(calc(-20deg + var(--edge-index) * 8deg));
-    transform-origin: center;
-    background: color-mix(in srgb, var(--accent-color) 64%, transparent);
-    box-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 50%, transparent);
-}
-
-.friendship-node {
-    position: absolute;
-    left: var(--node-x);
-    top: var(--node-y);
-    display: grid;
-    gap: 0.1rem;
-    min-width: 8.5rem;
-    padding: 0.75rem 0.9rem;
-    transform: translate(-50%, -50%);
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    display: flex;
+    gap: 0.45rem;
+    padding: 0.35rem;
     border: var(--card-border);
     border-radius: 999px;
-    background: var(--surface-color);
-    box-shadow: var(--card-shadow);
+    background: color-mix(in srgb, var(--surface-color) 86%, transparent);
+    backdrop-filter: blur(12px);
 }
 
-.friendship-node strong {
+.friendship-graph-toolbar button {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    padding: 0 0.85rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--surface-color-special);
     color: var(--accent-color);
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
 }
 
-.friendship-node span {
-    font-size: 0.82rem;
-    opacity: 0.72;
+.friendship-graph-svg {
+    display: block;
+    width: 100%;
+    height: clamp(560px, 62vw, 820px);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.friendship-graph-svg:active {
+    cursor: grabbing;
+}
+
+.friendship-graph-bg {
+    fill: transparent;
+}
+
+.friendship-links line {
+    stroke: color-mix(in srgb, var(--accent-color) 64%, transparent);
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    opacity: 0.46;
+    filter: drop-shadow(0 0 7px color-mix(in srgb, var(--accent-color) 35%, transparent));
+}
+
+.friendship-node-svg rect {
+    fill: color-mix(in srgb, var(--surface-color) 92%, transparent);
+    stroke: color-mix(in srgb, var(--border-color) 86%, transparent);
+    stroke-width: 1.4;
+    filter: drop-shadow(0 18px 26px rgba(0,0,0,0.28));
+}
+
+.friendship-node-dot {
+    stroke: rgba(255,255,255,0.76);
+    stroke-width: 1.1;
+    filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent-color) 46%, transparent));
+}
+
+.friendship-node-halo {
+    filter: blur(1px);
+}
+
+.friendship-node-svg--dense rect {
+    filter: drop-shadow(0 16px 22px rgba(0,0,0,0.24));
+}
+
+.friendship-node-label {
+    fill: var(--accent-color);
+    font-family: var(--body-font);
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.friendship-node-faculty {
+    fill: currentColor;
+    font-family: var(--body-font);
+    font-size: 13px;
+    font-weight: 800;
+    opacity: 0.74;
 }
 
 @media (max-width: 960px) {
@@ -1043,7 +1076,7 @@
     .public-profile-card,
     .public-profile-card--compact,
     .profile-editor-grid,
-    .friendship-graph-card {
+    .authenticated-rating-grid {
         grid-template-columns: 1fr;
     }
 
@@ -1119,5 +1152,13 @@
     .social-bio-card {
         max-height: calc(100svh - 7rem);
         overflow-y: auto;
+    }
+
+    .friendship-graph-card {
+        min-height: 520px;
+    }
+
+    .friendship-graph-svg {
+        height: 520px;
     }
 }
