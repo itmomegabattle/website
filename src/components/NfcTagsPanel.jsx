@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { getProfileTags } from "../services/profileService";
 
-export default function NfcTagsPanel({ profileId }) {
+export default function NfcTagsPanel({ profileId, compact = false }) {
   const tags = useQuery({
     queryKey: ["profile-tags", profileId],
     queryFn: () => getProfileTags(profileId),
@@ -11,7 +11,7 @@ export default function NfcTagsPanel({ profileId }) {
   }).data;
 
   return (
-    <article className="info-card nfc-tags-panel">
+    <article className={`info-card nfc-tags-panel${compact ? " nfc-tags-panel--compact" : ""}`}>
       <p className="card-kicker">NFC-метки</p>
       <h2>Привязанные носители</h2>
       <p>

@@ -139,7 +139,7 @@ export default function Header() {
     { to: "/ratings", label: "Участникам" },
   ];
   const accountItem = isAuthenticated
-    ? { to: "/profile", label: profile?.nickname ?? "Профиль" }
+    ? { to: "/ratings", label: profile?.nickname ?? "Профиль" }
     : null;
 
   useEffect(() => {

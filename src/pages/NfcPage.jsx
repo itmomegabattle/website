@@ -105,7 +105,7 @@ export default function NfcPage() {
             qrOnSocials={isOwnTag}
             actions={
               isOwnTag ? (
-                <Link className="text-button" to="/profile">
+                <Link className="text-button" to="/ratings">
                   Это твоя метка
                 </Link>
               ) : isAuthenticated ? (

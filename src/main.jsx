@@ -23,7 +23,6 @@ import HistoryPage from "./pages/HistoryPage";
 import HomePage from "./pages/HomePage";
 import NfcPage from "./pages/NfcPage";
 import PeoplePage from "./pages/PeoplePage";
-import ProfilePage from "./pages/ProfilePage";
 import PublicProfilePage from "./pages/PublicProfilePage";
 import RatingsPage from "./pages/RatingsPage";
 import "./styles/common.css";
@@ -66,7 +65,7 @@ const router = createBrowserRouter(
       <Route path="/ratings" element={<RatingsPage />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/register" element={<AuthPage mode="signup" />} />
-      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/profile" element={<Navigate to="/ratings" replace />} />
       <Route path="/u/:profileId" element={<PublicProfilePage />} />
       <Route
         path="/nfc/:tagCode"
