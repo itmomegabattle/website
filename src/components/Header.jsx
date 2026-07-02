@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "../styles/header.css";
 import { Theme } from "../theme";
 
@@ -124,9 +125,22 @@ function InnerSpace() {
 }
 
 export default function Header() {
+  const { isAuthenticated, profile } = useAuth();
   const [theme, setTheme] = useState(Theme.get());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isDarkTheme = theme === "dark";
+  const navItems = [
+    { to: "/", label: "Главная" },
+    { to: "/people", label: "Люди" },
+    { to: "/faculties", label: "Факультеты" },
+    { to: "/history", label: "История" },
+    { to: "/partners", label: "Партнёры" },
+    { to: "/events", label: "Мероприятия" },
+    { to: "/ratings", label: "Рейтинги" },
+  ];
+  const accountItem = isAuthenticated
+    ? { to: "/profile", label: profile?.nickname ?? "Профиль" }
+    : { to: "/auth", label: "Вход" };
 
   useEffect(() => {
     Theme.addListener(setTheme, false);
@@ -149,11 +163,22 @@ export default function Header() {
         <BurgerIcon open={isMenuOpen} />
       </button>
       <nav className="header-nav" aria-label="Основная навигация">
-        <Link className="header-item" to="/" onClick={() => setIsMenuOpen(false)}>
-          Главная
-        </Link>
-        <Link className="header-item" to="/people" onClick={() => setIsMenuOpen(false)}>
-          Люди
+        {navItems.map((item) => (
+          <Link
+            className="header-item"
+            to={item.to}
+            key={item.to}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            {item.label}
+          </Link>
+        ))}
+        <Link
+          className="header-item"
+          to={accountItem.to}
+          onClick={() => setIsMenuOpen(false)}
+        >
+          {accountItem.label}
         </Link>
       </nav>
       <button
@@ -167,11 +192,13 @@ export default function Header() {
       >
         {isDarkTheme ? <SunIcon /> : <MoonIcon />}
       </button>
-      <Link className="header-item header-link" to="/">
-        Главная
-      </Link>
-      <Link className="header-item header-link" to="/people">
-        Люди
+      {navItems.map((item) => (
+        <Link className="header-item header-link" to={item.to} key={item.to}>
+          {item.label}
+        </Link>
+      ))}
+      <Link className="header-item header-link" to={accountItem.to}>
+        {accountItem.label}
       </Link>
       <button
         type="button"

@@ -32,5 +32,21 @@ export const Api = {
 
   getPartners() {
     return fetchJson('data/partners.json');
+  },
+
+  getFaculties() {
+    return fetchJson('data/faculties.json');
+  },
+
+  getHistory() {
+    return fetchJson('data/history.json');
+  },
+
+  getExternalPr() {
+    return fetchJson('data/external-pr.json');
+  },
+
+  getRatings() {
+    return fetchJson('data/ratings.json');
   }
 };

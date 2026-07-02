@@ -1,7 +1,6 @@
 import Megabattle from "../components/Megabattle";
 import MemberList from "../components/MemberList";
 import StoriesList from "../components/StoriesList";
-import VisibleScroll from "../components/VisibleScroll";
 import "../styles/page-people.css";
 
 export default function PeoplePage() {

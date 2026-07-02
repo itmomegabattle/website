@@ -13,19 +13,33 @@ import { Api } from "./api";
 import Background from "./components/Background";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import { AuthProvider } from "./context/AuthContext";
+import AuthPage from "./pages/AuthPage";
+import EventsPage from "./pages/EventsPage";
+import ExternalPrPage from "./pages/ExternalPrPage";
+import FacultiesPage from "./pages/FacultiesPage";
+import HistoryPage from "./pages/HistoryPage";
 import HomePage from "./pages/HomePage";
+import NfcPage from "./pages/NfcPage";
 import PeoplePage from "./pages/PeoplePage";
+import ProfilePage from "./pages/ProfilePage";
+import PublicProfilePage from "./pages/PublicProfilePage";
+import RatingsPage from "./pages/RatingsPage";
 import "./styles/common.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <QueryClientProvider client={new QueryClient()}>
-      <Header />
-      <Background />
-      <Outlet />
-      <ScrollRestoration />
-      <Footer />
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Header />
+        <Background />
+        <Outlet />
+        <ScrollRestoration />
+        <Footer />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
@@ -36,6 +50,16 @@ const router = createBrowserRouter(
     <Route element={<App />}>
       <Route path="/" element={<HomePage />} />
       <Route path="/people" element={<PeoplePage />} />
+      <Route path="/faculties" element={<FacultiesPage />} />
+      <Route path="/history" element={<HistoryPage />} />
+      <Route path="/partners" element={<ExternalPrPage />} />
+      <Route path="/events" element={<EventsPage />} />
+      <Route path="/ratings" element={<RatingsPage />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/auth/register" element={<AuthPage mode="signup" />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/u/:profileId" element={<PublicProfilePage />} />
+      <Route path="/nfc/:tagCode" element={<NfcPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>,
   ),
