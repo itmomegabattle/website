@@ -9,12 +9,21 @@ const limits = {
   full_name: 34,
   faculty: 24,
   bio: 22,
+  bioCharacters: 180,
   handle: 32,
   linkTitle: 24,
 };
 
 function limitWords(value, maxWords) {
-  return value.trim().split(/\s+/).filter(Boolean).slice(0, maxWords).join(" ");
+  const matches = Array.from(value.matchAll(/\S+/g));
+  if (matches.length <= maxWords) return value;
+
+  const lastAllowedWord = matches[maxWords - 1];
+  return value.slice(0, lastAllowedWord.index + lastAllowedWord[0].length);
+}
+
+function countWords(value) {
+  return Array.from(String(value || "").matchAll(/\S+/g)).length;
 }
 
 export default function ProfileEditor() {
@@ -38,7 +47,7 @@ export default function ProfileEditor() {
       nickname: profile.nickname ?? "",
       full_name: profile.full_name ?? "",
       faculty: profile.faculty ?? "",
-      bio: profile.bio ?? "",
+      bio: limitWords(profile.bio ?? "", limits.bio).slice(0, limits.bioCharacters),
       telegram_username: profile.telegram_username ?? "",
       instagram_username: profile.instagram_username ?? "",
       social_links: profile.social_links?.length ? profile.social_links.slice(0, maxSocialLinks) : [emptySocialLink],
@@ -51,9 +60,14 @@ export default function ProfileEditor() {
 
   const updateField = (event) => {
     const { name, value } = event.target;
+    const nextValue =
+      name === "bio"
+        ? limitWords(value.slice(0, limits.bioCharacters), limits.bio)
+        : value;
+
     setForm((current) => ({
       ...current,
-      [name]: name === "bio" ? limitWords(value, limits.bio) : value,
+      [name]: nextValue,
     }));
   };
 
@@ -100,7 +114,7 @@ export default function ProfileEditor() {
       await updateProfile(profile.id, {
         ...form,
         avatar_url: avatarUrl,
-        bio: limitWords(form.bio, limits.bio),
+        bio: limitWords(form.bio, limits.bio).trim(),
         social_links: form.social_links.filter((item) => item.title || item.url).slice(0, maxSocialLinks),
       });
       await refreshProfile();
@@ -148,9 +162,12 @@ export default function ProfileEditor() {
           value={form.bio}
           onChange={updateField}
           rows="4"
+          maxLength={limits.bioCharacters}
           placeholder="Пара слов о себе, роли в проекте или любимом хаосе"
         />
-        <small>{form.bio.trim().split(/\s+/).filter(Boolean).length}/{limits.bio} слов</small>
+        <small>
+          {countWords(form.bio)}/{limits.bio} слов · {form.bio.length}/{limits.bioCharacters} символов
+        </small>
       </label>
 
       <div className="profile-editor-grid">
