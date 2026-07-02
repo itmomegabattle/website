@@ -13,9 +13,9 @@ const facultyColors = {
 };
 
 const graphWorld = {
-  width: 3800,
-  height: 2400,
-  padding: 180,
+  width: 5200,
+  height: 3600,
+  padding: 220,
 };
 
 const defaultViewBox = { x: 0, y: 0, width: graphWorld.width, height: graphWorld.height };
@@ -52,18 +52,17 @@ function makeStressEdges() {
     edges.push({ requester: source, receiver: target });
   };
 
+  people.slice(1).forEach((_, index) => {
+    const childIndex = index + 1;
+    const parentPoolStart = Math.max(0, childIndex - 160);
+    const parentIndex = Math.floor(parentPoolStart + random() * (childIndex - parentPoolStart));
+    addEdge(parentIndex, childIndex);
+  });
+
   people.forEach((_, index) => {
-    const randomTarget = Math.floor(random() * people.length);
-    const secondRandomTarget = Math.floor(random() * people.length);
-    const socialBubbleTarget = index + Math.floor(random() * 36) - 18;
-
-    addEdge(index, randomTarget);
-    addEdge(index, secondRandomTarget);
-    addEdge(index, socialBubbleTarget);
-
-    if (index % 5 === 0) addEdge(index, Math.floor(random() * people.length));
-    if (index % 11 === 0) addEdge(index, 999 - Math.floor(random() * people.length));
-    if (index % 23 === 0) addEdge(index, Math.floor(random() * people.length));
+    if (index % 2 === 0) addEdge(index, Math.floor(random() * people.length));
+    if (index % 7 === 0) addEdge(index, index + Math.floor(random() * 140) - 70);
+    if (index % 19 === 0) addEdge(index, Math.floor(random() * people.length));
   });
 
   return edges;
@@ -88,29 +87,101 @@ function makeGraph(edges) {
   const nodes = Array.from(nodeMap.values());
   const isLargeGraph = nodes.length > 160;
   const random = createSeededRandom(7341 + nodes.length);
-  const gridColumns = Math.ceil(Math.sqrt(nodes.length * (graphWorld.width / graphWorld.height)));
-  const gridRows = Math.ceil(nodes.length / gridColumns);
-  const cellWidth = (graphWorld.width - graphWorld.padding * 2) / gridColumns;
-  const cellHeight = (graphWorld.height - graphWorld.padding * 2) / gridRows;
-  const shuffledCells = Array.from({ length: gridColumns * gridRows }, (_, index) => index);
+  const nodeIndexMap = new Map(nodes.map((node, index) => [node.id, index]));
+  const parentById = new Map();
+  const depthById = new Map();
+  const childrenById = new Map(nodes.map((node) => [node.id, []]));
+  const rootId = nodes[0]?.id;
+  depthById.set(rootId, 0);
 
-  for (let index = shuffledCells.length - 1; index > 0; index -= 1) {
-    const targetIndex = Math.floor(random() * (index + 1));
-    [shuffledCells[index], shuffledCells[targetIndex]] = [shuffledCells[targetIndex], shuffledCells[index]];
+  edges.forEach((edge) => {
+    const requesterId = edge.requester?.nickname;
+    const receiverId = edge.receiver?.nickname;
+    if (!rootId || !nodeIndexMap.has(requesterId) || !nodeIndexMap.has(receiverId)) return;
+
+    const requesterIndex = nodeIndexMap.get(requesterId);
+    const receiverIndex = nodeIndexMap.get(receiverId);
+    const parentId = requesterIndex < receiverIndex ? requesterId : receiverId;
+    const childId = requesterIndex < receiverIndex ? receiverId : requesterId;
+
+    if (childId === rootId || parentById.has(childId)) return;
+    parentById.set(childId, parentId);
+    childrenById.get(parentId)?.push(childId);
+  });
+
+  nodes.forEach((node) => {
+    if (parentById.has(node.id) || node.id === rootId) return;
+    const fallbackParent = nodes[Math.max(0, Math.floor(((nodeIndexMap.get(node.id) || 1) - 1) / 2))]?.id;
+    parentById.set(node.id, fallbackParent);
+    childrenById.get(fallbackParent)?.push(node.id);
+  });
+
+  childrenById.forEach((children) => {
+    children.sort((first, second) => (nodeIndexMap.get(first) || 0) - (nodeIndexMap.get(second) || 0));
+  });
+
+  const branchPositions = new Map();
+  const stack = rootId
+    ? [
+        {
+          id: rootId,
+          x: graphWorld.width * 0.5,
+          y: graphWorld.height - graphWorld.padding,
+          angle: -Math.PI / 2,
+          depth: 0,
+        },
+      ]
+    : [];
+
+  while (stack.length) {
+    const current = stack.pop();
+    branchPositions.set(current.id, current);
+    depthById.set(current.id, current.depth);
+    const children = childrenById.get(current.id) || [];
+    const spread = Math.min(2.15, Math.max(0.52, 0.28 + children.length * 0.055)) / Math.max(current.depth * 0.18 + 1, 1);
+    const branchLength = Math.max(88, 310 - current.depth * 18);
+
+    children.forEach((childId, childIndex) => {
+      const ratio = children.length <= 1 ? 0 : childIndex / (children.length - 1) - 0.5;
+      const childRandom = createSeededRandom((nodeIndexMap.get(childId) || 1) * 9173 + current.depth * 31);
+      const angleNoise = (childRandom() - 0.5) * 0.34;
+      const nextAngle = Math.max(
+        -2.82,
+        Math.min(-0.32, current.angle + ratio * spread + angleNoise),
+      );
+      const lengthNoise = 0.82 + childRandom() * 0.36;
+      const nextX = Math.max(
+        graphWorld.padding,
+        Math.min(graphWorld.width - graphWorld.padding, current.x + Math.cos(nextAngle) * branchLength * lengthNoise),
+      );
+      const nextY = Math.max(
+        graphWorld.padding,
+        Math.min(graphWorld.height - graphWorld.padding, current.y + Math.sin(nextAngle) * branchLength * lengthNoise),
+      );
+
+      stack.push({
+        id: childId,
+        x: nextX,
+        y: nextY,
+        angle: nextAngle,
+        depth: current.depth + 1,
+      });
+    });
   }
 
   const positionedNodes = nodes.map((node, index) => {
     if (isLargeGraph) {
-      const cell = shuffledCells[index];
-      const column = cell % gridColumns;
-      const row = Math.floor(cell / gridColumns);
-      const jitterX = (random() - 0.5) * cellWidth * 0.58;
-      const jitterY = (random() - 0.5) * cellHeight * 0.58;
+      const branchPosition = branchPositions.get(node.id) || {
+        x: graphWorld.width * 0.5,
+        y: graphWorld.height * 0.5,
+      };
+      const jitterX = (random() - 0.5) * 74;
+      const jitterY = (random() - 0.5) * 38;
 
       return {
         ...node,
-        x: graphWorld.padding + column * cellWidth + cellWidth / 2 + jitterX,
-        y: graphWorld.padding + row * cellHeight + cellHeight / 2 + jitterY,
+        x: branchPosition.x + jitterX,
+        y: branchPosition.y + jitterY,
         color: facultyColors[node.faculty] || "#8BA5FF",
       };
     }
@@ -135,22 +206,33 @@ function makeGraph(edges) {
     }))
     .filter((edge) => edge.source && edge.target);
 
-  return { nodes: positionedNodes, links };
+  const neighboursById = new Map(positionedNodes.map((node) => [node.id, new Set()]));
+
+  links.forEach((link) => {
+    neighboursById.get(link.source.id)?.add(link.target.id);
+    neighboursById.get(link.target.id)?.add(link.source.id);
+  });
+
+  return { nodes: positionedNodes, links, neighboursById };
 }
 
 export default function FriendshipGraph() {
   const canvasRef = useRef(null);
   const dragStartRef = useRef(null);
+  const pointerMovedRef = useRef(false);
   const { data = [] } = useQuery({
     queryKey: ["friendship-graph"],
     queryFn: getFriendshipGraph,
     initialData: [],
   });
   const [viewBox, setViewBox] = useState(defaultViewBox);
+  const [selectedNodeId, setSelectedNodeId] = useState(null);
 
   const graph = useMemo(() => makeGraph(data.length ? data : fallbackEdges), [data]);
   const isDenseGraph = graph.nodes.length > 160;
-  const showLabels = !isDenseGraph || viewBox.width < 980;
+  const selectedNeighbours = selectedNodeId ? graph.neighboursById.get(selectedNodeId) || new Set() : new Set();
+  const focusedNodeIds = selectedNodeId ? new Set([selectedNodeId, ...selectedNeighbours]) : null;
+  const showLabels = !isDenseGraph || viewBox.width < 980 || Boolean(selectedNodeId);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -201,12 +283,15 @@ export default function FriendshipGraph() {
       const visibleLinks = graph.links.filter(isVisibleLink);
       const visibleNodes = graph.nodes.filter(isVisibleNode);
 
+      const isFocusedLink = (link) =>
+        selectedNodeId && (link.source.id === selectedNodeId || link.target.id === selectedNodeId);
+
       context.save();
-      context.globalAlpha = isDenseGraph ? 0.12 : 0.58;
+      context.globalAlpha = selectedNodeId ? 0.045 : isDenseGraph ? 0.12 : 0.58;
       context.lineWidth = isDenseGraph ? 0.58 : 1.8;
       context.strokeStyle = "#8BA5FF";
       context.beginPath();
-      visibleLinks.forEach((link) => {
+      visibleLinks.filter((link) => !isFocusedLink(link)).forEach((link) => {
         const source = worldToScreen(link.source);
         const target = worldToScreen(link.target);
         context.moveTo(source.x, source.y);
@@ -215,30 +300,50 @@ export default function FriendshipGraph() {
       context.stroke();
       context.restore();
 
+      if (selectedNodeId) {
+        context.save();
+        context.globalAlpha = 0.92;
+        context.lineWidth = 2.4;
+        context.strokeStyle = "#FFFFFF";
+        context.beginPath();
+        visibleLinks.filter(isFocusedLink).forEach((link) => {
+          const source = worldToScreen(link.source);
+          const target = worldToScreen(link.target);
+          context.moveTo(source.x, source.y);
+          context.lineTo(target.x, target.y);
+        });
+        context.stroke();
+        context.restore();
+      }
+
       visibleNodes.forEach((node) => {
         const point = worldToScreen(node);
-        const nodeRadius = isDenseGraph ? Math.max(2.6, 5.4 * scaleX) : 15;
+        const isSelected = node.id === selectedNodeId;
+        const isRelated = focusedNodeIds?.has(node.id);
+        const isDimmed = focusedNodeIds && !isRelated;
+        const nodeRadius = isDenseGraph ? Math.max(2.8, 5.4 * scaleX) : 15;
         const haloRadius = isDenseGraph ? nodeRadius * 2.45 : 38;
 
         context.save();
-        context.globalAlpha = 0.2;
+        context.globalAlpha = isDimmed ? 0.04 : isSelected ? 0.42 : 0.2;
         context.fillStyle = node.color;
         context.beginPath();
-        context.arc(point.x, point.y, haloRadius, 0, Math.PI * 2);
+        context.arc(point.x, point.y, isSelected ? haloRadius * 2.1 : haloRadius, 0, Math.PI * 2);
         context.fill();
         context.restore();
 
         context.save();
+        context.globalAlpha = isDimmed ? 0.12 : 1;
         context.fillStyle = node.color;
-        context.strokeStyle = "rgba(255,255,255,0.74)";
-        context.lineWidth = isDenseGraph ? 0.9 : 1.4;
+        context.strokeStyle = isSelected ? "#FFFFFF" : isRelated ? "rgba(255,255,255,0.96)" : "rgba(255,255,255,0.74)";
+        context.lineWidth = isSelected ? 3.2 : isRelated ? 1.7 : isDenseGraph ? 0.9 : 1.4;
         context.beginPath();
-        context.arc(point.x, point.y, nodeRadius, 0, Math.PI * 2);
+        context.arc(point.x, point.y, isSelected ? nodeRadius * 1.9 : isRelated ? nodeRadius * 1.35 : nodeRadius, 0, Math.PI * 2);
         context.fill();
         context.stroke();
         context.restore();
 
-        if (!showLabels) return;
+        if (!showLabels || (focusedNodeIds && !isRelated)) return;
 
         const labelWidth = 164;
         const labelHeight = 62;
@@ -246,9 +351,9 @@ export default function FriendshipGraph() {
         const labelY = point.y - labelHeight / 2;
 
         context.save();
-        context.fillStyle = "rgba(25,25,25,0.92)";
-        context.strokeStyle = "rgba(255,255,255,0.14)";
-        context.lineWidth = 1;
+        context.fillStyle = isSelected ? "rgba(28,28,28,0.98)" : "rgba(25,25,25,0.92)";
+        context.strokeStyle = isSelected ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.14)";
+        context.lineWidth = isSelected ? 1.6 : 1;
         context.beginPath();
         context.roundRect(labelX, labelY, labelWidth, labelHeight, 31);
         context.fill();
@@ -279,7 +384,7 @@ export default function FriendshipGraph() {
       window.cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
     };
-  }, [graph, isDenseGraph, showLabels, viewBox]);
+  }, [focusedNodeIds, graph, isDenseGraph, selectedNodeId, showLabels, viewBox]);
 
   const zoom = (factor) => {
     setViewBox((current) => {
@@ -305,6 +410,7 @@ export default function FriendshipGraph() {
 
   const handlePointerDown = (event) => {
     event.currentTarget.setPointerCapture(event.pointerId);
+    pointerMovedRef.current = false;
     dragStartRef.current = {
       pointerX: event.clientX,
       pointerY: event.clientY,
@@ -319,6 +425,9 @@ export default function FriendshipGraph() {
     const scaleY = dragStartRef.current.viewBox.height / rect.height;
     const dx = (event.clientX - dragStartRef.current.pointerX) * scaleX;
     const dy = (event.clientY - dragStartRef.current.pointerY) * scaleY;
+    if (Math.abs(event.clientX - dragStartRef.current.pointerX) > 4 || Math.abs(event.clientY - dragStartRef.current.pointerY) > 4) {
+      pointerMovedRef.current = true;
+    }
 
     setViewBox({
       ...dragStartRef.current.viewBox,
@@ -330,6 +439,30 @@ export default function FriendshipGraph() {
   const handlePointerUp = (event) => {
     event.currentTarget.releasePointerCapture(event.pointerId);
     dragStartRef.current = null;
+  };
+
+  const handleCanvasClick = (event) => {
+    if (pointerMovedRef.current || !canvasRef.current) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const scaleX = viewBox.width / rect.width;
+    const scaleY = viewBox.height / rect.height;
+    const worldPoint = {
+      x: viewBox.x + (event.clientX - rect.left) * scaleX,
+      y: viewBox.y + (event.clientY - rect.top) * scaleY,
+    };
+    const hitRadius = Math.max(34, viewBox.width / rect.width * 12);
+    let closestNode = null;
+    let closestDistance = Infinity;
+
+    graph.nodes.forEach((node) => {
+      const distance = Math.hypot(node.x - worldPoint.x, node.y - worldPoint.y);
+      if (distance > hitRadius || distance >= closestDistance) return;
+      closestNode = node;
+      closestDistance = distance;
+    });
+
+    setSelectedNodeId((current) => (closestNode?.id && closestNode.id !== current ? closestNode.id : null));
   };
 
   return (
@@ -356,6 +489,7 @@ export default function FriendshipGraph() {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
+        onClick={handleCanvasClick}
       />
     </article>
   );
