@@ -44,3 +44,26 @@
 .footer a:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 640px) {
+    .footer {
+        padding: 1.4rem 0.9rem;
+        border-top-left-radius: 1.6rem;
+        border-top-right-radius: 1.6rem;
+        text-wrap: balance;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .footer-logo {
+        width: 92px;
+        min-width: 0;
+    }
+}

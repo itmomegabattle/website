@@ -1504,6 +1504,27 @@
 }
 
 @media (max-width: 640px) {
+    .structured-page {
+        gap: 2.4rem;
+        padding-bottom: 3rem;
+    }
+
+    .structured-page > .main-width > h1,
+    .structured-page > .partners > h1,
+    .events-section > h1 {
+        margin-bottom: 1.4rem;
+    }
+
+    .info-card {
+        padding: 1rem;
+        border-radius: 1.35rem;
+    }
+
+    .info-card h2 {
+        font-size: clamp(1.25rem, 5.8vw, 1.7rem);
+        line-height: 1;
+    }
+
     .info-page {
         padding-top: 4.4rem;
     }
@@ -1513,6 +1534,10 @@
         padding-bottom: 2.5rem;
     }
 
+    .participants-page .main-width {
+        width: calc(100vw - 1rem);
+    }
+
     .participants-bento {
         gap: 0.75rem;
     }
@@ -1520,8 +1545,121 @@
     .participants-hero h1 {
         max-width: 100%;
         overflow-wrap: anywhere;
-        font-size: clamp(1.55rem, 9vw, 2.6rem);
-        letter-spacing: 0.04em;
+        font-size: clamp(1.35rem, 7.4vw, 2rem);
+        letter-spacing: 0.01em;
+        text-align: center;
+    }
+
+    .participants-auth-bento {
+        gap: 0.75rem;
+    }
+
+    .participants-auth-copy {
+        min-height: auto;
+        padding: 1.05rem;
+    }
+
+    .participants-auth-copy h2 {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        font-size: clamp(1.65rem, 9vw, 2.35rem);
+        line-height: 0.96;
+    }
+
+    .participants-auth-copy p:not(.card-kicker) {
+        font-size: 0.88rem;
+        line-height: 1.45;
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+
+    .participants-auth-bento .auth-card,
+    .auth-card {
+        min-height: auto;
+        padding: 1.05rem;
+    }
+
+    .auth-card h2 {
+        font-size: clamp(1.65rem, 8vw, 2.4rem);
+    }
+
+    .form-field,
+    .social-links-editor {
+        gap: 0.35rem;
+    }
+
+    .form-field span,
+    .social-links-editor > span {
+        font-size: 0.68rem;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea,
+    .social-link-row input,
+    .social-link-row select {
+        min-height: 2.65rem;
+        padding: 0.62rem 0.78rem;
+        border-radius: 0.85rem;
+        font-size: 0.95rem;
+    }
+
+    .form-field textarea {
+        min-height: 5.2rem;
+    }
+
+    .auth-submit,
+    .auth-card .text-button {
+        min-height: 2.65rem;
+        padding: 0.55rem 0.85rem;
+    }
+
+    .ratings-overview {
+        gap: 0.75rem;
+    }
+
+    .ratings-overview .info-card {
+        overflow: hidden;
+    }
+
+    .ratings-overview .info-card h2 {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        font-size: clamp(1.12rem, 5.7vw, 1.42rem);
+        line-height: 1;
+    }
+
+    .leaderboard {
+        gap: 0;
+    }
+
+    .leaderboard-row {
+        grid-template-columns: 2rem minmax(0, 1fr) 3.4rem;
+        gap: 0.55rem;
+        padding: 0.58rem 0;
+        font-size: 0.92rem;
+    }
+
+    .leaderboard-row strong {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .leaderboard-row em {
+        display: none;
+    }
+
+    .leaderboard-row b {
+        justify-self: end;
+        overflow: hidden;
+        font-size: 0.86rem;
+    }
+
+    .winner-card {
+        min-height: auto;
     }
 
     .authenticated-rating-grid {
@@ -1547,6 +1685,7 @@
 
     .participant-profile-content h2 {
         font-size: clamp(1.65rem, 10vw, 2.45rem);
+        line-height: 0.95;
     }
 
     .participant-profile-content .profile-real-name,
@@ -1566,17 +1705,34 @@
         font-size: 0.78rem;
     }
 
+    .participant-profile-content .profile-actions .text-button:nth-child(3) {
+        display: none;
+    }
+
     .participant-square-card {
         min-height: auto;
         padding: 1rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.8rem;
+        align-items: center;
     }
 
     .participant-square-card h2 {
-        font-size: clamp(2.25rem, 14vw, 4rem);
+        font-size: clamp(2rem, 13vw, 3.4rem);
     }
 
     .participant-square-card p {
         display: none;
+    }
+
+    .participant-square-meta {
+        justify-content: end;
+    }
+
+    .participant-square-meta span {
+        padding: 0.42rem 0.62rem;
+        font-size: 0.78rem;
     }
 
     .nfc-tags-panel--compact {
@@ -1594,6 +1750,8 @@
 
     .nfc-tag-item {
         padding: 0.7rem;
+        border-radius: 0.9rem;
+        font-size: 0.9rem;
     }
 
     .leaderboard-row {
@@ -1606,20 +1764,36 @@
 
     .social-link-row {
         grid-template-columns: 1fr;
+        gap: 0.45rem;
+        padding: 0.7rem;
+        border: var(--card-border);
+        border-radius: 1rem;
+        background: color-mix(in srgb, var(--surface-color-special) 70%, transparent);
+    }
+
+    .social-link-color {
+        grid-template-columns: auto 1fr;
+        align-items: center;
+    }
+
+    .social-link-color input[type="color"] {
+        min-height: 2.45rem;
     }
 
     .profile-modal {
-        width: min(100%, 96vw);
-        max-height: 88svh;
+        width: min(100%, calc(100vw - 0.7rem));
+        max-height: calc(100svh - 1rem);
+        border-radius: 1.4rem;
     }
 
     .profile-modal--preview {
-        width: min(100%, 94vw);
-        max-height: 88svh;
+        width: min(100%, calc(100vw - 0.9rem));
+        max-height: calc(100svh - 1rem);
+        padding: 0;
     }
 
     .profile-modal .profile-editor {
-        padding: 3rem 0.9rem 0.9rem;
+        padding: 3rem 0.75rem 0.75rem;
     }
 
     .profile-modal .profile-editor h2 {
@@ -1631,23 +1805,25 @@
     }
 
     .profile-modal-close {
-        top: 0.6rem;
-        right: 0.6rem;
+        top: 0.55rem;
+        right: 0.55rem;
         width: 2.25rem;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.28);
     }
 
     .structured-page .social-bio-card {
-        width: min(100%, 24rem);
+        width: min(100%, 23.2rem);
     }
 
     .social-bio-card {
-        max-height: 82svh;
-        padding: 1rem;
+        max-height: calc(100svh - 1.2rem);
+        padding: 0.9rem;
         overflow: hidden;
+        border-radius: 1.55rem;
     }
 
     .social-bio-avatar {
-        width: 6.2rem;
+        width: 5.8rem;
         margin-bottom: 0.5rem;
     }
 
@@ -1656,11 +1832,12 @@
     }
 
     .social-bio-content h1 {
-        font-size: clamp(1.65rem, 10vw, 2.8rem);
+        font-size: clamp(1.55rem, 9vw, 2.45rem);
     }
 
     .social-bio-text {
         -webkit-line-clamp: 2;
+        font-size: 0.9rem;
     }
 
     .social-bio-links {
@@ -1672,10 +1849,30 @@
     .social-bio-actions button {
         min-height: 2.55rem;
         padding: 0.45rem 0.75rem;
+        font-size: 0.92rem;
     }
 
-    .participants-page .main-width {
-        width: min(92vw, var(--main-width));
+    .qr-popover {
+        inset: 0.5rem;
+        gap: 0.38rem;
+        padding: 0.8rem;
+        border-radius: 1.25rem;
+    }
+
+    .qr-popover img {
+        width: min(54vw, 210px);
+        padding: 0.55rem;
+        border-radius: 1rem;
+    }
+
+    .qr-popover h2 {
+        font-size: clamp(1.35rem, 7vw, 2.25rem);
+    }
+
+    .qr-popover-close {
+        top: 0.55rem;
+        right: 0.55rem;
+        width: 2.15rem;
     }
 
     .participants-auth-copy,
@@ -1688,10 +1885,25 @@
     }
 
     .friendship-graph-card {
-        min-height: 520px;
+        min-height: 430px;
+        border-radius: 1.35rem;
     }
 
     .friendship-graph-canvas {
-        height: 520px;
+        height: 430px;
+    }
+
+    .friendship-graph-toolbar {
+        top: 0.6rem;
+        right: 0.6rem;
+        gap: 0.25rem;
+        padding: 0.24rem;
+    }
+
+    .friendship-graph-toolbar button {
+        min-width: 2.1rem;
+        min-height: 2.1rem;
+        padding: 0 0.6rem;
+        font-size: 0.82rem;
     }
 }
