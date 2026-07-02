@@ -3,6 +3,19 @@ import { useAuth } from "../context/AuthContext";
 import { updateProfile, uploadAvatar } from "../services/profileService";
 
 const emptySocialLink = { title: "", url: "", color: "#8BA5FF", style: "soft" };
+const maxSocialLinks = 3;
+const limits = {
+  nickname: 18,
+  full_name: 34,
+  faculty: 24,
+  bio: 22,
+  handle: 32,
+  linkTitle: 24,
+};
+
+function limitWords(value, maxWords) {
+  return value.trim().split(/\s+/).filter(Boolean).slice(0, maxWords).join(" ");
+}
 
 export default function ProfileEditor() {
   const { profile, refreshProfile } = useAuth();
@@ -28,7 +41,7 @@ export default function ProfileEditor() {
       bio: profile.bio ?? "",
       telegram_username: profile.telegram_username ?? "",
       instagram_username: profile.instagram_username ?? "",
-      social_links: profile.social_links?.length ? profile.social_links : [emptySocialLink],
+      social_links: profile.social_links?.length ? profile.social_links.slice(0, maxSocialLinks) : [emptySocialLink],
     });
   }, [profile]);
 
@@ -37,9 +50,10 @@ export default function ProfileEditor() {
   }
 
   const updateField = (event) => {
+    const { name, value } = event.target;
     setForm((current) => ({
       ...current,
-      [event.target.name]: event.target.value,
+      [name]: name === "bio" ? limitWords(value, limits.bio) : value,
     }));
   };
 
@@ -55,7 +69,10 @@ export default function ProfileEditor() {
   const addSocialLink = () => {
     setForm((current) => ({
       ...current,
-      social_links: [...current.social_links, emptySocialLink],
+      social_links:
+        current.social_links.length >= maxSocialLinks
+          ? current.social_links
+          : [...current.social_links, emptySocialLink],
     }));
   };
 
@@ -83,7 +100,8 @@ export default function ProfileEditor() {
       await updateProfile(profile.id, {
         ...form,
         avatar_url: avatarUrl,
-        social_links: form.social_links.filter((item) => item.title || item.url),
+        bio: limitWords(form.bio, limits.bio),
+        social_links: form.social_links.filter((item) => item.title || item.url).slice(0, maxSocialLinks),
       });
       await refreshProfile();
       setStatus("Профиль сохранён");
@@ -104,17 +122,17 @@ export default function ProfileEditor() {
       <div className="profile-editor-grid">
         <label className="form-field">
           <span>Никнейм</span>
-          <input name="nickname" value={form.nickname} onChange={updateField} required />
+          <input name="nickname" value={form.nickname} onChange={updateField} maxLength={limits.nickname} required />
         </label>
 
         <label className="form-field">
           <span>Имя</span>
-          <input name="full_name" value={form.full_name} onChange={updateField} />
+          <input name="full_name" value={form.full_name} onChange={updateField} maxLength={limits.full_name} />
         </label>
 
         <label className="form-field">
           <span>Факультет</span>
-          <input name="faculty" value={form.faculty} onChange={updateField} />
+          <input name="faculty" value={form.faculty} onChange={updateField} maxLength={limits.faculty} />
         </label>
 
         <label className="form-field">
@@ -132,6 +150,7 @@ export default function ProfileEditor() {
           rows="4"
           placeholder="Пара слов о себе, роли в проекте или любимом хаосе"
         />
+        <small>{form.bio.trim().split(/\s+/).filter(Boolean).length}/{limits.bio} слов</small>
       </label>
 
       <div className="profile-editor-grid">
@@ -142,6 +161,7 @@ export default function ProfileEditor() {
             value={form.telegram_username}
             onChange={updateField}
             placeholder="@username"
+            maxLength={limits.handle}
           />
         </label>
 
@@ -152,6 +172,7 @@ export default function ProfileEditor() {
             value={form.instagram_username}
             onChange={updateField}
             placeholder="@username"
+            maxLength={limits.handle}
           />
         </label>
       </div>
@@ -164,6 +185,7 @@ export default function ProfileEditor() {
               value={item.title}
               onChange={(event) => updateSocialLink(index, "title", event.target.value)}
               placeholder="Название"
+              maxLength={limits.linkTitle}
             />
             <input
               value={item.url}
@@ -193,8 +215,8 @@ export default function ProfileEditor() {
             </button>
           </div>
         ))}
-        <button className="text-button" type="button" onClick={addSocialLink}>
-          Добавить ссылку
+        <button className="text-button" type="button" onClick={addSocialLink} disabled={form.social_links.length >= maxSocialLinks}>
+          {form.social_links.length >= maxSocialLinks ? "Максимум 3 ссылки" : "Добавить ссылку"}
         </button>
       </div>
 

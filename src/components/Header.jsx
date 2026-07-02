@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import "../styles/header.css";
 import { Theme } from "../theme";
 
@@ -125,7 +124,6 @@ function InnerSpace() {
 }
 
 export default function Header() {
-  const { isAuthenticated, profile } = useAuth();
   const [theme, setTheme] = useState(Theme.get());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isDarkTheme = theme === "dark";
@@ -138,9 +136,6 @@ export default function Header() {
     { to: "/events", label: "Мероприятия" },
     { to: "/ratings", label: "Участникам" },
   ];
-  const accountItem = isAuthenticated
-    ? { to: "/ratings", label: profile?.nickname ?? "Профиль" }
-    : null;
 
   useEffect(() => {
     Theme.addListener(setTheme, false);
@@ -173,15 +168,6 @@ export default function Header() {
             {item.label}
           </Link>
         ))}
-        {accountItem && (
-          <Link
-            className="header-item"
-            to={accountItem.to}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            {accountItem.label}
-          </Link>
-        )}
       </nav>
       <button
         type="button"
@@ -199,11 +185,6 @@ export default function Header() {
           {item.label}
         </Link>
       ))}
-      {accountItem && (
-        <Link className="header-item header-link" to={accountItem.to}>
-          {accountItem.label}
-        </Link>
-      )}
       <button
         type="button"
         className="theme-toggle desktop-theme-toggle header-item"

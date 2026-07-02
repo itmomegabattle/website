@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AuthenticatedRatingPanel,
   RatingsOverview,
@@ -15,6 +15,17 @@ export default function RatingsPage() {
   const { isAuthenticated, profile, signOut } = useAuth();
   const [activeModal, setActiveModal] = useState(null);
   const closeModal = () => setActiveModal(null);
+
+  useEffect(() => {
+    if (!activeModal) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeModal]);
 
   return (
     <main className="info-page structured-page participants-page">
@@ -53,13 +64,12 @@ export default function RatingsPage() {
       </section>
 
       {activeModal && (
-        <div className="profile-modal-backdrop" role="presentation" onClick={closeModal}>
+        <div className="profile-modal-backdrop" role="presentation">
           <section
             className={`profile-modal profile-modal--${activeModal}`}
             role="dialog"
             aria-modal="true"
             aria-label={activeModal === "edit" ? "Редактирование профиля" : "Предпросмотр визитки"}
-            onClick={(event) => event.stopPropagation()}
           >
             <button className="profile-modal-close" type="button" onClick={closeModal}>
               ×
