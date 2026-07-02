@@ -102,6 +102,7 @@ export default function NfcPage() {
         ) : ownerProfile ? (
           <SocialBioCard
             profile={ownerProfile}
+            qrOnSocials={isOwnTag}
             actions={
               isOwnTag ? (
                 <Link className="text-button" to="/profile">

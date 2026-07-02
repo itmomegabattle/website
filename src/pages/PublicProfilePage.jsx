@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ProfileCard from "../components/ProfileCard";
+import SocialBioCard from "../components/SocialBioCard";
 import { useAuth } from "../context/AuthContext";
 import { addFriendship, getProfileById, logProfileView } from "../services/profileService";
 import "../styles/page-info.css";
@@ -68,7 +68,11 @@ export default function PublicProfilePage() {
 
       <section className="main-width">
         {profile ? (
-          <ProfileCard profile={profile} actions={actions} />
+          <SocialBioCard
+            profile={profile}
+            actions={actions}
+            qrOnSocials={ownProfile?.id === profile.id}
+          />
         ) : (
           <article className="info-card">
             <h2>Профиль не найден</h2>

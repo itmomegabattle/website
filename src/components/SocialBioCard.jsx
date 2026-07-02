@@ -1,41 +1,24 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Api } from "../api";
+import { getProfileSocialLinks, getSocialLinkStyle } from "../utils/socialLinks";
 
-function normalizeHandle(value) {
-  return String(value || "").replace(/^@/, "").trim();
+function getQrUrl(url) {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=16&data=${encodeURIComponent(url)}`;
 }
 
-function getSocialLinks(profile) {
-  const links = [];
-  const telegram = normalizeHandle(profile.telegram_username);
-  const instagram = normalizeHandle(profile.instagram_username);
-
-  if (telegram) {
-    links.push({
-      title: "Telegram",
-      url: telegram.startsWith("http") ? telegram : `https://t.me/${telegram}`,
-    });
-  }
-
-  if (instagram) {
-    links.push({
-      title: "Instagram",
-      url: instagram.startsWith("http") ? instagram : `https://instagram.com/${instagram}`,
-    });
-  }
-
-  profile.social_links
-    ?.filter((item) => item.title && item.url)
-    .forEach((item) => links.push(item));
-
-  return links;
-}
-
-export default function SocialBioCard({ profile, actions }) {
+export default function SocialBioCard({ profile, actions, qrOnSocials = false }) {
+  const [qrLink, setQrLink] = useState(null);
   if (!profile) return null;
 
   const avatar = profile.avatar_url || Api.normalizeURL("/images/people/member.jpg");
-  const links = getSocialLinks(profile);
+  const links = getProfileSocialLinks(profile);
+
+  const handleSocialClick = (event, item) => {
+    if (!qrOnSocials) return;
+    event.preventDefault();
+    setQrLink(item);
+  };
 
   return (
     <article className="social-bio-card">
@@ -52,7 +35,15 @@ export default function SocialBioCard({ profile, actions }) {
         <div className="social-bio-links">
           {links.length > 0 ? (
             links.map((item) => (
-              <a href={item.url} target="_blank" rel="noreferrer" key={item.url}>
+              <a
+                className={`social-link-button social-link-button--${item.brand} social-link-button--${item.style || "soft"}`}
+                href={item.url}
+                target="_blank"
+                rel="noreferrer"
+                style={getSocialLinkStyle(item)}
+                onClick={(event) => handleSocialClick(event, item)}
+                key={item.url}
+              >
                 {item.title}
               </a>
             ))
@@ -63,6 +54,20 @@ export default function SocialBioCard({ profile, actions }) {
 
         {actions && <div className="social-bio-actions">{actions}</div>}
       </div>
+
+      {qrLink && (
+        <div className="qr-popover" role="dialog" aria-label={`QR для ${qrLink.title}`}>
+          <button type="button" className="qr-popover-close" onClick={() => setQrLink(null)}>
+            ×
+          </button>
+          <p className="card-kicker">QR</p>
+          <h2>{qrLink.title}</h2>
+          <img src={getQrUrl(qrLink.url)} alt={`QR ${qrLink.title}`} />
+          <a href={qrLink.url} target="_blank" rel="noreferrer">
+            Открыть ссылку
+          </a>
+        </div>
+      )}
     </article>
   );
 }

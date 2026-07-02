@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { updateProfile, uploadAvatar } from "../services/profileService";
 
-const emptySocialLink = { title: "", url: "" };
+const emptySocialLink = { title: "", url: "", color: "#8BA5FF", style: "soft" };
 
 export default function ProfileEditor() {
   const { profile, refreshProfile } = useAuth();
@@ -159,7 +159,7 @@ export default function ProfileEditor() {
       <div className="social-links-editor">
         <span>Ссылки</span>
         {form.social_links.map((item, index) => (
-          <div className="social-link-row" key={index}>
+          <div className="social-link-row social-link-row--extended" key={index}>
             <input
               value={item.title}
               onChange={(event) => updateSocialLink(index, "title", event.target.value)}
@@ -170,6 +170,24 @@ export default function ProfileEditor() {
               onChange={(event) => updateSocialLink(index, "url", event.target.value)}
               placeholder="https://..."
             />
+            <label className="social-link-color">
+              <span>Цвет</span>
+              <input
+                type="color"
+                value={item.color || "#8BA5FF"}
+                onChange={(event) => updateSocialLink(index, "color", event.target.value)}
+              />
+            </label>
+            <select
+              value={item.style || "soft"}
+              onChange={(event) => updateSocialLink(index, "style", event.target.value)}
+              aria-label="Оформление ссылки"
+            >
+              <option value="soft">Мягкая</option>
+              <option value="solid">Заливка</option>
+              <option value="outline">Обводка</option>
+              <option value="glass">Стекло</option>
+            </select>
             <button className="social-link-remove" type="button" onClick={() => removeSocialLink(index)}>
               убрать
             </button>

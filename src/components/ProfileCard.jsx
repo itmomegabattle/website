@@ -1,11 +1,5 @@
 import { Api } from "../api";
-
-function normalizeSocialUrl(value, prefix) {
-  if (!value) return "";
-  const clean = value.replace(/^@/, "").trim();
-  if (clean.startsWith("http")) return clean;
-  return `${prefix}${clean}`;
-}
+import { getProfileSocialLinks, getSocialLinkStyle } from "../utils/socialLinks";
 
 export default function ProfileCard({ profile, actions, compact = false }) {
   if (!profile) {
@@ -13,9 +7,7 @@ export default function ProfileCard({ profile, actions, compact = false }) {
   }
 
   const avatar = profile.avatar_url || Api.normalizeURL("/images/people/member.jpg");
-  const telegramUrl = normalizeSocialUrl(profile.telegram_username, "https://t.me/");
-  const instagramUrl = normalizeSocialUrl(profile.instagram_username, "https://instagram.com/");
-  const publicLinks = profile.social_links?.filter((item) => item.title && item.url) ?? [];
+  const publicLinks = getProfileSocialLinks(profile);
 
   return (
     <article className={`info-card public-profile-card${compact ? " public-profile-card--compact" : ""}`}>
@@ -35,18 +27,15 @@ export default function ProfileCard({ profile, actions, compact = false }) {
         </div>
 
         <div className="profile-socials">
-          {telegramUrl && (
-            <a className="text-button" href={telegramUrl} target="_blank" rel="noreferrer">
-              Telegram
-            </a>
-          )}
-          {instagramUrl && (
-            <a className="text-button" href={instagramUrl} target="_blank" rel="noreferrer">
-              Instagram
-            </a>
-          )}
           {publicLinks.map((item) => (
-            <a className="text-button" href={item.url} target="_blank" rel="noreferrer" key={item.url}>
+            <a
+              className={`social-link-button social-link-button--${item.brand} social-link-button--${item.style || "soft"}`}
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+              style={getSocialLinkStyle(item)}
+              key={item.url}
+            >
               {item.title}
             </a>
           ))}

@@ -580,6 +580,67 @@
     gap: 1rem;
 }
 
+.participants-page {
+    gap: 2.5rem;
+}
+
+.participants-page .main-width {
+    width: min(94vw, 1560px);
+}
+
+.participants-hero {
+    display: grid;
+    justify-items: center;
+    gap: 0.5rem;
+}
+
+.participants-hero h1 {
+    margin-bottom: 0;
+}
+
+.participants-bento {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.participants-bento > .ratings-overview,
+.participants-bento > .friendship-graph-card,
+.participants-bento > .authenticated-rating-grid,
+.participants-auth-bento {
+    grid-column: 1 / -1;
+}
+
+.participants-auth-bento {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.75fr);
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.participants-auth-copy {
+    display: grid;
+    align-content: end;
+    min-height: 420px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--accent-color) 24%, transparent), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 52%),
+        var(--surface-color-special);
+}
+
+.participants-auth-copy h2 {
+    max-width: 820px;
+    font-family: var(--heading-font);
+    font-size: clamp(2.4rem, 5.6vw, 5.2rem);
+    line-height: 0.92;
+}
+
+.participants-auth-copy p:not(.card-kicker) {
+    max-width: 760px;
+    font-size: 1.08rem;
+}
+
 .leaderboard {
     display: grid;
     gap: 0.6rem;
@@ -630,6 +691,11 @@
 
 .auth-card {
     width: min(100%, 620px);
+}
+
+.participants-auth-bento .auth-card {
+    width: 100%;
+    min-height: 420px;
 }
 
 .form-field,
@@ -785,6 +851,64 @@
     cursor: pointer;
 }
 
+.social-link-button {
+    --social-color: var(--accent-color);
+    display: inline-grid;
+    place-items: center;
+    min-height: 3.1rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--social-color) 68%, var(--border-color));
+    border-radius: 999px;
+    color: var(--text-color-special);
+    font: inherit;
+    font-weight: 900;
+    text-decoration: none;
+    background:
+        radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--social-color) 34%, transparent), transparent 42%),
+        color-mix(in srgb, var(--social-color) 14%, var(--surface-color-special));
+    box-shadow: 0 16px 34px color-mix(in srgb, var(--social-color) 16%, transparent);
+}
+
+.social-link-button:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.social-link-button--telegram {
+    --social-color: #229ED9;
+}
+
+.social-link-button--instagram {
+    --social-color: #E4405F;
+    background:
+        radial-gradient(circle at 0% 0%, #FEDA75 0 18%, transparent 42%),
+        linear-gradient(135deg, #833AB4, #E1306C 48%, #F77737);
+    color: white;
+}
+
+.social-link-button--vk {
+    --social-color: #0077FF;
+}
+
+.social-link-button--github {
+    --social-color: #8BA5FF;
+}
+
+.social-link-button--solid {
+    background: var(--social-color);
+    color: white;
+}
+
+.social-link-button--outline {
+    background: transparent;
+    color: var(--social-color);
+}
+
+.social-link-button--glass {
+    background: color-mix(in srgb, var(--social-color) 10%, transparent);
+    backdrop-filter: blur(14px);
+}
+
 .profile-editor {
     max-width: 860px;
 }
@@ -803,6 +927,39 @@
     display: grid;
     grid-template-columns: 0.7fr 1.3fr auto;
     gap: 0.7rem;
+}
+
+.social-link-row--extended {
+    grid-template-columns: minmax(120px, 0.75fr) minmax(180px, 1.35fr) minmax(86px, 0.32fr) minmax(120px, 0.45fr) auto;
+    align-items: end;
+}
+
+.social-link-row select {
+    min-height: 3rem;
+    padding: 0.8rem 1rem;
+    border: var(--card-border);
+    border-radius: 1rem;
+    background: var(--surface-color);
+    color: var(--text-color);
+    font: inherit;
+}
+
+.social-link-color {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.social-link-color span {
+    color: var(--accent-color);
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.social-link-color input[type="color"] {
+    min-height: 3rem;
+    padding: 0.3rem;
 }
 
 .social-link-remove {
@@ -870,6 +1027,11 @@
         var(--surface-color);
     box-shadow: var(--card-shadow);
     text-align: center;
+}
+
+.structured-page .social-bio-card {
+    width: min(100%, 760px);
+    margin-inline: auto;
 }
 
 .social-bio-card::before {
@@ -967,6 +1129,90 @@
     background: color-mix(in srgb, var(--accent-color) 16%, var(--surface-color-special));
 }
 
+.social-bio-links .social-link-button {
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--social-color) 68%, var(--border-color));
+    background:
+        radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--social-color) 34%, transparent), transparent 42%),
+        color-mix(in srgb, var(--social-color) 14%, var(--surface-color-special));
+    color: var(--text-color-special);
+    box-shadow: 0 16px 34px color-mix(in srgb, var(--social-color) 16%, transparent);
+}
+
+.social-bio-links .social-link-button--instagram {
+    background:
+        radial-gradient(circle at 0% 0%, #FEDA75 0 18%, transparent 42%),
+        linear-gradient(135deg, #833AB4, #E1306C 48%, #F77737);
+    color: white;
+}
+
+.social-bio-links .social-link-button--solid {
+    background: var(--social-color);
+    color: white;
+}
+
+.social-bio-links .social-link-button--outline {
+    background: transparent;
+    color: var(--social-color);
+}
+
+.social-bio-links .social-link-button--glass {
+    background: color-mix(in srgb, var(--social-color) 10%, transparent);
+}
+
+.qr-popover {
+    position: absolute;
+    inset: clamp(0.8rem, 3vw, 1.5rem);
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 0.55rem;
+    padding: 1.2rem;
+    border: var(--card-border);
+    border-radius: calc(var(--corner-radius) * 1.05);
+    background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+    backdrop-filter: blur(18px);
+    box-shadow: var(--card-shadow);
+}
+
+.qr-popover h2 {
+    margin: 0;
+    font-family: var(--heading-font);
+    font-size: clamp(1.8rem, 6vw, 3.4rem);
+}
+
+.qr-popover img {
+    width: min(72vw, 320px);
+    aspect-ratio: 1;
+    padding: 0.8rem;
+    border-radius: 1.4rem;
+    background: white;
+}
+
+.qr-popover a {
+    color: var(--accent-color);
+    font-weight: 900;
+}
+
+.qr-popover-close {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    aspect-ratio: 1;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: var(--surface-color-special);
+    color: var(--text-color-special);
+    font: inherit;
+    font-size: 1.4rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
 .friendship-graph-card {
     position: relative;
     min-height: clamp(560px, 62vw, 820px);
@@ -1026,6 +1272,7 @@
     .ratings-layout,
     .ratings-overview,
     .authenticated-rating-grid,
+    .participants-auth-bento,
     .public-profile-card,
     .public-profile-card--compact,
     .profile-editor-grid,
@@ -1096,6 +1343,15 @@
 
     .social-link-row {
         grid-template-columns: 1fr;
+    }
+
+    .participants-page .main-width {
+        width: min(92vw, var(--main-width));
+    }
+
+    .participants-auth-copy,
+    .participants-auth-bento .auth-card {
+        min-height: auto;
     }
 
     .nfc-page {

@@ -136,11 +136,11 @@ export default function Header() {
     { to: "/history", label: "История" },
     { to: "/partners", label: "Партнёры" },
     { to: "/events", label: "Мероприятия" },
-    { to: "/ratings", label: "Рейтинги" },
+    { to: "/ratings", label: "Участникам" },
   ];
   const accountItem = isAuthenticated
     ? { to: "/profile", label: profile?.nickname ?? "Профиль" }
-    : { to: "/auth", label: "Вход" };
+    : null;
 
   useEffect(() => {
     Theme.addListener(setTheme, false);
@@ -173,13 +173,15 @@ export default function Header() {
             {item.label}
           </Link>
         ))}
-        <Link
-          className="header-item"
-          to={accountItem.to}
-          onClick={() => setIsMenuOpen(false)}
-        >
-          {accountItem.label}
-        </Link>
+        {accountItem && (
+          <Link
+            className="header-item"
+            to={accountItem.to}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            {accountItem.label}
+          </Link>
+        )}
       </nav>
       <button
         type="button"
@@ -197,9 +199,11 @@ export default function Header() {
           {item.label}
         </Link>
       ))}
-      <Link className="header-item header-link" to={accountItem.to}>
-        {accountItem.label}
-      </Link>
+      {accountItem && (
+        <Link className="header-item header-link" to={accountItem.to}>
+          {accountItem.label}
+        </Link>
+      )}
       <button
         type="button"
         className="theme-toggle desktop-theme-toggle header-item"
