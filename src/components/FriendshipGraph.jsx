@@ -12,6 +12,22 @@ const facultyColors = {
   ФТМИ: "#FF4D8D",
 };
 
+const graphWorld = {
+  width: 3800,
+  height: 2400,
+  padding: 180,
+};
+
+const defaultViewBox = { x: 0, y: 0, width: graphWorld.width, height: graphWorld.height };
+
+function createSeededRandom(seed = 42) {
+  let state = seed >>> 0;
+  return () => {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
 function makePerson(index) {
   const faculty = facultyNames[index % facultyNames.length];
   return {
@@ -24,11 +40,12 @@ function makeStressEdges() {
   const people = Array.from({ length: 1000 }, (_, index) => makePerson(index));
   const edgeKeys = new Set();
   const edges = [];
+  const random = createSeededRandom(20260702);
 
   const addEdge = (sourceIndex, targetIndex) => {
     if (sourceIndex === targetIndex) return;
-    const source = people[sourceIndex % people.length];
-    const target = people[targetIndex % people.length];
+    const source = people[((sourceIndex % people.length) + people.length) % people.length];
+    const target = people[((targetIndex % people.length) + people.length) % people.length];
     const key = [source.nickname, target.nickname].sort().join("::");
     if (edgeKeys.has(key)) return;
     edgeKeys.add(key);
@@ -36,13 +53,17 @@ function makeStressEdges() {
   };
 
   people.forEach((_, index) => {
-    addEdge(index, index + 1);
-    addEdge(index, index + 7);
+    const randomTarget = Math.floor(random() * people.length);
+    const secondRandomTarget = Math.floor(random() * people.length);
+    const socialBubbleTarget = index + Math.floor(random() * 36) - 18;
 
-    if (index % 3 === 0) addEdge(index, index + 37);
-    if (index % 4 === 0) addEdge(index, index + 113);
-    if (index % 9 === 0) addEdge(index, index + 271);
-    if (index % 17 === 0) addEdge(index, 999 - index);
+    addEdge(index, randomTarget);
+    addEdge(index, secondRandomTarget);
+    addEdge(index, socialBubbleTarget);
+
+    if (index % 5 === 0) addEdge(index, Math.floor(random() * people.length));
+    if (index % 11 === 0) addEdge(index, 999 - Math.floor(random() * people.length));
+    if (index % 23 === 0) addEdge(index, Math.floor(random() * people.length));
   });
 
   return edges;
@@ -66,33 +87,35 @@ function makeGraph(edges) {
 
   const nodes = Array.from(nodeMap.values());
   const isLargeGraph = nodes.length > 160;
-  const center = isLargeGraph ? { x: 1000, y: 620 } : { x: 500, y: 360 };
-  const clusterCenters = {
-    КТУ: { x: 500, y: 350 },
-    ТИНТ: { x: 1040, y: 260 },
-    НОЖ: { x: 1510, y: 520 },
-    ФТМФ: { x: 1190, y: 930 },
-    ФТМИ: { x: 570, y: 860 },
-  };
-  const facultyCounters = new Map();
+  const random = createSeededRandom(7341 + nodes.length);
+  const gridColumns = Math.ceil(Math.sqrt(nodes.length * (graphWorld.width / graphWorld.height)));
+  const gridRows = Math.ceil(nodes.length / gridColumns);
+  const cellWidth = (graphWorld.width - graphWorld.padding * 2) / gridColumns;
+  const cellHeight = (graphWorld.height - graphWorld.padding * 2) / gridRows;
+  const shuffledCells = Array.from({ length: gridColumns * gridRows }, (_, index) => index);
+
+  for (let index = shuffledCells.length - 1; index > 0; index -= 1) {
+    const targetIndex = Math.floor(random() * (index + 1));
+    [shuffledCells[index], shuffledCells[targetIndex]] = [shuffledCells[targetIndex], shuffledCells[index]];
+  }
 
   const positionedNodes = nodes.map((node, index) => {
     if (isLargeGraph) {
-      const facultyIndex = facultyCounters.get(node.faculty) || 0;
-      facultyCounters.set(node.faculty, facultyIndex + 1);
-      const clusterCenter = clusterCenters[node.faculty] || center;
-      const ring = Math.floor(Math.sqrt(facultyIndex));
-      const angle = facultyIndex * 2.399963229728653;
-      const radius = 12 + ring * 13.8;
+      const cell = shuffledCells[index];
+      const column = cell % gridColumns;
+      const row = Math.floor(cell / gridColumns);
+      const jitterX = (random() - 0.5) * cellWidth * 0.58;
+      const jitterY = (random() - 0.5) * cellHeight * 0.58;
 
       return {
         ...node,
-        x: clusterCenter.x + Math.cos(angle) * radius,
-        y: clusterCenter.y + Math.sin(angle) * radius * 0.78,
+        x: graphWorld.padding + column * cellWidth + cellWidth / 2 + jitterX,
+        y: graphWorld.padding + row * cellHeight + cellHeight / 2 + jitterY,
         color: facultyColors[node.faculty] || "#8BA5FF",
       };
     }
 
+    const center = { x: 500, y: 360 };
     const radius = Math.max(190, nodes.length * 34);
     const angle = (Math.PI * 2 * index) / Math.max(nodes.length, 1) - Math.PI / 2;
     const wobble = index % 2 === 0 ? 32 : -18;
@@ -123,7 +146,7 @@ export default function FriendshipGraph() {
     queryFn: getFriendshipGraph,
     initialData: [],
   });
-  const [viewBox, setViewBox] = useState({ x: 0, y: 0, width: 2000, height: 1240 });
+  const [viewBox, setViewBox] = useState(defaultViewBox);
 
   const graph = useMemo(() => makeGraph(data.length ? data : fallbackEdges), [data]);
   const isDenseGraph = graph.nodes.length > 160;
@@ -159,13 +182,31 @@ export default function FriendshipGraph() {
         x: (point.x - viewBox.x) * scaleX,
         y: (point.y - viewBox.y) * scaleY,
       });
+      const visibleBounds = {
+        left: viewBox.x - 80,
+        right: viewBox.x + viewBox.width + 80,
+        top: viewBox.y - 80,
+        bottom: viewBox.y + viewBox.height + 80,
+      };
+      const isVisibleNode = (node) =>
+        node.x >= visibleBounds.left &&
+        node.x <= visibleBounds.right &&
+        node.y >= visibleBounds.top &&
+        node.y <= visibleBounds.bottom;
+      const isVisibleLink = (link) =>
+        Math.max(link.source.x, link.target.x) >= visibleBounds.left &&
+        Math.min(link.source.x, link.target.x) <= visibleBounds.right &&
+        Math.max(link.source.y, link.target.y) >= visibleBounds.top &&
+        Math.min(link.source.y, link.target.y) <= visibleBounds.bottom;
+      const visibleLinks = graph.links.filter(isVisibleLink);
+      const visibleNodes = graph.nodes.filter(isVisibleNode);
 
       context.save();
-      context.globalAlpha = isDenseGraph ? 0.16 : 0.58;
-      context.lineWidth = isDenseGraph ? 0.65 : 1.8;
+      context.globalAlpha = isDenseGraph ? 0.12 : 0.58;
+      context.lineWidth = isDenseGraph ? 0.58 : 1.8;
       context.strokeStyle = "#8BA5FF";
       context.beginPath();
-      graph.links.forEach((link) => {
+      visibleLinks.forEach((link) => {
         const source = worldToScreen(link.source);
         const target = worldToScreen(link.target);
         context.moveTo(source.x, source.y);
@@ -174,7 +215,7 @@ export default function FriendshipGraph() {
       context.stroke();
       context.restore();
 
-      graph.nodes.forEach((node) => {
+      visibleNodes.forEach((node) => {
         const point = worldToScreen(node);
         const nodeRadius = isDenseGraph ? Math.max(2.6, 5.4 * scaleX) : 15;
         const haloRadius = isDenseGraph ? nodeRadius * 2.45 : 38;
@@ -242,8 +283,8 @@ export default function FriendshipGraph() {
 
   const zoom = (factor) => {
     setViewBox((current) => {
-      const nextWidth = Math.min(2600, Math.max(260, current.width * factor));
-      const nextHeight = Math.min(1612, Math.max(180, current.height * factor));
+      const nextWidth = Math.min(graphWorld.width, Math.max(240, current.width * factor));
+      const nextHeight = Math.min(graphWorld.height, Math.max(150, current.height * factor));
       return {
         x: current.x + (current.width - nextWidth) / 2,
         y: current.y + (current.height - nextHeight) / 2,
@@ -254,7 +295,7 @@ export default function FriendshipGraph() {
   };
 
   const resetView = () => {
-    setViewBox({ x: 0, y: 0, width: 2000, height: 1240 });
+    setViewBox(defaultViewBox);
   };
 
   const handleWheel = (event) => {
