@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getFriendshipGraph } from "../services/profileService";
 
@@ -116,7 +116,7 @@ function makeGraph(edges) {
 }
 
 export default function FriendshipGraph() {
-  const svgRef = useRef(null);
+  const canvasRef = useRef(null);
   const dragStartRef = useRef(null);
   const { data = [] } = useQuery({
     queryKey: ["friendship-graph"],
@@ -128,6 +128,117 @@ export default function FriendshipGraph() {
   const graph = useMemo(() => makeGraph(data.length ? data : fallbackEdges), [data]);
   const isDenseGraph = graph.nodes.length > 160;
   const showLabels = !isDenseGraph || viewBox.width < 980;
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return undefined;
+
+    let animationFrame = 0;
+
+    const draw = () => {
+      const rect = canvas.getBoundingClientRect();
+      const deviceRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.floor(rect.width * deviceRatio));
+      const height = Math.max(1, Math.floor(rect.height * deviceRatio));
+
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      const bodyFont = getComputedStyle(document.documentElement).getPropertyValue("--body-font") || "Arial, sans-serif";
+
+      context.setTransform(deviceRatio, 0, 0, deviceRatio, 0, 0);
+      context.clearRect(0, 0, rect.width, rect.height);
+
+      const scaleX = rect.width / viewBox.width;
+      const scaleY = rect.height / viewBox.height;
+      const worldToScreen = (point) => ({
+        x: (point.x - viewBox.x) * scaleX,
+        y: (point.y - viewBox.y) * scaleY,
+      });
+
+      context.save();
+      context.globalAlpha = isDenseGraph ? 0.16 : 0.58;
+      context.lineWidth = isDenseGraph ? 0.65 : 1.8;
+      context.strokeStyle = "#8BA5FF";
+      context.beginPath();
+      graph.links.forEach((link) => {
+        const source = worldToScreen(link.source);
+        const target = worldToScreen(link.target);
+        context.moveTo(source.x, source.y);
+        context.lineTo(target.x, target.y);
+      });
+      context.stroke();
+      context.restore();
+
+      graph.nodes.forEach((node) => {
+        const point = worldToScreen(node);
+        const nodeRadius = isDenseGraph ? Math.max(2.6, 5.4 * scaleX) : 15;
+        const haloRadius = isDenseGraph ? nodeRadius * 2.45 : 38;
+
+        context.save();
+        context.globalAlpha = 0.2;
+        context.fillStyle = node.color;
+        context.beginPath();
+        context.arc(point.x, point.y, haloRadius, 0, Math.PI * 2);
+        context.fill();
+        context.restore();
+
+        context.save();
+        context.fillStyle = node.color;
+        context.strokeStyle = "rgba(255,255,255,0.74)";
+        context.lineWidth = isDenseGraph ? 0.9 : 1.4;
+        context.beginPath();
+        context.arc(point.x, point.y, nodeRadius, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+        context.restore();
+
+        if (!showLabels) return;
+
+        const labelWidth = 164;
+        const labelHeight = 62;
+        const labelX = point.x - labelWidth / 2;
+        const labelY = point.y - labelHeight / 2;
+
+        context.save();
+        context.fillStyle = "rgba(25,25,25,0.92)";
+        context.strokeStyle = "rgba(255,255,255,0.14)";
+        context.lineWidth = 1;
+        context.beginPath();
+        context.roundRect(labelX, labelY, labelWidth, labelHeight, 31);
+        context.fill();
+        context.stroke();
+
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.font = `900 18px ${bodyFont}`;
+        context.fillStyle = "#8BA5FF";
+        context.fillText(node.label, point.x, point.y - 4);
+        context.font = `800 13px ${bodyFont}`;
+        context.fillStyle = "rgba(255,255,255,0.74)";
+        context.fillText(node.faculty, point.x, point.y + 19);
+        context.restore();
+      });
+    };
+
+    const scheduleDraw = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(draw);
+    };
+
+    const resizeObserver = new ResizeObserver(scheduleDraw);
+    resizeObserver.observe(canvas);
+    scheduleDraw();
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
+    };
+  }, [graph, isDenseGraph, showLabels, viewBox]);
 
   const zoom = (factor) => {
     setViewBox((current) => {
@@ -161,8 +272,8 @@ export default function FriendshipGraph() {
   };
 
   const handlePointerMove = (event) => {
-    if (!dragStartRef.current || !svgRef.current) return;
-    const rect = svgRef.current.getBoundingClientRect();
+    if (!dragStartRef.current || !canvasRef.current) return;
+    const rect = canvasRef.current.getBoundingClientRect();
     const scaleX = dragStartRef.current.viewBox.width / rect.width;
     const scaleY = dragStartRef.current.viewBox.height / rect.height;
     const dx = (event.clientX - dragStartRef.current.pointerX) * scaleX;
@@ -194,10 +305,9 @@ export default function FriendshipGraph() {
         </button>
       </div>
 
-      <svg
-        ref={svgRef}
-        className="friendship-graph-svg"
-        viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
+      <canvas
+        ref={canvasRef}
+        className="friendship-graph-canvas"
         role="img"
         aria-label="Интерактивный граф знакомств"
         onWheel={handleWheel}
@@ -205,53 +315,7 @@ export default function FriendshipGraph() {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-      >
-        <defs>
-          <radialGradient id="friendship-node-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="white" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="white" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        <rect x="-2000" y="-2000" width="5000" height="5000" className="friendship-graph-bg" />
-
-        <g className="friendship-links">
-          {graph.links.map((link, index) => (
-            <line
-              key={`${link.source.id}-${link.target.id}-${index}`}
-              x1={link.source.x}
-              y1={link.source.y}
-              x2={link.target.x}
-              y2={link.target.y}
-            />
-          ))}
-        </g>
-
-        <g className="friendship-nodes">
-          {graph.nodes.map((node) => (
-            <g
-              className={`friendship-node-svg${isDenseGraph ? " friendship-node-svg--dense" : ""}`}
-              transform={`translate(${node.x} ${node.y})`}
-              key={node.id}
-            >
-              <circle className="friendship-node-halo" r={isDenseGraph ? 13 : 54} fill={node.color} opacity="0.2" />
-              <circle className="friendship-node-dot" r={isDenseGraph ? 4.8 : 38} fill={node.color} />
-              <title>{`${node.label} · ${node.faculty}`}</title>
-              {showLabels && (
-                <>
-                  <rect x="-82" y="-31" width="164" height="62" rx="31" />
-                  <text className="friendship-node-label" x="0" y="-3" textAnchor="middle">
-                    {node.label}
-                  </text>
-                  <text className="friendship-node-faculty" x="0" y="19" textAnchor="middle">
-                    {node.faculty}
-                  </text>
-                </>
-              )}
-            </g>
-          ))}
-        </g>
-      </svg>
+      />
     </article>
   );
 }

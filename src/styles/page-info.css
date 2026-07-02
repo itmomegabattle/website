@@ -1000,12 +1000,13 @@
     border-radius: 999px;
     background: var(--surface-color-special);
     color: var(--accent-color);
-    font: inherit;
+    font-family: Arial, sans-serif;
+    font-size: 0.95rem;
     font-weight: 900;
     cursor: pointer;
 }
 
-.friendship-graph-svg {
+.friendship-graph-canvas {
     display: block;
     width: 100%;
     height: clamp(560px, 62vw, 820px);
@@ -1014,56 +1015,8 @@
     user-select: none;
 }
 
-.friendship-graph-svg:active {
+.friendship-graph-canvas:active {
     cursor: grabbing;
-}
-
-.friendship-graph-bg {
-    fill: transparent;
-}
-
-.friendship-links line {
-    stroke: color-mix(in srgb, var(--accent-color) 64%, transparent);
-    stroke-width: 1.35;
-    stroke-linecap: round;
-    opacity: 0.46;
-    filter: drop-shadow(0 0 7px color-mix(in srgb, var(--accent-color) 35%, transparent));
-}
-
-.friendship-node-svg rect {
-    fill: color-mix(in srgb, var(--surface-color) 92%, transparent);
-    stroke: color-mix(in srgb, var(--border-color) 86%, transparent);
-    stroke-width: 1.4;
-    filter: drop-shadow(0 18px 26px rgba(0,0,0,0.28));
-}
-
-.friendship-node-dot {
-    stroke: rgba(255,255,255,0.76);
-    stroke-width: 1.1;
-    filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent-color) 46%, transparent));
-}
-
-.friendship-node-halo {
-    filter: blur(1px);
-}
-
-.friendship-node-svg--dense rect {
-    filter: drop-shadow(0 16px 22px rgba(0,0,0,0.24));
-}
-
-.friendship-node-label {
-    fill: var(--accent-color);
-    font-family: var(--body-font);
-    font-size: 18px;
-    font-weight: 900;
-}
-
-.friendship-node-faculty {
-    fill: currentColor;
-    font-family: var(--body-font);
-    font-size: 13px;
-    font-weight: 800;
-    opacity: 0.74;
 }
 
 @media (max-width: 960px) {
@@ -1158,7 +1111,7 @@
         min-height: 520px;
     }
 
-    .friendship-graph-svg {
+    .friendship-graph-canvas {
         height: 520px;
     }
 }
