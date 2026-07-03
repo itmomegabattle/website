@@ -346,7 +346,7 @@ for each row execute function public.set_updated_at();
 
 create table if not exists public.team_members (
   id uuid primary key default gen_random_uuid(),
-  source_key text unique,
+  source_key text,
   section text not null check (section in ('organizers', 'responsible')),
   status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
   name text not null,
@@ -360,6 +360,12 @@ create table if not exists public.team_members (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.team_members
+drop constraint if exists team_members_source_key_key;
+
+create unique index if not exists team_members_section_source_key_key
+on public.team_members (section, source_key);
 
 drop trigger if exists team_members_set_updated_at on public.team_members;
 create trigger team_members_set_updated_at

@@ -61,7 +61,7 @@ export async function upsertTeamMember(member, actorProfile) {
 
   const { data, error } = await supabase
     .from("team_members")
-    .upsert(payload, { onConflict: payload.id ? "id" : "source_key" })
+    .upsert(payload, { onConflict: payload.id ? "id" : "section,source_key" })
     .select()
     .single();
   if (error) throw error;
@@ -112,7 +112,7 @@ export async function importStaticTeamMembers(section, members, actorProfile) {
 
   const { data, error } = await supabase
     .from("team_members")
-    .upsert(payload, { onConflict: "source_key" })
+    .upsert(payload, { onConflict: "section,source_key" })
     .select();
   if (error) throw error;
   await logAdminAction(actorProfile, "team_member.import_json", "team_members", null, { section, count: data?.length || 0 });
