@@ -16,7 +16,7 @@ import {
 
 const emptyMember = {
   section: "organizers",
-  status: "draft",
+  status: "published",
   source_key: "",
   name: "",
   activity: "",
