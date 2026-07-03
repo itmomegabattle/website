@@ -214,6 +214,7 @@ function TeamAdminEditor({ section, fallbackMembers }) {
               </label>
 
               {saveMutation.error && <p className="form-error">{saveMutation.error.message}</p>}
+              {deleteMutation.error && <p className="form-error">{deleteMutation.error.message}</p>}
               {error && <p className="form-error">{error.message}</p>}
               {status && <p className="form-status">{status}</p>}
 

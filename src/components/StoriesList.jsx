@@ -130,6 +130,7 @@ function StoryEditor({ fallbackStories }) {
               </div>
               {error && <p className="form-error">{error.message}</p>}
               {saveMutation.error && <p className="form-error">{saveMutation.error.message}</p>}
+              {deleteMutation.error && <p className="form-error">{deleteMutation.error.message}</p>}
               {status && <p className="form-status">{status}</p>}
               <button className="text-button auth-submit" type="submit" disabled={saveMutation.isPending}>
                 {saveMutation.isPending ? "Сохраняем…" : selectedStory ? "Сохранить изменения" : "Добавить историю"}

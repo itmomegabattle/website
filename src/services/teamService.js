@@ -75,9 +75,10 @@ export async function upsertTeamMember(member, actorProfile) {
 
 export async function deleteTeamMember(memberId, actorProfile) {
   requireSupabase();
-  const { error } = await supabase.from("team_members").delete().eq("id", memberId);
-  if (error) throw error;
   await logAdminAction(actorProfile, "team_member.delete", "team_members", memberId);
+  const { data, error } = await supabase.from("team_members").delete().eq("id", memberId).select("id");
+  if (error) throw error;
+  if (!data?.length) throw new Error("Человек не удалён: нет доступа или запись уже удалена");
 }
 
 export async function uploadTeamMemberImage(file) {

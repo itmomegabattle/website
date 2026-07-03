@@ -79,9 +79,10 @@ export async function upsertPartner(partner, actorProfile) {
 
 export async function deletePartner(id, actorProfile) {
   requireSupabase();
-  const { error } = await supabase.from("partners").delete().eq("id", id);
-  if (error) throw error;
   await logAdminAction(actorProfile, "partner.delete", "partners", id);
+  const { data, error } = await supabase.from("partners").delete().eq("id", id).select("id");
+  if (error) throw error;
+  if (!data?.length) throw new Error("Партнёр не удалён: нет доступа или запись уже удалена");
 }
 
 export async function importStaticPartners(partners, actorProfile) {
@@ -151,9 +152,10 @@ export async function upsertStory(story, actorProfile) {
 
 export async function deleteStory(id, actorProfile) {
   requireSupabase();
-  const { error } = await supabase.from("participant_stories").delete().eq("id", id);
-  if (error) throw error;
   await logAdminAction(actorProfile, "story.delete", "participant_stories", id);
+  const { data, error } = await supabase.from("participant_stories").delete().eq("id", id).select("id");
+  if (error) throw error;
+  if (!data?.length) throw new Error("История не удалена: нет доступа или запись уже удалена");
 }
 
 export async function importStaticStories(stories, actorProfile) {

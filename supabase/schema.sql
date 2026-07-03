@@ -531,6 +531,12 @@ to authenticated
 using (bucket_id = 'event-images' and public.current_profile_is_admin())
 with check (bucket_id = 'event-images' and public.current_profile_is_admin());
 
+drop policy if exists "admins delete event images" on storage.objects;
+create policy "admins delete event images"
+on storage.objects for delete
+to authenticated
+using (bucket_id = 'event-images' and public.current_profile_is_admin());
+
 drop policy if exists "team images are public readable" on storage.objects;
 create policy "team images are public readable"
 on storage.objects for select
@@ -549,6 +555,12 @@ to authenticated
 using (bucket_id = 'team-images' and public.current_profile_is_admin())
 with check (bucket_id = 'team-images' and public.current_profile_is_admin());
 
+drop policy if exists "admins delete team images" on storage.objects;
+create policy "admins delete team images"
+on storage.objects for delete
+to authenticated
+using (bucket_id = 'team-images' and public.current_profile_is_admin());
+
 drop policy if exists "content images are public readable" on storage.objects;
 create policy "content images are public readable"
 on storage.objects for select
@@ -566,3 +578,9 @@ on storage.objects for update
 to authenticated
 using (bucket_id = 'content-images' and public.current_profile_is_admin())
 with check (bucket_id = 'content-images' and public.current_profile_is_admin());
+
+drop policy if exists "admins delete content images" on storage.objects;
+create policy "admins delete content images"
+on storage.objects for delete
+to authenticated
+using (bucket_id = 'content-images' and public.current_profile_is_admin());

@@ -260,6 +260,7 @@ export default function EventSections() {
             <button type="button" onClick={() => setEditor({ groupId: group.id, event: null })}>
               Добавить мероприятие
             </button>
+            {deleteMutation.error && <span className="event-admin-error">{deleteMutation.error.message}</span>}
             {groupAdminEvents.map((event) => (
               <span className="event-admin-chip" key={event.id}>
                 {event.name} · {event.status}

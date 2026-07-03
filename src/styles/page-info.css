@@ -267,6 +267,15 @@
     font-weight: 800;
 }
 
+.event-admin-error {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    background: color-mix(in srgb, #ff4f93 22%, transparent);
+    color: #ff4f93;
+    font-weight: 900;
+}
+
 .event-inline-editor {
     display: grid;
     gap: 0.85rem;

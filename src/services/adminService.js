@@ -52,9 +52,10 @@ export async function upsertAdminEvent(event, actorProfile) {
 
 export async function deleteAdminEvent(eventId, actorProfile) {
   requireSupabase();
-  const { error } = await supabase.from("project_events").delete().eq("id", eventId);
-  if (error) throw error;
   await logAdminAction(actorProfile, "event.delete", "project_events", eventId);
+  const { data, error } = await supabase.from("project_events").delete().eq("id", eventId).select("id");
+  if (error) throw error;
+  if (!data?.length) throw new Error("Событие не удалено: нет доступа или запись уже удалена");
 }
 
 export async function uploadAdminEventImage(file) {
@@ -95,9 +96,10 @@ export async function updateAdminProfile(profileId, values, actorProfile) {
 
 export async function deleteAdminProfile(profileId, actorProfile) {
   requireSupabase();
-  const { error } = await supabase.from("profiles").delete().eq("id", profileId);
-  if (error) throw error;
   await logAdminAction(actorProfile, "profile.delete", "profiles", profileId);
+  const { data, error } = await supabase.from("profiles").delete().eq("id", profileId).select("id");
+  if (error) throw error;
+  if (!data?.length) throw new Error("Профиль не удалён: нет доступа или запись уже удалена");
 }
 
 export async function getAdminPasswords() {
@@ -126,9 +128,10 @@ export async function upsertAdminPassword(secret, actorProfile) {
 
 export async function deleteAdminPassword(secretId, actorProfile) {
   requireSupabase();
-  const { error } = await supabase.from("project_passwords").delete().eq("id", secretId);
-  if (error) throw error;
   await logAdminAction(actorProfile, "password.delete", "project_passwords", secretId);
+  const { data, error } = await supabase.from("project_passwords").delete().eq("id", secretId).select("id");
+  if (error) throw error;
+  if (!data?.length) throw new Error("Запись не удалена: нет доступа или запись уже удалена");
 }
 
 export async function getAdminAuditLogs() {
