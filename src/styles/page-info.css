@@ -197,6 +197,99 @@
     font-weight: 800;
 }
 
+.event-inline-edit {
+    width: fit-content;
+    min-height: 2.8rem;
+    margin-top: 0.3rem;
+    padding: 0 1rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: var(--surface-color);
+    color: var(--accent-color);
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.event-admin-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    margin: -1.5rem 0 2rem;
+    padding: 0.75rem;
+    border: var(--card-border);
+    border-radius: 1.4rem;
+    background: color-mix(in srgb, var(--surface-color-special) 72%, transparent);
+    box-shadow: var(--card-shadow);
+}
+
+.event-admin-strip > button,
+.event-admin-chip button,
+.event-inline-editor-head button {
+    min-height: 2.4rem;
+    padding: 0 0.85rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: var(--surface-color);
+    color: var(--text-color);
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.event-admin-strip > button {
+    background: var(--accent-color);
+    color: var(--text-color-inverted);
+}
+
+.event-admin-chip {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    min-height: 2.5rem;
+    padding: 0.3rem 0.35rem 0.3rem 0.85rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-color) 86%, transparent);
+    font-size: 0.88rem;
+    font-weight: 800;
+}
+
+.event-inline-editor {
+    display: grid;
+    gap: 0.85rem;
+    margin: -0.5rem 0 2rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border: var(--card-border);
+    border-radius: var(--corner-radius);
+    background:
+        radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--accent-color) 18%, transparent), transparent 36%),
+        var(--surface-color);
+    box-shadow: var(--card-shadow);
+}
+
+.event-inline-editor-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+}
+
+.event-inline-editor-head h2 {
+    font-family: var(--heading-font);
+    font-size: clamp(1.7rem, 4vw, 3.3rem);
+    line-height: 0.95;
+}
+
+.event-inline-editor-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
 .faculty-map-section {
     display: grid;
     grid-template-columns: minmax(360px, 0.95fr) minmax(360px, 1fr);
@@ -1604,6 +1697,15 @@
 
     .event-meta-grid {
         grid-template-columns: 1fr;
+    }
+
+    .event-inline-editor-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-inline-editor-head {
+        align-items: stretch;
+        flex-direction: column;
     }
 
     .faculty-detail-grid {

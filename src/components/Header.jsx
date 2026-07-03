@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { isAdminProfile } from "../services/adminService";
 import "../styles/header.css";
 import { Theme } from "../theme";
 
@@ -126,7 +124,6 @@ function InnerSpace() {
 }
 
 export default function Header() {
-  const { profile } = useAuth();
   const [theme, setTheme] = useState(Theme.get());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isDarkTheme = theme === "dark";
@@ -139,9 +136,6 @@ export default function Header() {
     { to: "/events", label: "Мероприятия" },
     { to: "/ratings", label: "Участникам" },
   ];
-  const visibleNavItems = isAdminProfile(profile)
-    ? [...navItems, { to: "/admin", label: "Админка" }]
-    : navItems;
 
   useEffect(() => {
     Theme.addListener(setTheme, false);
@@ -164,7 +158,7 @@ export default function Header() {
         <BurgerIcon open={isMenuOpen} />
       </button>
       <nav className="header-nav" aria-label="Основная навигация">
-        {visibleNavItems.map((item) => (
+        {navItems.map((item) => (
           <Link
             className="header-item"
             to={item.to}
@@ -186,7 +180,7 @@ export default function Header() {
       >
         {isDarkTheme ? <SunIcon /> : <MoonIcon />}
       </button>
-      {visibleNavItems.map((item) => (
+      {navItems.map((item) => (
         <Link className="header-item header-link" to={item.to} key={item.to}>
           {item.label}
         </Link>

@@ -24,11 +24,17 @@ export const Api = {
   },
 
   getOrganizers() {
-    return fetchJson('data/organizers.json');
+    return fetchJson('data/organizers.json').then(async (fallback) => {
+      const { getPublishedTeamMembers } = await import("./services/teamService");
+      return getPublishedTeamMembers("organizers", fallback);
+    });
   },
 
   getResponsible() {
-    return fetchJson('data/responsible.json');
+    return fetchJson('data/responsible.json').then(async (fallback) => {
+      const { getPublishedTeamMembers } = await import("./services/teamService");
+      return getPublishedTeamMembers("responsible", fallback);
+    });
   },
 
   getStories() {
