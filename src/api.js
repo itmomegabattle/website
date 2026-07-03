@@ -10,6 +10,8 @@ async function fetchJson(path) {
 
 export const Api = {
   normalizeURL(url) {
+    if (!url) return "";
+    if (/^(https?:|data:|blob:)/i.test(url)) return url;
     if (url.startsWith('/')) url = url.slice(1);
     return `${API_BASE}${url}`;
   },
