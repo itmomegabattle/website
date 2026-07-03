@@ -210,3 +210,215 @@ on storage.objects for update
 to authenticated
 using (bucket_id = 'profile-avatars')
 with check (bucket_id = 'profile-avatars');
+
+-- Admin panel MVP.
+-- First bootstrap admin: ISU 466870.
+
+alter table public.profiles
+  add column if not exists is_banned boolean not null default false,
+  add column if not exists ban_reason text,
+  add column if not exists is_best_actor boolean not null default false;
+
+update public.profiles
+set is_admin = true
+where isu_number = '466870';
+
+create or replace function public.current_profile_is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where auth_user_id = auth.uid()
+      and (is_admin = true or isu_number = '466870')
+      and is_banned = false
+  );
+$$;
+
+create or replace function public.protect_profile_admin_fields()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not public.current_profile_is_admin()
+    and (
+      old.is_admin is distinct from new.is_admin
+      or old.is_banned is distinct from new.is_banned
+      or old.ban_reason is distinct from new.ban_reason
+      or old.is_best_actor is distinct from new.is_best_actor
+    )
+  then
+    raise exception 'Only admins can change moderation fields';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists profiles_protect_admin_fields on public.profiles;
+create trigger profiles_protect_admin_fields
+before update on public.profiles
+for each row execute function public.protect_profile_admin_fields();
+
+drop policy if exists "admins can manage profiles" on public.profiles;
+create policy "admins can manage profiles"
+on public.profiles for all
+to authenticated
+using (public.current_profile_is_admin())
+with check (public.current_profile_is_admin());
+
+create table if not exists public.project_events (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,
+  group_key text not null check (group_key in ('megabattle', 'partners')),
+  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  name text not null,
+  type text,
+  description text,
+  event_date_label text,
+  event_time_label text,
+  location text,
+  image_url text,
+  details jsonb not null default '[]'::jsonb,
+  registration_status text not null default 'soon' check (registration_status in ('open', 'soon', 'closed')),
+  registration_label text,
+  registration_link text,
+  itmo_events_id text,
+  sort_order integer not null default 100,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists project_events_set_updated_at on public.project_events;
+create trigger project_events_set_updated_at
+before update on public.project_events
+for each row execute function public.set_updated_at();
+
+insert into public.project_events
+  (slug, group_key, status, name, type, description, event_date_label, event_time_label, location, image_url, details, registration_status, registration_label, registration_link, sort_order)
+values
+  ('quiz', 'megabattle', 'published', 'Квиз', 'интеллектуальная битва', 'Командная игра для факультетов: быстрые вопросы, музыкальные и визуальные раунды, мемы, логика и немного хаоса. Хорошая точка входа для тех, кто хочет почувствовать сезон без сцены и репетиций.', 'дата уточняется', 'вечер', 'Университет ИТМО', '/images/events/event1.jpg', '["команды от факультетов", "баллы в общий зачёт", "формат для новичков"]'::jsonb, 'soon', 'Регистрация скоро', '', 10),
+  ('quest', 'megabattle', 'published', 'Квест', 'маршрут · задания · город', 'Большой маршрут с заданиями, шифрами и точками взаимодействия. Команды двигаются по локациям, собирают подсказки, выполняют челленджи и забирают очки за скорость, смекалку и командность.', 'дата уточняется', 'день', 'кампус и городские точки', '/images/events/event2.jpg', '["несколько локаций", "факультетские команды", "фото- и видео-задания"]'::jsonb, 'soon', 'Регистрация скоро', '', 20),
+  ('gala', 'megabattle', 'published', 'Гала-концерт', 'главная сцена сезона', 'Финальная большая сцена Megabattle: номера факультетов, награды, лучшие участники, общий рейтинг и тот самый момент, когда весь сезон превращается в одну большую историю.', 'дата уточняется', 'вечер', 'площадка будет объявлена позже', '/images/events/event1.jpg', '["главное событие", "номера факультетов", "награждение"]'::jsonb, 'closed', 'Регистрация пока закрыта', '', 30),
+  ('game', 'megabattle', 'published', 'Game', 'игровой формат', 'Соревновательный игровой вечер: настолки, консоли, быстрые турниры и командные механики. Формат для тех, кто хочет принести факультету очки без микрофона, но с азартом.', 'дата уточняется', 'вечер', 'Университет ИТМО', '/images/events/event2.jpg', '["турнирные сетки", "командные очки", "несколько игровых зон"]'::jsonb, 'soon', 'Регистрация скоро', '', 40),
+  ('special-event', 'megabattle', 'published', 'Special Event', 'секретный формат', 'Отдельный специвент сезона, который лучше не спойлерить заранее. Здесь можно будет быстро заменить описание на финальный анонс из админки или базы.', 'дата уточняется', 'следите за анонсами', 'будет объявлено в каналах проекта', '/images/about-image.png', '["секретный формат", "ограниченное число мест", "анонс в соцсетях"]'::jsonb, 'closed', 'Анонс скоро', '', 50),
+  ('chto', 'partners', 'published', 'Творческое объединение «Что»', 'театр · перформанс · творческая лаборатория', 'Партнёрское творческое объединение для тех, кто хочет пробовать театр, перформанс, актёрские практики и сценические эксперименты вне основной сетки Megabattle.', 'по расписанию объединения', 'анонсы в Telegram', 'площадки ИТМО и партнёров', '/images/events/event1.jpg', '["театр", "сценическая практика", "@chtotheatre"]'::jsonb, 'open', 'Перейти в Telegram', 'https://t.me/chtotheatre', 60),
+  ('fashion-show', 'partners', 'published', 'Fashion Show', 'мода · стиль · показ', 'Партнёрский fashion-формат про стиль, показы, визуальные образы и командную работу вокруг моды. Отличная точка для тех, кто хочет в костюм, продакшен, подиум или backstage.', 'по расписанию команды', 'анонсы в Telegram', 'площадки ИТМО', '/images/events/event2.jpg', '["показы", "стиль", "@itmo_fashion"]'::jsonb, 'open', 'Перейти в Telegram', 'https://t.me/itmo_fashion', 70),
+  ('lab-sport', 'partners', 'published', 'ЛАБ', 'футбол · баскетбол · волейбол', 'Спортивное направление для тех, кто хочет играть за свою команду и собирать вокруг факультета отдельный соревновательный вайб: футбол, баскетбол, волейбол и командные активности.', 'по спортивному календарю', 'тренировки и игры', 'спортивные площадки ИТМО', '/images/about-image.png', '["футбол", "баскетбол", "волейбол"]'::jsonb, 'closed', 'Контакты появятся позже', '', 80),
+  ('punchline', 'partners', 'published', 'Панчлайн', 'стендап · юмор · открытый микрофон', 'Партнёрский юмористический формат: стендап, открытые микрофоны, авторские тексты и сцена для тех, кто хочет проверять шутки на живой аудитории.', 'по расписанию клуба', 'анонсы в Telegram', 'площадки ИТМО', '/images/events/event1.jpg', '["стендап", "открытый микрофон", "@itmopunchline"]'::jsonb, 'open', 'Перейти в Telegram', 'https://t.me/itmopunchline', 90)
+on conflict (slug) do update set
+  group_key = excluded.group_key,
+  name = excluded.name,
+  type = excluded.type,
+  description = excluded.description,
+  event_date_label = excluded.event_date_label,
+  event_time_label = excluded.event_time_label,
+  location = excluded.location,
+  image_url = excluded.image_url,
+  details = excluded.details,
+  registration_status = excluded.registration_status,
+  registration_label = excluded.registration_label,
+  registration_link = excluded.registration_link,
+  sort_order = excluded.sort_order;
+
+create table if not exists public.project_passwords (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  login text,
+  password_value text,
+  url text,
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists project_passwords_set_updated_at on public.project_passwords;
+create trigger project_passwords_set_updated_at
+before update on public.project_passwords
+for each row execute function public.set_updated_at();
+
+create table if not exists public.admin_audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  actor_profile_id uuid references public.profiles(id) on delete set null,
+  action text not null,
+  entity_type text not null,
+  entity_id text,
+  payload jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+alter table public.project_events enable row level security;
+alter table public.project_passwords enable row level security;
+alter table public.admin_audit_logs enable row level security;
+
+drop policy if exists "published events are public readable" on public.project_events;
+create policy "published events are public readable"
+on public.project_events for select
+using (status = 'published');
+
+drop policy if exists "admins can manage events" on public.project_events;
+create policy "admins can manage events"
+on public.project_events for all
+to authenticated
+using (public.current_profile_is_admin())
+with check (public.current_profile_is_admin());
+
+drop policy if exists "admins can manage passwords" on public.project_passwords;
+create policy "admins can manage passwords"
+on public.project_passwords for all
+to authenticated
+using (public.current_profile_is_admin())
+with check (public.current_profile_is_admin());
+
+drop policy if exists "admins can read audit logs" on public.admin_audit_logs;
+create policy "admins can read audit logs"
+on public.admin_audit_logs for select
+to authenticated
+using (public.current_profile_is_admin());
+
+drop policy if exists "admins can create audit logs" on public.admin_audit_logs;
+create policy "admins can create audit logs"
+on public.admin_audit_logs for insert
+to authenticated
+with check (public.current_profile_is_admin());
+
+drop policy if exists "admins can manage nfc tags" on public.nfc_tags;
+create policy "admins can manage nfc tags"
+on public.nfc_tags for all
+to authenticated
+using (public.current_profile_is_admin())
+with check (public.current_profile_is_admin());
+
+drop policy if exists "admins can manage friendships" on public.friendships;
+create policy "admins can manage friendships"
+on public.friendships for all
+to authenticated
+using (public.current_profile_is_admin())
+with check (public.current_profile_is_admin());
+
+insert into storage.buckets (id, name, public)
+values ('event-images', 'event-images', true)
+on conflict (id) do nothing;
+
+drop policy if exists "event images are public readable" on storage.objects;
+create policy "event images are public readable"
+on storage.objects for select
+using (bucket_id = 'event-images');
+
+drop policy if exists "admins upload event images" on storage.objects;
+create policy "admins upload event images"
+on storage.objects for insert
+to authenticated
+with check (bucket_id = 'event-images' and public.current_profile_is_admin());
+
+drop policy if exists "admins update event images" on storage.objects;
+create policy "admins update event images"
+on storage.objects for update
+to authenticated
+using (bucket_id = 'event-images' and public.current_profile_is_admin())
+with check (bucket_id = 'event-images' and public.current_profile_is_admin());

@@ -14,8 +14,13 @@ export const Api = {
     return `${API_BASE}${url}`;
   },
 
-  getEvents() {
+  getStaticEvents() {
     return fetchJson('data/events.json');
+  },
+
+  async getEvents() {
+    const { getPublishedEvents } = await import("./services/eventService");
+    return getPublishedEvents();
   },
 
   getOrganizers() {

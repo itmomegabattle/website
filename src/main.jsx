@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { AuthProvider } from "./context/AuthContext";
 import AuthPage from "./pages/AuthPage";
+import AdminPage from "./pages/AdminPage";
 import EventsPage from "./pages/EventsPage";
 import ExternalPrPage from "./pages/ExternalPrPage";
 import FacultiesPage from "./pages/FacultiesPage";
@@ -63,6 +64,7 @@ const router = createBrowserRouter(
       <Route path="/partners" element={<ExternalPrPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<RatingsPage />} />
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/register" element={<AuthPage mode="signup" />} />
       <Route path="/profile" element={<Navigate to="/ratings" replace />} />
