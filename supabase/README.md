@@ -50,11 +50,73 @@ It creates:
 - `nfc_tags`
 - `friendships`
 - `profile_views`
-- public avatar storage bucket `profile-avatars`
+- `project_events`
+- `team_members`
+- `partners`
+- `participant_stories`
+- `project_passwords`
+- `admin_audit_logs`
+- public storage buckets
 - RLS policies
 - admin-ready `profiles.is_admin`
 
-## 4. NFC URL format
+## 4. Content seed
+
+Run `seed-content.sql` in Supabase SQL editor after `schema.sql`.
+
+It imports current JSON content into database tables:
+
+- events;
+- team members;
+- participant stories;
+- partners.
+
+Image fields initially store existing public site paths, for example:
+
+```txt
+/images/people/optimized/member-0-small.webp
+/images/partners/double.png
+/images/events/event1.jpg
+```
+
+## 5. Move images to Supabase Storage
+
+SQL cannot upload binary files to Supabase Storage. Use the local migration script.
+
+Add to `.env.local`:
+
+```env
+SUPABASE_URL=https://qrvckblzecdtyyoybwtv.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
+
+Get `SUPABASE_SERVICE_ROLE_KEY` in Supabase:
+
+`Project Settings → API → service_role key`
+
+Important: never add the service role key to Vercel or frontend code. Keep it local only.
+
+Run:
+
+```bash
+npm run migrate:images
+```
+
+The script uploads files from `public/images` into Supabase Storage and updates:
+
+- `project_events.image_url`
+- `team_members.small_image_url`
+- `team_members.big_image_url`
+- `partners.logo_url`
+- `participant_stories.image_url`
+
+Buckets:
+
+- `event-images` — events
+- `team-images` — team members
+- `content-images` — partners and stories
+
+## 6. NFC URL format
 
 Use path-based URLs:
 
