@@ -44,6 +44,7 @@ function textToLinks(value) {
 }
 
 function TeamAdminEditor({ section, fallbackMembers }) {
+  const { profile } = useAuth();
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -65,7 +66,7 @@ function TeamAdminEditor({ section, fallbackMembers }) {
   };
 
   const saveMutation = useMutation({
-    mutationFn: (payload) => upsertTeamMember(payload),
+    mutationFn: (payload) => upsertTeamMember(payload, profile),
     onSuccess: () => {
       setStatus("Сохранено");
       setSelectedMember(null);
@@ -76,12 +77,12 @@ function TeamAdminEditor({ section, fallbackMembers }) {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: deleteTeamMember,
+    mutationFn: (id) => deleteTeamMember(id, profile),
     onSuccess: refreshPublicLists,
   });
 
   const importMutation = useMutation({
-    mutationFn: () => importStaticTeamMembers(section, fallbackMembers),
+    mutationFn: () => importStaticTeamMembers(section, fallbackMembers, profile),
     onSuccess: (items) => {
       setStatus(`Импортировано: ${items.length}`);
       refreshPublicLists();

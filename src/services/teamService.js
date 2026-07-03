@@ -1,4 +1,5 @@
 import { supabase } from "../lib/supabase";
+import { logAdminAction } from "./adminService";
 
 function mapDbMember(member) {
   return {
@@ -50,7 +51,7 @@ export async function getAdminTeamMembers(section) {
   return data || [];
 }
 
-export async function upsertTeamMember(member) {
+export async function upsertTeamMember(member, actorProfile) {
   requireSupabase();
   const payload = {
     ...member,
@@ -64,13 +65,19 @@ export async function upsertTeamMember(member) {
     .select()
     .single();
   if (error) throw error;
+  await logAdminAction(actorProfile, member.id ? "team_member.update" : "team_member.create", "team_members", data.id, {
+    name: data.name,
+    section: data.section,
+    status: data.status,
+  });
   return data;
 }
 
-export async function deleteTeamMember(memberId) {
+export async function deleteTeamMember(memberId, actorProfile) {
   requireSupabase();
   const { error } = await supabase.from("team_members").delete().eq("id", memberId);
   if (error) throw error;
+  await logAdminAction(actorProfile, "team_member.delete", "team_members", memberId);
 }
 
 export async function uploadTeamMemberImage(file) {
@@ -86,7 +93,7 @@ export async function uploadTeamMemberImage(file) {
   return data.publicUrl;
 }
 
-export async function importStaticTeamMembers(section, members) {
+export async function importStaticTeamMembers(section, members, actorProfile) {
   requireSupabase();
   const payload = members.map((member, index) => ({
     source_key: member.key || `${section}-${index}`,
@@ -107,5 +114,6 @@ export async function importStaticTeamMembers(section, members) {
     .upsert(payload, { onConflict: "source_key" })
     .select();
   if (error) throw error;
+  await logAdminAction(actorProfile, "team_member.import_json", "team_members", null, { section, count: data?.length || 0 });
   return data || [];
 }

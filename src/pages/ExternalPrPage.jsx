@@ -1,5 +1,5 @@
 import { ExternalPrCards, ExternalPrContact } from "../components/ExternalPrSections";
-import Partners from "../components/Partners";
+import PartnersBento from "../components/PartnersBento";
 import "../styles/page-info.css";
 
 export default function ExternalPrPage() {
@@ -21,7 +21,7 @@ export default function ExternalPrPage() {
 
       <section className="partners">
         <h1>Партнёры</h1>
-        <Partners />
+        <PartnersBento />
       </section>
 
       <section className="main-width">

@@ -95,3 +95,125 @@
     transition: color 0.3s ease;
     opacity: 0.6;
 }
+
+.stories-admin {
+    width: min(94vw, 1320px);
+    margin: 0 auto 1.5rem;
+}
+
+.stories-admin-toggle,
+.stories-admin-head button,
+.stories-admin-row button {
+    min-height: 2.6rem;
+    padding: 0 1rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: var(--surface-color-special);
+    color: var(--text-color-special);
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.stories-admin-toggle {
+    display: block;
+    margin: 0 auto;
+    background: var(--accent-color);
+    color: var(--text-color-inverted);
+}
+
+.stories-admin-panel {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border: var(--card-border);
+    border-radius: var(--corner-radius);
+    background:
+        radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--accent-color) 18%, transparent), transparent 36%),
+        var(--surface-color);
+    box-shadow: var(--card-shadow);
+}
+
+.stories-admin-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.stories-admin-head h2 {
+    font-family: var(--heading-font);
+    font-size: clamp(1.7rem, 4vw, 3.4rem);
+    line-height: 0.95;
+}
+
+.stories-admin-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+    gap: 1rem;
+}
+
+.stories-admin-form,
+.stories-admin-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.stories-admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.stories-admin-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.8rem;
+    border: var(--card-border);
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--surface-color-special) 70%, transparent);
+}
+
+.stories-admin-row > div:first-child {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.stories-admin-row strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.stories-admin-row span {
+    opacity: 0.72;
+    font-size: 0.88rem;
+}
+
+.stories-admin-row > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.35rem;
+}
+
+@media (max-width: 900px) {
+    .stories-admin-grid,
+    .stories-admin-form-grid,
+    .stories-admin-row {
+        grid-template-columns: 1fr;
+    }
+
+    .stories-admin-head {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .stories-admin-row > div:last-child {
+        justify-content: flex-start;
+    }
+}

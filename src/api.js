@@ -38,11 +38,17 @@ export const Api = {
   },
 
   getStories() {
-    return fetchJson('data/stories.json');
+    return fetchJson('data/stories.json').then(async (fallback) => {
+      const { getPublishedStories } = await import("./services/contentService");
+      return getPublishedStories(fallback);
+    });
   },
 
   getPartners() {
-    return fetchJson('data/partners.json');
+    return fetchJson('data/partners.json').then(async (fallback) => {
+      const { getPublishedPartners } = await import("./services/contentService");
+      return getPublishedPartners(fallback);
+    });
   },
 
   getFaculties() {

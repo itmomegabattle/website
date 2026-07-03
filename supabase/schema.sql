@@ -364,6 +364,43 @@ create trigger team_members_set_updated_at
 before update on public.team_members
 for each row execute function public.set_updated_at();
 
+create table if not exists public.partners (
+  id uuid primary key default gen_random_uuid(),
+  source_key text unique,
+  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  name text not null,
+  description text,
+  logo_url text,
+  link text,
+  sort_order integer not null default 100,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists partners_set_updated_at on public.partners;
+create trigger partners_set_updated_at
+before update on public.partners
+for each row execute function public.set_updated_at();
+
+create table if not exists public.participant_stories (
+  id uuid primary key default gen_random_uuid(),
+  source_key text unique,
+  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  name text not null,
+  faculty text,
+  description text,
+  story_date_label text,
+  image_url text,
+  sort_order integer not null default 100,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists participant_stories_set_updated_at on public.participant_stories;
+create trigger participant_stories_set_updated_at
+before update on public.participant_stories
+for each row execute function public.set_updated_at();
+
 create table if not exists public.admin_audit_logs (
   id uuid primary key default gen_random_uuid(),
   actor_profile_id uuid references public.profiles(id) on delete set null,
@@ -377,6 +414,8 @@ create table if not exists public.admin_audit_logs (
 alter table public.project_events enable row level security;
 alter table public.project_passwords enable row level security;
 alter table public.team_members enable row level security;
+alter table public.partners enable row level security;
+alter table public.participant_stories enable row level security;
 alter table public.admin_audit_logs enable row level security;
 
 drop policy if exists "published events are public readable" on public.project_events;
@@ -406,6 +445,30 @@ using (status = 'published');
 drop policy if exists "admins can manage team members" on public.team_members;
 create policy "admins can manage team members"
 on public.team_members for all
+to authenticated
+using (public.current_profile_is_admin())
+with check (public.current_profile_is_admin());
+
+drop policy if exists "published partners are public readable" on public.partners;
+create policy "published partners are public readable"
+on public.partners for select
+using (status = 'published');
+
+drop policy if exists "admins can manage partners" on public.partners;
+create policy "admins can manage partners"
+on public.partners for all
+to authenticated
+using (public.current_profile_is_admin())
+with check (public.current_profile_is_admin());
+
+drop policy if exists "published participant stories are public readable" on public.participant_stories;
+create policy "published participant stories are public readable"
+on public.participant_stories for select
+using (status = 'published');
+
+drop policy if exists "admins can manage participant stories" on public.participant_stories;
+create policy "admins can manage participant stories"
+on public.participant_stories for all
 to authenticated
 using (public.current_profile_is_admin())
 with check (public.current_profile_is_admin());
@@ -444,6 +507,10 @@ insert into storage.buckets (id, name, public)
 values ('team-images', 'team-images', true)
 on conflict (id) do nothing;
 
+insert into storage.buckets (id, name, public)
+values ('content-images', 'content-images', true)
+on conflict (id) do nothing;
+
 drop policy if exists "event images are public readable" on storage.objects;
 create policy "event images are public readable"
 on storage.objects for select
@@ -479,3 +546,21 @@ on storage.objects for update
 to authenticated
 using (bucket_id = 'team-images' and public.current_profile_is_admin())
 with check (bucket_id = 'team-images' and public.current_profile_is_admin());
+
+drop policy if exists "content images are public readable" on storage.objects;
+create policy "content images are public readable"
+on storage.objects for select
+using (bucket_id = 'content-images');
+
+drop policy if exists "admins upload content images" on storage.objects;
+create policy "admins upload content images"
+on storage.objects for insert
+to authenticated
+with check (bucket_id = 'content-images' and public.current_profile_is_admin());
+
+drop policy if exists "admins update content images" on storage.objects;
+create policy "admins update content images"
+on storage.objects for update
+to authenticated
+using (bucket_id = 'content-images' and public.current_profile_is_admin())
+with check (bucket_id = 'content-images' and public.current_profile_is_admin());
