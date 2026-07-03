@@ -92,6 +92,15 @@
     display: block;
 }
 
+.partners-page-section {
+    width: min(94vw, 1500px);
+    margin: 0 auto;
+}
+
+.partners-page-section > h1 {
+    margin-bottom: 3rem;
+}
+
 .event-showcase-list {
     display: grid;
     gap: 2rem;
@@ -1668,6 +1677,34 @@
 
 .admin-list-row--profile {
     grid-template-columns: minmax(180px, 0.75fr) minmax(0, 1fr);
+}
+
+.admin-profile-row {
+    grid-template-columns: minmax(180px, 0.7fr) minmax(220px, 0.7fr) auto;
+}
+
+.admin-role-field {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.admin-role-field span {
+    color: var(--accent-color);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-role-field input {
+    width: 100%;
+    min-height: 2.5rem;
+    padding: 0.65rem 0.85rem;
+    border: var(--card-border);
+    border-radius: 0.85rem;
+    background: var(--surface-color);
+    color: var(--text-color);
+    font: inherit;
 }
 
 @media (max-width: 960px) {

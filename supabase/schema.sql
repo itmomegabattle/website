@@ -217,7 +217,8 @@ with check (bucket_id = 'profile-avatars');
 alter table public.profiles
   add column if not exists is_banned boolean not null default false,
   add column if not exists ban_reason text,
-  add column if not exists is_best_actor boolean not null default false;
+  add column if not exists is_best_actor boolean not null default false,
+  add column if not exists role_badge text;
 
 update public.profiles
 set is_admin = true
@@ -251,6 +252,7 @@ begin
       or old.is_banned is distinct from new.is_banned
       or old.ban_reason is distinct from new.ban_reason
       or old.is_best_actor is distinct from new.is_best_actor
+      or old.role_badge is distinct from new.role_badge
     )
   then
     raise exception 'Only admins can change moderation fields';

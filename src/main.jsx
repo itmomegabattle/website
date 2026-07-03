@@ -18,12 +18,12 @@ import { AuthProvider } from "./context/AuthContext";
 import AuthPage from "./pages/AuthPage";
 import AdminPage from "./pages/AdminPage";
 import EventsPage from "./pages/EventsPage";
-import ExternalPrPage from "./pages/ExternalPrPage";
 import FacultiesPage from "./pages/FacultiesPage";
 import HistoryPage from "./pages/HistoryPage";
 import HomePage from "./pages/HomePage";
 import NfcPage from "./pages/NfcPage";
 import PeoplePage from "./pages/PeoplePage";
+import PartnersPage from "./pages/PartnersPage";
 import PublicProfilePage from "./pages/PublicProfilePage";
 import RatingsPage from "./pages/RatingsPage";
 import "./styles/common.css";
@@ -61,7 +61,7 @@ const router = createBrowserRouter(
       <Route path="/people" element={<PeoplePage />} />
       <Route path="/faculties" element={<FacultiesPage />} />
       <Route path="/history" element={<HistoryPage />} />
-      <Route path="/partners" element={<ExternalPrPage />} />
+      <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<RatingsPage />} />
       <Route path="/admin" element={<AdminPage />} />

@@ -31,6 +31,7 @@ export default function SocialBioCard({ profile, actions, qrOnSocials = false })
       <div className="social-bio-content">
         <p className="social-bio-faculty">{profile.faculty || "ITMO Megabattle"}</p>
         <h1>{profile.nickname}</h1>
+        {profile.role_badge && <p className="social-bio-name">{profile.role_badge}</p>}
         {profile.full_name && <p className="social-bio-name">{profile.full_name}</p>}
         {shortBio && <p className="social-bio-text">{shortBio}</p>}
 

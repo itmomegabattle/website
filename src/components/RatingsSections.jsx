@@ -80,6 +80,7 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
         <div className="participant-profile-content">
           <p className="card-kicker">{profile?.faculty || "Megabattle"}</p>
           <h2>{profile?.nickname}</h2>
+          {profile?.role_badge && <p className="profile-real-name">{profile.role_badge}</p>}
           {profile?.full_name && <p className="profile-real-name">{profile.full_name}</p>}
           {profile?.bio && <p className="profile-bio">{profile.bio}</p>}
 

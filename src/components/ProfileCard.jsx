@@ -22,6 +22,8 @@ export default function ProfileCard({ profile, actions, compact = false }) {
         {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
         <div className="pill-row">
+          {profile.role_badge && <span className="pill">{profile.role_badge}</span>}
+          {profile.is_best_actor && !profile.role_badge && <span className="pill">Лучший актёр</span>}
           {profile.is_admin && <span className="pill">админ</span>}
           {profile.megaballs > 0 && <span className="pill">{profile.megaballs} мегабаллов</span>}
         </div>

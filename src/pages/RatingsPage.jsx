@@ -3,16 +3,19 @@ import {
   AuthenticatedRatingPanel,
   RatingsOverview,
 } from "../components/RatingsSections";
+import AdminCabinetPanel from "../components/AdminCabinetPanel";
 import AuthPanel from "../components/AuthPanel";
 import FriendshipGraph from "../components/FriendshipGraph";
 import NfcTagsPanel from "../components/NfcTagsPanel";
 import ProfileEditor from "../components/ProfileEditor";
 import SocialBioCard from "../components/SocialBioCard";
 import { useAuth } from "../context/AuthContext";
+import { isAdminProfile } from "../services/adminService";
 import "../styles/page-info.css";
 
 export default function RatingsPage() {
   const { isAuthenticated, profile, signOut } = useAuth();
+  const canAdmin = isAdminProfile(profile);
   const [activeModal, setActiveModal] = useState(null);
   const closeModal = () => setActiveModal(null);
 
@@ -62,6 +65,8 @@ export default function RatingsPage() {
         <RatingsOverview />
         <FriendshipGraph />
       </section>
+
+      {isAuthenticated && canAdmin && <AdminCabinetPanel />}
 
       {activeModal && (
         <div className="profile-modal-backdrop" role="presentation">
