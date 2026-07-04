@@ -3,6 +3,7 @@ import EventList from "../components/EventList";
 import heroVideo from "/hero-video.mp4";
 import heroVideoMobile from "/hero-video-mobile.mp4";
 import heroPoster from "/hero-poster.jpg";
+import heroPosterMobile from "/hero-poster-mobile.jpg";
 import aboutImg from "/images/about-image.png";
 import vkIcon from "/icons/vk.svg";
 import telegramIcon from "/icons/telegram.svg";
@@ -27,6 +28,7 @@ import {
 
 export default function HomePage() {
   const [theme, setTheme] = useState(Theme.get());
+  const [isMobileHero, setIsMobileHero] = useState(false);
   const isDarkTheme = theme === "dark";
   const contactSocials = [
     {
@@ -71,6 +73,14 @@ export default function HomePage() {
     return () => Theme.removeListener(setTheme);
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const updateHeroMode = () => setIsMobileHero(mediaQuery.matches);
+    updateHeroMode();
+    mediaQuery.addEventListener("change", updateHeroMode);
+    return () => mediaQuery.removeEventListener("change", updateHeroMode);
+  }, []);
+
   const mapSrc = `https://yandex.ru/map-widget/v1/org/itmo_university/1536000555/?ll=30.338712%2C59.926503&z=15${
     isDarkTheme ? "&theme=dark" : "&theme=light"
   }`;
@@ -80,7 +90,7 @@ export default function HomePage() {
       <main>
         <section className="hero" id="home">
           <div className="video-background">
-            <video autoPlay muted loop playsInline preload="metadata" poster={heroPoster}>
+            <video autoPlay muted loop playsInline preload="metadata" poster={isMobileHero ? heroPosterMobile : heroPoster}>
               <source src={heroVideoMobile} media="(max-width: 768px)" type="video/mp4" />
               <source src={heroVideo} type="video/mp4" />
             </video>

@@ -50,12 +50,6 @@
     text-shadow: 1px 1px 2px black;
 }
 
-@media (max-width: 450px) {
-    .hero-socials {
-        padding-top: calc(2 * var(--corner-radius) + 1rem);
-    }
-}
-
 .hero-socials img {
     width: 1.6rem;
     height: 1.6rem;
@@ -86,6 +80,42 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     color: white;
     text-shadow: 1px 1px 2px black;
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        align-self: end;
+        width: min(66vw, 270px);
+        max-width: calc(100vw - 2 * var(--screen-edge-padding));
+        box-sizing: border-box;
+        padding-bottom: clamp(1.2rem, 7svh, 4rem);
+    }
+
+    .hero-title {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-slogan {
+        max-width: 66vw;
+        margin-bottom: 0;
+        font-size: 1rem;
+        line-height: 1.35;
+    }
+
+    .hero-socials {
+        padding-top: calc(2 * var(--corner-radius) + 1rem);
+        font-size: 0.95rem;
+    }
+
+    .hero-socials span {
+        display: none;
+    }
+
+    .hero-socials img {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
 }
 
 /* About Section */
