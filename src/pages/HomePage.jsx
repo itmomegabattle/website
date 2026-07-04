@@ -93,7 +93,6 @@ export default function HomePage() {
           </div>
           <div className="hero-content">
             <Megabattle className="hero-title" />
-            <p className="hero-slogan">Не для всех, а для каждого</p>
           </div>
         </section>
 
