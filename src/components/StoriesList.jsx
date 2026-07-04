@@ -167,7 +167,6 @@ export default function StoriesList() {
   const [isPaused, setIsPaused] = useState(false);
   const [openedStory, setOpenedStory] = useState(null);
   const viewportRef = useRef(null);
-  const dragStartRef = useRef(null);
   const [pagesCount, setPagesCount] = useState(1);
   const progressMs = 22000;
 
@@ -204,26 +203,6 @@ export default function StoriesList() {
     setPage((current) => (current + direction + storyPages.length) % storyPages.length);
   };
 
-  const handlePointerDown = (event) => {
-    dragStartRef.current = {
-      x: event.clientX,
-      y: event.clientY,
-    };
-    setIsPaused(true);
-  };
-
-  const handlePointerUp = (event) => {
-    const start = dragStartRef.current;
-    dragStartRef.current = null;
-    if (!start) return;
-
-    const deltaX = event.clientX - start.x;
-    const deltaY = event.clientY - start.y;
-    if (Math.abs(deltaX) > 54 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
-      goToPage(deltaX < 0 ? 1 : -1);
-    }
-  };
-
   return (
     <>
       {canEdit && <StoryEditor fallbackStories={stories} />}
@@ -238,12 +217,7 @@ export default function StoriesList() {
         >
           <div
             className="stories-carousel-window"
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={() => {
-              dragStartRef.current = null;
-            }}
-            aria-label="Истории участников. Проведи влево или вправо, чтобы перелистнуть."
+            aria-label="Истории участников"
           >
             {storyPages.map((items, pageIndex) => (
               <div className={`stories-page${pageIndex === page ? " stories-page--active" : ""}`} key={`stories-page-${pageIndex}`}>
@@ -274,7 +248,14 @@ export default function StoriesList() {
               style={{ "--stories-progress-ms": `${progressMs}ms` }}
             />
           </div>
-          <p className="stories-carousel-hint">Наведи, чтобы поставить на паузу · свайпни, чтобы перелистнуть · нажми карточку, чтобы открыть</p>
+          <div className="stories-carousel-controls" aria-label="Управление историями">
+            <button type="button" onClick={() => goToPage(-1)} aria-label="Предыдущие истории">‹</button>
+            <button type="button" onClick={() => setIsPaused((value) => !value)}>
+              {isPaused ? "Продолжить" : "Пауза"}
+            </button>
+            <button type="button" onClick={() => goToPage(1)} aria-label="Следующие истории">›</button>
+          </div>
+          <p className="stories-carousel-hint">Наведи или нажми “Пауза”, чтобы остановить · нажми карточку, чтобы открыть</p>
         </div>
       )}
       {openedStory && (

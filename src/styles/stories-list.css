@@ -11,14 +11,8 @@
 .stories-carousel-window {
     position: relative;
     min-height: clamp(560px, 45vw, 680px);
-    cursor: grab;
     overflow: hidden;
     border-radius: calc(var(--corner-radius) * 1.1);
-    touch-action: pan-y;
-}
-
-.stories-carousel-window:active {
-    cursor: grabbing;
 }
 
 .stories-page {
@@ -157,6 +151,40 @@
 
 .stories-carousel--paused .stories-progress-fill {
     animation-play-state: paused;
+}
+
+.stories-carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    margin: 0.8rem auto 0;
+}
+
+.stories-carousel-controls button {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-color-special) 78%, transparent);
+    color: var(--text-color-special);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 900;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+}
+
+.stories-carousel-controls button:first-child,
+.stories-carousel-controls button:last-child {
+    font-family: Arial, sans-serif;
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.stories-carousel-controls button:hover {
+    border-color: color-mix(in srgb, var(--accent-color) 62%, var(--border-color));
+    color: var(--accent-color);
 }
 
 .stories-carousel-hint {
@@ -364,6 +392,15 @@
 
     .stories-carousel-hint {
         font-size: 0.72rem;
+    }
+
+    .stories-carousel-controls {
+        margin-top: 0.7rem;
+    }
+
+    .stories-carousel-controls button {
+        min-height: 2.55rem;
+        padding: 0 0.85rem;
     }
 
     .stories-admin-grid,
