@@ -77,8 +77,8 @@ body.preloader-lock {
     width: min(88vw, 60rem);
     padding: clamp(0.25rem, 1vw, 0.65rem);
     filter:
-        drop-shadow(0.045em 0.045em 0 rgba(139, 165, 255, 0.58))
-        drop-shadow(0 0 1.7rem rgba(139, 165, 255, 0.24))
+        drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0.54))
+        drop-shadow(0 0 0.9rem rgba(139, 165, 255, 0.16))
         drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.36));
     animation: preloader-logo-enter 0.9s cubic-bezier(.2, .9, .22, 1) both;
 }
@@ -87,6 +87,8 @@ body.preloader-lock {
     display: block;
     width: 100%;
     height: auto;
+    transform: translateZ(0);
+    shape-rendering: geometricPrecision;
 }
 
 .site-preloader__logo :is(path, rect, circle, polygon) {
@@ -94,41 +96,38 @@ body.preloader-lock {
 }
 
 .site-preloader__logo--base {
-    color: rgba(255, 255, 255, 0.62);
-    opacity: 0.98;
-    animation: preloader-base-breathe 5.6s ease-in-out infinite;
+    color: #ffffff;
+    opacity: 1;
 }
 
 .site-preloader__logo--light {
     position: absolute;
     inset: clamp(0.25rem, 1vw, 0.65rem);
     color: #ffffff;
-    opacity: 0.92;
-    filter:
-        drop-shadow(0 0 0.62rem rgba(255, 255, 255, 0.44))
-        drop-shadow(0 0 1.9rem rgba(139, 165, 255, 0.58));
+    opacity: 0.42;
+    filter: none;
     -webkit-mask-image: linear-gradient(
         105deg,
-        transparent 0 34%,
-        rgba(0, 0, 0, 0.08) 40%,
-        rgba(0, 0, 0, 0.42) 45%,
+        transparent 0 28%,
+        rgba(0, 0, 0, 0.06) 36%,
+        rgba(0, 0, 0, 0.24) 43%,
         #000 50%,
-        rgba(0, 0, 0, 0.42) 55%,
-        rgba(0, 0, 0, 0.08) 60%,
-        transparent 66% 100%
+        rgba(0, 0, 0, 0.24) 57%,
+        rgba(0, 0, 0, 0.06) 64%,
+        transparent 72% 100%
     );
     mask-image: linear-gradient(
         105deg,
-        transparent 0 34%,
-        rgba(0, 0, 0, 0.08) 40%,
-        rgba(0, 0, 0, 0.42) 45%,
+        transparent 0 28%,
+        rgba(0, 0, 0, 0.06) 36%,
+        rgba(0, 0, 0, 0.24) 43%,
         #000 50%,
-        rgba(0, 0, 0, 0.42) 55%,
-        rgba(0, 0, 0, 0.08) 60%,
-        transparent 66% 100%
+        rgba(0, 0, 0, 0.24) 57%,
+        rgba(0, 0, 0, 0.06) 64%,
+        transparent 72% 100%
     );
-    -webkit-mask-size: 260% 100%;
-    mask-size: 260% 100%;
+    -webkit-mask-size: 300% 100%;
+    mask-size: 300% 100%;
     -webkit-mask-position: 135% 0;
     mask-position: 135% 0;
     animation: preloader-letter-light 5.6s cubic-bezier(.5, .04, .16, 1) infinite;
@@ -177,18 +176,6 @@ body.preloader-lock {
     }
 }
 
-@keyframes preloader-base-breathe {
-    0%,
-    18%,
-    100% {
-        color: rgba(255, 255, 255, 0.58);
-    }
-    42%,
-    68% {
-        color: rgba(255, 255, 255, 0.68);
-    }
-}
-
 @keyframes preloader-letter-light {
     0%,
     12% {
@@ -197,10 +184,10 @@ body.preloader-lock {
         mask-position: 135% 0;
     }
     30% {
-        opacity: 0.88;
+        opacity: 0.50;
     }
     62% {
-        opacity: 0.76;
+        opacity: 0.34;
     }
     86%,
     100% {
@@ -232,8 +219,8 @@ body.preloader-lock {
     .site-preloader__logo-wrap {
         width: min(86vw, 25rem);
         filter:
-            drop-shadow(0.04em 0.04em 0 rgba(139, 165, 255, 0.54))
-            drop-shadow(0 0 1.15rem rgba(139, 165, 255, 0.18))
+            drop-shadow(0.03em 0.03em 0 rgba(139, 165, 255, 0.50))
+            drop-shadow(0 0 0.8rem rgba(139, 165, 255, 0.14))
             drop-shadow(0 1rem 2rem rgba(0, 0, 0, 0.34));
     }
 }
@@ -253,7 +240,6 @@ body.preloader-lock {
     .site-preloader,
     .site-preloader::before,
     .site-preloader__logo-wrap,
-    .site-preloader__logo--base,
     .site-preloader__logo--light {
         animation: none !important;
     }
