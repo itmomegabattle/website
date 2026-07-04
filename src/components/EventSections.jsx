@@ -13,11 +13,11 @@ import {
 const eventGroups = [
   {
     id: "megabattle",
-    title: "МЕРОПРИЯТИЯ ITMO MEGABATTLE",
+    title: "MEGABATTLE",
   },
   {
     id: "partners",
-    title: "МЕРОПРИЯТИЯ ПАРТНЁРОВ",
+    title: "ПАРТНЁРЫ",
   },
 ];
 

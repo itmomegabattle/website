@@ -107,7 +107,7 @@ export default function HomePage() {
         </section>
 
         <section id="about" className="about main-width">
-          <h1>О&nbsp;ПРОЕКТЕ</h1>
+          <h1>ПРОЕКТ</h1>
           <div className="about-content">
             <img
               src={aboutImg}
@@ -146,7 +146,7 @@ export default function HomePage() {
         </section>
 
         <section id="events" className="events main-width">
-          <h1>БЛИЖАЙШИЕ СОБЫТИЯ</h1>
+          <h1>СОБЫТИЯ</h1>
           <EventList startDate="november 2025" />
         </section>
 

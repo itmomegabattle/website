@@ -17,7 +17,7 @@ export default function PeoplePage() {
       </section>
 
       <section id="stories" className="stories">
-        <h1>ИСТОРИИ УЧАСТНИКОВ</h1>
+        <h1>ИСТОРИИ</h1>
         <StoriesList />
       </section>
     </main>

@@ -9,6 +9,12 @@
     padding-bottom: 6rem;
 }
 
+.page-title-section {
+    display: grid;
+    min-height: 36vh;
+    align-content: end;
+}
+
 .structured-page > .main-width > h1,
 .structured-page > .partners > h1,
 .events-section > h1 {

@@ -23,9 +23,6 @@ export default function FacultyHistory() {
             />
           </div>
           <div className="faculty-history-content">
-            <p className="card-kicker">{faculty.name}</p>
-            <h2>{faculty.history.title}</h2>
-            <p>{faculty.history.text}</p>
           </div>
         </article>
       ))}
