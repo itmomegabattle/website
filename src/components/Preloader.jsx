@@ -46,16 +46,12 @@ export default function Preloader() {
 
   return (
     <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
-      <div className="site-preloader__halo" />
-      <div className="site-preloader__beam" />
       <div className="site-preloader__content">
         <div className="site-preloader__logo-wrap" aria-hidden="true">
-          <Megabattle className="site-preloader__logo" />
+          <Megabattle className="site-preloader__logo site-preloader__logo--base" />
+          <Megabattle className="site-preloader__logo site-preloader__logo--light" />
         </div>
         <span className="site-preloader__sr">ITMO MEGABATTLE</span>
-        <div className="site-preloader__line">
-          <span />
-        </div>
       </div>
     </div>
   );
