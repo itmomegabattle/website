@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
+import Megabattle from "./Megabattle";
 import "../styles/preloader.css";
-
-const LETTERS = "ITMO MEGABATTLE".split("");
 
 export default function Preloader() {
   const [isLeaving, setIsLeaving] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
-    const minVisibleMs = 1850;
-    const fadeMs = 620;
+    const minVisibleMs = 3000;
+    const fadeMs = 760;
     const startedAt = performance.now();
     let fadeTimer;
     let hideTimer;
@@ -50,18 +49,11 @@ export default function Preloader() {
       <div className="site-preloader__halo" />
       <div className="site-preloader__beam" />
       <div className="site-preloader__content">
-        <p className="site-preloader__eyebrow">loading</p>
-        <div className="site-preloader__title" aria-hidden="true">
-          {LETTERS.map((letter, index) => (
-            <span
-              className={letter === " " ? "site-preloader__space" : ""}
-              style={{ "--letter-index": index }}
-              key={`${letter}-${index}`}
-            >
-              {letter === " " ? "\u00a0" : letter}
-            </span>
-          ))}
+        <div className="site-preloader__logo-wrap" aria-hidden="true">
+          <Megabattle className="site-preloader__logo" />
+          <div className="site-preloader__logo-shine" />
         </div>
+        <p className="site-preloader__season">2025 / 2026</p>
         <span className="site-preloader__sr">ITMO MEGABATTLE</span>
         <div className="site-preloader__line">
           <span />
