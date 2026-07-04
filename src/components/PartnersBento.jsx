@@ -160,7 +160,7 @@ export default function PartnersBento() {
         {visiblePartners.map((partner, index) => (
           <a
             key={partner.id || partner.sourceKey || partner.partnerKey || `${partner.name}-${index}`}
-            className={`partner-bento-card partner-bento-card--${index % 6}`}
+            className={`partner-bento-card partner-bento-card--${index % 5}`}
             href={partner.link || undefined}
             target={partner.link ? "_blank" : undefined}
             rel={partner.link ? "noreferrer" : undefined}

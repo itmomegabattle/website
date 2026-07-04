@@ -10,7 +10,7 @@
 
 .stories-carousel-window {
     position: relative;
-    min-height: clamp(430px, 38vw, 540px);
+    min-height: clamp(560px, 45vw, 680px);
     cursor: pointer;
     overflow: hidden;
     border-radius: calc(var(--corner-radius) * 1.1);
@@ -19,9 +19,9 @@
 .stories-page {
     position: absolute;
     inset: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: clamp(0.7rem, 1.2vw, 1rem);
+    display: flex;
+    justify-content: center;
+    gap: 0;
     align-items: stretch;
     opacity: 0;
     pointer-events: none;
@@ -36,6 +36,7 @@
 }
 
 .story-card {
+    flex: 0 0 clamp(200px, 40vw, 300px);
     background-color: var(--surface-color-special);
     color: var(--text-color-special);
     border-radius: var(--corner-radius);;
@@ -50,9 +51,7 @@
     transition: all 0.3s ease;
     box-shadow: var(--card-shadow);
     border: var(--card-border);
-    min-width: 0;
-    min-height: 100%;
-    margin: 0;
+    margin: 1.2em min(1vw, 30px) 2em;
 }
 
 .story-card[data-tag="0"] { --tag-color: #142A68; }
@@ -263,19 +262,7 @@
 
 @media (max-width: 900px) {
     .stories-carousel-window {
-        min-height: 480px;
-    }
-
-    .stories-page {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-
-    .story-card {
-        padding: 1rem;
-    }
-
-    .story-name {
-        font-size: 1.05rem;
+        min-height: 580px;
     }
 
     .story-description {

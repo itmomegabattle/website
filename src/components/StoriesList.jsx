@@ -170,7 +170,7 @@ export default function StoriesList() {
 
   const storyPages = useMemo(() => {
     const width = viewportRef.current?.clientWidth || window.innerWidth || 1200;
-    const perPage = Math.max(1, Math.floor(width / 260));
+    const perPage = width >= 1320 ? 5 : width >= 980 ? 4 : width >= 700 ? 3 : width >= 460 ? 2 : 1;
     const pages = [];
     for (let index = 0; index < stories.length; index += perPage) {
       pages.push(stories.slice(index, index + perPage));
@@ -206,32 +206,34 @@ export default function StoriesList() {
   return (
     <>
       {canEdit && <StoryEditor fallbackStories={stories} />}
-      <div className="stories-carousel" ref={viewportRef}>
-        <div className="stories-carousel-window" onClick={handleManualPage} role="button" tabIndex="0" aria-label="Перелистнуть истории">
-          {storyPages.map((items, pageIndex) => (
-            <div className={`stories-page${pageIndex === page ? " stories-page--active" : ""}`} key={`stories-page-${pageIndex}`}>
-              {items.map((story, idx) => (
-                <div className="story-card" key={story.key ?? `${story.name}-${idx}`} data-tag={idx % 3}>
-                  <div className="story-image-container">
-                    <img src={Api.normalizeURL(story.image)} alt={story.name} className="story-image" />
+      {!stories.length ? null : (
+        <div className="stories-carousel" ref={viewportRef}>
+          <div className="stories-carousel-window" onClick={handleManualPage} role="button" tabIndex="0" aria-label="Перелистнуть истории">
+            {storyPages.map((items, pageIndex) => (
+              <div className={`stories-page${pageIndex === page ? " stories-page--active" : ""}`} key={`stories-page-${pageIndex}`}>
+                {items.map((story, idx) => (
+                  <div className="story-card" key={story.key ?? `${story.name}-${idx}`} data-tag={idx % 3}>
+                    <div className="story-image-container">
+                      <img src={Api.normalizeURL(story.image)} alt={story.name} className="story-image" />
+                    </div>
+                    <h3 className="story-name">{story.name}</h3>
+                    <p className="story-faculty">{story.faculty}</p>
+                    <p className="story-description">{story.description}</p>
+                    <p className="story-date">{story.date}</p>
                   </div>
-                  <h3 className="story-name">{story.name}</h3>
-                  <p className="story-faculty">{story.faculty}</p>
-                  <p className="story-description">{story.description}</p>
-                  <p className="story-date">{story.date}</p>
-                </div>
-              ))}
-            </div>
-          ))}
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="stories-progress-track" aria-hidden="true">
+            <span
+              className="stories-progress-fill"
+              key={page}
+              style={{ "--stories-progress-ms": `${progressMs}ms` }}
+            />
+          </div>
         </div>
-        <div className="stories-progress-track" aria-hidden="true">
-          <span
-            className="stories-progress-fill"
-            key={page}
-            style={{ "--stories-progress-ms": `${progressMs}ms` }}
-          />
-        </div>
-      </div>
+      )}
     </>
   );
 }
