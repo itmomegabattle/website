@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Megabattle from "./Megabattle";
 import "../styles/preloader.css";
 
 export default function Preloader() {
@@ -50,10 +49,14 @@ export default function Preloader() {
       <div className="site-preloader__beam" />
       <div className="site-preloader__content">
         <div className="site-preloader__logo-wrap" aria-hidden="true">
-          <Megabattle className="site-preloader__logo" />
-          <div className="site-preloader__logo-shine" />
+          <div className="site-preloader__brand-mark">
+            <span>ITMO</span>
+            <span>MEGA</span>
+            <span>BATTLE</span>
+            <i className="site-preloader__brand-orbit site-preloader__brand-orbit--top" />
+            <i className="site-preloader__brand-orbit site-preloader__brand-orbit--bottom" />
+          </div>
         </div>
-        <p className="site-preloader__season">2025 / 2026</p>
         <span className="site-preloader__sr">ITMO MEGABATTLE</span>
         <div className="site-preloader__line">
           <span />
