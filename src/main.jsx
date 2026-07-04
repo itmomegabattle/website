@@ -14,6 +14,7 @@ import { Api } from "./api";
 import Background from "./components/Background";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Preloader from "./components/Preloader";
 import { AuthProvider } from "./context/AuthContext";
 import AuthPage from "./pages/AuthPage";
 import AdminPage from "./pages/AdminPage";
@@ -42,6 +43,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <div className={pageClassName}>
+          <Preloader />
           <Header />
           <Background />
           <Outlet />

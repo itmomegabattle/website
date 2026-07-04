@@ -1,0 +1,303 @@
+body.preloader-lock {
+    overflow: hidden;
+}
+
+.site-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    color: #f7f8ff;
+    background:
+        radial-gradient(circle at 50% 43%, rgba(139, 165, 255, 0.24), transparent 24rem),
+        radial-gradient(circle at 80% 15%, rgba(75, 107, 251, 0.18), transparent 20rem),
+        linear-gradient(135deg, #08090d 0%, #131313 45%, #05060a 100%);
+    opacity: 1;
+    transform: scale(1);
+    transition:
+        opacity 0.62s ease,
+        visibility 0.62s ease,
+        transform 0.62s ease;
+}
+
+.site-preloader::before {
+    content: "";
+    position: absolute;
+    inset: -18%;
+    background-image:
+        linear-gradient(115deg, transparent 0 42%, rgba(139, 165, 255, 0.16) 47%, transparent 54%),
+        repeating-linear-gradient(
+            170deg,
+            rgba(139, 165, 255, 0.18) 0 2px,
+            transparent 2px 56px
+        );
+    opacity: 0.48;
+    transform: translate3d(-4%, -2%, 0) rotate(-2deg);
+    animation: preloader-bg-flow 5.8s ease-in-out infinite alternate;
+}
+
+.site-preloader::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.04)),
+        radial-gradient(circle at center, transparent 0 36%, rgba(0, 0, 0, 0.42) 76%);
+    pointer-events: none;
+}
+
+.site-preloader--leaving {
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(1.025);
+}
+
+.site-preloader__halo {
+    position: absolute;
+    width: min(72vw, 52rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, rgba(139, 165, 255, 0.22) 0 2%, transparent 58%),
+        conic-gradient(from 150deg, transparent, rgba(139, 165, 255, 0.24), transparent 34%, rgba(255, 255, 255, 0.12), transparent 68%);
+    filter: blur(10px);
+    opacity: 0.9;
+    animation: preloader-halo 7s linear infinite;
+}
+
+.site-preloader__beam {
+    position: absolute;
+    top: -28%;
+    left: 50%;
+    width: min(22vw, 18rem);
+    height: 160%;
+    background: linear-gradient(
+        98deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.04) 28%,
+        rgba(255, 255, 255, 0.36) 48%,
+        rgba(139, 165, 255, 0.34) 54%,
+        transparent 76%
+    );
+    filter: blur(18px);
+    mix-blend-mode: screen;
+    transform: translateX(-175%) rotate(17deg);
+    animation: preloader-light-sweep 2.65s cubic-bezier(.55, .02, .24, 1) infinite;
+}
+
+.site-preloader__content {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 78rem);
+    display: grid;
+    justify-items: center;
+    gap: clamp(0.75rem, 2vw, 1.4rem);
+    padding: clamp(2rem, 7vw, 4.5rem);
+    text-align: center;
+}
+
+.site-preloader__eyebrow {
+    margin: 0;
+    color: #8ba5ff;
+    font-family: var(--heading-font);
+    font-size: clamp(0.64rem, 1.25vw, 0.95rem);
+    letter-spacing: 0.58em;
+    text-transform: uppercase;
+    opacity: 0.82;
+    animation: preloader-pulse 1.8s ease-in-out infinite;
+}
+
+.site-preloader__title {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.08em;
+    font-family: var(--heading-font);
+    font-size: clamp(2.15rem, 9.4vw, 8.9rem);
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+    text-transform: uppercase;
+    text-shadow:
+        0.045em 0.045em 0 rgba(139, 165, 255, 0.72),
+        0 0 1.4rem rgba(139, 165, 255, 0.28),
+        0 0 4.2rem rgba(75, 107, 251, 0.34);
+}
+
+.site-preloader__title::before {
+    content: "ITMO MEGABATTLE";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        105deg,
+        transparent 0 34%,
+        rgba(255, 255, 255, 0.95) 45%,
+        #8ba5ff 50%,
+        rgba(255, 255, 255, 0.9) 55%,
+        transparent 66% 100%
+    );
+    background-size: 240% 100%;
+    background-position: 135% 0;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    filter: drop-shadow(0 0 1.2rem rgba(139, 165, 255, 0.72));
+    pointer-events: none;
+    animation: preloader-title-light 2.65s cubic-bezier(.55, .02, .24, 1) infinite;
+}
+
+.site-preloader__title span {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.92);
+    transform-origin: 50% 80%;
+    animation: preloader-letter-rise 0.78s cubic-bezier(.2, .9, .22, 1) both;
+    animation-delay: calc(var(--letter-index) * 0.035s);
+}
+
+.site-preloader__space {
+    width: 0.24em;
+}
+
+.site-preloader__line {
+    width: min(18rem, 52vw);
+    height: 3px;
+    margin-top: 0.35rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 1rem rgba(139, 165, 255, 0.22);
+}
+
+.site-preloader__line span {
+    display: block;
+    width: 42%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent, #8ba5ff, #ffffff, transparent);
+    animation: preloader-line 1.15s ease-in-out infinite;
+}
+
+.site-preloader__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+@keyframes preloader-letter-rise {
+    from {
+        opacity: 0;
+        transform: translateY(0.28em) rotateX(55deg);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+        filter: blur(0);
+    }
+}
+
+@keyframes preloader-title-light {
+    0%,
+    14% {
+        background-position: 135% 0;
+        opacity: 0;
+    }
+    34%,
+    66% {
+        opacity: 1;
+    }
+    86%,
+    100% {
+        background-position: -120% 0;
+        opacity: 0;
+    }
+}
+
+@keyframes preloader-light-sweep {
+    0%,
+    12% {
+        transform: translateX(-175%) rotate(17deg);
+        opacity: 0;
+    }
+    34% {
+        opacity: 1;
+    }
+    76%,
+    100% {
+        transform: translateX(90%) rotate(17deg);
+        opacity: 0;
+    }
+}
+
+@keyframes preloader-line {
+    from {
+        transform: translateX(-110%);
+    }
+    to {
+        transform: translateX(255%);
+    }
+}
+
+@keyframes preloader-halo {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes preloader-bg-flow {
+    from {
+        transform: translate3d(-4%, -2%, 0) rotate(-2deg);
+    }
+    to {
+        transform: translate3d(4%, 2%, 0) rotate(2deg);
+    }
+}
+
+@keyframes preloader-pulse {
+    0%,
+    100% {
+        opacity: 0.56;
+    }
+    50% {
+        opacity: 0.95;
+    }
+}
+
+@media (max-width: 680px) {
+    .site-preloader__title {
+        max-width: 11.5em;
+        letter-spacing: -0.06em;
+    }
+
+    .site-preloader__title::before {
+        content: "ITMO MEGABATTLE";
+    }
+
+    .site-preloader__eyebrow {
+        letter-spacing: 0.42em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-preloader,
+    .site-preloader::before,
+    .site-preloader__halo,
+    .site-preloader__beam,
+    .site-preloader__eyebrow,
+    .site-preloader__title::before,
+    .site-preloader__title span,
+    .site-preloader__line span {
+        animation: none !important;
+    }
+
+    .site-preloader__title span {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
