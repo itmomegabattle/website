@@ -25,8 +25,8 @@
     align-items: stretch;
     opacity: 0;
     pointer-events: none;
-    transform: translateX(3%);
-    transition: opacity 0.45s ease, transform 0.45s ease;
+    transform: translateX(0);
+    transition: opacity 0.45s ease;
 }
 
 .stories-page--active {
@@ -130,7 +130,8 @@
 
 .stories-progress-track {
     height: 0.45rem;
-    margin-top: 1rem;
+    width: min(42vw, 520px);
+    margin: 1rem auto 0;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
     border-radius: 999px;

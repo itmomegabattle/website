@@ -166,11 +166,11 @@ export default function StoriesList() {
   const [page, setPage] = useState(0);
   const viewportRef = useRef(null);
   const [pagesCount, setPagesCount] = useState(1);
-  const progressMs = 7200;
+  const progressMs = 12000;
 
   const storyPages = useMemo(() => {
     const width = viewportRef.current?.clientWidth || window.innerWidth || 1200;
-    const perPage = width >= 1320 ? 5 : width >= 980 ? 4 : width >= 700 ? 3 : width >= 460 ? 2 : 1;
+    const perPage = width >= 1780 ? 5 : width >= 1120 ? 4 : width >= 780 ? 3 : width >= 520 ? 2 : 1;
     const pages = [];
     for (let index = 0; index < stories.length; index += perPage) {
       pages.push(stories.slice(index, index + perPage));
