@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import SocialBioCard from "../components/SocialBioCard";
 import { useAuth } from "../context/AuthContext";
+import { isAdminProfile } from "../services/adminService";
 import { addFriendship, getProfileById, logProfileView } from "../services/profileService";
 import "../styles/page-info.css";
 
@@ -58,6 +59,7 @@ export default function PublicProfilePage() {
       Войти, чтобы добавить знакомство
     </Link>
   ) : null;
+  const isBannedForViewer = profile?.is_banned && !isAdminProfile(ownProfile);
 
   return (
     <main className="info-page structured-page">
@@ -67,7 +69,12 @@ export default function PublicProfilePage() {
       </section>
 
       <section className="main-width">
-        {profile ? (
+        {isBannedForViewer ? (
+          <article className="info-card">
+            <h2>Профиль заблокирован</h2>
+            <p>Админ временно выключил публичную визитку этого участника.</p>
+          </article>
+        ) : profile ? (
           <SocialBioCard
             profile={profile}
             actions={actions}

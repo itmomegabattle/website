@@ -52,6 +52,18 @@ function isUuid(value) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(value || ""));
 }
 
+function getEventSortTime(event) {
+  const rawDate = event.event_date_label || event.date || "";
+  const isoMatch = String(rawDate).match(/(\d{4})[-.](\d{1,2})[-.](\d{1,2})/);
+  const ruMatch = String(rawDate).match(/(\d{1,2})[.\-/](\d{1,2})(?:[.\-/](\d{2,4}))?/);
+  if (isoMatch) return new Date(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3])).getTime();
+  if (ruMatch) {
+    const year = ruMatch[3] ? Number(String(ruMatch[3]).padStart(4, "20")) : 2026;
+    return new Date(year, Number(ruMatch[2]) - 1, Number(ruMatch[1])).getTime();
+  }
+  return Number.MAX_SAFE_INTEGER - Number(event.sort_order || 0);
+}
+
 function mapEventToForm(event, groupId) {
   const dbId = event.dbId || event.uuid || (isUuid(event.id) ? event.id : "");
   return {
@@ -76,7 +88,7 @@ function mapEventToForm(event, groupId) {
   };
 }
 
-function EventCard({ event, canEdit, onEdit }) {
+function EventCard({ event }) {
   const hasRegistration = event.registration?.status === "open" && event.registration.link;
 
   return (
@@ -128,11 +140,6 @@ function EventCard({ event, canEdit, onEdit }) {
           </span>
         )}
 
-        {canEdit && (
-          <button className="event-inline-edit" type="button" onClick={() => onEdit(event)}>
-            Изменить событие
-          </button>
-        )}
       </div>
     </article>
   );
@@ -195,13 +202,11 @@ function InlineEventEditor({ groupId, selectedEvent, onClose }) {
 
       <div className="event-inline-editor-grid">
         <label className="form-field"><span>Название</span><input name="name" value={form.name} onChange={updateField} required /></label>
-        <label className="form-field"><span>Slug</span><input name="slug" value={form.slug} onChange={updateField} required /></label>
         <label className="form-field"><span>Статус</span><select name="status" value={form.status} onChange={updateField}><option value="draft">Черновик</option><option value="published">Опубликовано</option><option value="archived">Архив</option></select></label>
         <label className="form-field"><span>Тип</span><input name="type" value={form.type || ""} onChange={updateField} /></label>
         <label className="form-field"><span>Дата</span><input name="event_date_label" value={form.event_date_label || ""} onChange={updateField} /></label>
         <label className="form-field"><span>Время</span><input name="event_time_label" value={form.event_time_label || ""} onChange={updateField} /></label>
         <label className="form-field"><span>Место</span><input name="location" value={form.location || ""} onChange={updateField} /></label>
-        <label className="form-field"><span>Сортировка</span><input name="sort_order" type="number" value={form.sort_order} onChange={updateField} /></label>
       </div>
 
       <label className="form-field"><span>Описание</span><textarea name="description" rows="4" value={form.description || ""} onChange={updateField} /></label>
@@ -209,7 +214,6 @@ function InlineEventEditor({ groupId, selectedEvent, onClose }) {
 
       <div className="event-inline-editor-grid">
         <label className="form-field"><span>Фото</span><input type="file" accept="image/*" onChange={handleImage} /></label>
-        <label className="form-field"><span>URL фото</span><input name="image_url" value={form.image_url || ""} onChange={updateField} /></label>
         <label className="form-field"><span>Регистрация</span><select name="registration_status" value={form.registration_status} onChange={updateField}><option value="open">Открыта</option><option value="soon">Скоро</option><option value="closed">Закрыта</option></select></label>
         <label className="form-field"><span>Текст кнопки</span><input name="registration_label" value={form.registration_label || ""} onChange={updateField} /></label>
         <label className="form-field"><span>Ссылка регистрации</span><input name="registration_link" value={form.registration_link || ""} onChange={updateField} /></label>
@@ -249,7 +253,9 @@ export default function EventSections() {
   });
 
   return eventGroups.map((group) => {
-    const groupEvents = events.filter((event) => event.group === group.id);
+    const groupEvents = events
+      .filter((event) => event.group === group.id)
+      .sort((first, second) => getEventSortTime(first) - getEventSortTime(second));
     const groupAdminEvents = adminEvents.filter((event) => event.group_key === group.id);
 
     return (
@@ -279,7 +285,7 @@ export default function EventSections() {
         )}
         <div className="event-showcase-list">
           {groupEvents.map((event) => (
-            <EventCard event={event} canEdit={canEdit} onEdit={(item) => setEditor({ groupId: group.id, event: item })} key={event.id} />
+            <EventCard event={event} key={event.id} />
           ))}
         </div>
       </section>

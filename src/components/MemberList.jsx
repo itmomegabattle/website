@@ -107,10 +107,7 @@ function TeamAdminEditor({ section, fallbackMembers }) {
 
   const updateField = (event) => {
     const { name, value } = event.target;
-    setForm((current) => ({
-      ...current,
-      [name]: name === "sort_order" ? Number(value) : value,
-    }));
+    setForm((current) => ({ ...current, [name]: value }));
   };
 
   const handleImage = async (event, field) => {
@@ -173,14 +170,6 @@ function TeamAdminEditor({ section, fallbackMembers }) {
                   <span>Роль в карточке</span>
                   <input name="role" value={form.role || ""} onChange={updateField} />
                 </label>
-                <label className="form-field">
-                  <span>Ключ</span>
-                  <input name="source_key" value={form.source_key || ""} onChange={updateField} />
-                </label>
-                <label className="form-field">
-                  <span>Сортировка</span>
-                  <input name="sort_order" type="number" value={form.sort_order} onChange={updateField} />
-                </label>
               </div>
 
               <label className="form-field">
@@ -203,15 +192,6 @@ function TeamAdminEditor({ section, fallbackMembers }) {
                   <input type="file" accept="image/*" onChange={(event) => handleImage(event, "big_image_url")} />
                 </label>
               </div>
-
-              <label className="form-field">
-                <span>URL маленького фото</span>
-                <input name="small_image_url" value={form.small_image_url || ""} onChange={updateField} />
-              </label>
-              <label className="form-field">
-                <span>URL большого фото</span>
-                <input name="big_image_url" value={form.big_image_url || ""} onChange={updateField} />
-              </label>
 
               {saveMutation.error && <p className="form-error">{saveMutation.error.message}</p>}
               {deleteMutation.error && <p className="form-error">{deleteMutation.error.message}</p>}

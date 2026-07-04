@@ -3,8 +3,39 @@
 
 
 /* Stories Section */
+.stories-carousel {
+    width: min(94vw, 1560px);
+    margin: 0 auto;
+}
+
+.stories-carousel-window {
+    position: relative;
+    min-height: clamp(430px, 38vw, 540px);
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: calc(var(--corner-radius) * 1.1);
+}
+
+.stories-page {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(0.7rem, 1.2vw, 1rem);
+    align-items: stretch;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(3%);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.stories-page--active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
 .story-card {
-    flex: 0 0 clamp(200px, 40vw, 300px);
     background-color: var(--surface-color-special);
     color: var(--text-color-special);
     border-radius: var(--corner-radius);;
@@ -19,7 +50,9 @@
     transition: all 0.3s ease;
     box-shadow: var(--card-shadow);
     border: var(--card-border);
-    margin: 1.2em min(1vw, 30px) 2em;
+    min-width: 0;
+    min-height: 100%;
+    margin: 0;
 }
 
 .story-card[data-tag="0"] { --tag-color: #142A68; }
@@ -96,6 +129,30 @@
     opacity: 0.6;
 }
 
+.stories-progress-track {
+    height: 0.45rem;
+    margin-top: 1rem;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-color-special) 76%, transparent);
+}
+
+.stories-progress-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 45%, #ffffff));
+    transform-origin: left center;
+    animation: stories-progress var(--stories-progress-ms, 7200ms) linear forwards;
+}
+
+@keyframes stories-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
 .stories-admin {
     width: min(94vw, 1320px);
     margin: 0 auto 1.5rem;
@@ -158,6 +215,9 @@
 .stories-admin-list {
     display: grid;
     gap: 0.75rem;
+    max-height: min(68vh, 720px);
+    overflow: auto;
+    padding-right: 0.25rem;
 }
 
 .stories-admin-form-grid {
@@ -202,6 +262,29 @@
 }
 
 @media (max-width: 900px) {
+    .stories-carousel-window {
+        min-height: 480px;
+    }
+
+    .stories-page {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .story-card {
+        padding: 1rem;
+    }
+
+    .story-name {
+        font-size: 1.05rem;
+    }
+
+    .story-description {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+    }
+
     .stories-admin-grid,
     .stories-admin-form-grid,
     .stories-admin-row {

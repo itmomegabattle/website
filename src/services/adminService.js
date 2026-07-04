@@ -22,6 +22,18 @@ export async function logAdminAction(profile, action, entityType, entityId, payl
     payload,
   });
   if (error) throw error;
+  trimAdminAuditLogs().catch(() => {});
+}
+
+async function trimAdminAuditLogs(limit = 50) {
+  const { data, error } = await supabase
+    .from("admin_audit_logs")
+    .select("id")
+    .order("created_at", { ascending: false })
+    .range(limit, limit + 250);
+
+  if (error || !data?.length) return;
+  await supabase.from("admin_audit_logs").delete().in("id", data.map((item) => item.id));
 }
 
 export async function getAdminEvents() {
@@ -76,9 +88,32 @@ export async function getAdminProfiles() {
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
+    .order("nickname", { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function getAdminNfcTags() {
+  requireSupabase();
+  const { data, error } = await supabase
+    .from("nfc_tags")
+    .select("*, profile:profiles(id,nickname,isu_number,faculty,is_banned)")
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data || [];
+}
+
+export async function updateAdminNfcTag(tagId, values, actorProfile) {
+  requireSupabase();
+  const { data, error } = await supabase
+    .from("nfc_tags")
+    .update(values)
+    .eq("id", tagId)
+    .select("*, profile:profiles(id,nickname,isu_number,faculty,is_banned)")
+    .single();
+  if (error) throw error;
+  await logAdminAction(actorProfile, "tag.update", "nfc_tags", tagId, values);
+  return data;
 }
 
 export async function updateAdminProfile(profileId, values, actorProfile) {
@@ -140,7 +175,7 @@ export async function getAdminAuditLogs() {
     .from("admin_audit_logs")
     .select("*, actor:profiles(nickname,isu_number)")
     .order("created_at", { ascending: false })
-    .limit(40);
+    .limit(50);
   if (error) throw error;
   return data || [];
 }

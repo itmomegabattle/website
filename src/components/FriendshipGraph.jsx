@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { getFriendshipGraph } from "../services/profileService";
 
 const facultyNames = ["КТУ", "ТИНТ", "НОЖ", "ФТМФ", "ФТМИ"];
@@ -78,6 +79,7 @@ function makeGraph(edges) {
       if (!person?.nickname || nodeMap.has(person.nickname)) return;
       nodeMap.set(person.nickname, {
         id: person.nickname,
+        profileId: person.id,
         label: person.nickname,
         faculty: person.faculty || "Megabattle",
       });
@@ -217,6 +219,7 @@ function makeGraph(edges) {
 }
 
 export default function FriendshipGraph() {
+  const navigate = useNavigate();
   const canvasRef = useRef(null);
   const dragStartRef = useRef(null);
   const pointerMovedRef = useRef(false);
@@ -462,7 +465,14 @@ export default function FriendshipGraph() {
       closestDistance = distance;
     });
 
-    setSelectedNodeId((current) => (closestNode?.id && closestNode.id !== current ? closestNode.id : null));
+    setSelectedNodeId((current) => {
+      if (!closestNode?.id) return null;
+      if (closestNode.id === current && closestNode.profileId) {
+        navigate(`/u/${closestNode.profileId}`);
+        return current;
+      }
+      return closestNode.id;
+    });
   };
 
   return (

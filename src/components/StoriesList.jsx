@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Api } from "../api";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
@@ -11,10 +11,9 @@ import {
   upsertStory,
 } from "../services/contentService";
 import "../styles/stories-list.css";
-import VisibleScroll from "./VisibleScroll";
 
 const emptyStory = {
-  status: "draft",
+  status: "published",
   source_key: "",
   name: "",
   faculty: "",
@@ -75,7 +74,7 @@ function StoryEditor({ fallbackStories }) {
 
   const updateField = (event) => {
     const { name, value } = event.target;
-    setForm((current) => ({ ...current, [name]: name === "sort_order" ? Number(value) : value }));
+    setForm((current) => ({ ...current, [name]: value }));
   };
 
   const handleImage = async (event) => {
@@ -120,13 +119,10 @@ function StoryEditor({ fallbackStories }) {
                 <label className="form-field"><span>Статус</span><select name="status" value={form.status} onChange={updateField}><option value="draft">Черновик</option><option value="published">Опубликовано</option><option value="archived">Архив</option></select></label>
                 <label className="form-field"><span>Факультет</span><input name="faculty" value={form.faculty || ""} onChange={updateField} /></label>
                 <label className="form-field"><span>Дата</span><input name="story_date_label" value={form.story_date_label || ""} onChange={updateField} /></label>
-                <label className="form-field"><span>Ключ</span><input name="source_key" value={form.source_key || ""} onChange={updateField} /></label>
-                <label className="form-field"><span>Сортировка</span><input name="sort_order" type="number" value={form.sort_order} onChange={updateField} /></label>
               </div>
               <label className="form-field"><span>История</span><textarea name="description" value={form.description || ""} onChange={updateField} rows="4" /></label>
               <div className="stories-admin-form-grid">
                 <label className="form-field"><span>Фото</span><input type="file" accept="image/*" onChange={handleImage} /></label>
-                <label className="form-field"><span>URL фото</span><input name="image_url" value={form.image_url || ""} onChange={updateField} /></label>
               </div>
               {error && <p className="form-error">{error.message}</p>}
               {saveMutation.error && <p className="form-error">{saveMutation.error.message}</p>}
@@ -167,23 +163,75 @@ export default function StoriesList() {
     queryFn: Api.getStories,
     initialData: [],
   }).data;
+  const [page, setPage] = useState(0);
+  const viewportRef = useRef(null);
+  const [pagesCount, setPagesCount] = useState(1);
+  const progressMs = 7200;
+
+  const storyPages = useMemo(() => {
+    const width = viewportRef.current?.clientWidth || window.innerWidth || 1200;
+    const perPage = Math.max(1, Math.floor(width / 260));
+    const pages = [];
+    for (let index = 0; index < stories.length; index += perPage) {
+      pages.push(stories.slice(index, index + perPage));
+    }
+    return pages.length ? pages : [[]];
+  }, [stories, pagesCount]);
+
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return undefined;
+    const observer = new ResizeObserver(() => {
+      setPagesCount((value) => value + 1);
+      setPage(0);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (storyPages.length <= 1) return undefined;
+    const timer = window.setTimeout(() => {
+      setPage((current) => (current + 1) % storyPages.length);
+    }, progressMs);
+    return () => window.clearTimeout(timer);
+  }, [page, storyPages.length]);
+
+  const handleManualPage = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const direction = event.clientX - rect.left > rect.width / 2 ? 1 : -1;
+    setPage((current) => (current + direction + storyPages.length) % storyPages.length);
+  };
 
   return (
     <>
       {canEdit && <StoryEditor fallbackStories={stories} />}
-      <VisibleScroll>
-        {stories.map((story, idx) => (
-          <div className="story-card" key={story.key ?? `${story.name}-${idx}`} data-tag={idx % 3}>
-            <div className="story-image-container">
-              <img src={Api.normalizeURL(story.image)} alt={story.name} className="story-image" />
+      <div className="stories-carousel" ref={viewportRef}>
+        <div className="stories-carousel-window" onClick={handleManualPage} role="button" tabIndex="0" aria-label="Перелистнуть истории">
+          {storyPages.map((items, pageIndex) => (
+            <div className={`stories-page${pageIndex === page ? " stories-page--active" : ""}`} key={`stories-page-${pageIndex}`}>
+              {items.map((story, idx) => (
+                <div className="story-card" key={story.key ?? `${story.name}-${idx}`} data-tag={idx % 3}>
+                  <div className="story-image-container">
+                    <img src={Api.normalizeURL(story.image)} alt={story.name} className="story-image" />
+                  </div>
+                  <h3 className="story-name">{story.name}</h3>
+                  <p className="story-faculty">{story.faculty}</p>
+                  <p className="story-description">{story.description}</p>
+                  <p className="story-date">{story.date}</p>
+                </div>
+              ))}
             </div>
-            <h3 className="story-name">{story.name}</h3>
-            <p className="story-faculty">{story.faculty}</p>
-            <p className="story-description">{story.description}</p>
-            <p className="story-date">{story.date}</p>
-          </div>
-        ))}
-      </VisibleScroll>
+          ))}
+        </div>
+        <div className="stories-progress-track" aria-hidden="true">
+          <span
+            className="stories-progress-fill"
+            key={page}
+            style={{ "--stories-progress-ms": `${progressMs}ms` }}
+          />
+        </div>
+      </div>
     </>
   );
 }

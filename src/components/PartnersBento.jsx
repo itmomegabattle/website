@@ -13,7 +13,7 @@ import {
 import "../styles/partners-bento.css";
 
 const emptyPartner = {
-  status: "draft",
+  status: "published",
   source_key: "",
   name: "",
   description: "",
@@ -71,7 +71,7 @@ function PartnerEditor({ fallbackPartners }) {
 
   const updateField = (event) => {
     const { name, value } = event.target;
-    setForm((current) => ({ ...current, [name]: name === "sort_order" ? Number(value) : value }));
+    setForm((current) => ({ ...current, [name]: value }));
   };
 
   const handleImage = async (event) => {
@@ -110,14 +110,11 @@ function PartnerEditor({ fallbackPartners }) {
               <div className="partners-admin-form-grid">
                 <label className="form-field"><span>Название</span><input name="name" value={form.name} onChange={updateField} required /></label>
                 <label className="form-field"><span>Статус</span><select name="status" value={form.status} onChange={updateField}><option value="draft">Черновик</option><option value="published">Опубликовано</option><option value="archived">Архив</option></select></label>
-                <label className="form-field"><span>Ключ</span><input name="source_key" value={form.source_key || ""} onChange={updateField} /></label>
-                <label className="form-field"><span>Сортировка</span><input name="sort_order" type="number" value={form.sort_order} onChange={updateField} /></label>
               </div>
               <label className="form-field"><span>Описание</span><textarea name="description" value={form.description || ""} onChange={updateField} rows="3" /></label>
               <label className="form-field"><span>Ссылка</span><input name="link" value={form.link || ""} onChange={updateField} /></label>
               <div className="partners-admin-form-grid">
                 <label className="form-field"><span>Логотип</span><input type="file" accept="image/*" onChange={handleImage} /></label>
-                <label className="form-field"><span>URL логотипа</span><input name="logo_url" value={form.logo_url || ""} onChange={updateField} /></label>
               </div>
               {error && <p className="form-error">{error.message}</p>}
               {saveMutation.error && <p className="form-error">{saveMutation.error.message}</p>}
