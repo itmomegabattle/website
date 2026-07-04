@@ -33,38 +33,6 @@
     padding: var(--screen-edge-padding);
 }
 
-/* socials */
-.hero-socials {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-    width: 100%;
-    height: 100%;
-    padding-top: 30px;
-    padding-right: 30px;
-    padding: var(--card-padding-vertical) var(--card-padding-horizontal);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    color: white;
-    font-size: 1.3rem;
-    text-shadow: 1px 1px 2px black;
-}
-
-.hero-socials img {
-    width: 1.6rem;
-    height: 1.6rem;
-    object-fit: contain;
-}
-
-.hero-socials a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: end;
-    gap: 5px;
-    margin-right: 8px;
-}
-
-
 /* todo: maybe add shadow */
 .hero-title {
     width: 100%;
@@ -103,19 +71,6 @@
         line-height: 1.35;
     }
 
-    .hero-socials {
-        padding-top: calc(2 * var(--corner-radius) + 1rem);
-        font-size: 0.95rem;
-    }
-
-    .hero-socials span {
-        display: none;
-    }
-
-    .hero-socials img {
-        width: 1.25rem;
-        height: 1.25rem;
-    }
 }
 
 /* About Section */

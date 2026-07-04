@@ -5,10 +5,6 @@ import heroVideoMobile from "/hero-video-mobile.mp4";
 import heroPoster from "/hero-poster.jpg";
 import heroPosterMobile from "/hero-poster-mobile.jpg";
 import aboutImg from "/images/about-image.png";
-import vkIcon from "/icons/vk.svg";
-import telegramIcon from "/icons/telegram.svg";
-import instagramIcon from "/icons/instagram.svg";
-import tiktokIcon from "/icons/tiktok.svg";
 import "../styles/page-home.css";
 import Megabattle from "../components/Megabattle";
 import Partners from "../components/Partners";
@@ -98,24 +94,6 @@ export default function HomePage() {
           <div className="hero-content">
             <Megabattle className="hero-title" />
             <p className="hero-slogan">Не для всех, а для каждого</p>
-          </div>
-          <div className="hero-socials">
-            <a href="https://vk.com/itmomegabattle" target="_blank">
-              <span>ВКонтакте</span>
-              <img src={vkIcon} />
-            </a>
-            <a href="https://www.instagram.com/itmo.megabattle/" target="_blank">
-              <span>Instagram</span>
-              <img src={instagramIcon} />
-            </a>
-            <a href="https://t.me/itmomegabattle" target="_blank">
-              <span>Telegram</span>
-              <img src={telegramIcon} />
-            </a>
-            <a href="https://www.tiktok.com/@itmo_megabattle" target="_blank">
-              <span>TikTok</span>
-              <img src={tiktokIcon} />
-            </a>
           </div>
         </section>
 
