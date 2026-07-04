@@ -164,13 +164,16 @@ export default function StoriesList() {
     initialData: [],
   }).data;
   const [page, setPage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [openedStory, setOpenedStory] = useState(null);
   const viewportRef = useRef(null);
+  const dragStartRef = useRef(null);
   const [pagesCount, setPagesCount] = useState(1);
-  const progressMs = 12000;
+  const progressMs = 22000;
 
   const storyPages = useMemo(() => {
     const width = viewportRef.current?.clientWidth || window.innerWidth || 1200;
-    const perPage = width >= 1780 ? 5 : width >= 1120 ? 4 : width >= 780 ? 3 : width >= 520 ? 2 : 1;
+    const perPage = width >= 1120 ? 4 : width >= 780 ? 3 : width >= 520 ? 2 : 1;
     const pages = [];
     for (let index = 0; index < stories.length; index += perPage) {
       pages.push(stories.slice(index, index + perPage));
@@ -190,29 +193,68 @@ export default function StoriesList() {
   }, []);
 
   useEffect(() => {
-    if (storyPages.length <= 1) return undefined;
+    if (storyPages.length <= 1 || isPaused || openedStory) return undefined;
     const timer = window.setTimeout(() => {
       setPage((current) => (current + 1) % storyPages.length);
     }, progressMs);
     return () => window.clearTimeout(timer);
-  }, [page, storyPages.length]);
+  }, [isPaused, openedStory, page, storyPages.length]);
 
-  const handleManualPage = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const direction = event.clientX - rect.left > rect.width / 2 ? 1 : -1;
+  const goToPage = (direction) => {
     setPage((current) => (current + direction + storyPages.length) % storyPages.length);
+  };
+
+  const handlePointerDown = (event) => {
+    dragStartRef.current = {
+      x: event.clientX,
+      y: event.clientY,
+    };
+    setIsPaused(true);
+  };
+
+  const handlePointerUp = (event) => {
+    const start = dragStartRef.current;
+    dragStartRef.current = null;
+    if (!start) return;
+
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+    if (Math.abs(deltaX) > 54 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+      goToPage(deltaX < 0 ? 1 : -1);
+    }
   };
 
   return (
     <>
       {canEdit && <StoryEditor fallbackStories={stories} />}
       {!stories.length ? null : (
-        <div className="stories-carousel" ref={viewportRef}>
-          <div className="stories-carousel-window" onClick={handleManualPage} role="button" tabIndex="0" aria-label="Перелистнуть истории">
+        <div
+          className={`stories-carousel${isPaused || openedStory ? " stories-carousel--paused" : ""}`}
+          ref={viewportRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+        >
+          <div
+            className="stories-carousel-window"
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={() => {
+              dragStartRef.current = null;
+            }}
+            aria-label="Истории участников. Проведи влево или вправо, чтобы перелистнуть."
+          >
             {storyPages.map((items, pageIndex) => (
               <div className={`stories-page${pageIndex === page ? " stories-page--active" : ""}`} key={`stories-page-${pageIndex}`}>
                 {items.map((story, idx) => (
-                  <div className="story-card" key={story.key ?? `${story.name}-${idx}`} data-tag={idx % 3}>
+                  <button
+                    className="story-card"
+                    key={story.key ?? `${story.name}-${idx}`}
+                    data-tag={idx % 3}
+                    type="button"
+                    onClick={() => setOpenedStory(story)}
+                  >
                     <div className="story-image-container">
                       <img src={Api.normalizeURL(story.image)} alt={story.name} className="story-image" />
                     </div>
@@ -220,7 +262,7 @@ export default function StoriesList() {
                     <p className="story-faculty">{story.faculty}</p>
                     <p className="story-description">{story.description}</p>
                     <p className="story-date">{story.date}</p>
-                  </div>
+                  </button>
                 ))}
               </div>
             ))}
@@ -232,6 +274,21 @@ export default function StoriesList() {
               style={{ "--stories-progress-ms": `${progressMs}ms` }}
             />
           </div>
+          <p className="stories-carousel-hint">Наведи, чтобы поставить на паузу · свайпни, чтобы перелистнуть · нажми карточку, чтобы открыть</p>
+        </div>
+      )}
+      {openedStory && (
+        <div className="story-modal-backdrop" role="presentation" onClick={() => setOpenedStory(null)}>
+          <article className="story-modal" role="dialog" aria-modal="true" aria-label={openedStory.name} onClick={(event) => event.stopPropagation()}>
+            <button className="story-modal-close" type="button" onClick={() => setOpenedStory(null)} aria-label="Закрыть историю">×</button>
+            <div className="story-image-container story-modal-image">
+              <img src={Api.normalizeURL(openedStory.image)} alt={openedStory.name} className="story-image" />
+            </div>
+            <h2>{openedStory.name}</h2>
+            <p className="story-faculty">{openedStory.faculty}</p>
+            <p className="story-modal-description">{openedStory.description}</p>
+            <p className="story-date">{openedStory.date}</p>
+          </article>
         </div>
       )}
     </>

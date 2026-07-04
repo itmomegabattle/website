@@ -11,9 +11,14 @@
 .stories-carousel-window {
     position: relative;
     min-height: clamp(560px, 45vw, 680px);
-    cursor: pointer;
+    cursor: grab;
     overflow: hidden;
     border-radius: calc(var(--corner-radius) * 1.1);
+    touch-action: pan-y;
+}
+
+.stories-carousel-window:active {
+    cursor: grabbing;
 }
 
 .stories-page {
@@ -52,6 +57,8 @@
     box-shadow: var(--card-shadow);
     border: var(--card-border);
     margin: 1.2em min(1vw, 30px) 2em;
+    font: inherit;
+    cursor: pointer;
 }
 
 .story-card[data-tag="0"] { --tag-color: #142A68; }
@@ -130,7 +137,7 @@
 
 .stories-progress-track {
     height: 0.45rem;
-    width: min(42vw, 520px);
+    width: min(34vw, 420px);
     margin: 1rem auto 0;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
@@ -146,6 +153,84 @@
     background: linear-gradient(90deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 45%, #ffffff));
     transform-origin: left center;
     animation: stories-progress var(--stories-progress-ms, 7200ms) linear forwards;
+}
+
+.stories-carousel--paused .stories-progress-fill {
+    animation-play-state: paused;
+}
+
+.stories-carousel-hint {
+    margin: 0.7rem auto 0;
+    text-align: center;
+    color: color-mix(in srgb, var(--text-color) 64%, transparent);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.story-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.68);
+    backdrop-filter: blur(12px);
+}
+
+.story-modal {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    width: min(94vw, 680px);
+    max-height: min(88svh, 820px);
+    overflow: auto;
+    padding: clamp(1.2rem, 3vw, 2rem);
+    border: var(--card-border);
+    border-radius: calc(var(--corner-radius) * 1.25);
+    background:
+        radial-gradient(ellipse 70% 25% at 0% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 100%),
+        var(--surface-color-special);
+    color: var(--text-color-special);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.38);
+    text-align: center;
+}
+
+.story-modal-close {
+    position: absolute;
+    top: 0.85rem;
+    right: 0.85rem;
+    display: grid;
+    place-items: center;
+    width: 2.7rem;
+    aspect-ratio: 1;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: var(--surface-color);
+    color: var(--text-color);
+    font: inherit;
+    font-size: 1.5rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.story-modal-image {
+    width: min(48vw, 220px);
+    margin-top: 0.4rem;
+}
+
+.story-modal h2 {
+    margin: 0.2rem 0 0;
+    font-family: var(--heading-font);
+    font-size: clamp(2rem, 6vw, 4rem);
+    line-height: 0.95;
+}
+
+.story-modal-description {
+    max-width: 38rem;
+    margin: 0.6rem 0 1rem;
+    line-height: 1.65;
+    opacity: 0.88;
 }
 
 @keyframes stories-progress {
@@ -271,6 +356,14 @@
         overflow: hidden;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 4;
+    }
+
+    .stories-progress-track {
+        width: min(62vw, 320px);
+    }
+
+    .stories-carousel-hint {
+        font-size: 0.72rem;
     }
 
     .stories-admin-grid,
