@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import EventList from "../components/EventList";
 import heroVideo from "/hero-video.mp4";
+import heroVideoMobile from "/hero-video-mobile.mp4";
+import heroPoster from "/hero-poster.jpg";
 import aboutImg from "/images/about-image.png";
 import vkIcon from "/icons/vk.svg";
 import telegramIcon from "/icons/telegram.svg";
@@ -78,7 +80,8 @@ export default function HomePage() {
       <main>
         <section className="hero" id="home">
           <div className="video-background">
-            <video autoPlay muted loop playsInline>
+            <video autoPlay muted loop playsInline preload="metadata" poster={heroPoster}>
+              <source src={heroVideoMobile} media="(max-width: 768px)" type="video/mp4" />
               <source src={heroVideo} type="video/mp4" />
             </video>
           </div>
