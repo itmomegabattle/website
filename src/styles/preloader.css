@@ -49,8 +49,8 @@ body.preloader-lock {
     top: 50%;
     left: 50%;
     z-index: 4;
-    width: min(54vw, 31rem);
-    height: min(54vw, 31rem);
+    width: min(76vw, 46rem);
+    height: min(76vw, 46rem);
     opacity: 0;
     transform: translate(-50%, -52%);
     animation: preloader-model-presence 3s cubic-bezier(.42, 0, .16, 1) both;
@@ -61,10 +61,10 @@ body.preloader-lock {
 }
 
 .site-preloader__spot {
-    top: -20%;
+    top: -26%;
     left: 50%;
-    width: min(34vw, 28rem);
-    height: 132%;
+    width: min(40vw, 34rem);
+    height: 150%;
     background:
         radial-gradient(ellipse at 50% 8%, rgba(255, 255, 255, 0.82), rgba(180, 202, 255, 0.34) 18%, transparent 50%),
         linear-gradient(
@@ -76,13 +76,13 @@ body.preloader-lock {
             rgba(255, 255, 255, 0.22) 62%,
             transparent 88%
         );
-    filter: blur(18px);
+    filter: blur(24px);
     mix-blend-mode: screen;
     opacity: 0;
     transform-origin: 50% 0%;
-    transform: translateX(-50%) rotate(18deg) scaleY(0.35);
+    transform: translateX(-50%) rotate(18deg) scaleY(0.36);
     animation: preloader-spot-turn 3s cubic-bezier(.42, 0, .16, 1) both;
-    z-index: 5;
+    z-index: 2;
 }
 
 .site-preloader__spot::before {
@@ -166,26 +166,26 @@ body.preloader-lock {
 
 @keyframes preloader-spot-turn {
     0% {
-        opacity: 0;
-        transform: translateX(-50%) rotate(24deg) scaleY(0.28);
+        opacity: 0.24;
+        transform: translateX(-50%) rotate(24deg) scaleY(0.34);
     }
     18% {
-        opacity: 0.5;
+        opacity: 0.34;
     }
-    44% {
-        opacity: 0.74;
-        transform: translateX(-50%) rotate(12deg) scaleY(0.76);
+    52% {
+        opacity: 0.48;
+        transform: translateX(-50%) rotate(12deg) scaleY(0.82);
     }
-    60% {
+    74% {
+        opacity: 0.78;
+        transform: translateX(-50%) rotate(0deg) scaleY(1.25);
+    }
+    86% {
         opacity: 1;
-        transform: translateX(-50%) rotate(0deg) scaleY(1.62);
-    }
-    68% {
-        opacity: 1;
-        transform: translateX(-50%) rotate(0deg) scaleY(1.92);
+        transform: translateX(-50%) rotate(0deg) scaleY(1.85);
     }
     100% {
-        opacity: 0.14;
+        opacity: 0.2;
         transform: translateX(-50%) rotate(0deg) scaleY(2);
     }
 }
@@ -194,31 +194,29 @@ body.preloader-lock {
     0%,
     8% {
         opacity: 0;
-        transform: translate(-50%, -52%) scale(0.95);
+        transform: translate(-50%, -52%) scale(0.96);
     }
-    20%,
-    60% {
+    18%,
+    82% {
         opacity: 1;
         transform: translate(-50%, -52%) scale(1);
     }
-    76%,
     100% {
-        opacity: 0.04;
-        transform: translate(-50%, -52%) scale(1.04);
+        opacity: 0.12;
+        transform: translate(-50%, -52%) scale(1.025);
     }
 }
 
 @keyframes preloader-lens {
     0%,
-    28% {
-        opacity: 0;
+    42% {
+        opacity: 0.12;
         transform: translate(-50%, -50%) scale(0.72);
     }
-    58% {
+    82% {
         opacity: 0.95;
         transform: translate(-50%, -50%) scale(1.35);
     }
-    78%,
     100% {
         opacity: 0.18;
         transform: translate(-50%, -50%) scale(1.7);
@@ -227,15 +225,15 @@ body.preloader-lock {
 
 @keyframes preloader-wash {
     0%,
-    44% {
+    68% {
         opacity: 0;
         transform: scale(0.48);
     }
-    58% {
+    82% {
         opacity: 1;
         transform: scale(1.18);
     }
-    66% {
+    90% {
         opacity: 0.94;
         transform: scale(1.36);
     }
@@ -247,13 +245,13 @@ body.preloader-lock {
 
 @keyframes preloader-blind {
     0%,
-    50% {
+    76% {
         opacity: 0;
     }
-    60% {
+    86% {
         opacity: 0.88;
     }
-    70% {
+    94% {
         opacity: 0.22;
     }
     100% {
@@ -263,7 +261,7 @@ body.preloader-lock {
 
 @keyframes preloader-logo-reveal {
     0%,
-    58% {
+    80% {
         opacity: 0;
         transform: translateY(0.9rem) scale(0.985);
         filter:
@@ -272,7 +270,7 @@ body.preloader-lock {
             drop-shadow(0 0 0 rgba(255, 255, 255, 0))
             drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
     }
-    66% {
+    88% {
         opacity: 0.2;
         filter:
             brightness(3.2)
@@ -280,7 +278,7 @@ body.preloader-lock {
             drop-shadow(0 0 3rem rgba(255, 255, 255, 0.72))
             drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
     }
-    82% {
+    96% {
         opacity: 0.86;
         transform: translateY(0.18rem) scale(1.006);
         filter:
@@ -333,8 +331,8 @@ body.preloader-lock {
     }
 
     .site-preloader__model {
-        width: min(86vw, 24rem);
-        height: min(86vw, 24rem);
+        width: min(116vw, 33rem);
+        height: min(116vw, 33rem);
         transform: translate(-50%, -54%);
     }
 

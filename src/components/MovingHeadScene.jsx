@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const MODEL_URL = "/models/moving-head-beam-high-poly.glb";
-const BODY_YAW = 0.72;
-const START_SUPPORT_PAN = -0.46;
-const FACE_SUPPORT_PAN = 0.08;
-const START_HEAD_TILT = -0.22;
-const FACE_HEAD_TILT = 0.18;
+const BODY_YAW = 0.62;
+const CLIP_START = 0.15;
+const CLIP_FACE_CAMERA = 3.15;
 
 function easeInOutCubic(value) {
   return value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
@@ -22,8 +20,8 @@ export default function MovingHeadScene() {
     let scene;
     let camera;
     let model;
-    let supportNode;
-    let headNode;
+    let mixer;
+    let clip;
     let keyLight;
     let lensGlow;
     let resizeObserver;
@@ -79,14 +77,11 @@ export default function MovingHeadScene() {
       const size = box.getSize(new THREE.Vector3());
       model.position.sub(center);
       const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-      model.scale.setScalar(1.9 / maxDimension);
+      model.scale.setScalar(1.62 / maxDimension);
       model.position.y = -0.42;
       model.rotation.set(-0.03, BODY_YAW, 0.015);
 
       model.traverse((node) => {
-        const nodeName = node.name?.toLowerCase?.() || "";
-        if (nodeName === "support" || nodeName === "support_6") supportNode = node;
-        if (nodeName.includes("head")) headNode = node;
         if (!node.isMesh) return;
         node.castShadow = false;
         node.receiveShadow = false;
@@ -104,8 +99,13 @@ export default function MovingHeadScene() {
         }
       });
 
-      if (supportNode) supportNode.rotation.y = START_SUPPORT_PAN;
-      if (headNode) headNode.rotation.x = START_HEAD_TILT;
+      clip = gltf.animations?.[0];
+      if (clip) {
+        mixer = new THREE.AnimationMixer(model);
+        const action = mixer.clipAction(clip);
+        action.play();
+        mixer.setTime(CLIP_START);
+      }
 
       scene.add(model);
 
@@ -134,25 +134,28 @@ export default function MovingHeadScene() {
       resize();
 
       const startedAt = performance.now();
+      const debugProgress = import.meta.env.DEV
+        ? Number.parseFloat(new URLSearchParams(window.location.search).get("preloaderT") || "")
+        : Number.NaN;
       setIsReady(true);
 
       const render = (now) => {
         if (disposed) return;
-        const t = Math.min(1, (now - startedAt) / 3000);
-        const turn = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.08) / 0.48)));
-        const flash = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.50) / 0.18)));
-        const settle = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.66) / 0.22)));
+        const t = Number.isFinite(debugProgress)
+          ? Math.min(1, Math.max(0, debugProgress))
+          : Math.min(1, (now - startedAt) / 3000);
+        const turn = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.08) / 0.72)));
+        const flash = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.72) / 0.18)));
+        const settle = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.86) / 0.14)));
 
         model.rotation.y = BODY_YAW;
         model.rotation.x = -0.03 + 0.03 * turn;
         model.rotation.z = 0.015 * (1 - turn);
         model.position.y = -0.42 + Math.sin(now / 700) * 0.01;
 
-        if (supportNode) {
-          supportNode.rotation.y = START_SUPPORT_PAN + (FACE_SUPPORT_PAN - START_SUPPORT_PAN) * turn;
-        }
-        if (headNode) {
-          headNode.rotation.x = START_HEAD_TILT + (FACE_HEAD_TILT - START_HEAD_TILT) * turn;
+        if (mixer && clip) {
+          const clipTime = THREE.MathUtils.lerp(CLIP_START, Math.min(CLIP_FACE_CAMERA, clip.duration), turn);
+          mixer.setTime(clipTime);
         }
 
         const modelOpacity = Math.min(1, t / 0.16) * (1 - settle * 0.9);
@@ -162,12 +165,12 @@ export default function MovingHeadScene() {
           node.material.opacity = modelOpacity;
         });
 
-        keyLight.intensity = 0.85 + flash * 7.2 - settle * 4.5;
+        keyLight.intensity = 1.05 + flash * 7.2 - settle * 4.5;
         keyLight.angle = THREE.MathUtils.lerp(Math.PI / 10, Math.PI / 4.5, flash);
         keyLight.target.position.set(0, 0.25, -1.8);
 
-        lensGlow.material.opacity = Math.max(0, flash * 0.95 - settle * 0.65);
-        lensGlow.scale.setScalar(1 + flash * 4.5);
+        lensGlow.material.opacity = Math.max(0.12, flash * 0.95 - settle * 0.65);
+        lensGlow.scale.setScalar(1.15 + flash * 4.5);
 
         renderer.render(scene, camera);
         frameId = requestAnimationFrame(render);
