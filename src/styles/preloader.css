@@ -165,6 +165,7 @@ body.preloader-lock {
 
 .site-preloader__logo-wrap {
     position: relative;
+    box-sizing: border-box;
     width: min(42vw, 18rem);
     padding: clamp(0.25rem, 1vw, 0.65rem);
     opacity: 0;
@@ -382,7 +383,8 @@ body.preloader-lock {
     }
 
     .site-preloader__logo-wrap {
-        width: min(78vw, 18rem);
+        width: min(96vw, 24rem);
+        padding: 0.15rem;
     }
 
     @keyframes preloader-wash {
@@ -420,23 +422,35 @@ body.preloader-lock {
 
     @keyframes preloader-logo-reveal {
         0%,
-        82% {
+        80% {
             opacity: 0;
-            transform: translateY(0.45rem) scale(0.982);
+            transform: translateY(0.55rem) scale(0.975);
             filter:
-                brightness(1.7)
+                saturate(0)
+                brightness(1.35)
                 drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0))
                 drop-shadow(0 0 0 rgba(255, 255, 255, 0))
                 drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
         }
-        90% {
-            opacity: 0.72;
-            transform: translateY(0.12rem) scale(0.995);
+        86% {
+            opacity: 0.18;
+            transform: translateY(0.32rem) scale(0.986);
             filter:
-                brightness(2.35)
-                drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0.18))
-                drop-shadow(0 0 2.2rem rgba(255, 255, 255, 0.52))
-                drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.12));
+                saturate(0)
+                brightness(2.05)
+                drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0))
+                drop-shadow(0 0 2.6rem rgba(255, 255, 255, 0.62))
+                drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.14));
+        }
+        94% {
+            opacity: 0.78;
+            transform: translateY(0.06rem) scale(0.998);
+            filter:
+                saturate(0.12)
+                brightness(1.56)
+                drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0.10))
+                drop-shadow(0 0 1.9rem rgba(255, 255, 255, 0.40))
+                drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.26));
         }
         100% {
             opacity: 1;
@@ -457,7 +471,7 @@ body.preloader-lock {
     }
 
     .site-preloader__logo-wrap {
-        width: min(82vw, 17rem);
+        width: min(96vw, 23rem);
     }
 }
 

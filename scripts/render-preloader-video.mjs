@@ -14,21 +14,27 @@ const ANIMATION_MS = 3000;
 const profiles = [
   {
     name: "desktop",
-    width: 1920,
-    height: 1080,
-    fps: 30,
+    width: 2560,
+    height: 1440,
+    viewportWidth: 2560,
+    viewportHeight: 1440,
+    deviceScaleFactor: 1,
+    fps: 60,
     duration: 3.8,
-    videoBitrate: "4200k",
-    crf: "23",
+    videoBitrate: "7800k",
+    crf: "18",
   },
   {
     name: "mobile",
-    width: 1080,
-    height: 1920,
-    fps: 30,
+    width: 1440,
+    height: 2560,
+    viewportWidth: 360,
+    viewportHeight: 640,
+    deviceScaleFactor: 4,
+    fps: 60,
     duration: 3.8,
-    videoBitrate: "3600k",
-    crf: "24",
+    videoBitrate: "7200k",
+    crf: "18",
   },
 ];
 
@@ -192,9 +198,9 @@ async function renderProfile(profile) {
   await page.send("Page.enable");
   await page.send("Runtime.enable");
   await page.send("Emulation.setDeviceMetricsOverride", {
-    width: profile.width,
-    height: profile.height,
-    deviceScaleFactor: 1,
+    width: profile.viewportWidth ?? profile.width,
+    height: profile.viewportHeight ?? profile.height,
+    deviceScaleFactor: profile.deviceScaleFactor ?? 1,
     mobile: profile.name === "mobile",
   });
   await page.send("Page.navigate", {
@@ -203,7 +209,10 @@ async function renderProfile(profile) {
   await waitForLoad(page);
   await waitFor3D(page);
 
-  console.log(`Rendering ${profile.name}: ${frameCount} frames ${profile.width}x${profile.height}`);
+  console.log(
+    `Rendering ${profile.name}: ${frameCount} frames ${profile.width}x${profile.height} ` +
+      `(viewport ${profile.viewportWidth ?? profile.width}x${profile.viewportHeight ?? profile.height} @${profile.deviceScaleFactor ?? 1}x)`,
+  );
   for (let frame = 0; frame < frameCount; frame += 1) {
     const seconds = frame / profile.fps;
     const progress = Math.min(1, seconds / (ANIMATION_MS / 1000));
@@ -250,7 +259,7 @@ async function renderProfile(profile) {
     "-b:v",
     "0",
     "-crf",
-    profile.name === "mobile" ? "34" : "32",
+    profile.name === "mobile" ? "30" : "28",
     "-row-mt",
     "1",
     `${outputBase}.webm`,
@@ -291,7 +300,13 @@ async function main() {
   try {
     await waitForHttp(`http://127.0.0.1:${VITE_PORT}/`, "Vite");
     await waitForHttp(`http://127.0.0.1:${CHROME_PORT}/json/version`, "Chrome");
-    for (const profile of profiles) {
+    const selectedProfiles = process.argv.slice(2);
+    const profilesToRender = selectedProfiles.length
+      ? profiles.filter((profile) => selectedProfiles.includes(profile.name))
+      : profiles;
+    if (!profilesToRender.length) throw new Error(`No matching profiles: ${selectedProfiles.join(", ")}`);
+
+    for (const profile of profilesToRender) {
       await renderProfile(profile);
     }
     console.log("Preloader videos rendered into public/videos");
