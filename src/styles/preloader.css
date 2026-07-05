@@ -294,23 +294,16 @@ body.preloader-lock {
 
 @keyframes preloader-logo-reveal {
     0%,
-    80% {
+    89.8% {
         opacity: 0;
-        transform: translateY(0.9rem) scale(0.985);
+        transform: translateY(0.2rem) scale(0.995);
         filter:
-            brightness(1.85)
+            brightness(1)
             drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0))
             drop-shadow(0 0 0 rgba(255, 255, 255, 0))
             drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
     }
-    88% {
-        opacity: 0.38;
-        filter:
-            brightness(3.3)
-            drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0))
-            drop-shadow(0 0 3rem rgba(255, 255, 255, 0.72))
-            drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
-    }
+    89.9%,
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);

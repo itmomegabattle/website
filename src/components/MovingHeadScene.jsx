@@ -234,6 +234,7 @@ export default function MovingHeadScene({ onReady }) {
       resize();
 
       const startedAt = performance.now();
+      const captureMode = new URLSearchParams(window.location.search).get("capturePreloader") === "1";
       const debugProgress = import.meta.env.DEV
         ? Number.parseFloat(new URLSearchParams(window.location.search).get("preloaderT") || "")
         : Number.NaN;
@@ -256,7 +257,8 @@ export default function MovingHeadScene({ onReady }) {
         model.rotation.y = BODY_YAW;
         model.rotation.x = -0.03 + 0.03 * turn;
         model.rotation.z = 0.015 * (1 - turn);
-        model.position.y = (isCompactViewport ? -0.42 : -0.52) + Math.sin(now / 700) * 0.005;
+        const idleFloat = captureMode ? 0 : Math.sin(now / 700) * 0.005;
+        model.position.y = (isCompactViewport ? -0.42 : -0.52) + idleFloat;
 
         if (mixer && clip) {
           const clipTime = THREE.MathUtils.lerp(CLIP_START, Math.min(CLIP_FACE_CAMERA, clip.duration), turn);
