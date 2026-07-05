@@ -238,12 +238,16 @@ export default function MovingHeadScene({ onReady }) {
         ? Number.parseFloat(new URLSearchParams(window.location.search).get("preloaderT") || "")
         : Number.NaN;
       setIsReady(true);
+      window.__MB_PRELOADER_3D_READY = true;
       onReady?.();
 
       const render = (now) => {
         if (disposed) return;
-        const t = Number.isFinite(debugProgress)
-          ? Math.min(1, Math.max(0, debugProgress))
+        const captureProgress = Number.parseFloat(window.__MB_PRELOADER_PROGRESS);
+        const t = Number.isFinite(captureProgress)
+          ? Math.min(1, Math.max(0, captureProgress))
+          : Number.isFinite(debugProgress)
+            ? Math.min(1, Math.max(0, debugProgress))
           : Math.min(1, (now - startedAt) / 3000);
         const turn = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.08) / 0.72)));
         const flash = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.66) / 0.14)));
@@ -293,12 +297,14 @@ export default function MovingHeadScene({ onReady }) {
     init().catch(() => {
       if (!disposed) {
         setIsReady(false);
+        window.__MB_PRELOADER_3D_READY = true;
         onReady?.();
       }
     });
 
     return () => {
       disposed = true;
+      window.__MB_PRELOADER_3D_READY = false;
       cancelAnimationFrame(frameId);
       resizeObserver?.disconnect();
       if (scene) {

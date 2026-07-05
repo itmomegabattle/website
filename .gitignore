@@ -3,5 +3,6 @@
 /.astro
 /dist
 /trash
+/work
 .env
 .env.local
