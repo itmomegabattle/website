@@ -49,8 +49,8 @@ body.preloader-lock {
     top: 50%;
     left: 50%;
     z-index: 4;
-    width: 120vw;
-    height: 120vh;
+    width: 165vw;
+    height: 165vh;
     opacity: 0;
     transform: translate(-50%, -50%);
     animation: preloader-model-presence 3s cubic-bezier(.42, 0, .16, 1) both;
@@ -324,8 +324,8 @@ body.preloader-lock {
     }
 
     .site-preloader__model {
-        width: 125vw;
-        height: 120vh;
+        width: 150vw;
+        height: 145vh;
         transform: translate(-50%, -50%);
     }
 
