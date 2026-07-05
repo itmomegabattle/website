@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Megabattle from "./Megabattle";
+import MovingHeadScene from "./MovingHeadScene";
 import "../styles/preloader.css";
 
 export default function Preloader() {
@@ -53,18 +53,12 @@ export default function Preloader() {
 
   return (
     <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
-      <div className="site-preloader__fixture" aria-hidden="true">
-        <div className="site-preloader__fixture-yoke" />
-        <div className="site-preloader__fixture-head">
-          <span className="site-preloader__fixture-lens" />
-        </div>
-        <div className="site-preloader__fixture-base" />
-      </div>
+      <MovingHeadScene />
       <div className="site-preloader__spot" aria-hidden="true" />
       <div className="site-preloader__wash" aria-hidden="true" />
       <div className="site-preloader__content">
         <div className="site-preloader__logo-wrap" aria-hidden="true">
-          <Megabattle className="site-preloader__logo" />
+          <img className="site-preloader__logo" src="/logo.svg" width="109" height="67" alt="" />
         </div>
         <span className="site-preloader__sr">ITMO MEGABATTLE</span>
       </div>
