@@ -114,50 +114,35 @@ export default function Preloader() {
 
   if (isHidden) return null;
 
-  const preloaderClassName = [
-    "site-preloader",
-    isLeaving ? "site-preloader--leaving" : "",
-    captureMode ? "site-preloader--capture" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  const logoMarkup = (
-    <div className="site-preloader__content">
-      <div className="site-preloader__logo-wrap" aria-hidden="true">
-        <img className="site-preloader__logo" src="/preloader-logo.svg" width="109" height="67" alt="" />
-      </div>
-      <span className="site-preloader__sr">ITMO MEGABATTLE</span>
-    </div>
-  );
-
   return (
-    <div className={preloaderClassName} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
+    <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
       {useVideoPreloader ? (
-        <>
-          <video
-            key={`${location.key}-${preloaderVideoSrc}`}
-            ref={videoRef}
-            className="site-preloader__video"
-            src={preloaderVideoSrc}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            poster={preloaderPosterSrc}
-            onLoadedData={handleSceneReady}
-            onCanPlay={handleSceneReady}
-            onError={() => setVideoError(true)}
-            aria-hidden="true"
-          />
-          {logoMarkup}
-        </>
+        <video
+          key={`${location.key}-${preloaderVideoSrc}`}
+          ref={videoRef}
+          className="site-preloader__video"
+          src={preloaderVideoSrc}
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          poster={preloaderPosterSrc}
+          onLoadedData={handleSceneReady}
+          onCanPlay={handleSceneReady}
+          onError={() => setVideoError(true)}
+          aria-hidden="true"
+        />
       ) : (
         <>
           <MovingHeadScene onReady={handleSceneReady} />
           <div className="site-preloader__spot" aria-hidden="true" />
           <div className="site-preloader__wash" aria-hidden="true" />
-          {logoMarkup}
+          <div className="site-preloader__content">
+            <div className="site-preloader__logo-wrap" aria-hidden="true">
+              <img className="site-preloader__logo" src="/logo.svg" width="109" height="67" alt="" />
+            </div>
+            <span className="site-preloader__sr">ITMO MEGABATTLE</span>
+          </div>
         </>
       )}
       {useVideoPreloader ? (
