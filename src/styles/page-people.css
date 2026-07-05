@@ -8,3 +8,14 @@
     fill: var(--text-color) !important;
     filter: var(--svg-blue-shadow);
 }
+
+.stories-title {
+    display: grid;
+    justify-items: center;
+    gap: 0.08em;
+    line-height: 0.82;
+}
+
+.stories-title span {
+    display: block;
+}
