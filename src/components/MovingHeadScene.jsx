@@ -27,6 +27,7 @@ export default function MovingHeadScene({ onReady }) {
     let beamHalo;
     let keyLight;
     let lensGlow;
+    let floorShadow;
     let resizeObserver;
 
     async function init() {
@@ -116,19 +117,51 @@ export default function MovingHeadScene({ onReady }) {
 
       scene.add(model);
 
+      const createBeamMaterial = ({ color, opacity, length }) =>
+        new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          depthTest: true,
+          blending: THREE.AdditiveBlending,
+          side: THREE.DoubleSide,
+          uniforms: {
+            uColor: { value: new THREE.Color(color) },
+            uOpacity: { value: opacity },
+            uLength: { value: length },
+          },
+          vertexShader: `
+            varying float vBeamY;
+
+            void main() {
+              vBeamY = position.y;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `,
+          fragmentShader: `
+            uniform vec3 uColor;
+            uniform float uOpacity;
+            uniform float uLength;
+            varying float vBeamY;
+
+            void main() {
+              float normalizedY = clamp((vBeamY / uLength) + 0.5, 0.0, 1.0);
+              float fadeIn = smoothstep(0.0, 0.07, normalizedY);
+              float fadeOut = 1.0 - smoothstep(0.46, 1.0, normalizedY);
+              float alpha = uOpacity * fadeIn * fadeOut;
+              gl_FragColor = vec4(uColor, alpha);
+            }
+          `,
+        });
+
       const beamGroup = new THREE.Group();
       beamGroup.name = "MegabattleVolumetricBeam";
       beamGroup.position.set(0, 0.012, 0.105);
       beamGroup.rotation.x = Math.PI / 2;
 
-      const beamCoreMaterial = new THREE.MeshBasicMaterial({
+      const beamCoreMaterial = createBeamMaterial({
         color: 0xf5f8ff,
-        transparent: true,
         opacity: 0.16,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        depthTest: true,
-        side: THREE.DoubleSide,
+        length: 7.2,
       });
       beamCore = new THREE.Mesh(
         new THREE.CylinderGeometry(1.18, 0.052, 7.2, 72, 1, true),
@@ -136,14 +169,10 @@ export default function MovingHeadScene({ onReady }) {
       );
       beamCore.position.y = 3.58;
 
-      const beamHaloMaterial = new THREE.MeshBasicMaterial({
+      const beamHaloMaterial = createBeamMaterial({
         color: 0x8fa8ff,
-        transparent: true,
         opacity: 0.09,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        depthTest: true,
-        side: THREE.DoubleSide,
+        length: 9.4,
       });
       beamHalo = new THREE.Mesh(
         new THREE.CylinderGeometry(2.35, 0.085, 9.4, 96, 1, true),
@@ -164,6 +193,32 @@ export default function MovingHeadScene({ onReady }) {
       lensGlow = new THREE.Mesh(new THREE.SphereGeometry(0.07, 24, 12), glowMaterial);
       lensGlow.position.set(0, 0.012, 0.095);
       (headNode || model).add(lensGlow);
+
+      const shadowCanvas = document.createElement("canvas");
+      shadowCanvas.width = 256;
+      shadowCanvas.height = 256;
+      const shadowContext = shadowCanvas.getContext("2d");
+      const shadowGradient = shadowContext.createRadialGradient(128, 128, 10, 128, 128, 118);
+      shadowGradient.addColorStop(0, "rgba(0, 0, 0, 0.36)");
+      shadowGradient.addColorStop(0.48, "rgba(0, 0, 0, 0.18)");
+      shadowGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+      shadowContext.fillStyle = shadowGradient;
+      shadowContext.fillRect(0, 0, 256, 256);
+
+      const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
+      floorShadow = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.55, 0.72),
+        new THREE.MeshBasicMaterial({
+          map: shadowTexture,
+          transparent: true,
+          opacity: isCompactViewport ? 0.36 : 0.42,
+          depthWrite: false,
+        }),
+      );
+      floorShadow.position.set(0, isCompactViewport ? -0.86 : -0.94, 0.03);
+      floorShadow.rotation.x = -Math.PI / 2;
+      floorShadow.rotation.z = 0.04;
+      scene.add(floorShadow);
 
       const resize = () => {
         const rect = canvas.getBoundingClientRect();
@@ -217,11 +272,11 @@ export default function MovingHeadScene({ onReady }) {
 
         const beamPulse = 0.75 + Math.sin(now / 180) * 0.08;
         if (beamCore?.material) {
-          beamCore.material.opacity = Math.max(0.1, (0.14 + flash * 0.42 - settle * 0.18) * beamPulse);
+          beamCore.material.uniforms.uOpacity.value = Math.max(0.1, (0.14 + flash * 0.42 - settle * 0.18) * beamPulse);
           beamCore.scale.setScalar(1 + flash * 0.36);
         }
         if (beamHalo?.material) {
-          beamHalo.material.opacity = Math.max(0.055, (0.08 + flash * 0.2 - settle * 0.08) * beamPulse);
+          beamHalo.material.uniforms.uOpacity.value = Math.max(0.055, (0.08 + flash * 0.2 - settle * 0.08) * beamPulse);
           beamHalo.scale.setScalar(1 + flash * 0.5);
         }
 
