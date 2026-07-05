@@ -16,9 +16,9 @@ body.preloader-lock {
     opacity: 1;
     transform: scale(1);
     transition:
-        opacity 0.26s ease,
-        visibility 0.26s ease,
-        transform 0.26s ease;
+        opacity 0.12s ease,
+        visibility 0.12s ease,
+        transform 0.12s ease;
 }
 
 .site-preloader::after {
@@ -324,7 +324,7 @@ body.preloader-lock {
     }
 
     .site-preloader__model {
-        width: 135vw;
+        width: 125vw;
         height: 120vh;
         transform: translate(-50%, -50%);
     }

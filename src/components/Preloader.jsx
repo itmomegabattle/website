@@ -19,9 +19,9 @@ export default function Preloader() {
   }, []);
 
   useEffect(() => {
-    const minVisibleMs = 3000;
-    const maxVisibleMs = 5600;
-    const fadeMs = 260;
+    const minVisibleMs = 3800;
+    const maxVisibleMs = 6800;
+    const fadeMs = 120;
     const startedAt = performance.now();
     let fadeTimer;
     let hideTimer;

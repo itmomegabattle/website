@@ -82,8 +82,8 @@ export default function MovingHeadScene({ onReady }) {
       const size = box.getSize(new THREE.Vector3());
       model.position.sub(center);
       const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-      model.scale.setScalar(1.18 / maxDimension);
-      model.position.y = -0.36;
+      model.scale.setScalar((isCompactViewport ? 0.92 : 1.18) / maxDimension);
+      model.position.y = isCompactViewport ? -0.42 : -0.36;
       model.rotation.set(-0.03, BODY_YAW, 0.015);
 
       model.traverse((node) => {
@@ -142,7 +142,7 @@ export default function MovingHeadScene({ onReady }) {
         opacity: 0.09,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
-        depthTest: false,
+        depthTest: true,
         side: THREE.DoubleSide,
       });
       beamHalo = new THREE.Mesh(
@@ -197,7 +197,7 @@ export default function MovingHeadScene({ onReady }) {
         model.rotation.y = BODY_YAW;
         model.rotation.x = -0.03 + 0.03 * turn;
         model.rotation.z = 0.015 * (1 - turn);
-        model.position.y = -0.36 + Math.sin(now / 700) * 0.005;
+        model.position.y = (isCompactViewport ? -0.42 : -0.36) + Math.sin(now / 700) * 0.005;
 
         if (mixer && clip) {
           const clipTime = THREE.MathUtils.lerp(CLIP_START, Math.min(CLIP_FACE_CAMERA, clip.duration), turn);
