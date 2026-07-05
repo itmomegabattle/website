@@ -219,8 +219,6 @@ export default function StoriesList() {
                     </div>
                     <h3 className="story-name">{story.name}</h3>
                     <p className="story-faculty">{story.faculty}</p>
-                    <p className="story-description">{story.description}</p>
-                    <p className="story-date">{story.date}</p>
                   </button>
                 ))}
               </div>
