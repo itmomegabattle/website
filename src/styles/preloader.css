@@ -163,6 +163,10 @@ body.preloader-lock {
     text-align: center;
 }
 
+.site-preloader--capture .site-preloader__content {
+    display: none;
+}
+
 .site-preloader__logo-wrap {
     position: relative;
     box-sizing: border-box;
