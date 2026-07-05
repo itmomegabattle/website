@@ -294,16 +294,24 @@ body.preloader-lock {
 
 @keyframes preloader-logo-reveal {
     0%,
-    89.8% {
+    82% {
         opacity: 0;
-        transform: translateY(0.2rem) scale(0.995);
+        transform: translateY(0.45rem) scale(0.982);
         filter:
-            brightness(1)
+            brightness(1.7)
             drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0))
             drop-shadow(0 0 0 rgba(255, 255, 255, 0))
             drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
     }
-    89.9%,
+    90% {
+        opacity: 0.72;
+        transform: translateY(0.12rem) scale(0.995);
+        filter:
+            brightness(2.35)
+            drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0.18))
+            drop-shadow(0 0 2.2rem rgba(255, 255, 255, 0.52))
+            drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.12));
+    }
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -359,7 +367,7 @@ body.preloader-lock {
     }
 
     .site-preloader__logo-wrap {
-        width: min(54vw, 13rem);
+        width: min(78vw, 18rem);
     }
 }
 
@@ -370,7 +378,7 @@ body.preloader-lock {
     }
 
     .site-preloader__logo-wrap {
-        width: min(58vw, 12rem);
+        width: min(82vw, 17rem);
     }
 }
 

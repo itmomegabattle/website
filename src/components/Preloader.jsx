@@ -125,10 +125,10 @@ export default function Preloader() {
           onError={() => setVideoError(true)}
           aria-hidden="true"
         >
-          <source src="/videos/preloader-mobile.webm" type="video/webm" media="(max-width: 680px)" />
           <source src="/videos/preloader-mobile.mp4" type="video/mp4" media="(max-width: 680px)" />
-          <source src="/videos/preloader-desktop.webm" type="video/webm" />
           <source src="/videos/preloader-desktop.mp4" type="video/mp4" />
+          <source src="/videos/preloader-mobile.webm" type="video/webm" media="(max-width: 680px)" />
+          <source src="/videos/preloader-desktop.webm" type="video/webm" />
         </video>
       ) : (
         <>

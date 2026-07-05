@@ -83,8 +83,8 @@ export default function MovingHeadScene({ onReady }) {
       const size = box.getSize(new THREE.Vector3());
       model.position.sub(center);
       const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-      model.scale.setScalar((isCompactViewport ? 0.92 : 1.18) / maxDimension);
-      model.position.y = isCompactViewport ? -0.42 : -0.52;
+      model.scale.setScalar((isCompactViewport ? 0.82 : 1.18) / maxDimension);
+      model.position.y = isCompactViewport ? -0.46 : -0.52;
       model.rotation.set(-0.03, BODY_YAW, 0.015);
 
       model.traverse((node) => {
@@ -215,7 +215,7 @@ export default function MovingHeadScene({ onReady }) {
           depthWrite: false,
         }),
       );
-      floorShadow.position.set(0, isCompactViewport ? -0.86 : -0.94, 0.03);
+      floorShadow.position.set(0, isCompactViewport ? -0.82 : -0.94, 0.03);
       floorShadow.rotation.x = -Math.PI / 2;
       floorShadow.rotation.z = 0.04;
       scene.add(floorShadow);
@@ -258,7 +258,7 @@ export default function MovingHeadScene({ onReady }) {
         model.rotation.x = -0.03 + 0.03 * turn;
         model.rotation.z = 0.015 * (1 - turn);
         const idleFloat = captureMode ? 0 : Math.sin(now / 700) * 0.005;
-        model.position.y = (isCompactViewport ? -0.42 : -0.52) + idleFloat;
+        model.position.y = (isCompactViewport ? -0.46 : -0.52) + idleFloat;
 
         if (mixer && clip) {
           const clipTime = THREE.MathUtils.lerp(CLIP_START, Math.min(CLIP_FACE_CAMERA, clip.duration), turn);
