@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="main-width">
         <div className="footer-content">
           <Link to="/">
-            <img className="footer-logo" src="logo.svg" />
+            <img className="footer-logo" src="logo.svg" width="130" height="88" alt="ITMO Megabattle" decoding="async" />
           </Link>
           <div>
             <p>

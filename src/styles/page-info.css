@@ -168,6 +168,10 @@
     line-height: 1.65;
 }
 
+.event-mobile-details {
+    display: none;
+}
+
 .event-meta-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1858,14 +1862,90 @@
     .event-showcase-card,
     .event-showcase-card:nth-child(even) {
         grid-template-columns: 1fr;
+        min-height: auto;
     }
 
     .event-showcase-card:nth-child(even) .event-showcase-media {
         order: 0;
     }
 
+    .event-showcase-media {
+        min-height: 220px;
+        max-height: 260px;
+    }
+
+    .event-showcase-info {
+        gap: 0.8rem;
+        padding: 1.05rem;
+    }
+
+    .event-showcase-info h2 {
+        font-size: clamp(1.55rem, 8vw, 2.6rem);
+    }
+
+    .event-showcase-desktop-details {
+        display: none;
+    }
+
+    .event-mobile-details {
+        display: block;
+        border: 1px solid color-mix(in srgb, var(--border-color) 46%, transparent);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.055);
+    }
+
+    .event-mobile-details summary {
+        min-height: 2.55rem;
+        padding: 0.65rem 0.8rem;
+        color: var(--accent-color);
+        font-weight: 900;
+        cursor: pointer;
+        list-style: none;
+    }
+
+    .event-mobile-details summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .event-mobile-details summary::after {
+        content: "+";
+        float: right;
+        color: var(--text-color-special);
+    }
+
+    .event-mobile-details[open] summary::after {
+        content: "−";
+    }
+
+    .event-mobile-details .event-showcase-description {
+        display: -webkit-box;
+        overflow: hidden;
+        margin: 0;
+        padding: 0 0.8rem 0.75rem;
+        font-size: 0.92rem;
+        line-height: 1.45;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+    }
+
     .event-meta-grid {
         grid-template-columns: 1fr;
+        gap: 0.55rem;
+        margin: 0;
+        padding: 0 0.8rem 0.8rem;
+    }
+
+    .event-meta-grid div {
+        padding: 0.65rem;
+    }
+
+    .event-mobile-details .pill-row {
+        padding: 0 0.8rem 0.8rem;
+    }
+
+    .event-registration-button {
+        width: 100%;
+        justify-content: center;
     }
 
     .event-inline-editor-grid {

@@ -1,17 +1,17 @@
 @import "./variables.css";
 
 .vector-container {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    inset: 0;
     z-index: -1000;
     pointer-events: none;
     user-select: none;
 
     width: 100%;
     max-width: 100%;
-    height: 100%;
+    height: 100svh;
     overflow: hidden;
+    contain: layout paint size;
 
     display: flex;
     flex-direction: column;
@@ -27,6 +27,7 @@
 
 .vector-item {
     width: 130%;
+    height: 100svh;
     margin-left: -15%;
     min-width: 1000px;
     flex-shrink: 0;

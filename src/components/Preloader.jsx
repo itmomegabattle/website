@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Megabattle from "./Megabattle";
 import "../styles/preloader.css";
 
 export default function Preloader() {
+  const location = useLocation();
   const [isLeaving, setIsLeaving] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
-    const minVisibleMs = 3000;
+    const isInitialLoad = !window.__mbPreloaderSeen;
+    window.__mbPreloaderSeen = true;
+    const minVisibleMs = isInitialLoad ? 3000 : 900;
     const fadeMs = 760;
     const startedAt = performance.now();
     let fadeTimer;
     let hideTimer;
 
+    performance.mark?.("mb-preloader-start");
+    setIsHidden(false);
+    setIsLeaving(false);
     document.body.classList.add("preloader-lock");
 
     const finish = () => {
@@ -23,6 +30,8 @@ export default function Preloader() {
         setIsLeaving(true);
         hideTimer = window.setTimeout(() => {
           document.body.classList.remove("preloader-lock");
+          performance.mark?.("mb-preloader-end");
+          performance.measure?.("mb-preloader-visible", "mb-preloader-start", "mb-preloader-end");
           setIsHidden(true);
         }, fadeMs);
       }, delay);
@@ -40,7 +49,7 @@ export default function Preloader() {
       window.clearTimeout(hideTimer);
       document.body.classList.remove("preloader-lock");
     };
-  }, []);
+  }, [location.key, location.pathname]);
 
   if (isHidden) return null;
 

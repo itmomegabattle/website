@@ -250,12 +250,9 @@ export default function StoriesList() {
           </div>
           <div className="stories-carousel-controls" aria-label="Управление историями">
             <button type="button" onClick={() => goToPage(-1)} aria-label="Предыдущие истории">‹</button>
-            <button type="button" onClick={() => setIsPaused((value) => !value)}>
-              {isPaused ? "Продолжить" : "Пауза"}
-            </button>
             <button type="button" onClick={() => goToPage(1)} aria-label="Следующие истории">›</button>
           </div>
-          <p className="stories-carousel-hint">Наведи или нажми “Пауза”, чтобы остановить · нажми карточку, чтобы открыть</p>
+          <p className="stories-carousel-hint">Наведи, чтобы остановить · нажми карточку, чтобы открыть</p>
         </div>
       )}
       {openedStory && (
