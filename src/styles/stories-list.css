@@ -284,7 +284,9 @@
 
 .stories-admin-toggle,
 .stories-admin-head button,
-.stories-admin-row button {
+.stories-admin-row button,
+.story-submit-toggle,
+.story-submit-panel button {
     min-height: 2.6rem;
     padding: 0 1rem;
     border: var(--card-border);
@@ -301,6 +303,61 @@
     margin: 0 auto;
     background: var(--accent-color);
     color: var(--text-color-inverted);
+}
+
+.story-submit {
+    width: min(94vw, 1320px);
+    margin: 0 auto 1.75rem;
+}
+
+.story-submit-toggle {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    text-decoration: none;
+    background: color-mix(in srgb, var(--accent-color) 86%, var(--surface-color));
+    color: var(--text-color-inverted);
+}
+
+.story-submit-panel {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: clamp(1rem, 2vw, 1.6rem);
+    border: var(--card-border);
+    border-radius: var(--corner-radius);
+    background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 14%, transparent), transparent 42%),
+        var(--surface-color);
+    box-shadow: var(--card-shadow);
+}
+
+.story-submit-head {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.story-submit-head h3 {
+    margin: 0;
+    font-family: var(--heading-font);
+    font-size: clamp(1.6rem, 3.4vw, 3rem);
+    line-height: 0.95;
+}
+
+.story-submit-grid,
+.story-submit-bottom {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    align-items: end;
+}
+
+.story-submit-preview {
+    width: 5.5rem;
+    height: 5.5rem;
+    border: var(--card-border);
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .stories-admin-panel {
@@ -344,6 +401,18 @@
     padding-right: 0.25rem;
 }
 
+.stories-admin-section {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.stories-admin-section h3 {
+    margin: 0.25rem 0 0;
+    font-family: var(--heading-font);
+    font-size: clamp(1.1rem, 2vw, 1.65rem);
+    line-height: 0.95;
+}
+
 .stories-admin-form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -376,6 +445,23 @@
 .stories-admin-row span {
     opacity: 0.72;
     font-size: 0.88rem;
+}
+
+.stories-admin-row p {
+    display: -webkit-box;
+    margin: 0.25rem 0 0;
+    overflow: hidden;
+    color: color-mix(in srgb, var(--text-color) 82%, transparent);
+    font-size: 0.9rem;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.stories-admin-row--pending {
+    background:
+        radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 48%),
+        color-mix(in srgb, var(--surface-color-special) 76%, transparent);
 }
 
 .stories-admin-row > div:last-child {
@@ -415,7 +501,9 @@
 
     .stories-admin-grid,
     .stories-admin-form-grid,
-    .stories-admin-row {
+    .stories-admin-row,
+    .story-submit-grid,
+    .story-submit-bottom {
         grid-template-columns: 1fr;
     }
 

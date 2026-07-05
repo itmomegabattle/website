@@ -29,6 +29,10 @@ export function mapDbStory(item) {
     image: item.image_url || "/images/people/member.jpg",
     status: item.status,
     sortOrder: item.sort_order,
+    submitterProfileId: item.submitter_profile_id,
+    submitterContact: item.submitter_contact || "",
+    moderationComment: item.moderation_comment || "",
+    createdAt: item.created_at,
   };
 }
 
@@ -136,6 +140,10 @@ export async function upsertStory(story, actorProfile) {
     source_key: story.source_key || story.key || null,
   };
   delete payload.key;
+  delete payload.submitterProfileId;
+  delete payload.submitterContact;
+  delete payload.moderationComment;
+  delete payload.createdAt;
 
   const { data, error } = await supabase
     .from("participant_stories")
@@ -179,6 +187,33 @@ export async function importStaticStories(stories, actorProfile) {
   return data || [];
 }
 
+export async function submitStoryProposal(story, profile) {
+  requireSupabase();
+  if (!profile?.id) throw new Error("Нужно войти в профиль, чтобы предложить историю");
+
+  const name = String(story.name || "").trim();
+  const description = String(story.description || "").trim();
+  if (!name) throw new Error("Укажи имя для истории");
+  if (!description) throw new Error("Напиши саму историю");
+
+  const payload = {
+    source_key: `proposal-${profile.id}-${Date.now()}`,
+    status: "pending",
+    name,
+    faculty: String(story.faculty || profile.faculty || "").trim(),
+    description,
+    story_date_label: String(story.story_date_label || "").trim(),
+    image_url: story.image_url || "",
+    sort_order: 1000,
+    submitter_profile_id: profile.id,
+    submitter_contact: String(story.submitter_contact || "").trim(),
+  };
+
+  const { data, error } = await supabase.from("participant_stories").insert(payload).select().single();
+  if (error) throw error;
+  return data;
+}
+
 export async function uploadContentImage(file, folder = "content") {
   requireSupabase();
   const extension = file.name.split(".").pop() || "jpg";
@@ -190,4 +225,8 @@ export async function uploadContentImage(file, folder = "content") {
   if (error) throw error;
   const { data } = supabase.storage.from("content-images").getPublicUrl(path);
   return data.publicUrl;
+}
+
+export function uploadStorySubmissionImage(file) {
+  return uploadContentImage(file, "story-submissions");
 }

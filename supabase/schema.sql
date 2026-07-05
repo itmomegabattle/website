@@ -393,16 +393,31 @@ for each row execute function public.set_updated_at();
 create table if not exists public.participant_stories (
   id uuid primary key default gen_random_uuid(),
   source_key text unique,
-  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  status text not null default 'draft' check (status in ('draft', 'pending', 'published', 'archived', 'rejected')),
   name text not null,
   faculty text,
   description text,
   story_date_label text,
   image_url text,
   sort_order integer not null default 100,
+  submitter_profile_id uuid references public.profiles(id) on delete set null,
+  submitter_contact text,
+  moderation_comment text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.participant_stories
+  drop constraint if exists participant_stories_status_check;
+
+alter table public.participant_stories
+  add constraint participant_stories_status_check
+  check (status in ('draft', 'pending', 'published', 'archived', 'rejected'));
+
+alter table public.participant_stories
+  add column if not exists submitter_profile_id uuid references public.profiles(id) on delete set null,
+  add column if not exists submitter_contact text,
+  add column if not exists moderation_comment text;
 
 drop trigger if exists participant_stories_set_updated_at on public.participant_stories;
 create trigger participant_stories_set_updated_at
@@ -473,6 +488,33 @@ drop policy if exists "published participant stories are public readable" on pub
 create policy "published participant stories are public readable"
 on public.participant_stories for select
 using (status = 'published');
+
+drop policy if exists "users can read own submitted participant stories" on public.participant_stories;
+create policy "users can read own submitted participant stories"
+on public.participant_stories for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.profiles
+    where profiles.id = participant_stories.submitter_profile_id
+      and profiles.auth_user_id = auth.uid()
+  )
+);
+
+drop policy if exists "users can submit participant stories" on public.participant_stories;
+create policy "users can submit participant stories"
+on public.participant_stories for insert
+to authenticated
+with check (
+  status = 'pending'
+  and exists (
+    select 1
+    from public.profiles
+    where profiles.id = participant_stories.submitter_profile_id
+      and profiles.auth_user_id = auth.uid()
+  )
+);
 
 drop policy if exists "admins can manage participant stories" on public.participant_stories;
 create policy "admins can manage participant stories"
@@ -577,6 +619,12 @@ create policy "admins upload content images"
 on storage.objects for insert
 to authenticated
 with check (bucket_id = 'content-images' and public.current_profile_is_admin());
+
+drop policy if exists "users upload story submission images" on storage.objects;
+create policy "users upload story submission images"
+on storage.objects for insert
+to authenticated
+with check (bucket_id = 'content-images' and name like 'story-submissions/%');
 
 drop policy if exists "admins update content images" on storage.objects;
 create policy "admins update content images"
