@@ -100,7 +100,9 @@
 
 .partners-page-section {
     width: min(94vw, 1500px);
+    max-width: 100%;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .partners-page-section > h1 {
@@ -2032,9 +2034,23 @@
     }
 
     .structured-page > .main-width > h1,
+    .partners-page-section > h1,
     .structured-page > .partners > h1,
     .events-section > h1 {
         margin-bottom: 1.4rem;
+    }
+
+    .partners-page-section {
+        width: 100%;
+        padding-inline: 0.75rem;
+        box-sizing: border-box;
+    }
+
+    .partners-page-section > h1 {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        font-size: clamp(2.7rem, 18vw, 4.5rem);
+        line-height: 0.85;
     }
 
     .info-card {
