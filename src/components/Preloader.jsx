@@ -3,6 +3,10 @@ import { useLocation } from "react-router-dom";
 import MovingHeadScene from "./MovingHeadScene";
 import "../styles/preloader.css";
 
+const PRELOADER_VIDEO_DURATION_MS = 3800;
+const PRELOADER_MAX_VISIBLE_MS = PRELOADER_VIDEO_DURATION_MS + 3000;
+const PRELOADER_FADE_MS = 120;
+
 export default function Preloader() {
   const location = useLocation();
   const captureMode = new URLSearchParams(window.location.search).get("capturePreloader") === "1";
@@ -33,9 +37,6 @@ export default function Preloader() {
   }, []);
 
   useEffect(() => {
-    const minVisibleMs = 3800;
-    const maxVisibleMs = 6800;
-    const fadeMs = 120;
     const startedAt = performance.now();
     let fadeTimer;
     let hideTimer;
@@ -58,7 +59,7 @@ export default function Preloader() {
       if (!force && (!pageLoadedRef.current || !sceneReadyRef.current)) return;
       isFinished = true;
       const elapsed = performance.now() - startedAt;
-      const delay = Math.max(0, minVisibleMs - elapsed);
+      const delay = Math.max(0, PRELOADER_VIDEO_DURATION_MS - elapsed);
 
       fadeTimer = window.setTimeout(() => {
         setIsLeaving(true);
@@ -67,7 +68,7 @@ export default function Preloader() {
           performance.mark?.("mb-preloader-end");
           performance.measure?.("mb-preloader-visible", "mb-preloader-start", "mb-preloader-end");
           setIsHidden(true);
-        }, fadeMs);
+        }, PRELOADER_FADE_MS);
       }, delay);
     };
 
@@ -84,7 +85,7 @@ export default function Preloader() {
       window.addEventListener("load", handlePageLoad, { once: true });
     }
 
-    maxTimer = captureMode ? undefined : window.setTimeout(() => finish(true), maxVisibleMs);
+    maxTimer = captureMode ? undefined : window.setTimeout(() => finish(true), PRELOADER_MAX_VISIBLE_MS);
 
     return () => {
       window.removeEventListener("load", handlePageLoad);
@@ -100,6 +101,7 @@ export default function Preloader() {
     if (!useVideoPreloader) return undefined;
     const video = videoRef.current;
     if (!video) return undefined;
+    video.currentTime = 0;
     const playPromise = video.play?.();
     playPromise?.catch?.(() => {
       setVideoError(true);
@@ -113,6 +115,7 @@ export default function Preloader() {
     <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
       {useVideoPreloader ? (
         <video
+          key={location.key}
           ref={videoRef}
           className="site-preloader__video"
           autoPlay
