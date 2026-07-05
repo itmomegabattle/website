@@ -9,9 +9,7 @@ export default function Preloader() {
   const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
-    const isInitialLoad = !window.__mbPreloaderSeen;
-    window.__mbPreloaderSeen = true;
-    const minVisibleMs = isInitialLoad ? 3000 : 900;
+    const minVisibleMs = 3000;
     const fadeMs = 760;
     const startedAt = performance.now();
     let fadeTimer;
@@ -55,10 +53,11 @@ export default function Preloader() {
 
   return (
     <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
+      <div className="site-preloader__spot" aria-hidden="true" />
+      <div className="site-preloader__wash" aria-hidden="true" />
       <div className="site-preloader__content">
         <div className="site-preloader__logo-wrap" aria-hidden="true">
-          <Megabattle className="site-preloader__logo site-preloader__logo--base" />
-          <Megabattle className="site-preloader__logo site-preloader__logo--light" />
+          <Megabattle className="site-preloader__logo" />
         </div>
         <span className="site-preloader__sr">ITMO MEGABATTLE</span>
       </div>
