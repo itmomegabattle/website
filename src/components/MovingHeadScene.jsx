@@ -22,6 +22,9 @@ export default function MovingHeadScene() {
     let model;
     let mixer;
     let clip;
+    let headNode;
+    let beamCore;
+    let beamHalo;
     let keyLight;
     let lensGlow;
     let resizeObserver;
@@ -82,6 +85,8 @@ export default function MovingHeadScene() {
       model.rotation.set(-0.03, BODY_YAW, 0.015);
 
       model.traverse((node) => {
+        const nodeName = node.name?.toLowerCase?.() || "";
+        if (nodeName.includes("head") && !nodeName.includes("_0")) headNode = node;
         if (!node.isMesh) return;
         node.castShadow = false;
         node.receiveShadow = false;
@@ -109,16 +114,54 @@ export default function MovingHeadScene() {
 
       scene.add(model);
 
+      const beamGroup = new THREE.Group();
+      beamGroup.name = "MegabattleVolumetricBeam";
+      beamGroup.position.set(0, 0.02, 0.2);
+      beamGroup.rotation.x = Math.PI / 2;
+
+      const beamCoreMaterial = new THREE.MeshBasicMaterial({
+        color: 0xf5f8ff,
+        transparent: true,
+        opacity: 0.16,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        depthTest: true,
+        side: THREE.DoubleSide,
+      });
+      beamCore = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.58, 0.045, 3.35, 48, 1, true),
+        beamCoreMaterial,
+      );
+      beamCore.position.y = 1.72;
+
+      const beamHaloMaterial = new THREE.MeshBasicMaterial({
+        color: 0x8fa8ff,
+        transparent: true,
+        opacity: 0.09,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        depthTest: false,
+        side: THREE.DoubleSide,
+      });
+      beamHalo = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.05, 0.09, 4.35, 64, 1, true),
+        beamHaloMaterial,
+      );
+      beamHalo.position.y = 2.15;
+
+      beamGroup.add(beamHalo, beamCore);
+      (headNode || model).add(beamGroup);
+
       const glowMaterial = new THREE.MeshBasicMaterial({
         color: 0xdde7ff,
         transparent: true,
-        opacity: 0,
+        opacity: 0.2,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
       lensGlow = new THREE.Mesh(new THREE.SphereGeometry(0.11, 32, 16), glowMaterial);
-      lensGlow.position.set(0, 0.08, 0.78);
-      scene.add(lensGlow);
+      lensGlow.position.set(0, 0.02, 0.22);
+      (headNode || model).add(lensGlow);
 
       const resize = () => {
         const rect = canvas.getBoundingClientRect();
@@ -169,7 +212,17 @@ export default function MovingHeadScene() {
         keyLight.angle = THREE.MathUtils.lerp(Math.PI / 10, Math.PI / 4.5, flash);
         keyLight.target.position.set(0, 0.25, -1.8);
 
-        lensGlow.material.opacity = Math.max(0.12, flash * 0.95 - settle * 0.65);
+        const beamPulse = 0.75 + Math.sin(now / 180) * 0.08;
+        if (beamCore?.material) {
+          beamCore.material.opacity = Math.max(0.1, (0.14 + flash * 0.42 - settle * 0.18) * beamPulse);
+          beamCore.scale.setScalar(1 + flash * 0.36);
+        }
+        if (beamHalo?.material) {
+          beamHalo.material.opacity = Math.max(0.055, (0.08 + flash * 0.2 - settle * 0.08) * beamPulse);
+          beamHalo.scale.setScalar(1 + flash * 0.5);
+        }
+
+        lensGlow.material.opacity = Math.max(0.22, flash * 0.95 - settle * 0.65);
         lensGlow.scale.setScalar(1.15 + flash * 4.5);
 
         renderer.render(scene, camera);
