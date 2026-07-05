@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import MovingHeadScene from "./MovingHeadScene";
 import "../styles/preloader.css";
@@ -7,20 +7,40 @@ export default function Preloader() {
   const location = useLocation();
   const [isLeaving, setIsLeaving] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
+  const finishRef = useRef(null);
+  const pageLoadedRef = useRef(false);
+  const sceneReadyRef = useRef(false);
+
+  const handleSceneReady = useCallback(() => {
+    sceneReadyRef.current = true;
+    setSceneReady(true);
+    finishRef.current?.();
+  }, []);
 
   useEffect(() => {
     const minVisibleMs = 3000;
-    const fadeMs = 760;
+    const maxVisibleMs = 5600;
+    const fadeMs = 260;
     const startedAt = performance.now();
     let fadeTimer;
     let hideTimer;
+    let maxTimer;
+    let isFinished = false;
 
     performance.mark?.("mb-preloader-start");
+    sceneReadyRef.current = false;
+    pageLoadedRef.current = document.readyState === "complete";
+    finishRef.current = null;
+    setSceneReady(false);
     setIsHidden(false);
     setIsLeaving(false);
     document.body.classList.add("preloader-lock");
 
-    const finish = () => {
+    const finish = (force = false) => {
+      if (isFinished) return;
+      if (!force && (!pageLoadedRef.current || !sceneReadyRef.current)) return;
+      isFinished = true;
       const elapsed = performance.now() - startedAt;
       const delay = Math.max(0, minVisibleMs - elapsed);
 
@@ -35,16 +55,27 @@ export default function Preloader() {
       }, delay);
     };
 
+    finishRef.current = finish;
+
+    const handlePageLoad = () => {
+      pageLoadedRef.current = true;
+      finish();
+    };
+
     if (document.readyState === "complete") {
       finish();
     } else {
-      window.addEventListener("load", finish, { once: true });
+      window.addEventListener("load", handlePageLoad, { once: true });
     }
 
+    maxTimer = window.setTimeout(() => finish(true), maxVisibleMs);
+
     return () => {
-      window.removeEventListener("load", finish);
+      window.removeEventListener("load", handlePageLoad);
       window.clearTimeout(fadeTimer);
       window.clearTimeout(hideTimer);
+      window.clearTimeout(maxTimer);
+      finishRef.current = null;
       document.body.classList.remove("preloader-lock");
     };
   }, [location.key, location.pathname]);
@@ -53,7 +84,7 @@ export default function Preloader() {
 
   return (
     <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
-      <MovingHeadScene />
+      <MovingHeadScene onReady={handleSceneReady} />
       <div className="site-preloader__spot" aria-hidden="true" />
       <div className="site-preloader__wash" aria-hidden="true" />
       <div className="site-preloader__content">

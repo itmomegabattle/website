@@ -16,9 +16,9 @@ body.preloader-lock {
     opacity: 1;
     transform: scale(1);
     transition:
-        opacity 0.82s ease,
-        visibility 0.82s ease,
-        transform 0.82s ease;
+        opacity 0.26s ease,
+        visibility 0.26s ease,
+        transform 0.26s ease;
 }
 
 .site-preloader::after {
@@ -198,12 +198,16 @@ body.preloader-lock {
         transform: translate(-50%, -50%) scale(0.96);
     }
     18%,
-    82% {
+    78% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
+    88% {
+        opacity: 0.18;
+        transform: translate(-50%, -50%) scale(1.018);
+    }
     100% {
-        opacity: 0.12;
+        opacity: 0;
         transform: translate(-50%, -50%) scale(1.025);
     }
 }
@@ -226,43 +230,40 @@ body.preloader-lock {
 
 @keyframes preloader-wash {
     0%,
-    68% {
+    70% {
         opacity: 0;
         transform: scale(0.48);
     }
-    82% {
+    84% {
         opacity: 1;
         transform: scale(1.18);
     }
-    90% {
-        opacity: 0.94;
+    96% {
+        opacity: 0.98;
         transform: scale(1.36);
     }
     100% {
-        opacity: 0.05;
+        opacity: 0.72;
         transform: scale(1.52);
     }
 }
 
 @keyframes preloader-blind {
     0%,
-    76% {
+    78% {
         opacity: 0;
     }
-    86% {
-        opacity: 0.88;
-    }
-    94% {
-        opacity: 0.22;
+    88% {
+        opacity: 0.96;
     }
     100% {
-        opacity: 0;
+        opacity: 0.78;
     }
 }
 
 @keyframes preloader-logo-reveal {
     0%,
-    80% {
+    82% {
         opacity: 0;
         transform: translateY(0.9rem) scale(0.985);
         filter:
@@ -271,22 +272,13 @@ body.preloader-lock {
             drop-shadow(0 0 0 rgba(255, 255, 255, 0))
             drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
     }
-    88% {
-        opacity: 0.2;
+    90% {
+        opacity: 0.38;
         filter:
-            brightness(3.2)
+            brightness(3.3)
             drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0))
             drop-shadow(0 0 3rem rgba(255, 255, 255, 0.72))
             drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
-    }
-    96% {
-        opacity: 0.86;
-        transform: translateY(0.18rem) scale(1.006);
-        filter:
-            brightness(1.42)
-            drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0.58))
-            drop-shadow(0 0 2rem rgba(255, 255, 255, 0.34))
-            drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.24));
     }
     100% {
         opacity: 1;

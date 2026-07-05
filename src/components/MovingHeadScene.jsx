@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
 const MODEL_URL = "/models/moving-head-beam-high-poly.glb";
-const BODY_YAW = 0.62;
+const BODY_YAW = -0.05;
 const CLIP_START = 0.15;
-const CLIP_FACE_CAMERA = 3.15;
+const CLIP_FACE_CAMERA = 2.91;
 
 function easeInOutCubic(value) {
   return value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
 }
 
-export default function MovingHeadScene() {
+export default function MovingHeadScene({ onReady }) {
   const canvasRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
 
@@ -40,18 +40,20 @@ export default function MovingHeadScene() {
 
       if (disposed) return;
 
+      const isCompactViewport = window.matchMedia?.("(max-width: 680px)")?.matches;
+
       renderer = new THREE.WebGLRenderer({
         alpha: true,
-        antialias: true,
+        antialias: !isCompactViewport,
         canvas,
         powerPreference: "high-performance",
       });
       renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isCompactViewport ? 1.25 : 2));
 
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-      camera.position.set(0, 0.46, 4.35);
+      camera.position.set(0, 0.42, 4.85);
       camera.lookAt(0, 0, 0);
 
       scene.add(new THREE.HemisphereLight(0xe7edff, 0x08090d, 2.1));
@@ -80,8 +82,8 @@ export default function MovingHeadScene() {
       const size = box.getSize(new THREE.Vector3());
       model.position.sub(center);
       const maxDimension = Math.max(size.x, size.y, size.z) || 1;
-      model.scale.setScalar(1.5 / maxDimension);
-      model.position.y = -0.34;
+      model.scale.setScalar(1.18 / maxDimension);
+      model.position.y = -0.36;
       model.rotation.set(-0.03, BODY_YAW, 0.015);
 
       model.traverse((node) => {
@@ -116,7 +118,7 @@ export default function MovingHeadScene() {
 
       const beamGroup = new THREE.Group();
       beamGroup.name = "MegabattleVolumetricBeam";
-      beamGroup.position.set(0, 0.015, 0.22);
+      beamGroup.position.set(0, 0.012, 0.105);
       beamGroup.rotation.x = Math.PI / 2;
 
       const beamCoreMaterial = new THREE.MeshBasicMaterial({
@@ -129,10 +131,10 @@ export default function MovingHeadScene() {
         side: THREE.DoubleSide,
       });
       beamCore = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.74, 0.032, 4.25, 56, 1, true),
+        new THREE.CylinderGeometry(0.74, 0.052, 4.25, 56, 1, true),
         beamCoreMaterial,
       );
-      beamCore.position.y = 2.12;
+      beamCore.position.y = 2.1;
 
       const beamHaloMaterial = new THREE.MeshBasicMaterial({
         color: 0x8fa8ff,
@@ -144,10 +146,10 @@ export default function MovingHeadScene() {
         side: THREE.DoubleSide,
       });
       beamHalo = new THREE.Mesh(
-        new THREE.CylinderGeometry(1.55, 0.055, 5.65, 72, 1, true),
+        new THREE.CylinderGeometry(1.55, 0.085, 5.65, 72, 1, true),
         beamHaloMaterial,
       );
-      beamHalo.position.y = 2.82;
+      beamHalo.position.y = 2.8;
 
       beamGroup.add(beamHalo, beamCore);
       (headNode || model).add(beamGroup);
@@ -159,8 +161,8 @@ export default function MovingHeadScene() {
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
-      lensGlow = new THREE.Mesh(new THREE.SphereGeometry(0.045, 24, 12), glowMaterial);
-      lensGlow.position.set(0, 0.02, 0.22);
+      lensGlow = new THREE.Mesh(new THREE.SphereGeometry(0.07, 24, 12), glowMaterial);
+      lensGlow.position.set(0, 0.012, 0.095);
       (headNode || model).add(lensGlow);
 
       const resize = () => {
@@ -181,6 +183,7 @@ export default function MovingHeadScene() {
         ? Number.parseFloat(new URLSearchParams(window.location.search).get("preloaderT") || "")
         : Number.NaN;
       setIsReady(true);
+      onReady?.();
 
       const render = (now) => {
         if (disposed) return;
@@ -194,7 +197,7 @@ export default function MovingHeadScene() {
         model.rotation.y = BODY_YAW;
         model.rotation.x = -0.03 + 0.03 * turn;
         model.rotation.z = 0.015 * (1 - turn);
-        model.position.y = -0.34 + Math.sin(now / 700) * 0.008;
+        model.position.y = -0.36 + Math.sin(now / 700) * 0.005;
 
         if (mixer && clip) {
           const clipTime = THREE.MathUtils.lerp(CLIP_START, Math.min(CLIP_FACE_CAMERA, clip.duration), turn);
@@ -222,8 +225,8 @@ export default function MovingHeadScene() {
           beamHalo.scale.setScalar(1 + flash * 0.5);
         }
 
-        lensGlow.material.opacity = Math.max(0.08, flash * 0.48 - settle * 0.35);
-        lensGlow.scale.setScalar(0.9 + flash * 2.2);
+        lensGlow.material.opacity = Math.max(0.14, flash * 0.42 - settle * 0.32);
+        lensGlow.scale.setScalar(0.78 + flash * 1.85);
 
         renderer.render(scene, camera);
         frameId = requestAnimationFrame(render);
@@ -233,7 +236,10 @@ export default function MovingHeadScene() {
     }
 
     init().catch(() => {
-      if (!disposed) setIsReady(false);
+      if (!disposed) {
+        setIsReady(false);
+        onReady?.();
+      }
     });
 
     return () => {
@@ -253,7 +259,7 @@ export default function MovingHeadScene() {
       }
       renderer?.dispose?.();
     };
-  }, []);
+  }, [onReady]);
 
   return (
     <canvas
