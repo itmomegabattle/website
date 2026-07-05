@@ -61,28 +61,28 @@ body.preloader-lock {
 }
 
 .site-preloader__spot {
-    top: -30%;
+    top: -20%;
     left: 50%;
-    width: min(48vw, 38rem);
-    height: 155%;
+    width: min(34vw, 28rem);
+    height: 132%;
     background:
-        radial-gradient(ellipse at 50% 12%, rgba(255, 255, 255, 0.38), rgba(139, 165, 255, 0.20) 22%, transparent 48%),
+        radial-gradient(ellipse at 50% 8%, rgba(255, 255, 255, 0.82), rgba(180, 202, 255, 0.34) 18%, transparent 50%),
         linear-gradient(
-            100deg,
+            180deg,
             transparent 0%,
-            rgba(255, 255, 255, 0.02) 28%,
-            rgba(255, 255, 255, 0.24) 45%,
-            rgba(139, 165, 255, 0.28) 52%,
-            rgba(255, 255, 255, 0.16) 59%,
-            transparent 76%
+            rgba(255, 255, 255, 0.03) 17%,
+            rgba(255, 255, 255, 0.50) 45%,
+            rgba(139, 165, 255, 0.42) 52%,
+            rgba(255, 255, 255, 0.22) 62%,
+            transparent 88%
         );
-    filter: blur(26px);
+    filter: blur(18px);
     mix-blend-mode: screen;
     opacity: 0;
     transform-origin: 50% 0%;
-    transform: translateX(-40%) rotate(22deg) scaleY(0.5);
+    transform: translateX(-50%) rotate(18deg) scaleY(0.35);
     animation: preloader-spot-turn 3s cubic-bezier(.42, 0, .16, 1) both;
-    z-index: 2;
+    z-index: 5;
 }
 
 .site-preloader__spot::before {
@@ -103,18 +103,27 @@ body.preloader-lock {
 .site-preloader__wash {
     inset: -18%;
     background:
-        radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.95), rgba(205, 218, 255, 0.62) 16%, rgba(139, 165, 255, 0.16) 34%, transparent 58%);
+        radial-gradient(circle at 50% 48%, #ffffff 0 9%, rgba(238, 244, 255, 0.94) 18%, rgba(165, 187, 255, 0.28) 42%, transparent 68%);
     mix-blend-mode: screen;
     opacity: 0;
     transform: scale(0.6);
     filter: blur(10px);
     animation: preloader-wash 3s cubic-bezier(.42, 0, .16, 1) both;
-    z-index: 3;
+    z-index: 7;
+}
+
+.site-preloader__wash::after {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    background: #ffffff;
+    opacity: 0;
+    animation: preloader-blind 3s cubic-bezier(.42, 0, .16, 1) both;
 }
 
 .site-preloader__content {
     position: relative;
-    z-index: 5;
+    z-index: 8;
     width: min(92vw, 34rem);
     display: grid;
     justify-items: center;
@@ -158,25 +167,26 @@ body.preloader-lock {
 @keyframes preloader-spot-turn {
     0% {
         opacity: 0;
-        transform: translateX(-38%) rotate(24deg) scaleY(0.45);
+        transform: translateX(-50%) rotate(24deg) scaleY(0.28);
     }
     18% {
-        opacity: 0.78;
+        opacity: 0.5;
     }
     44% {
-        opacity: 0.88;
-        transform: translateX(-46%) rotate(12deg) scaleY(0.78);
+        opacity: 0.74;
+        transform: translateX(-50%) rotate(12deg) scaleY(0.76);
     }
-    66% {
+    60% {
         opacity: 1;
-        transform: translateX(-50%) rotate(0deg) scaleY(1.12);
+        transform: translateX(-50%) rotate(0deg) scaleY(1.62);
     }
-    82% {
-        opacity: 0.55;
+    68% {
+        opacity: 1;
+        transform: translateX(-50%) rotate(0deg) scaleY(1.92);
     }
     100% {
-        opacity: 0.22;
-        transform: translateX(-50%) rotate(0deg) scaleY(1.2);
+        opacity: 0.14;
+        transform: translateX(-50%) rotate(0deg) scaleY(2);
     }
 }
 
@@ -217,21 +227,37 @@ body.preloader-lock {
 
 @keyframes preloader-wash {
     0%,
-    36% {
+    44% {
         opacity: 0;
-        transform: scale(0.62);
+        transform: scale(0.48);
     }
     58% {
-        opacity: 0.95;
-        transform: scale(1.08);
+        opacity: 1;
+        transform: scale(1.18);
     }
-    74% {
-        opacity: 0.72;
-        transform: scale(1.22);
+    66% {
+        opacity: 0.94;
+        transform: scale(1.36);
     }
     100% {
-        opacity: 0.08;
-        transform: scale(1.36);
+        opacity: 0.05;
+        transform: scale(1.52);
+    }
+}
+
+@keyframes preloader-blind {
+    0%,
+    50% {
+        opacity: 0;
+    }
+    60% {
+        opacity: 0.88;
+    }
+    70% {
+        opacity: 0.22;
+    }
+    100% {
+        opacity: 0;
     }
 }
 
@@ -300,10 +326,10 @@ body.preloader-lock {
     }
 
     .site-preloader__spot {
-        top: -22%;
-        width: 22rem;
-        height: 145%;
-        filter: blur(22px);
+        top: -12%;
+        width: 15rem;
+        height: 128%;
+        filter: blur(16px);
     }
 
     .site-preloader__model {

@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const MODEL_URL = "/models/moving-head-beam-high-poly.glb";
+const BODY_YAW = 0.72;
+const START_HEAD_PAN = -0.95;
+const FACE_HEAD_PAN = 0;
+const START_HEAD_TILT = -0.16;
+const FACE_HEAD_TILT = 0.18;
 
 function easeInOutCubic(value) {
   return value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
@@ -17,6 +22,8 @@ export default function MovingHeadScene() {
     let scene;
     let camera;
     let model;
+    let supportNode;
+    let headNode;
     let keyLight;
     let lensGlow;
     let resizeObserver;
@@ -74,9 +81,12 @@ export default function MovingHeadScene() {
       const maxDimension = Math.max(size.x, size.y, size.z) || 1;
       model.scale.setScalar(1.9 / maxDimension);
       model.position.y = -0.42;
-      model.rotation.set(-0.03, 1.05, 0.015);
+      model.rotation.set(-0.03, BODY_YAW, 0.015);
 
       model.traverse((node) => {
+        const nodeName = node.name?.toLowerCase?.() || "";
+        if (nodeName.includes("support")) supportNode = node;
+        if (nodeName.includes("head")) headNode = node;
         if (!node.isMesh) return;
         node.castShadow = false;
         node.receiveShadow = false;
@@ -93,6 +103,9 @@ export default function MovingHeadScene() {
           }
         }
       });
+
+      if (supportNode) supportNode.rotation.y = START_HEAD_PAN;
+      if (headNode) headNode.rotation.x = START_HEAD_TILT;
 
       scene.add(model);
 
@@ -130,10 +143,17 @@ export default function MovingHeadScene() {
         const flash = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.50) / 0.18)));
         const settle = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.66) / 0.22)));
 
-        model.rotation.y = 1.05 * (1 - turn);
+        model.rotation.y = BODY_YAW;
         model.rotation.x = -0.03 + 0.03 * turn;
         model.rotation.z = 0.015 * (1 - turn);
         model.position.y = -0.42 + Math.sin(now / 700) * 0.01;
+
+        if (supportNode) {
+          supportNode.rotation.y = START_HEAD_PAN + (FACE_HEAD_PAN - START_HEAD_PAN) * turn;
+        }
+        if (headNode) {
+          headNode.rotation.x = START_HEAD_TILT + (FACE_HEAD_TILT - START_HEAD_TILT) * turn;
+        }
 
         const modelOpacity = Math.min(1, t / 0.16) * (1 - settle * 0.9);
         model.traverse((node) => {
