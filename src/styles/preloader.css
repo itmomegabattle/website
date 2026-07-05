@@ -49,10 +49,10 @@ body.preloader-lock {
     top: 50%;
     left: 50%;
     z-index: 4;
-    width: min(76vw, 46rem);
-    height: min(76vw, 46rem);
+    width: 120vw;
+    height: 120vh;
     opacity: 0;
-    transform: translate(-50%, -52%);
+    transform: translate(-50%, -50%);
     animation: preloader-model-presence 3s cubic-bezier(.42, 0, .16, 1) both;
 }
 
@@ -195,16 +195,16 @@ body.preloader-lock {
     0%,
     8% {
         opacity: 0;
-        transform: translate(-50%, -52%) scale(0.96);
+        transform: translate(-50%, -50%) scale(0.96);
     }
     18%,
     82% {
         opacity: 1;
-        transform: translate(-50%, -52%) scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
     100% {
         opacity: 0.12;
-        transform: translate(-50%, -52%) scale(1.025);
+        transform: translate(-50%, -50%) scale(1.025);
     }
 }
 
@@ -332,9 +332,9 @@ body.preloader-lock {
     }
 
     .site-preloader__model {
-        width: min(116vw, 33rem);
-        height: min(116vw, 33rem);
-        transform: translate(-50%, -54%);
+        width: 135vw;
+        height: 120vh;
+        transform: translate(-50%, -50%);
     }
 
     .site-preloader__content {
