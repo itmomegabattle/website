@@ -105,6 +105,11 @@
     overflow: hidden;
 }
 
+.partners-page {
+    max-width: 100%;
+    overflow-x: clip;
+}
+
 .partners-page-section > h1 {
     margin-bottom: 3rem;
 }
@@ -702,6 +707,11 @@
 
 .contact-cta {
     max-width: 760px;
+}
+
+.contact-cta h2,
+.contact-cta p {
+    overflow-wrap: anywhere;
 }
 
 .ratings-layout {
@@ -2046,11 +2056,28 @@
         box-sizing: border-box;
     }
 
+    .partners-page .main-width {
+        width: 100%;
+        padding-inline: 0.75rem;
+        box-sizing: border-box;
+    }
+
     .partners-page-section > h1 {
         max-width: 100%;
-        overflow-wrap: anywhere;
-        font-size: clamp(2.7rem, 18vw, 4.5rem);
-        line-height: 0.85;
+        overflow-wrap: normal;
+        word-break: keep-all;
+        font-size: clamp(1.75rem, 7.2vw, 2.15rem);
+        line-height: 0.92;
+        letter-spacing: 0.015em;
+    }
+
+    .partners-page .main-width > h1 {
+        max-width: 100%;
+        overflow-wrap: normal;
+        word-break: keep-all;
+        font-size: clamp(1.75rem, 7.2vw, 2.15rem);
+        line-height: 0.92;
+        letter-spacing: 0.015em;
     }
 
     .info-card {
