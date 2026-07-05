@@ -6,11 +6,12 @@ import "../styles/preloader.css";
 const PRELOADER_VIDEO_DURATION_MS = 3800;
 const PRELOADER_MAX_VISIBLE_MS = PRELOADER_VIDEO_DURATION_MS + 3000;
 const PRELOADER_FADE_MS = 120;
+const MOBILE_PRELOADER_QUERY = "(max-width: 680px)";
 
 export default function Preloader() {
   const location = useLocation();
   const captureMode = new URLSearchParams(window.location.search).get("capturePreloader") === "1";
-  const [isMobileVideo, setIsMobileVideo] = useState(() => window.matchMedia?.("(max-width: 680px)")?.matches ?? false);
+  const [isMobileVideo, setIsMobileVideo] = useState(() => window.matchMedia?.(MOBILE_PRELOADER_QUERY)?.matches ?? false);
   const [isLeaving, setIsLeaving] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [sceneReady, setSceneReady] = useState(false);
@@ -20,6 +21,8 @@ export default function Preloader() {
   const sceneReadyRef = useRef(false);
   const videoRef = useRef(null);
   const useVideoPreloader = !captureMode && !videoError;
+  const preloaderVideoSrc = isMobileVideo ? "/videos/preloader-mobile.mp4" : "/videos/preloader-desktop.mp4";
+  const preloaderPosterSrc = isMobileVideo ? "/videos/preloader-mobile-poster.jpg" : "/videos/preloader-desktop-poster.jpg";
 
   const handleSceneReady = useCallback(() => {
     sceneReadyRef.current = true;
@@ -28,7 +31,7 @@ export default function Preloader() {
   }, []);
 
   useEffect(() => {
-    const media = window.matchMedia?.("(max-width: 680px)");
+    const media = window.matchMedia?.(MOBILE_PRELOADER_QUERY);
     if (!media) return undefined;
     const update = () => setIsMobileVideo(media.matches);
     update();
@@ -115,24 +118,20 @@ export default function Preloader() {
     <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
       {useVideoPreloader ? (
         <video
-          key={location.key}
+          key={`${location.key}-${preloaderVideoSrc}`}
           ref={videoRef}
           className="site-preloader__video"
+          src={preloaderVideoSrc}
           autoPlay
           muted
           playsInline
           preload="auto"
-          poster={isMobileVideo ? "/videos/preloader-mobile-poster.jpg" : "/videos/preloader-desktop-poster.jpg"}
+          poster={preloaderPosterSrc}
           onLoadedData={handleSceneReady}
           onCanPlay={handleSceneReady}
           onError={() => setVideoError(true)}
           aria-hidden="true"
-        >
-          <source src="/videos/preloader-mobile.mp4" type="video/mp4" media="(max-width: 680px)" />
-          <source src="/videos/preloader-desktop.mp4" type="video/mp4" />
-          <source src="/videos/preloader-mobile.webm" type="video/webm" media="(max-width: 680px)" />
-          <source src="/videos/preloader-desktop.webm" type="video/webm" />
-        </video>
+        />
       ) : (
         <>
           <MovingHeadScene onReady={handleSceneReady} />

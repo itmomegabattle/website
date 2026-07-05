@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Api } from "../api";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
@@ -166,30 +166,19 @@ export default function StoriesList() {
   const [page, setPage] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [openedStory, setOpenedStory] = useState(null);
-  const viewportRef = useRef(null);
-  const [pagesCount, setPagesCount] = useState(1);
   const progressMs = 22000;
 
   const storyPages = useMemo(() => {
-    const width = viewportRef.current?.clientWidth || window.innerWidth || 1200;
-    const perPage = width >= 1120 ? 4 : width >= 780 ? 3 : width >= 520 ? 2 : 1;
     const pages = [];
-    for (let index = 0; index < stories.length; index += perPage) {
-      pages.push(stories.slice(index, index + perPage));
+    for (let index = 0; index < stories.length; index += 4) {
+      pages.push(stories.slice(index, index + 4));
     }
     return pages.length ? pages : [[]];
-  }, [stories, pagesCount]);
+  }, [stories]);
 
   useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return undefined;
-    const observer = new ResizeObserver(() => {
-      setPagesCount((value) => value + 1);
-      setPage(0);
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    setPage(0);
+  }, [stories.length]);
 
   useEffect(() => {
     if (storyPages.length <= 1 || isPaused || openedStory) return undefined;
@@ -209,16 +198,12 @@ export default function StoriesList() {
       {!stories.length ? null : (
         <div
           className={`stories-carousel${isPaused || openedStory ? " stories-carousel--paused" : ""}`}
-          ref={viewportRef}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onFocus={() => setIsPaused(true)}
           onBlur={() => setIsPaused(false)}
         >
-          <div
-            className="stories-carousel-window"
-            aria-label="Истории участников"
-          >
+          <div className="stories-carousel-window" aria-label="Истории участников">
             {storyPages.map((items, pageIndex) => (
               <div className={`stories-page${pageIndex === page ? " stories-page--active" : ""}`} key={`stories-page-${pageIndex}`}>
                 {items.map((story, idx) => (

@@ -4,13 +4,14 @@
 
 /* Stories Section */
 .stories-carousel {
-    width: min(94vw, 1560px);
+    width: min(94vw, 980px);
     margin: 0 auto;
 }
 
 .stories-carousel-window {
     position: relative;
-    min-height: clamp(560px, 45vw, 680px);
+    aspect-ratio: 1;
+    min-height: 0;
     overflow: hidden;
     border-radius: calc(var(--corner-radius) * 1.1);
 }
@@ -18,10 +19,10 @@
 .stories-page {
     position: absolute;
     inset: 0;
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.6rem, 1.2vw, 1rem);
     opacity: 0;
     pointer-events: none;
     transform: translateX(0);
@@ -35,7 +36,8 @@
 }
 
 .story-card {
-    flex: 0 0 clamp(200px, 40vw, 300px);
+    min-width: 0;
+    min-height: 0;
     background-color: var(--surface-color-special);
     color: var(--text-color-special);
     border-radius: var(--corner-radius);;
@@ -50,7 +52,7 @@
     transition: all 0.3s ease;
     box-shadow: var(--card-shadow);
     border: var(--card-border);
-    margin: 1.2em min(1vw, 30px) 2em;
+    margin: 0;
     font: inherit;
     cursor: pointer;
 }
@@ -73,11 +75,11 @@
 }
 
 .story-image-container {
-    width: calc(100% - 50px); 
+    width: clamp(4.2rem, 18vw, 9rem); 
     aspect-ratio: 1/1;
     border-radius: 50%;
     overflow: hidden;
-    margin-bottom: 1.5rem;
+    margin-bottom: clamp(0.55rem, 1.2vw, 1.1rem);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -97,25 +99,33 @@
 
 /* Анимация текста при наведении */
 .story-name {
-    font-size: 1.5rem;
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: clamp(1rem, 2.4vw, 1.75rem);
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
     text-transform: uppercase;
     transition: color 0.3s ease;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .story-faculty {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
+    font-size: clamp(0.78rem, 1.35vw, 1rem);
+    margin-bottom: clamp(0.45rem, 1vw, 0.9rem);
     transition: transform 0.3s ease;
 }
 
 .story-description {
+    display: -webkit-box;
+    overflow: hidden;
     font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    line-height: 1.45;
+    margin-bottom: 0.8rem;
     opacity: 0.8;
     transition: opacity 0.3s ease;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
 }
 
 .story-card:hover .story-description {
@@ -376,14 +386,13 @@
 
 @media (max-width: 900px) {
     .stories-carousel-window {
-        min-height: 580px;
+        aspect-ratio: 1;
     }
 
     .story-description {
-        display: -webkit-box;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 4;
+        font-size: 0.78rem;
+        line-height: 1.32;
+        -webkit-line-clamp: 3;
     }
 
     .stories-progress-track {
@@ -416,5 +425,45 @@
 
     .stories-admin-row > div:last-child {
         justify-content: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .stories-carousel {
+        width: min(94vw, 430px);
+    }
+
+    .stories-page {
+        gap: 0.55rem;
+    }
+
+    .story-card {
+        padding: 0.7rem;
+        border-radius: 1.25rem;
+    }
+
+    .story-image-container {
+        width: clamp(3.6rem, 20vw, 4.8rem);
+        margin-bottom: 0.45rem;
+    }
+
+    .story-name {
+        font-size: clamp(0.85rem, 4vw, 1rem);
+        line-height: 1;
+    }
+
+    .story-faculty {
+        margin-bottom: 0.35rem;
+        font-size: 0.72rem;
+    }
+
+    .story-description {
+        font-size: 0.68rem;
+        line-height: 1.25;
+        -webkit-line-clamp: 3;
+    }
+
+    .story-date {
+        font-size: 0.65rem;
     }
 }
