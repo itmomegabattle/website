@@ -198,12 +198,12 @@ body.preloader-lock {
         transform: translate(-50%, -50%) scale(0.96);
     }
     18%,
-    78% {
+    72% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
-    88% {
-        opacity: 0.18;
+    80% {
+        opacity: 0.12;
         transform: translate(-50%, -50%) scale(1.018);
     }
     100% {
@@ -230,15 +230,15 @@ body.preloader-lock {
 
 @keyframes preloader-wash {
     0%,
-    70% {
+    62% {
         opacity: 0;
         transform: scale(0.48);
     }
-    84% {
+    78% {
         opacity: 1;
         transform: scale(1.18);
     }
-    96% {
+    94% {
         opacity: 0.98;
         transform: scale(1.36);
     }
@@ -250,10 +250,10 @@ body.preloader-lock {
 
 @keyframes preloader-blind {
     0%,
-    78% {
+    66% {
         opacity: 0;
     }
-    88% {
+    78% {
         opacity: 0.96;
     }
     100% {
@@ -263,7 +263,7 @@ body.preloader-lock {
 
 @keyframes preloader-logo-reveal {
     0%,
-    82% {
+    80% {
         opacity: 0;
         transform: translateY(0.9rem) scale(0.985);
         filter:
@@ -272,7 +272,7 @@ body.preloader-lock {
             drop-shadow(0 0 0 rgba(255, 255, 255, 0))
             drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
     }
-    90% {
+    88% {
         opacity: 0.38;
         filter:
             brightness(3.3)

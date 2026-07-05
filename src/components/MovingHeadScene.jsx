@@ -246,8 +246,8 @@ export default function MovingHeadScene({ onReady }) {
           ? Math.min(1, Math.max(0, debugProgress))
           : Math.min(1, (now - startedAt) / 3000);
         const turn = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.08) / 0.72)));
-        const flash = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.72) / 0.18)));
-        const settle = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.86) / 0.14)));
+        const flash = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.66) / 0.14)));
+        const settle = easeInOutCubic(Math.min(1, Math.max(0, (t - 0.78) / 0.16)));
 
         model.rotation.y = BODY_YAW;
         model.rotation.x = -0.03 + 0.03 * turn;
