@@ -382,7 +382,71 @@ body.preloader-lock {
     }
 
     .site-preloader__logo-wrap {
-        width: min(117vw, 27rem);
+        width: min(78vw, 18rem);
+    }
+
+    @keyframes preloader-wash {
+        0%,
+        62% {
+            opacity: 0;
+            transform: scale(0.48);
+        }
+        78% {
+            opacity: 1;
+            transform: scale(1.18);
+        }
+        94% {
+            opacity: 0.98;
+            transform: scale(1.36);
+        }
+        100% {
+            opacity: 0.72;
+            transform: scale(1.52);
+        }
+    }
+
+    @keyframes preloader-blind {
+        0%,
+        66% {
+            opacity: 0;
+        }
+        78% {
+            opacity: 0.96;
+        }
+        100% {
+            opacity: 0.78;
+        }
+    }
+
+    @keyframes preloader-logo-reveal {
+        0%,
+        82% {
+            opacity: 0;
+            transform: translateY(0.45rem) scale(0.982);
+            filter:
+                brightness(1.7)
+                drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0))
+                drop-shadow(0 0 0 rgba(255, 255, 255, 0))
+                drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0));
+        }
+        90% {
+            opacity: 0.72;
+            transform: translateY(0.12rem) scale(0.995);
+            filter:
+                brightness(2.35)
+                drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0.18))
+                drop-shadow(0 0 2.2rem rgba(255, 255, 255, 0.52))
+                drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.12));
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter:
+                brightness(1.05)
+                drop-shadow(0.035em 0.035em 0 rgba(139, 165, 255, 0.50))
+                drop-shadow(0 0 1.1rem rgba(139, 165, 255, 0.22))
+                drop-shadow(0 1.25rem 2.4rem rgba(0, 0, 0, 0.36));
+        }
     }
 }
 
@@ -393,7 +457,7 @@ body.preloader-lock {
     }
 
     .site-preloader__logo-wrap {
-        width: min(123vw, 25.5rem);
+        width: min(82vw, 17rem);
     }
 }
 
