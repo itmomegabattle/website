@@ -47,6 +47,7 @@ function StoryEditor({ fallbackStories }) {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedStory, setSelectedStory] = useState(null);
+  const [previewStory, setPreviewStory] = useState(null);
   const [form, setForm] = useState(emptyStory);
   const [status, setStatus] = useState("");
 
@@ -125,6 +126,16 @@ function StoryEditor({ fallbackStories }) {
     });
   };
 
+  const openPreview = (story) => {
+    setPreviewStory({
+      ...story,
+      image: story.image_url || story.image || "/images/people/member.jpg",
+      date: story.story_date_label || story.date || "",
+      description: story.description || "",
+      faculty: story.faculty || "",
+    });
+  };
+
   return (
     <div className="stories-admin">
       <button className="stories-admin-toggle" type="button" onClick={() => setIsOpen((value) => !value)}>
@@ -171,15 +182,19 @@ function StoryEditor({ fallbackStories }) {
                   <h3>На одобрении</h3>
                   {pendingStories.map((story) => (
                     <div className="stories-admin-row stories-admin-row--pending" key={story.id}>
-                      <div>
-                        <strong>{story.name}</strong>
-                        <span>{story.faculty || "без факультета"} · {story.story_date_label || "без даты"}</span>
-                        {story.submitter_contact && <span>Контакт: {story.submitter_contact}</span>}
-                        {story.description && <p>{story.description}</p>}
+                      <div className="stories-admin-request">
+                        <img src={Api.normalizeURL(story.image_url || "/images/people/member.jpg")} alt={story.name} />
+                        <div>
+                          <strong>{story.name}</strong>
+                          <span>{story.faculty || "без факультета"} · {story.story_date_label || "без даты"}</span>
+                          {story.submitter_contact && <span>Контакт: {story.submitter_contact}</span>}
+                          {story.description && <p>{story.description}</p>}
+                        </div>
                       </div>
-                      <div>
+                      <div className="stories-admin-actions">
                         <button type="button" onClick={() => reviewStory(story, "published")}>Одобрить</button>
                         <button type="button" onClick={() => reviewStory(story, "rejected")}>Отклонить</button>
+                        <button type="button" onClick={() => openPreview(story)}>Предпросмотр</button>
                         <button type="button" onClick={() => setSelectedStory(story)}>Изменить</button>
                         <button type="button" onClick={() => deleteMutation.mutate(story.id)}>Удалить</button>
                       </div>
@@ -206,6 +221,25 @@ function StoryEditor({ fallbackStories }) {
               {!data.length && <p>В БД пока пусто. Нажми “Импортировать JSON”, чтобы перенести текущие истории.</p>}
             </div>
           </div>
+        </div>
+      )}
+      {previewStory && (
+        <div className="story-modal-backdrop" role="presentation" onClick={() => setPreviewStory(null)}>
+          <article className="story-modal story-modal--admin-preview" role="dialog" aria-modal="true" aria-label={`Предпросмотр: ${previewStory.name}`} onClick={(event) => event.stopPropagation()}>
+            <button className="story-modal-close" type="button" onClick={() => setPreviewStory(null)} aria-label="Закрыть предпросмотр">×</button>
+            <p className="card-kicker">Предпросмотр публикации</p>
+            <div className="story-image-container story-modal-image">
+              <img src={Api.normalizeURL(previewStory.image)} alt={previewStory.name} className="story-image" />
+            </div>
+            <h2>{previewStory.name}</h2>
+            <p className="story-faculty">{previewStory.faculty || "без факультета"}</p>
+            <p className="story-modal-description">{previewStory.description}</p>
+            <p className="story-date">{previewStory.date || "без даты"}</p>
+            <div className="story-preview-actions">
+              <button type="button" onClick={() => reviewStory(previewStory, "published")}>Одобрить</button>
+              <button type="button" onClick={() => setPreviewStory(null)}>Закрыть</button>
+            </div>
+          </article>
         </div>
       )}
     </div>
