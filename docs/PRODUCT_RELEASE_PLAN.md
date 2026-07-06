@@ -1332,3 +1332,7 @@ https://n.domain.ru/<tagCode>
 - JSON оставляем как fallback/seed/static.
 
 Это самый безопасный путь к сильному продукту без полного переписывания того, что уже сделано.
+
+## 21. Связанные документы
+
+- `docs/BOT_ECOSYSTEM_INTEGRATION.md` — архитектура связки сайта, двух Telegram-ботов, Mini App, ролей, ITMO.ID, backend API и примерный бюджет инфраструктуры.
