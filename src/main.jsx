@@ -10,6 +10,7 @@ import {
   ScrollRestoration,
   useMatches,
 } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Api } from "./api";
 import Background from "./components/Background";
 import Footer from "./components/Footer";
@@ -49,6 +50,7 @@ function App() {
           <Outlet />
           <ScrollRestoration />
           {!hideFooter && <Footer />}
+          <SpeedInsights />
         </div>
       </AuthProvider>
     </QueryClientProvider>
