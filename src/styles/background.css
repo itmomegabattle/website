@@ -9,8 +9,8 @@
     user-select: none;
     contain: strict;
     background:
-        radial-gradient(circle at 52% -18%, rgba(0, 102, 255, 0.28), transparent 32rem),
-        radial-gradient(circle at 8% 18%, rgba(0, 102, 255, 0.18), transparent 28rem),
+        radial-gradient(ellipse at 50% -22%, rgba(0, 102, 255, 0.34), transparent 35rem),
+        radial-gradient(ellipse at 8% 18%, rgba(0, 102, 255, 0.16), transparent 30rem),
         linear-gradient(180deg, #050505 0%, #090909 48%, #000000 100%);
 }
 
@@ -27,12 +27,12 @@
 .brand-background::before {
     content: "";
     background:
-        linear-gradient(118deg, transparent 0 14%, rgba(255, 255, 255, 0.045) 18%, transparent 23%),
-        linear-gradient(118deg, transparent 0 33%, rgba(0, 102, 255, 0.2) 39%, rgba(255, 255, 255, 0.06) 41%, transparent 48%),
-        linear-gradient(118deg, transparent 0 66%, rgba(0, 102, 255, 0.12) 71%, transparent 77%);
-    filter: blur(0.2px);
-    opacity: 0.82;
-    animation: brandPanelsShift 22s ease-in-out infinite alternate;
+        linear-gradient(116deg, transparent 0 9%, rgba(255, 255, 255, 0.07) 13%, rgba(0, 102, 255, 0.07) 17%, transparent 25%),
+        linear-gradient(116deg, transparent 0 38%, rgba(255, 255, 255, 0.055) 42%, rgba(0, 102, 255, 0.18) 47%, transparent 56%),
+        linear-gradient(116deg, transparent 0 70%, rgba(255, 255, 255, 0.04) 75%, rgba(0, 102, 255, 0.12) 80%, transparent 90%);
+    filter: blur(0.4px);
+    opacity: 0.86;
+    animation: brandGlassDrift 24s ease-in-out infinite alternate;
 }
 
 .brand-background::after {
@@ -43,24 +43,28 @@
 }
 
 .brand-background__aurora {
-    inset: 10% auto auto -24%;
-    width: 76vw;
-    height: 32vh;
+    inset: -8% auto auto -18%;
+    width: 112vw;
+    height: 58vh;
     border-radius: 999px;
-    background: rgba(0, 102, 255, 0.28);
-    filter: blur(72px);
-    opacity: 0.58;
-    transform: rotate(-18deg);
-    animation: brandGlowFloat 18s ease-in-out infinite alternate;
+    background:
+        radial-gradient(ellipse at 18% 55%, rgba(255, 255, 255, 0.2), transparent 18%),
+        radial-gradient(ellipse at 42% 48%, rgba(0, 102, 255, 0.44), transparent 30%),
+        radial-gradient(ellipse at 72% 55%, rgba(255, 255, 255, 0.13), transparent 22%),
+        linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.22), transparent);
+    filter: blur(46px);
+    opacity: 0.74;
+    transform: rotate(-9deg);
+    animation: brandAuroraFlow 21s ease-in-out infinite alternate;
 }
 
 .brand-background__aurora--right {
-    inset: 42% -26% auto auto;
-    width: 70vw;
-    height: 38vh;
-    opacity: 0.42;
-    transform: rotate(16deg);
-    animation-delay: -7s;
+    inset: 36% -28% auto auto;
+    width: 92vw;
+    height: 50vh;
+    opacity: 0.5;
+    transform: rotate(14deg);
+    animation-delay: -8s;
 }
 
 .brand-background__beam {
@@ -77,8 +81,8 @@
             rgba(0, 102, 255, 0.16) 53%,
             transparent 61% 100%
         );
-    filter: blur(20px);
-    opacity: 0.7;
+    filter: blur(24px);
+    opacity: 0.54;
     transform: rotate(-11deg);
     animation: brandBeamBreathe 14s ease-in-out infinite;
 }
@@ -101,30 +105,50 @@
         linear-gradient(90deg, rgba(0, 102, 255, 0.12) 1px, transparent 1px);
     background-size: 44px 44px, 44px 44px, 220px 220px, 220px 220px;
     mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.18) 55%, transparent 100%);
-    opacity: 0.38;
+    opacity: 0.28;
 }
 
 .brand-background__grain {
-    opacity: 0;
+    opacity: 0.12;
+    mix-blend-mode: screen;
+    background-image:
+        linear-gradient(118deg, transparent 0 34%, rgba(255, 255, 255, 0.08) 36%, transparent 39%),
+        linear-gradient(118deg, transparent 0 58%, rgba(0, 102, 255, 0.12) 61%, transparent 64%);
+    filter: blur(18px);
+    animation: brandGlassGlint 16s ease-in-out infinite alternate;
 }
 
-@keyframes brandPanelsShift {
+@keyframes brandGlassDrift {
     from {
         transform: translate3d(-2%, -1%, 0) scale(1);
     }
 
     to {
-        transform: translate3d(2%, 1.5%, 0) scale(1.04);
+        transform: translate3d(2.4%, 1.2%, 0) scale(1.035);
     }
 }
 
-@keyframes brandGlowFloat {
+@keyframes brandAuroraFlow {
     from {
-        transform: translate3d(-2%, 0, 0) rotate(-18deg) scale(1);
+        transform: translate3d(-5%, -2%, 0) rotate(-9deg) scale(1);
+        opacity: 0.58;
     }
 
     to {
-        transform: translate3d(6%, 8%, 0) rotate(-12deg) scale(1.12);
+        transform: translate3d(4%, 7%, 0) rotate(-5deg) scale(1.08);
+        opacity: 0.82;
+    }
+}
+
+@keyframes brandGlassGlint {
+    from {
+        transform: translate3d(-8%, -2%, 0);
+        opacity: 0.06;
+    }
+
+    to {
+        transform: translate3d(8%, 3%, 0);
+        opacity: 0.16;
     }
 }
 
@@ -144,7 +168,7 @@
 html[data-theme="light"] .brand-background,
 html.light .brand-background {
     background:
-        radial-gradient(circle at 52% -18%, rgba(0, 102, 255, 0.18), transparent 30rem),
+        radial-gradient(ellipse at 52% -18%, rgba(0, 102, 255, 0.18), transparent 30rem),
         linear-gradient(180deg, #ffffff 0%, #f7f9ff 52%, #ffffff 100%);
 }
 
@@ -158,13 +182,20 @@ html.light .brand-background::after {
 @media (max-width: 760px) {
     .brand-background::before {
         background:
-            linear-gradient(118deg, transparent 0 22%, rgba(0, 102, 255, 0.22) 34%, rgba(255, 255, 255, 0.06) 36%, transparent 48%),
-            linear-gradient(118deg, transparent 0 62%, rgba(0, 102, 255, 0.14) 72%, transparent 84%);
+            linear-gradient(118deg, transparent 0 18%, rgba(255, 255, 255, 0.06) 24%, rgba(0, 102, 255, 0.2) 34%, transparent 50%),
+            linear-gradient(118deg, transparent 0 62%, rgba(0, 102, 255, 0.14) 72%, rgba(255, 255, 255, 0.04) 76%, transparent 88%);
+    }
+
+    .brand-background__aurora {
+        width: 140vw;
+        height: 48vh;
+        filter: blur(40px);
+        opacity: 0.58;
     }
 
     .brand-background__beam {
         width: 118vw;
-        opacity: 0.48;
+        opacity: 0.36;
     }
 
     .brand-background__grid {
@@ -176,7 +207,8 @@ html.light .brand-background::after {
 @media (prefers-reduced-motion: reduce) {
     .brand-background::before,
     .brand-background__aurora,
-    .brand-background__beam {
+    .brand-background__beam,
+    .brand-background__grain {
         animation: none;
     }
 }
