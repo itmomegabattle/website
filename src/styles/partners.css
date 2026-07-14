@@ -88,17 +88,12 @@
   align-items: center;
   gap: clamp(1rem, 1.7vw, 1.5rem);
   width: max-content;
-  animation: partnersWallMoveLeft 54s linear infinite;
+  transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
 .partners-wall-row--reverse .partners-wall-track {
-  animation-name: partnersWallMoveRight;
-  animation-duration: 62s;
-}
-
-.partners-wall:hover .partners-wall-track {
-  animation-play-state: paused;
+  justify-self: end;
 }
 
 .partner-wall-card {
@@ -233,26 +228,6 @@
   transform: rotate(0deg);
 }
 
-@keyframes partnersWallMoveLeft {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-@keyframes partnersWallMoveRight {
-  from {
-    transform: translate3d(-50%, 0, 0);
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 @media (max-width: 900px) {
   .partners-section {
     padding-block: 1.5rem 3rem;
@@ -300,7 +275,6 @@
 
   .partners-wall-track {
     gap: 0.75rem;
-    animation-duration: 46s;
   }
 
   .partner-wall-card {
@@ -333,6 +307,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .partners-wall-track {
-    animation: none;
+    transform: none !important;
   }
 }
