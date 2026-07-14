@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { updateProfile, uploadAvatar } from "../services/profileService";
 
-const emptySocialLink = { title: "", url: "", color: "#8BA5FF", style: "soft" };
+const emptySocialLink = { title: "", url: "", color: "#0066FF", style: "soft" };
 const maxSocialLinks = 3;
 const limits = {
   nickname: 18,
@@ -213,7 +213,7 @@ export default function ProfileEditor() {
               <span>Цвет</span>
               <input
                 type="color"
-                value={item.color || "#8BA5FF"}
+                value={item.color || "#0066FF"}
                 onChange={(event) => updateSocialLink(index, "color", event.target.value)}
               />
             </label>

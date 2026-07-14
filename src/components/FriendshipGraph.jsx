@@ -6,11 +6,11 @@ import { getFriendshipGraph } from "../services/profileService";
 const facultyNames = ["КТУ", "ТИНТ", "НОЖ", "ФТМФ", "ФТМИ"];
 
 const facultyColors = {
-  КТУ: "#4B6BFB",
-  ТИНТ: "#8BA5FF",
-  НОЖ: "#00A878",
-  ФТМФ: "#FFB000",
-  ФТМИ: "#FF4D8D",
+  КТУ: "#0066FF",
+  ТИНТ: "#8BB5FF",
+  НОЖ: "#FFFFFF",
+  ФТМФ: "#2F7DFF",
+  ФТМИ: "#BFD5FF",
 };
 
 const graphWorld = {
@@ -184,7 +184,7 @@ function makeGraph(edges) {
         ...node,
         x: branchPosition.x + jitterX,
         y: branchPosition.y + jitterY,
-        color: facultyColors[node.faculty] || "#8BA5FF",
+        color: facultyColors[node.faculty] || "#0066FF",
       };
     }
 
@@ -196,7 +196,7 @@ function makeGraph(edges) {
       ...node,
       x: center.x + Math.cos(angle) * (radius + wobble),
       y: center.y + Math.sin(angle) * (radius * 0.72 - wobble),
-      color: facultyColors[node.faculty] || "#8BA5FF",
+      color: facultyColors[node.faculty] || "#0066FF",
     };
   });
 
@@ -292,7 +292,7 @@ export default function FriendshipGraph() {
       context.save();
       context.globalAlpha = selectedNodeId ? 0.045 : isDenseGraph ? 0.12 : 0.58;
       context.lineWidth = isDenseGraph ? 0.58 : 1.8;
-      context.strokeStyle = "#8BA5FF";
+      context.strokeStyle = "#0066FF";
       context.beginPath();
       visibleLinks.filter((link) => !isFocusedLink(link)).forEach((link) => {
         const source = worldToScreen(link.source);
@@ -365,7 +365,7 @@ export default function FriendshipGraph() {
         context.textAlign = "center";
         context.textBaseline = "middle";
         context.font = `900 18px ${bodyFont}`;
-        context.fillStyle = "#8BA5FF";
+        context.fillStyle = "#0066FF";
         context.fillText(node.label, point.x, point.y - 4);
         context.font = `800 13px ${bodyFont}`;
         context.fillStyle = "rgba(255,255,255,0.74)";

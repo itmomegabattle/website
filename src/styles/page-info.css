@@ -296,8 +296,9 @@
     width: 100%;
     padding: 0.75rem 1rem;
     border-radius: 1rem;
-    background: color-mix(in srgb, #ff4f93 22%, transparent);
-    color: #ff4f93;
+    background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+    color: var(--brand-white);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 42%, var(--border-color));
     font-weight: 900;
 }
 
@@ -903,8 +904,9 @@
 }
 
 .form-error {
-    background: rgba(255, 77, 141, 0.16);
-    color: #ff4d8d;
+    background: color-mix(in srgb, var(--accent-color) 16%, transparent);
+    color: var(--brand-white);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 42%, var(--border-color));
 }
 
 .form-status {
@@ -1128,23 +1130,19 @@
 }
 
 .social-link-button--telegram {
-    --social-color: #229ED9;
+    --social-color: var(--brand-blue);
 }
 
 .social-link-button--instagram {
-    --social-color: #E4405F;
-    background:
-        radial-gradient(circle at 0% 0%, #FEDA75 0 18%, transparent 42%),
-        linear-gradient(135deg, #833AB4, #E1306C 48%, #F77737);
-    color: white;
+    --social-color: var(--brand-blue);
 }
 
 .social-link-button--vk {
-    --social-color: #0077FF;
+    --social-color: var(--brand-blue);
 }
 
 .social-link-button--github {
-    --social-color: #8BA5FF;
+    --social-color: var(--brand-blue-soft);
 }
 
 .social-link-button--solid {
@@ -1397,13 +1395,6 @@
         color-mix(in srgb, var(--social-color) 14%, var(--surface-color-special));
     color: var(--text-color-special);
     box-shadow: 0 16px 34px color-mix(in srgb, var(--social-color) 16%, transparent);
-}
-
-.social-bio-links .social-link-button--instagram {
-    background:
-        radial-gradient(circle at 0% 0%, #FEDA75 0 18%, transparent 42%),
-        linear-gradient(135deg, #833AB4, #E1306C 48%, #F77737);
-    color: white;
 }
 
 .social-bio-links .social-link-button--solid {
@@ -1749,16 +1740,16 @@
 }
 
 .admin-profile-row--banned {
-    border-color: color-mix(in srgb, #ff4f67 70%, var(--border-color));
+    border-color: color-mix(in srgb, var(--accent-color) 70%, var(--border-color));
     background:
-        radial-gradient(circle at 0% 0%, rgba(255,79,103,0.2), transparent 34%),
+        radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--accent-color) 20%, transparent), transparent 34%),
         color-mix(in srgb, var(--surface-color-special) 70%, transparent);
 }
 
 .admin-danger-button--active {
-    border-color: color-mix(in srgb, #ff4f67 74%, var(--border-color));
-    background: color-mix(in srgb, #ff4f67 18%, var(--surface-color));
-    color: #ff4f67;
+    border-color: color-mix(in srgb, var(--accent-color) 74%, var(--border-color));
+    background: color-mix(in srgb, var(--accent-color) 18%, var(--surface-color));
+    color: var(--brand-white);
 }
 
 .admin-role-field {

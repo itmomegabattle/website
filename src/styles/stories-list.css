@@ -58,15 +58,16 @@
     justify-content: center;
 }
 
-.story-card[data-tag="0"] { --tag-color: #142A68; }
-.story-card[data-tag="1"] { --tag-color: #68144C; }
-.story-card[data-tag="2"] { --tag-color: #146842; }
+.story-card[data-tag="0"] { --tag-color: rgba(0, 102, 255, 0.32); }
+.story-card[data-tag="1"] { --tag-color: rgba(255, 255, 255, 0.12); }
+.story-card[data-tag="2"] { --tag-color: rgba(0, 102, 255, 0.18); }
 
 .story-card {
     background:
         radial-gradient(ellipse 80% 25% at 0% 0%, var(--tag-color) 0%, transparent 100%),
         radial-gradient(ellipse 100% 35% at 100% 100%, var(--tag-color) 0%, transparent 100%),
-        var(--surface-color-special);
+        color-mix(in srgb, var(--surface-color-special) 88%, transparent);
+    backdrop-filter: blur(14px);
 }
 
 /* Анимации при наведении на карточку */
@@ -87,7 +88,7 @@
 /* Анимация фотографии при наведении */
 .story-card:hover .story-image-container {
     transform: scale(1.05);
-    box-shadow: 0 0 30px var(--tag-color)
+    box-shadow: 0 0 30px rgba(0, 102, 255, 0.28)
 }
 
 .story-image {
