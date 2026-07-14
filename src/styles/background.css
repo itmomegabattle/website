@@ -30,9 +30,9 @@
         linear-gradient(116deg, transparent 0 9%, rgba(255, 255, 255, 0.07) 13%, rgba(0, 102, 255, 0.07) 17%, transparent 25%),
         linear-gradient(116deg, transparent 0 38%, rgba(255, 255, 255, 0.055) 42%, rgba(0, 102, 255, 0.18) 47%, transparent 56%),
         linear-gradient(116deg, transparent 0 70%, rgba(255, 255, 255, 0.04) 75%, rgba(0, 102, 255, 0.12) 80%, transparent 90%);
-    filter: blur(0.4px);
     opacity: 0.86;
     animation: brandGlassDrift 24s ease-in-out infinite alternate;
+    will-change: transform, opacity;
 }
 
 .brand-background::after {
@@ -52,10 +52,10 @@
         radial-gradient(ellipse at 42% 48%, rgba(0, 102, 255, 0.44), transparent 30%),
         radial-gradient(ellipse at 72% 55%, rgba(255, 255, 255, 0.13), transparent 22%),
         linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.22), transparent);
-    filter: blur(46px);
     opacity: 0.74;
     transform: rotate(-9deg);
     animation: brandAuroraFlow 21s ease-in-out infinite alternate;
+    will-change: transform, opacity;
 }
 
 .brand-background__aurora--right {
@@ -81,10 +81,10 @@
             rgba(0, 102, 255, 0.16) 53%,
             transparent 61% 100%
         );
-    filter: blur(24px);
     opacity: 0.54;
     transform: rotate(-11deg);
     animation: brandBeamBreathe 14s ease-in-out infinite;
+    will-change: transform, opacity;
 }
 
 .brand-background__beam--two {
@@ -114,8 +114,8 @@
     background-image:
         linear-gradient(118deg, transparent 0 34%, rgba(255, 255, 255, 0.08) 36%, transparent 39%),
         linear-gradient(118deg, transparent 0 58%, rgba(0, 102, 255, 0.12) 61%, transparent 64%);
-    filter: blur(18px);
     animation: brandGlassGlint 16s ease-in-out infinite alternate;
+    will-change: transform, opacity;
 }
 
 @keyframes brandGlassDrift {
@@ -189,7 +189,6 @@ html.light .brand-background::after {
     .brand-background__aurora {
         width: 140vw;
         height: 48vh;
-        filter: blur(40px);
         opacity: 0.58;
     }
 

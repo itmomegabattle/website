@@ -67,7 +67,6 @@
         radial-gradient(ellipse 80% 25% at 0% 0%, var(--tag-color) 0%, transparent 100%),
         radial-gradient(ellipse 100% 35% at 100% 100%, var(--tag-color) 0%, transparent 100%),
         color-mix(in srgb, var(--surface-color-special) 88%, transparent);
-    backdrop-filter: blur(14px);
 }
 
 /* Анимации при наведении на карточку */
@@ -215,7 +214,6 @@
     place-items: center;
     padding: 1rem;
     background: rgba(0, 0, 0, 0.68);
-    backdrop-filter: blur(12px);
 }
 
 .story-modal {
