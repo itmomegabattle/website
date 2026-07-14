@@ -1,5 +1,9 @@
 @import "./variables.css";
 
+.people-page {
+    padding-bottom: 6rem;
+}
+
 
 
 .people-title {
@@ -7,6 +11,11 @@
     margin-top: 8rem;
     fill: var(--text-color) !important;
     filter: var(--svg-blue-shadow);
+}
+
+.people-page .team,
+.people-page .stories {
+    position: relative;
 }
 
 .stories-title {

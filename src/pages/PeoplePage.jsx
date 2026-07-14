@@ -5,7 +5,7 @@ import "../styles/page-people.css";
 
 export default function PeoplePage() {
   return (
-    <main>
+    <main className="people-page">
       <section className="main-width">
         {/* todo: скучновато */}
         <Megabattle className="people-title" />

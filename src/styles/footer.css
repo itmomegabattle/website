@@ -3,15 +3,20 @@
 
 /* Footer */
 .footer {
-    background-color: var(--surface-color-special);
+    background:
+        radial-gradient(circle at 18% 0%, rgba(0, 102, 255, 0.32), transparent 18rem),
+        radial-gradient(circle at 82% 100%, rgba(0, 209, 255, 0.14), transparent 18rem),
+        color-mix(in srgb, var(--surface-color-special) 92%, transparent);
     color: #ffffff;
     padding: 3rem 0;
     border-top-left-radius: var(--corner-radius);
     border-top-right-radius: var(--corner-radius);
-    border: var(--card-border);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 24%, var(--border-color));
     border-left-width: 0;
     border-right-width: 0;
     border-bottom-width: 0;
+    box-shadow: 0 -24px 70px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(14px);
 
     display: flex;
     flex-direction: column;

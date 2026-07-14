@@ -1,37 +1,194 @@
 @import "./variables.css";
 
-.vector-container {
+.brand-background {
     position: fixed;
     inset: 0;
     z-index: -1000;
+    overflow: hidden;
     pointer-events: none;
     user-select: none;
-
-    width: 100%;
-    max-width: 100%;
-    height: 100svh;
-    overflow: hidden;
-    contain: layout paint size;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* gap: 100px; */
-
-    opacity: 0.7;
+    contain: strict;
+    background:
+        radial-gradient(circle at 50% -18%, rgba(0, 102, 255, 0.18), transparent 34rem),
+        linear-gradient(180deg, rgba(0, 102, 255, 0.05), transparent 44%, rgba(0, 0, 0, 0.18));
 }
 
-.vector-template {
-    display: none;
+.brand-background::before,
+.brand-background::after,
+.brand-background__aurora,
+.brand-background__beam,
+.brand-background__grid,
+.brand-background__grain {
+    position: absolute;
+    inset: 0;
 }
 
-.vector-item {
-    width: 130%;
-    height: 100svh;
-    margin-left: -15%;
-    min-width: 1000px;
-    flex-shrink: 0;
-    
-    stroke: var(--accent-color);
-    stroke-width: 2px;
+.brand-background::before {
+    content: "";
+    background:
+        radial-gradient(circle at 18% 22%, rgba(0, 102, 255, 0.38), transparent 20rem),
+        radial-gradient(circle at 80% 16%, rgba(0, 209, 255, 0.22), transparent 19rem),
+        radial-gradient(circle at 56% 82%, rgba(36, 52, 255, 0.16), transparent 25rem);
+    filter: blur(10px);
+    opacity: 0.86;
+    animation: brandGlowDrift 18s ease-in-out infinite alternate;
+}
+
+.brand-background::after {
+    content: "";
+    background:
+        radial-gradient(ellipse at 50% 48%, transparent 0 42%, rgba(0, 0, 0, 0.32) 72%, rgba(0, 0, 0, 0.58) 100%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.34), transparent 26%, transparent 74%, rgba(0, 0, 0, 0.34));
+}
+
+.brand-background__aurora {
+    width: 72vmax;
+    height: 72vmax;
+    inset: auto auto -32vmax -20vmax;
+    border-radius: 50%;
+    background:
+        conic-gradient(
+            from 140deg,
+            transparent 0deg,
+            rgba(0, 102, 255, 0.12) 58deg,
+            rgba(0, 209, 255, 0.24) 112deg,
+            transparent 178deg,
+            rgba(0, 71, 184, 0.18) 236deg,
+            transparent 360deg
+        );
+    filter: blur(24px);
+    opacity: 0.58;
+    animation: brandAurora 24s linear infinite;
+}
+
+.brand-background__aurora--right {
+    inset: -34vmax -28vmax auto auto;
+    width: 82vmax;
+    height: 82vmax;
+    opacity: 0.42;
+    animation-duration: 31s;
+    animation-direction: reverse;
+}
+
+.brand-background__beam {
+    inset: -20% auto auto -18%;
+    width: 70vw;
+    height: 150vh;
+    background: linear-gradient(
+        105deg,
+        transparent 0 34%,
+        rgba(0, 102, 255, 0.05) 42%,
+        rgba(0, 168, 255, 0.2) 48%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(0, 102, 255, 0.16) 54%,
+        transparent 64% 100%
+    );
+    filter: blur(18px);
+    opacity: 0.72;
+    transform: rotate(-18deg);
+    animation: brandBeamSweep 16s ease-in-out infinite;
+}
+
+.brand-background__beam--two {
+    inset: auto -28% -34% auto;
+    width: 78vw;
+    height: 150vh;
+    opacity: 0.45;
+    transform: rotate(24deg);
+    animation-duration: 21s;
+    animation-delay: -8s;
+}
+
+.brand-background__grid {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(rgba(0, 102, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 102, 255, 0.06) 1px, transparent 1px);
+    background-size: 48px 48px, 48px 48px, 192px 192px, 192px 192px;
+    mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.78), transparent 76%);
+    opacity: 0.46;
+}
+
+.brand-background__grain {
+    opacity: 0.14;
+    mix-blend-mode: screen;
+    background-image:
+        repeating-radial-gradient(circle at 17% 31%, rgba(255, 255, 255, 0.62) 0 1px, transparent 1px 5px);
+    background-size: 7px 7px;
+}
+
+@keyframes brandGlowDrift {
+    from {
+        transform: translate3d(-2%, -1%, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(2%, 2%, 0) scale(1.08);
+    }
+}
+
+@keyframes brandAurora {
+    from {
+        transform: rotate(0deg) scale(1);
+    }
+
+    to {
+        transform: rotate(360deg) scale(1.05);
+    }
+}
+
+@keyframes brandBeamSweep {
+    0%,
+    100% {
+        transform: translate3d(-4%, 0, 0) rotate(-18deg);
+        opacity: 0.42;
+    }
+
+    45% {
+        transform: translate3d(10%, 2%, 0) rotate(-10deg);
+        opacity: 0.82;
+    }
+}
+
+html[data-theme="light"] .brand-background,
+html.light .brand-background {
+    background:
+        radial-gradient(circle at 20% 18%, rgba(0, 102, 255, 0.18), transparent 22rem),
+        radial-gradient(circle at 82% 12%, rgba(0, 209, 255, 0.16), transparent 20rem),
+        linear-gradient(180deg, #f7f8fb, #eef3ff);
+}
+
+html[data-theme="light"] .brand-background::after,
+html.light .brand-background::after {
+    background:
+        radial-gradient(ellipse at 50% 48%, transparent 0 44%, rgba(255, 255, 255, 0.42) 78%, rgba(255, 255, 255, 0.72) 100%),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.48), transparent 30%, transparent 70%, rgba(255, 255, 255, 0.48));
+}
+
+@media (max-width: 760px) {
+    .brand-background::before {
+        background:
+            radial-gradient(circle at 24% 16%, rgba(0, 102, 255, 0.34), transparent 15rem),
+            radial-gradient(circle at 86% 38%, rgba(0, 209, 255, 0.18), transparent 16rem),
+            radial-gradient(circle at 44% 82%, rgba(36, 52, 255, 0.14), transparent 19rem);
+    }
+
+    .brand-background__beam {
+        width: 115vw;
+        opacity: 0.5;
+    }
+
+    .brand-background__grid {
+        background-size: 34px 34px, 34px 34px, 136px 136px, 136px 136px;
+        opacity: 0.34;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-background::before,
+    .brand-background__aurora,
+    .brand-background__beam {
+        animation: none;
+    }
 }

@@ -1,79 +1,14 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "../styles/background.css";
 
 export default function Background() {
-  const lastSvg = useRef(null);
-  const observerHelper = useRef(null);
-  const container = useRef(null);
-
-  // Автоматически продлевать БГ при скролле
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (container.current.childElementCount > 50) {
-        console.warn('Background too many children');
-        return;
-      }
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          const newSvg = lastSvg.current.cloneNode(true);
-          container.current.insertBefore(newSvg, lastSvg.current);
-          observer.disconnect();
-          observer.observe(lastSvg.current);
-          observer.observe(observerHelper.current);
-          break;
-        }
-      }
-    });
-    observer.observe(lastSvg.current);
-    observer.observe(observerHelper.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <>
-      <svg
-        viewBox="0 0 1290 790"
-        className="vector-template"
-        width="1290"
-        height="790"
-      >
-        <defs>
-          <path
-            d="M 17,42 C 83,32 150,22 168,69 C 187,117 157,222 194,240 C 231,258 335,189 392,192 C 449,195 458,270 490,297 C 521,323 575,301 616,300 C 656,300 682,321 705,372 C 727,424 745,505 774,556 C 802,608 840,630 894,618 C 948,606 1018,561 1052,576 C 1086,592 1084,669 1113,710 C 1143,751 1203,756 1264,762"
-            id="vector-001"
-            fill="none"
-          >
-            <animate
-              repeatCount="indefinite"
-              attributeName="d"
-              dur="30s"
-              values="M 17,42 C 83,32 150,22 168,69 C 187,117 157,222 194,240 C 231,258 335,189 392,192 C 449,195 458,270 490,297 C 521,323 575,301 616,300 C 656,300 682,321 705,372 C 727,424 745,505 774,556 C 802,608 840,630 894,618 C 948,606 1018,561 1052,576 C 1086,592 1084,669 1113,710 C 1143,751 1203,756 1264,762;M 17,42 C 51,72 86,102 129,122 C 171,141 220,150 276,145 C 331,141 392,123 412,169 C 432,215 411,325 429,380 C 446,435 501,436 547,452 C 592,468 629,500 667,509 C 705,517 744,502 791,490 C 838,479 892,472 937,498 C 981,525 1015,585 1053,622 C 1091,659 1133,674 1169,694 C 1205,713 1234,738 1264,762;M 17,42 C 45,90 74,139 102,168 C 130,198 157,210 204,209 C 251,208 318,196 349,224 C 380,252 374,320 407,366 C 440,411 511,432 579,420 C 647,407 713,361 749,367 C 786,373 794,432 813,478 C 833,523 864,555 907,566 C 949,577 1003,567 1051,570 C 1100,573 1143,589 1177,623 C 1212,657 1238,710 1264,762;M 17,42 C 68,23 119,4 152,24 C 184,45 198,105 238,141 C 278,177 344,189 388,212 C 433,235 457,269 478,310 C 500,350 519,397 566,398 C 613,400 688,356 720,392 C 752,427 741,542 768,579 C 795,615 860,574 924,548 C 989,521 1053,510 1078,555 C 1103,601 1090,704 1115,748 C 1139,792 1201,777 1264,762;M 17,42 C 83,32 150,22 168,69 C 187,117 157,222 194,240 C 231,258 335,189 392,192 C 449,195 458,270 490,297 C 521,323 575,301 616,300 C 656,300 682,321 705,372 C 727,424 745,505 774,556 C 802,608 840,630 894,618 C 948,606 1018,561 1052,576 C 1086,592 1084,669 1113,710 C 1143,751 1203,756 1264,762"
-              calcMode="spline"
-              keySplines="0.18 0 0.65 1; 0.18 0 0.65 1; 0.18 0 0.65 1; 0.18 0 0.65 1;"
-            />
-          </path>
-        </defs>
-      </svg>
-
-      <div className="vector-container" ref={container}>
-        <svg
-          viewBox="0 0 1290 1000"
-          width="1290"
-          height="1000"
-          preserveAspectRatio="none"
-          className="vector-item"
-          ref={lastSvg}
-        >
-          <use href="#vector-001" x="21" y="0" />
-          <use href="#vector-001" x="14" y="33" />
-          <use href="#vector-001" x="7" y="60" />
-          <use href="#vector-001" x="0" y="95" />
-          <use href="#vector-001" x="-7" y="125" />
-          <use href="#vector-001" x="-14" y="155" />
-          <use href="#vector-001" x="-21" y="190" />
-        </svg>
-        <div ref={observerHelper} style={{ height: 10000 }}></div>
-      </div>
-    </>
+    <div className="brand-background" aria-hidden="true">
+      <div className="brand-background__aurora brand-background__aurora--left" />
+      <div className="brand-background__aurora brand-background__aurora--right" />
+      <div className="brand-background__beam brand-background__beam--one" />
+      <div className="brand-background__beam brand-background__beam--two" />
+      <div className="brand-background__grid" />
+      <div className="brand-background__grain" />
+    </div>
   );
 }
