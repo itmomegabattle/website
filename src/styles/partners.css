@@ -1,109 +1,338 @@
+@import "./variables.css";
+
 .partners-section {
   width: 100%;
   margin: 0 calc(-50vw + 50%);
-  overflow-x: hidden;
-  overflow-y: visible;
-
-  display: flex;
-  flex-direction: column;
-  gap: 100px;
-
-  padding: 80px 0;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(3rem, 7vw, 6rem);
 }
 
-/* ===== РЯД ===== */
-.carousel-row {
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: visible;
-  margin-bottom: 100px;
-  padding: 16px 0;
+.partners-wall {
   position: relative;
+  min-height: clamp(520px, 58vw, 760px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(0, 102, 255, 0.16), transparent 34rem),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.78));
+  border-block: 1px solid rgba(255, 255, 255, 0.08);
+  isolation: isolate;
 }
 
-.carousel-row:last-child {
-  margin-bottom: 0;
+.partners-wall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 220px 220px;
+  opacity: 0.34;
+  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
 }
 
-/* ===== ТРЕК (движение) ===== */
-.track {
+.partners-wall__shade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 26%;
+  pointer-events: none;
+}
+
+.partners-wall__shade--top {
+  top: 0;
+  background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.78) 32%, transparent 100%);
+}
+
+.partners-wall__shade--bottom {
+  bottom: 0;
+  background: linear-gradient(0deg, #000 0%, rgba(0, 0, 0, 0.82) 28%, transparent 100%);
+}
+
+.partners-wall__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 136vw;
+  min-width: 1700px;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  transform-origin: center;
+  display: grid;
+  gap: clamp(1rem, 1.8vw, 1.7rem);
+  z-index: 1;
+}
+
+.partners-wall-row {
+  position: relative;
   display: flex;
-  gap: 40px;
+  width: 100%;
+  overflow: visible;
+}
+
+.partners-wall-row--0 {
+  margin-left: -6vw;
+}
+
+.partners-wall-row--1 {
+  margin-left: 5vw;
+}
+
+.partners-wall-row--2 {
+  margin-left: -12vw;
+}
+
+.partners-wall-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 1.7vw, 1.5rem);
   width: max-content;
-
-  animation: move-left 40s linear infinite;
+  animation: partnersWallMoveLeft 54s linear infinite;
+  will-change: transform;
 }
 
-/* второй ряд — в обратную сторону */
-.carousel-row.reverse .track {
-  animation: move-right 40s linear infinite;
+.partners-wall-row--reverse .partners-wall-track {
+  animation-name: partnersWallMoveRight;
+  animation-duration: 62s;
 }
 
-/* пауза при наведении */
-.carousel-row:hover .track {
+.partners-wall:hover .partners-wall-track {
   animation-play-state: paused;
 }
 
-/* ===== КАРТОЧКА ===== */
-.partner-card {
-  width: 140px;
-  height: 140px;
-  flex-shrink: 0;
-
+.partner-wall-card {
+  --panel-width: clamp(260px, 24vw, 430px);
+  --panel-height: clamp(150px, 13vw, 230px);
   position: relative;
-  cursor: pointer;
-  color: currentColor;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.partner-card:hover {
-  transform: scale(1.08);
-  text-decoration: none;
-}
-
-/* ===== АВАТАРКА ===== */
-.avatar {
-  width: 100%;
-  height: 100%;
-
-  border-radius: 50%;
+  display: grid;
+  align-content: end;
+  width: var(--panel-width);
+  height: var(--panel-height);
+  flex: 0 0 auto;
   overflow: hidden;
+  border-radius: clamp(0.9rem, 1.4vw, 1.45rem);
+  color: var(--brand-white);
+  text-decoration: none;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.14), transparent 30%),
+    linear-gradient(135deg, rgba(0, 102, 255, 0.22), rgba(255, 255, 255, 0.045) 48%, rgba(0, 0, 0, 0.42)),
+    rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 1.25rem 2.8rem rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translateZ(0);
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
 
+.partner-wall-card:hover {
+  transform: translateY(-0.35rem) scale(1.025);
+  border-color: rgba(255, 255, 255, 0.42);
+  box-shadow:
+    0 1.7rem 3.8rem rgba(0, 0, 0, 0.66),
+    0 0 2.4rem rgba(0, 102, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+}
+
+.partner-wall-card--1,
+.partner-wall-card--5 {
+  --panel-width: clamp(320px, 29vw, 520px);
+}
+
+.partner-wall-card--2 {
+  --panel-height: clamp(170px, 15vw, 250px);
+}
+
+.partner-wall-card--3,
+.partner-wall-card--6 {
+  --panel-width: clamp(220px, 20vw, 350px);
+}
+
+.partner-wall-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 0 36%, rgba(0, 0, 0, 0.46) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.38), transparent 28%, transparent 72%, rgba(0, 0, 0, 0.34));
+  z-index: 1;
+}
+
+.partner-wall-card::after {
+  content: "";
+  position: absolute;
+  inset: 0.55rem;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.partner-wall-card__media {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.3rem, 2.6vw, 2.4rem);
+}
+
+.partner-wall-card__media img {
+  width: min(74%, 260px);
+  max-height: 62%;
+  object-fit: contain;
+  filter:
+    grayscale(1)
+    contrast(1.14)
+    brightness(1.16)
+    drop-shadow(0 0 1.35rem rgba(255, 255, 255, 0.18));
+  opacity: 0.92;
+}
+
+.partner-wall-card__caption {
   position: relative;
-
-  background: var(--surface-color-special);
-  border: var(--card-border);
+  z-index: 3;
+  display: grid;
+  gap: 0.2rem;
+  padding: clamp(1rem, 1.8vw, 1.45rem);
 }
 
-/* картинка полностью заполняет круг */
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.partner-wall-card__caption span {
+  color: var(--brand-blue-soft);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-/* ===== АНИМАЦИИ ===== */
-@keyframes move-left {
-  0% {
-    transform: translateX(0);
+.partner-wall-card__caption strong {
+  max-width: 90%;
+  font-family: var(--heading-font);
+  font-size: clamp(1.05rem, 1.75vw, 1.8rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  text-shadow: 0.08em 0.08em 0 rgba(0, 102, 255, 0.72);
+}
+
+.partners-wall-marquee {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3.2rem;
+  color: rgba(255, 255, 255, 0.2);
+  font-family: var(--heading-font);
+  font-size: clamp(2rem, 5vw, 5rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  transform: rotate(0deg);
+}
+
+@keyframes partnersWallMoveLeft {
+  from {
+    transform: translate3d(0, 0, 0);
   }
-  100% {
-    transform: translateX(-50%);
+
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
-@keyframes move-right {
-  0% {
-    transform: translateX(-50%);
+@keyframes partnersWallMoveRight {
+  from {
+    transform: translate3d(-50%, 0, 0);
   }
-  100% {
-    transform: translateX(0);
+
+  to {
+    transform: translate3d(0, 0, 0);
   }
 }
 
-/* ===== БЕЗОПАСНОСТЬ ОТ СКРОЛЛА ===== */
-/* html, body {
-  overflow-x: hidden;
-} */
+@media (max-width: 900px) {
+  .partners-section {
+    padding-block: 1.5rem 3rem;
+  }
+
+  .partners-wall {
+    min-height: 560px;
+  }
+
+  .partners-wall__stage {
+    width: 210vw;
+    min-width: 1200px;
+    transform: translate(-50%, -50%) rotate(-8deg);
+  }
+
+  .partner-wall-card {
+    --panel-width: 240px;
+    --panel-height: 145px;
+  }
+
+  .partner-wall-card--1,
+  .partner-wall-card--5 {
+    --panel-width: 300px;
+  }
+
+  .partner-wall-card--3,
+  .partner-wall-card--6 {
+    --panel-width: 220px;
+  }
+
+  .partner-wall-card__caption strong {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .partners-wall {
+    min-height: 520px;
+  }
+
+  .partners-wall__stage {
+    min-width: 1040px;
+    gap: 0.8rem;
+  }
+
+  .partners-wall-track {
+    gap: 0.75rem;
+    animation-duration: 46s;
+  }
+
+  .partner-wall-card {
+    --panel-width: 205px;
+    --panel-height: 128px;
+    border-radius: 0.9rem;
+  }
+
+  .partner-wall-card--1,
+  .partner-wall-card--5 {
+    --panel-width: 250px;
+  }
+
+  .partner-wall-card__media {
+    padding: 1rem;
+  }
+
+  .partner-wall-card__caption {
+    padding: 0.8rem;
+  }
+
+  .partner-wall-card__caption span {
+    font-size: 0.56rem;
+  }
+
+  .partner-wall-card__caption strong {
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-wall-track {
+    animation: none;
+  }
+}
