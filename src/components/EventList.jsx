@@ -30,18 +30,10 @@ export default function EventList() {
     initialData: [],
   }).data;
 
-  // показываем только события сегодня и в будущем
+  // На главной выводим первое мероприятие из общей секции мероприятий.
   const visibleEvents = useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return events
-      .filter((event) => {
-        const eventDate = new Date(event.date);
-        eventDate.setHours(0, 0, 0, 0);
-        return eventDate >= today;
-      })
-      .sort((a, b) => new Date(a.date) - new Date(b.date));
+    const firstEvent = [...events].sort((a, b) => new Date(a.date) - new Date(b.date))[0];
+    return firstEvent ? [firstEvent] : [];
   }, [events]);
 
   return (
