@@ -27,7 +27,6 @@ import PeoplePage from "./pages/PeoplePage";
 import PartnersPage from "./pages/PartnersPage";
 import PublicProfilePage from "./pages/PublicProfilePage";
 import RatingsPage from "./pages/RatingsPage";
-import RolesPage from "./pages/RolesPage";
 import "./styles/common.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -67,7 +66,6 @@ const router = createBrowserRouter(
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
-      <Route path="/roles" element={<RolesPage />} handle={{ hideBackground: true }} />
       <Route path="/ratings" element={<RatingsPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/auth" element={<AuthPage />} />
