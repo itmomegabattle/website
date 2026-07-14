@@ -36,6 +36,7 @@ const queryClient = new QueryClient();
 function App() {
   const matches = useMatches();
   const hideFooter = matches.some((match) => match.handle?.hideFooter);
+  const hideBackground = matches.some((match) => match.handle?.hideBackground);
   const pageClassName = matches.some((match) => match.handle?.compactViewport)
     ? "app-shell app-shell--compact"
     : "app-shell";
@@ -46,7 +47,7 @@ function App() {
         <div className={pageClassName}>
           <Preloader />
           <Header />
-          <Background />
+          {!hideBackground && <Background />}
           <Outlet />
           <ScrollRestoration />
           {!hideFooter && <Footer />}
@@ -66,7 +67,7 @@ const router = createBrowserRouter(
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
-      <Route path="/roles" element={<RolesPage />} />
+      <Route path="/roles" element={<RolesPage />} handle={{ hideBackground: true }} />
       <Route path="/ratings" element={<RatingsPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/auth" element={<AuthPage />} />
