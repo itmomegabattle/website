@@ -346,6 +346,8 @@ const roleStats = [
   { value: "∞", label: "траекторий роста" },
 ];
 
+const roleStages = ["Вход", "Опора", "Спец", "Мастер", "Лидер"];
+
 export default function RoleMap() {
   const allRoles = useMemo(
     () => roleTracks.flatMap((track) => track.roles.map((role) => ({ ...role, track }))),
@@ -355,74 +357,86 @@ export default function RoleMap() {
   const activeRole = allRoles.find((role) => role.id === activeRoleId) || allRoles[0];
 
   return (
-    <div className="role-map">
-      <section className="role-hero main-width">
-        <p className="card-kicker">Навигация по команде</p>
-        <h1>РОЛИ</h1>
-        <p className="role-hero-lead">
-          Карта помогает понять, куда заходить новичку и как расти внутри Megabattle:
-          от реквизита, СММ и помощи на точках — до режиссуры, продюсирования,
-          разработки и внешних коммуникаций.
-        </p>
-        <div className="role-stat-row" aria-label="Коротко о карте ролей">
-          {roleStats.map((item) => (
-            <div className="role-stat" key={item.label}>
-              <strong>{item.value}</strong>
-              <span>{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="role-map-board role-map-wide" aria-label="Карта ролей Megabattle">
-        <div className="role-board-grid">
-          <div className="role-map-core">
-            <span>старт</span>
-            <strong>Я хочу в команду</strong>
-            <p>Выбери направление — карта покажет задачи, навыки и следующий шаг.</p>
+    <section className="role-map role-map-wide" aria-label="Карта ролей Megabattle">
+      <div className="role-graph-shell">
+        <div className="role-graph-head">
+          <div>
+            <p className="card-kicker">Большой граф</p>
+            <h2>Карта роста</h2>
           </div>
+          <div className="role-stat-row" aria-label="Коротко о карте ролей">
+            {roleStats.map((item) => (
+              <div className="role-stat" key={item.label}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div className="role-track-list">
+        <div className="role-graph-scroll">
+          <div className="role-graph-canvas">
+            <div className="role-stage-row" aria-hidden="true">
+              <span>Направление</span>
+              {roleStages.map((stage) => (
+                <span key={stage}>{stage}</span>
+              ))}
+            </div>
+
+            <div className="role-graph-hub">
+              <span>старт</span>
+              <strong>Я хочу в команду</strong>
+              <p>Выбери узел — снизу откроются задачи, навыки и следующий шаг.</p>
+            </div>
+
             {roleTracks.map((track) => (
-              <article className="role-track" key={track.id} style={{ "--track-accent": track.accent }}>
-                <div className="role-track-head">
-                  <span>{track.title}</span>
+              <article className="role-graph-row" key={track.id} style={{ "--track-accent": track.accent }}>
+                <div className="role-graph-track-label">
+                  <strong>{track.title}</strong>
                   <p>{track.description}</p>
                 </div>
-                <div className="role-card-row">
+                <div className="role-graph-nodes">
                   {track.roles.map((role, index) => (
                     <button
-                      className={`role-node${activeRoleId === role.id ? " role-node--active" : ""}`}
+                      className={`role-graph-node${activeRoleId === role.id ? " role-graph-node--active" : ""}`}
                       type="button"
                       key={role.id}
                       onClick={() => setActiveRoleId(role.id)}
+                      aria-pressed={activeRoleId === role.id}
                     >
+                      <span className="role-graph-node__index">{String(index + 1).padStart(2, "0")}</span>
                       <small>{role.level}</small>
                       <strong>{role.title}</strong>
-                      <span>{index === 0 ? "войти" : index === 1 ? "усилиться" : "вести"}</span>
                     </button>
                   ))}
                 </div>
               </article>
             ))}
           </div>
+        </div>
+      </div>
 
-          <aside className="role-details" style={{ "--track-accent": activeRole.track.accent }}>
-            <p className="card-kicker">{activeRole.track.title}</p>
-            <h2>{activeRole.title}</h2>
-            <p>{activeRole.tasks}</p>
+      <aside className="role-details role-details--graph" style={{ "--track-accent": activeRole.track.accent }}>
+        <div className="role-details-main">
+          <p className="card-kicker">{activeRole.track.title}</p>
+          <h2>{activeRole.title}</h2>
+          <p>{activeRole.tasks}</p>
+        </div>
+        <div className="role-details-side">
+          <div>
+            <span className="role-details-label">Навыки</span>
             <div className="role-skill-list">
               {activeRole.skills.map((skill) => (
                 <span key={skill}>{skill}</span>
               ))}
             </div>
-            <div className="role-next-step">
-              <span>следующий шаг</span>
-              <strong>{activeRole.next}</strong>
-            </div>
-          </aside>
+          </div>
+          <div className="role-next-step">
+            <span>следующий шаг</span>
+            <strong>{activeRole.next}</strong>
+          </div>
         </div>
-      </section>
-    </div>
+      </aside>
+    </section>
   );
 }
