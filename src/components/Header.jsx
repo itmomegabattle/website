@@ -134,6 +134,7 @@ export default function Header() {
     { to: "/history", label: "История" },
     { to: "/partners", label: "Партнёры" },
     { to: "/events", label: "Мероприятия" },
+    { to: "/roles", label: "Роли" },
     { to: "/ratings", label: "Участникам" },
   ];
 
