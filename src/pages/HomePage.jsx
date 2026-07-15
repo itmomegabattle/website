@@ -146,17 +146,19 @@ export default function HomePage() {
               >
                 <span className="project-menu__number">{item.number}</span>
                 <span className="project-menu__title">{item.title}</span>
-                <span className="project-menu__details">
-                  <span className="project-menu__tags">
-                    {item.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </span>
-                  <span className="project-menu__text">{item.text}</span>
-                  <span className="project-menu__cta">{item.cta}</span>
-                </span>
               </Link>
             ))}
+            <div className="project-menu__panel" aria-live="polite">
+              <div className="project-menu__tags">
+                {projectTabs[activeProjectTab].tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+              <p className="project-menu__text">{projectTabs[activeProjectTab].text}</p>
+              <Link className="project-menu__cta" to={projectTabs[activeProjectTab].to}>
+                {projectTabs[activeProjectTab].cta}
+              </Link>
+            </div>
           </div>
         </section>
 
