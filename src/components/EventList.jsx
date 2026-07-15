@@ -2,25 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Api } from "../api";
 import "../styles/event-list.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { faCalendar } from "@fortawesome/free-regular-svg-icons";
-import ExternalLink from "./ExternalLink";
+import { EventCard } from "./EventSections";
 
-const monthNamesForm2 = [
-  "января",
-  "февраля",
-  "марта",
-  "апреля",
-  "мая",
-  "июня",
-  "июля",
-  "августа",
-  "сентября",
-  "октября",
-  "ноября",
-  "декабря",
-];
+function getEventSortTime(event) {
+  const rawDate = event.event_date_label || event.date || "";
+  const isoMatch = String(rawDate).match(/(\d{4})[-.](\d{1,2})[-.](\d{1,2})/);
+  const ruMatch = String(rawDate).match(/(\d{1,2})[.\-/](\d{1,2})(?:[.\-/](\d{2,4}))?/);
+  if (isoMatch) return new Date(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3])).getTime();
+  if (ruMatch) {
+    const year = ruMatch[3] ? Number(String(ruMatch[3]).padStart(4, "20")) : 2026;
+    return new Date(year, Number(ruMatch[2]) - 1, Number(ruMatch[1])).getTime();
+  }
+  return Number.MAX_SAFE_INTEGER - Number(event.sort_order || 0);
+}
 
 export default function EventList() {
   // получить данные с API (или из кэша)
@@ -32,76 +26,15 @@ export default function EventList() {
 
   // На главной выводим первое мероприятие из общей секции мероприятий.
   const visibleEvents = useMemo(() => {
-    const firstEvent = [...events].sort((a, b) => new Date(a.date) - new Date(b.date))[0];
+    const firstEvent = [...events].sort((a, b) => getEventSortTime(a) - getEventSortTime(b))[0];
     return firstEvent ? [firstEvent] : [];
   }, [events]);
 
   return (
     <div className="event-cards">
-      {visibleEvents.map((event) => {
-        const dateObj = new Date(event.date);
-        const dateDay = dateObj.getDate().toString();
-        const dateMonth = monthNamesForm2[dateObj.getMonth()];
-        const hours = dateObj.getHours();
-        const minutes = dateObj.getMinutes();
-        const hasEventTime = hours !== 0 || minutes !== 0;
-        const eventTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-
-        return (
-          <div
-            className="event-card"
-            key={event.key ?? `${event.name}-${event.date}`}
-          >
-            {/* Картинка события */}
-            <div className="event-image">
-              <img src={Api.normalizeURL(event.image)} alt={event.name} />
-            </div>
-
-            <div className="event-info">
-              <h3>{event.name}</h3>
-
-              {/* Дата и место */}
-              <p>
-                <span className="event-date">
-                  <FontAwesomeIcon icon={faCalendar} aria-hidden="true" />
-                  <span>
-                    {dateDay} {dateMonth}
-                    {hasEventTime ? `, ${eventTime}` : ""}
-                  </span>
-                </span>
-                <br />
-                <span className="event-location">
-                  <FontAwesomeIcon icon={faLocationDot} aria-hidden="true" />
-                  <span>{event.address}</span>
-                </span>
-              </p>
-
-              {/* Описание */}
-              <p className="event-description">{event.description}</p>
-
-              {/* Дополнительные ссылки */}
-              {event.links?.length > 0 && (
-                <div className="event-links">
-                  {event.links.map((item, i) => (
-                    <ExternalLink key={i} href={item.link} text={item.text} />
-                  ))}
-                </div>
-              )}
-
-              {/* Ссылка на регистрацию */}
-              {event.registrationLink && (
-                <button
-                  className="button special event-button"
-                  type="button"
-                  onClick={() => window.open(event.registrationLink, "_blank")}
-                >
-                  Регистрация
-                </button>
-              )}
-            </div>
-          </div>
-        );
-      })}
+      {visibleEvents.map((event) => (
+        <EventCard event={event} key={event.id ?? `${event.name}-${event.date}`} />
+      ))}
 
       {visibleEvents.length === 0 && (
         <div className="null-event">Пока нет ближайших событий :(</div>

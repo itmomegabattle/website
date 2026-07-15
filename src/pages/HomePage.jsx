@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import EventList from "../components/EventList";
 import heroVideo from "/hero-video.mp4";
 import heroVideoMobile from "/hero-video-mobile.mp4";
@@ -98,38 +99,50 @@ export default function HomePage() {
 
         <section id="about" className="about main-width">
           <h1>ПРОЕКТ</h1>
-          <div className="about-content">
-            <img
-              src={aboutImg}
-              width="670"
-              height="777"
-              alt="О проекте"
-              className="about-image"
-            />
-            <div className="about-text">
+          <div className="about-showcase">
+            <div className="about-showcase-card about-showcase-card--main">
+              <p className="card-kicker">ITMO MEGABATTLE</p>
+              <h2>Сезон, где факультеты становятся командами</h2>
               <p>
-                <b>ITMO Megabattle</b> — проект, представляющий собой масштабную
-                студенческую инициативу, нацеленную на создание открытой,
-                многоуровневой площадки для культурно-творческого,
-                организаторского и личностного роста студентов Университета
-                ИТМО. Проект соединил в себе традиции двух ранее существовавших
-                мероприятий — «Весна в ИТМО» и «Я первокурсник», образовав
-                целостную экосистему, где каждый студент может найти себе
-                подходящую роль.
+                Коротко: это большая студенческая экосистема ИТМО — мероприятия,
+                знакомства, роли, рейтинги и общий вайб, в котором каждый может
+                найти своё место в проекте.
               </p>
+              <div className="about-actions">
+                <Link className="text-button" to="/history">
+                  История проекта
+                </Link>
+                <a className="ghost-link" href="#events">
+                  Ближайшее событие
+                </a>
+              </div>
+            </div>
+
+            <div className="about-showcase-card about-showcase-card--image">
+              <img
+                src={aboutImg}
+                width="670"
+                height="777"
+                alt="Команда ITMO Megabattle"
+                className="about-image"
+              />
+            </div>
+
+            <div className="about-showcase-card about-showcase-card--stat">
+              <span>5</span>
+              <p>мегафаков в одной игре</p>
+            </div>
+
+            <div className="about-showcase-card about-showcase-card--stat about-showcase-card--blue">
+              <span>NFC</span>
+              <p>визитки, профили и граф знакомств</p>
+            </div>
+
+            <div className="about-showcase-card about-showcase-card--wide">
               <p>
-                Уникальность проекта заключается в полном цикле организации и
-                реализации силами студенческого актива без привлечения внешних
-                специалистов.
-              </p>
-              <p>
-                <b>ITMO Megabattle</b> — это не просто серия мероприятий, а
-                полноценная экосистема, стимулирующая развитие творческого,
-                организаторского и профессионального потенциала студентов.
-                Проект формирует сильное студенческое сообщество, создает
-                условия для реализации самых разнообразных идей и проектов,
-                укрепляет бренд Университета ИТМО как места, где каждый может
-                раскрыть себя и получить бесценный опыт.
+                Проект вырос из традиций “Весны в ИТМО” и “Я первокурсник”,
+                но теперь живёт как отдельная система: от концертов и квизов до
+                личных профилей, партнёрских событий и будущей админки.
               </p>
             </div>
           </div>
@@ -137,7 +150,14 @@ export default function HomePage() {
 
         <section id="events" className="events main-width">
           <h1>СОБЫТИЯ</h1>
-          <EventList startDate="november 2025" />
+          <div className="home-event-head">
+            <p className="card-kicker">Ближайшая точка входа</p>
+            <p>
+              Первое мероприятие из общей секции — с описанием, местом, временем
+              и кнопкой регистрации, если она уже открыта.
+            </p>
+          </div>
+          <EventList />
         </section>
 
         <section id="partners" className="partners">

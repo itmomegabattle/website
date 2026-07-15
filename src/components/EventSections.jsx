@@ -88,7 +88,7 @@ function mapEventToForm(event, groupId) {
   };
 }
 
-function EventCard({ event }) {
+export function EventCard({ event }) {
   const hasRegistration = event.registration?.status === "open" && event.registration.link;
   const eventDetails = (
     <>
