@@ -5,8 +5,8 @@ import {
   faVk,
   faTelegram,
   faGithub,
-  faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer() {
   return (
@@ -62,12 +62,12 @@ export default function Footer() {
             </p>
             <p>
               <a
-                href="https://www.youtube.com/@itmomegabattle"
+                href="https://rutube.ru/channel/78402593/videos/"
                 target="_blank"
-                title="YouTube"
+                title="Rutube"
               >
-                <FontAwesomeIcon icon={faYoutube} />
-                YouTube
+                <FontAwesomeIcon icon={faCirclePlay} />
+                Rutube
               </a>
             </p>
           </div>

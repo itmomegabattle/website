@@ -1,0 +1,682 @@
+.contact-showcase.contact-info {
+  height: 500px;
+  min-height: 500px;
+  padding: 0;
+  gap: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  background: #080a0f;
+}
+
+.contact-showcase__screen {
+  display: grid;
+  min-height: 0;
+  padding: clamp(0.8rem, 1.5vw, 1.2rem);
+}
+
+.contact-showcase .contact-tabs {
+  position: relative;
+  z-index: 5;
+}
+
+.contact-showcase .contact-project-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: clamp(5rem, 8vw, 7.2rem);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #030407;
+  border: 3px solid currentColor;
+}
+
+.contact-showcase .contact-project-avatar img {
+  width: 72%;
+  height: auto;
+}
+
+/* Main employee-style card */
+.employee-card {
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(12rem, 0.85fr);
+  grid-template-rows: 1fr auto;
+  width: min(100%, 620px);
+  aspect-ratio: 1.5;
+  overflow: hidden;
+  padding: clamp(1.4rem, 2.5vw, 2.2rem);
+  border-radius: clamp(1.1rem, 1.6vw, 1.5rem);
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(55, 132, 255, 0.42), transparent 29%),
+    linear-gradient(127deg, rgba(0, 102, 255, 0.18), transparent 42%),
+    #05080f;
+  border: 1px solid rgba(139, 170, 255, 0.3);
+  box-shadow: 0 1.8rem 4rem rgba(0, 0, 0, 0.48), inset 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.employee-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(255, 255, 255, 0.07) 50%, transparent 50.2%),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 4.6rem;
+}
+
+.employee-card__identity,
+.employee-card__contacts,
+.employee-card__footer {
+  position: relative;
+  z-index: 1;
+}
+
+.employee-card__identity {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.55rem);
+  padding-right: clamp(1rem, 2vw, 2rem);
+}
+
+.employee-card__identity .contact-project-avatar {
+  width: clamp(5.7rem, 9vw, 8rem);
+  color: #2a83ff;
+  box-shadow: 0 0 2.8rem rgba(0, 102, 255, 0.26);
+}
+
+.employee-card__label {
+  color: #8baaff;
+  font-size: clamp(0.62rem, 0.8vw, 0.78rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.employee-card h2 {
+  margin: 0.45rem 0 0.25rem;
+  font-family: var(--heading-font);
+  font-size: clamp(1.25rem, 1.85vw, 1.8rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.employee-card__identity p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.82rem;
+}
+
+.employee-card__contacts {
+  display: grid;
+  align-content: center;
+  gap: 0.7rem;
+  padding-left: clamp(1rem, 2vw, 2rem);
+}
+
+.employee-card__contacts > * {
+  display: grid;
+  grid-template-columns: 1.2rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-size: clamp(0.68rem, 0.85vw, 0.82rem);
+}
+
+.employee-card__contacts svg {
+  color: #8baaff;
+}
+
+.employee-card__footer {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+}
+
+/* Platform screens share only geometry; each layout below is independent. */
+.network-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: clamp(1rem, 1.5vw, 1.35rem);
+}
+
+/* Telegram channel */
+.telegram-screen {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  color: #fff;
+  background: #07090e;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.telegram-screen__cover {
+  min-height: 0;
+  background:
+    linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.86)),
+    linear-gradient(100deg, rgba(0, 152, 219, 0.15), transparent 55%),
+    url("/images/about-image.png") center 38% / cover;
+  filter: grayscale(0.8) contrast(1.08);
+}
+
+.telegram-screen__bottom {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0 1.1rem 1rem;
+  margin-top: -2.5rem;
+}
+
+.telegram-screen__bottom .contact-project-avatar {
+  width: clamp(4.8rem, 7vw, 6.4rem);
+  color: #fff;
+  background: #05070b;
+  box-shadow: 0 0 0 4px #229ed9;
+}
+
+.telegram-screen__name {
+  align-self: end;
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.telegram-screen__name strong {
+  font-size: clamp(1.1rem, 2vw, 1.65rem);
+}
+
+.telegram-screen__name span {
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.78rem;
+}
+
+.telegram-screen__bottom > a {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  aspect-ratio: 1;
+  border-radius: 0.9rem;
+  color: #fff;
+  background: #2aabee;
+}
+
+.telegram-screen__bottom > svg {
+  font-size: 1.2rem;
+}
+
+/* VK community */
+.vk-screen {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  color: #fff;
+  background: #191b20;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vk-screen__cover {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #050608;
+}
+
+.vk-screen__cover > img:first-child {
+  width: 62%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: grayscale(1) contrast(1.15);
+  opacity: 0.78;
+  -webkit-mask-image: linear-gradient(90deg, #000 64%, transparent);
+  mask-image: linear-gradient(90deg, #000 64%, transparent);
+}
+
+.vk-screen__logo {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  width: clamp(7rem, 16vw, 13rem);
+  height: auto;
+  transform: translateY(-50%);
+}
+
+.vk-screen__profile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 106px;
+  padding: 0 1rem 0.8rem;
+}
+
+.vk-screen__profile .contact-project-avatar {
+  width: clamp(4.8rem, 7vw, 6.2rem);
+  margin-top: -2rem;
+  color: #2688eb;
+  border: 5px solid #191b20;
+  box-shadow: 0 0 0 2px #2688eb;
+}
+
+.vk-screen__name {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.vk-screen__name strong {
+  font-size: clamp(1rem, 1.7vw, 1.45rem);
+}
+
+.vk-screen__name strong span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.1rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: #fff;
+  background: #2688eb;
+  font-size: 0.6rem;
+}
+
+.vk-screen__name small {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.vk-screen__profile > a,
+.vk-screen__profile > button {
+  min-height: 40px;
+  padding: 0.6rem 0.9rem;
+  border: 0;
+  border-radius: 0.7rem;
+  color: #15171c;
+  background: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.vk-screen__profile > button {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Instagram profile */
+.instagram-screen {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  padding: 0.75rem 1rem 1rem;
+  color: #111;
+  background: #fff;
+  border: 1px solid #d6d6d6;
+}
+
+.instagram-screen__top {
+  display: grid;
+  grid-template-columns: 2rem 1fr 2rem;
+  align-items: center;
+  min-height: 42px;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.instagram-screen__top > span {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.instagram-screen__profile {
+  display: grid;
+  grid-template-columns: clamp(5rem, 8vw, 7rem) 1fr;
+  align-items: center;
+  gap: 1.4rem;
+  padding: 0.5rem 0;
+}
+
+.instagram-screen__profile .contact-project-avatar {
+  width: 100%;
+  color: #111;
+  border: 2px solid #c13584;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #f77737;
+}
+
+.instagram-screen__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.instagram-screen__stats span {
+  display: grid;
+  font-size: 0.72rem;
+}
+
+.instagram-screen__stats strong {
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+}
+
+.instagram-screen__bio {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  padding-top: 0.6rem;
+  font-size: 0.83rem;
+}
+
+.instagram-screen__bio a {
+  color: #0866a7;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.instagram-screen__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.45rem;
+}
+
+.instagram-screen__actions > * {
+  min-height: 38px;
+  padding: 0.55rem 0.8rem;
+  border: 0;
+  border-radius: 0.65rem;
+  color: #111;
+  background: #eceef1;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.instagram-screen__actions > a {
+  color: #fff;
+  background: #0095f6;
+}
+
+/* TikTok profile */
+.tiktok-screen {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.42fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1rem, 2vw, 1.7rem);
+  padding: clamp(1.1rem, 2.4vw, 2rem);
+  color: #fff;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tiktok-screen > .contact-project-avatar {
+  justify-self: center;
+  width: clamp(7rem, 14vw, 11rem);
+  color: #000;
+  border: 0;
+  border-radius: 0;
+}
+
+.tiktok-screen > .contact-project-avatar img {
+  width: 100%;
+}
+
+.tiktok-screen__content {
+  display: grid;
+  align-content: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.tiktok-screen__title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  white-space: nowrap;
+}
+
+.tiktok-screen__title strong {
+  font-size: clamp(1.05rem, 2vw, 1.55rem);
+}
+
+.tiktok-screen__title span {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.tiktok-screen__stats {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: clamp(0.55rem, 1.35vw, 1.15rem);
+}
+
+.tiktok-screen__stats span {
+  font-size: clamp(0.68rem, 0.85vw, 0.82rem);
+}
+
+.tiktok-screen__stats strong {
+  font-size: 1rem;
+}
+
+.tiktok-screen__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.tiktok-screen__actions > * {
+  display: grid;
+  place-items: center;
+  min-width: 2.3rem;
+  min-height: 2.3rem;
+  padding: 0.48rem 0.65rem;
+  border: 0;
+  border-radius: 0.8rem;
+  color: #fff;
+  background: #232323;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.tiktok-screen__actions > a {
+  min-width: 6.7rem;
+  background: #fe2c55;
+}
+
+.tiktok-screen__actions > button:nth-of-type(1) {
+  min-width: 5.4rem;
+}
+
+.tiktok-screen__content p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.tiktok-screen__link {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Rutube channel */
+.rutube-screen {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  color: #fff;
+  background: #101114;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rutube-screen__top {
+  display: grid;
+  grid-template-columns: 1fr auto 2rem;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rutube-screen__top strong {
+  font-size: 1.15rem;
+}
+
+.rutube-screen__top strong::first-letter {
+  color: #ff4d00;
+}
+
+.rutube-screen__top span {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.72rem;
+}
+
+.rutube-screen__cover {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.rutube-screen__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+  filter: grayscale(0.78) contrast(1.1) brightness(0.65);
+}
+
+.rutube-screen__cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.76), transparent 70%);
+}
+
+.rutube-screen__cover > span {
+  position: absolute;
+  z-index: 1;
+  left: 1.3rem;
+  top: 50%;
+  max-width: 12ch;
+  transform: translateY(-50%);
+  font-family: var(--heading-font);
+  font-size: clamp(1.25rem, 2.5vw, 2.2rem);
+  line-height: 0.96;
+}
+
+.rutube-screen__profile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 1rem;
+}
+
+.rutube-screen__profile .contact-project-avatar {
+  width: 4rem;
+  color: #ff4d00;
+}
+
+.rutube-screen__profile > div {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.rutube-screen__profile span {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.72rem;
+}
+
+.rutube-screen__profile > a {
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.7rem;
+  color: #fff;
+  background: #ff4d00;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+@media (max-width: 900px) {
+  .contact-showcase.contact-info {
+    height: min(540px, 75svh);
+    min-height: 470px;
+  }
+}
+
+@media (max-width: 560px) {
+  .contact-showcase__screen {
+    padding: 0.65rem;
+  }
+
+  .employee-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    aspect-ratio: auto;
+    height: 100%;
+    padding: 1.25rem;
+  }
+
+  .employee-card::before {
+    background: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 100% 4rem;
+  }
+
+  .employee-card__contacts {
+    padding: 0;
+  }
+
+  .employee-card__footer {
+    grid-column: 1;
+  }
+
+  .telegram-screen__bottom,
+  .vk-screen__profile {
+    gap: 0.55rem;
+    padding-inline: 0.75rem;
+  }
+
+  .vk-screen__profile > a,
+  .vk-screen__profile > button {
+    padding-inline: 0.65rem;
+    font-size: 0.7rem;
+  }
+
+  .instagram-screen {
+    padding-inline: 0.75rem;
+  }
+
+  .tiktok-screen {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    padding: 1rem;
+  }
+
+  .tiktok-screen > .contact-project-avatar {
+    width: 5.5rem;
+  }
+
+  .tiktok-screen__title {
+    display: grid;
+    gap: 0.15rem;
+    white-space: normal;
+  }
+
+  .tiktok-screen__title > span:first-of-type {
+    display: none;
+  }
+
+  .tiktok-screen__stats {
+    gap: 0.65rem;
+  }
+
+  .tiktok-screen__actions > *:nth-last-child(-n + 2) {
+    display: none;
+  }
+
+  .rutube-screen__profile > a {
+    max-width: 5.5rem;
+    text-align: center;
+  }
+}

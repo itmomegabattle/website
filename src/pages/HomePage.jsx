@@ -8,24 +8,13 @@ import heroPosterMobile from "/hero-poster-mobile.jpg";
 import "../styles/page-home.css";
 import Megabattle from "../components/Megabattle";
 import Partners from "../components/Partners";
+import ContactShowcase from "../components/ContactShowcase";
 import { Theme } from "../theme";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faLocationDot,
-  faAt,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faVk,
-  faTelegram,
-  faInstagram,
-  faTiktok,
-} from "@fortawesome/free-brands-svg-icons";
 
 export default function HomePage() {
   const [theme, setTheme] = useState(Theme.get());
   const [isMobileHero, setIsMobileHero] = useState(false);
   const [activeProjectTab, setActiveProjectTab] = useState(0);
-  const [activeContactTab, setActiveContactTab] = useState("card");
   const isDarkTheme = theme === "dark";
   const projectTabs = [
     {
@@ -61,64 +50,6 @@ export default function HomePage() {
       cta: "Открыть карту",
     },
   ];
-  const contactTabs = [
-    {
-      name: "card",
-      title: "Визитка",
-      shortTitle: "MB",
-      className: "contact-tab--card",
-    },
-    {
-      name: "telegram",
-      title: "Telegram",
-      shortTitle: "TG",
-      href: "https://t.me/itmomegabattle",
-      handle: "@itmomegabattle",
-      meta: "Новости, события и жизнь проекта",
-      icon: faTelegram,
-      className: "contact-tab--telegram",
-    },
-    {
-      name: "vk",
-      title: "ВКонтакте",
-      shortTitle: "VK",
-      href: "https://vk.com/itmomegabattle",
-      handle: "ITMO Megabattle",
-      meta: "Официальное сообщество проекта",
-      icon: faVk,
-      className: "contact-tab--vk",
-    },
-    {
-      name: "instagram",
-      title: "Instagram",
-      shortTitle: "IG",
-      href: "https://www.instagram.com/itmo.megabattle/",
-      handle: "itmo.megabattle",
-      meta: "Фото, backstage и лица сезона",
-      icon: faInstagram,
-      className: "contact-tab--instagram",
-    },
-    {
-      name: "tiktok",
-      title: "TikTok",
-      shortTitle: "TT",
-      href: "https://www.tiktok.com/@itmo_megabattle",
-      handle: "@itmo_megabattle",
-      meta: "Короткие видео и тренды Megabattle",
-      icon: faTiktok,
-      className: "contact-tab--tiktok",
-    },
-    {
-      name: "rutube",
-      title: "Rutube",
-      shortTitle: "RU",
-      href: "https://rutube.ru/",
-      handle: "ITMO Megabattle",
-      meta: "Записи концертов и большие видео",
-      className: "contact-tab--rutube",
-    },
-  ];
-  const activeContact = contactTabs.find((tab) => tab.name === activeContactTab) || contactTabs[0];
 
   useEffect(() => {
     Theme.addListener(setTheme, false);
@@ -203,73 +134,7 @@ export default function HomePage() {
             <iframe className="yandex-map" title="Карта ИТМО" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade">
               Карта ИТМО
             </iframe>
-            <div className={`contact-info contact-info--${activeContact.name}`}>
-              <div className="contact-info__screen" aria-live="polite">
-                {activeContact.name === "card" ? (
-                  <div className="contact-card">
-                    <div className="contact-card__head">
-                      <img src="/logo.svg" alt="ITMO Megabattle" width="109" height="67" />
-                      <span>Главная визитка</span>
-                    </div>
-                    <div className="contact-card__body">
-                      <p>Факультеты встречаются здесь.</p>
-                      <div className="contact-card__details">
-                        <div className="contact-line">
-                          <FontAwesomeIcon icon={faLocationDot} />
-                          <span>Санкт-Петербург, ул. Ломоносова, д. 9</span>
-                        </div>
-                        <a className="contact-line" href="mailto:megabattle@itmo.ru">
-                          <FontAwesomeIcon icon={faAt} />
-                          <span>megabattle@itmo.ru</span>
-                        </a>
-                      </div>
-                    </div>
-                    <span className="contact-card__mark">ITMO · 2026</span>
-                  </div>
-                ) : (
-                  <div className={`social-profile social-profile--${activeContact.name}`}>
-                    <div className="social-profile__chrome">
-                      <span className="social-profile__wordmark">{activeContact.title}</span>
-                      <span className="social-profile__status">официальный профиль</span>
-                    </div>
-                    <div className="social-profile__hero">
-                      <div className="social-profile__avatar">
-                        <img src="/logo.svg" alt="" width="109" height="67" />
-                      </div>
-                      <div className="social-profile__identity">
-                        <span className="social-profile__handle">{activeContact.handle}</span>
-                        <strong>ITMO Megabattle <span aria-label="Подтверждено">●</span></strong>
-                        <p>{activeContact.meta}</p>
-                      </div>
-                    </div>
-                    <div className="social-profile__metrics">
-                      <span><strong>5</strong> мегафаков</span>
-                      <span><strong>1</strong> большой сезон</span>
-                      <span><strong>∞</strong> знакомств</span>
-                    </div>
-                    <a className="social-profile__open" href={activeContact.href} target="_blank" rel="noreferrer">
-                      Открыть в {activeContact.title}
-                    </a>
-                  </div>
-                )}
-              </div>
-              <div className="contact-tabs" role="tablist" aria-label="Контакты и социальные сети">
-                {contactTabs.map((tab) => (
-                  <button
-                    key={tab.name}
-                    className={`contact-tab ${tab.className}${activeContactTab === tab.name ? " is-active" : ""}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={activeContactTab === tab.name}
-                    title={tab.title}
-                    onClick={() => setActiveContactTab(tab.name)}
-                  >
-                    {tab.icon ? <FontAwesomeIcon icon={tab.icon} /> : <span>{tab.shortTitle}</span>}
-                    <span className="contact-tab__label">{tab.title}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <ContactShowcase />
           </div>
         </section>
       </main>

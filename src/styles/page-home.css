@@ -347,7 +347,7 @@
 
 .contacts-container {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(420px, 1fr);
+    grid-template-columns: minmax(0, 0.88fr) minmax(560px, 1.12fr);
     gap: 2rem;
     margin-top: 2rem;
 }
