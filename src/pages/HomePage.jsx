@@ -31,32 +31,32 @@ export default function HomePage() {
     {
       number: "01",
       title: "История",
-      text: "Лор проекта, ретроспектива сезона и быстрый вход в историю Megabattle.",
-      tags: ["лор проекта", "ретроспектива", "сезон"],
+      text: "Megabattle объединяет факультеты ИТМО в одном большом сезоне: от первых встреч и отборов до финального гала-концерта. В истории собраны ключевые этапы проекта, архив событий и ретроспектива прошлых сезонов.",
+      tags: ["о проекте", "ретроспектива", "архив сезонов"],
       to: "/history",
       cta: "Перейти к истории",
     },
     {
       number: "02",
       title: "Команда",
-      text: "Орги, отвы и люди, которые держат сезон, сцену, медиа и весь движ.",
-      tags: ["орги", "отвы", "люди"],
+      text: "За сезоном стоят организаторы, ответственные направлений и большая команда участников. Здесь можно познакомиться с теми, кто собирает мероприятия, отвечает за сцену, медиа, партнёров и внутреннюю жизнь проекта.",
+      tags: ["организаторы", "ответственные", "команда"],
       to: "/people",
       cta: "Смотреть команду",
     },
     {
       number: "03",
       title: "Роли",
-      text: "Сцена, медиа, техника, постановка, реквизит и другие точки входа.",
-      tags: ["сцена", "медиа", "техника"],
+      text: "В проекте можно найти место на сцене или за ней: заниматься постановкой, техникой, реквизитом, дизайном, SMM и организацией. Раздел поможет понять направления работы и выбрать свою точку входа.",
+      tags: ["сцена", "медиа", "организация"],
       to: "/ratings",
       cta: "К участникам",
     },
     {
       number: "04",
       title: "Факультеты",
-      text: "Пять мегафаков, команды, рейтинги и карта направлений для перваков.",
-      tags: ["5 мегафаков", "карта", "рейтинг"],
+      text: "Пять мегафакультетов собирают студентов разных образовательных программ в команды. На интерактивной карте можно увидеть их структуру, направления и понять, к какой команде относится твой факультет.",
+      tags: ["5 мегафакультетов", "направления", "карта"],
       to: "/faculties",
       cta: "Открыть карту",
     },
@@ -135,30 +135,42 @@ export default function HomePage() {
           <h1>ПРОЕКТ</h1>
           <div className="project-menu" aria-label="Навигация по проекту">
             {projectTabs.map((item, index) => (
-              <Link
+              <div
                 className={`project-menu__item project-menu__item--${index + 1}${
                   activeProjectTab === index ? " is-active" : ""
                 }`}
-                to={item.to}
                 key={item.title}
-                onMouseEnter={() => setActiveProjectTab(index)}
-                onFocus={() => setActiveProjectTab(index)}
               >
-                <span className="project-menu__number">{item.number}</span>
-                <span className="project-menu__title">{item.title}</span>
-              </Link>
-            ))}
-            <div className="project-menu__panel" aria-live="polite">
-              <div className="project-menu__tags">
-                {projectTabs[activeProjectTab].tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
+                <button
+                  className="project-menu__trigger"
+                  type="button"
+                  aria-expanded={activeProjectTab === index}
+                  aria-controls={`project-answer-${index}`}
+                  onClick={() => setActiveProjectTab(index)}
+                >
+                  <span className="project-menu__number">{item.number}</span>
+                  <span className="project-menu__title">{item.title}</span>
+                  <span className="project-menu__indicator" aria-hidden="true" />
+                </button>
+                <div
+                  className="project-menu__answer"
+                  id={`project-answer-${index}`}
+                  aria-hidden={activeProjectTab !== index}
+                >
+                  <div className="project-menu__answer-inner">
+                    <div className="project-menu__tags">
+                      {item.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                    <p className="project-menu__text">{item.text}</p>
+                    <Link className="project-menu__cta" to={item.to}>
+                      {item.cta}
+                    </Link>
+                  </div>
+                </div>
               </div>
-              <p className="project-menu__text">{projectTabs[activeProjectTab].text}</p>
-              <Link className="project-menu__cta" to={projectTabs[activeProjectTab].to}>
-                {projectTabs[activeProjectTab].cta}
-              </Link>
-            </div>
+            ))}
           </div>
         </section>
 
