@@ -74,58 +74,71 @@
 }
 
 /* About Section */
+.about {
+    scroll-margin-top: 7rem;
+}
+
 .project-menu {
     position: relative;
     display: grid;
-    min-height: clamp(440px, 45vw, 660px);
-    margin-top: clamp(1rem, 2vw, 1.8rem);
+    min-height: clamp(600px, 44vw, 680px);
+    margin-top: clamp(1.2rem, 2vw, 2rem);
     overflow: hidden;
-    border-radius: var(--corner-radius);
+    border-radius: calc(var(--corner-radius) * 0.85);
     background:
-        radial-gradient(ellipse at 68% 42%, rgba(0, 102, 255, 0.16), transparent 28rem),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 46%),
-        var(--surface-color);
-    border: var(--card-border);
-    box-shadow: var(--card-shadow);
+        radial-gradient(ellipse at 61% 48%, rgba(255, 255, 255, 0.08), transparent 4.8rem),
+        radial-gradient(ellipse at 61% 48%, rgba(0, 102, 255, 0.14), transparent 13rem),
+        linear-gradient(125deg, rgba(0, 102, 255, 0.08), transparent 36%),
+        #020305;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow:
+        0 2.2rem 5rem rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .project-menu::before {
     content: "";
     position: absolute;
     background:
-        linear-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1px, transparent 1px);
     background-size: 100% 25%, 18% 100%;
     inset: 0;
-    opacity: 0.34;
+    opacity: 0.42;
     pointer-events: none;
-    mask-image: linear-gradient(90deg, #000 0 78%, transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0 92%, transparent 100%);
 }
 
 .project-menu::after {
     content: "";
     position: absolute;
-    inset: 0;
+    left: 45%;
+    top: 50%;
+    width: clamp(7rem, 12vw, 12rem);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
     pointer-events: none;
     background:
-        radial-gradient(circle at 53% 48%, rgba(255, 255, 255, 0.1), transparent 5rem),
-        radial-gradient(circle at 54% 48%, rgba(0, 102, 255, 0.22), transparent 12rem);
-    opacity: 0.7;
+        radial-gradient(circle at 50% 50%, transparent 42%, rgba(255, 255, 255, 0.34) 43% 44%, transparent 45%),
+        conic-gradient(from 120deg, rgba(0, 102, 255, 0), rgba(255, 255, 255, 0.24), rgba(0, 102, 255, 0.38), rgba(255, 255, 255, 0.16), rgba(0, 102, 255, 0));
+    opacity: 0.44;
+    filter: blur(0.2px);
+    mix-blend-mode: screen;
 }
 
 .project-menu__item {
-    --row-index: 0;
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 3.6rem minmax(0, 0.98fr) minmax(320px, 0.92fr);
+    grid-template-columns: 3.8rem minmax(0, 1fr);
     align-items: center;
-    gap: clamp(1rem, 2.6vw, 2.4rem);
+    gap: clamp(1.2rem, 3vw, 3.2rem);
     min-height: 25%;
-    padding: clamp(1rem, 2vw, 1.55rem) clamp(1.1rem, 3vw, 2.4rem);
+    padding: clamp(1.05rem, 2vw, 1.65rem) clamp(25rem, 38vw, 42rem) clamp(1.05rem, 2vw, 1.65rem) clamp(1.2rem, 3.2vw, 3.1rem);
     color: var(--text-color);
     text-decoration: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
     transition:
         background-color 0.25s ease,
         color 0.25s ease,
@@ -141,8 +154,8 @@
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(90deg, rgba(0, 102, 255, 0.14), transparent 42%),
-        radial-gradient(ellipse at 62% 50%, rgba(255, 255, 255, 0.09), transparent 28rem);
+        linear-gradient(90deg, rgba(0, 102, 255, 0.16), transparent 44%),
+        linear-gradient(90deg, transparent 44%, rgba(255, 255, 255, 0.035), transparent 86%);
     opacity: 0;
     transition: opacity 0.25s ease;
 }
@@ -157,16 +170,16 @@
 .project-menu__number {
     align-self: start;
     color: var(--brand-white);
-    font-size: clamp(0.9rem, 1.2vw, 1.15rem);
+    font-size: clamp(0.92rem, 1.2vw, 1.16rem);
     font-weight: 900;
 }
 
 .project-menu__title {
     font-family: var(--heading-font);
-    font-size: clamp(2.6rem, 6.4vw, 6.4rem);
+    font-size: clamp(3.2rem, 6.2vw, 6.4rem);
     line-height: 0.86;
-    letter-spacing: -0.055em;
-    color: rgba(255, 255, 255, 0.34);
+    letter-spacing: -0.06em;
+    color: rgba(255, 255, 255, 0.24);
     text-transform: uppercase;
     transition:
         color 0.25s ease,
@@ -175,11 +188,16 @@
 }
 
 .project-menu__details {
+    position: absolute;
+    right: clamp(1.2rem, 3vw, 2.4rem);
+    top: 50%;
+    width: min(32%, 27rem);
     display: grid;
     align-content: center;
-    gap: 0.9rem;
-    opacity: 0.48;
-    transform: translateX(0.4rem);
+    gap: clamp(0.8rem, 1.2vw, 1.05rem);
+    opacity: 0;
+    transform: translate(1.4rem, -50%);
+    pointer-events: none;
     transition:
         opacity 0.25s ease,
         transform 0.25s ease;
@@ -187,8 +205,8 @@
 
 .project-menu__tags {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
+    flex-wrap: nowrap;
+    gap: 0.45rem;
 }
 
 .project-menu__tags span,
@@ -198,43 +216,45 @@
     justify-content: center;
     width: fit-content;
     min-height: 34px;
-    padding: 0.45rem 0.85rem;
+    padding: 0.4rem 0.72rem;
     border-radius: 999px;
-    font-weight: 800;
+    font-weight: 850;
+    font-size: 0.86rem;
     border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.94);
+    color: #080808;
+    text-align: center;
 }
 
 .project-menu__text {
-    max-width: 760px;
-    color: rgba(255, 255, 255, 0.76);
-    font-size: clamp(0.98rem, 1.25vw, 1.18rem);
-    line-height: 1.45;
+    max-width: 720px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: "Courier New", monospace;
+    font-size: clamp(1rem, 1.28vw, 1.22rem);
+    line-height: 1.42;
 }
 
 .project-menu__cta {
+    margin-top: 0.1rem;
     color: var(--brand-white);
-    background: rgba(0, 102, 255, 0.22);
-    border-color: rgba(139, 170, 255, 0.28);
+    background: rgba(0, 102, 255, 0.42);
+    border-color: rgba(139, 170, 255, 0.38);
+    box-shadow: 0 1rem 2.5rem rgba(0, 102, 255, 0.18);
 }
 
-.project-menu__item:first-child .project-menu__title,
-.project-menu__item:hover .project-menu__title,
-.project-menu__item:focus-visible .project-menu__title {
+.project-menu__item.is-active .project-menu__title {
     color: var(--brand-white);
-    text-shadow: 0.055em 0.055em 0 rgba(0, 102, 255, 0.78);
+    text-shadow: 0.045em 0.045em 0 rgba(0, 102, 255, 0.82);
     transform: translateX(0.2rem);
 }
 
-.project-menu__item:first-child .project-menu__details,
-.project-menu__item:hover .project-menu__details,
-.project-menu__item:focus-visible .project-menu__details {
+.project-menu__item.is-active .project-menu__details {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate(0, -50%);
+    pointer-events: auto;
 }
 
-.project-menu__item:hover::before,
-.project-menu__item:focus-visible::before {
+.project-menu__item.is-active::before {
     opacity: 1;
 }
 
@@ -265,6 +285,9 @@
     }
 
     .project-menu__details {
+        position: relative;
+        inset: auto;
+        width: auto;
         grid-column: 2;
         opacity: 1;
         transform: none;

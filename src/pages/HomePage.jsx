@@ -25,12 +25,13 @@ import {
 export default function HomePage() {
   const [theme, setTheme] = useState(Theme.get());
   const [isMobileHero, setIsMobileHero] = useState(false);
+  const [activeProjectTab, setActiveProjectTab] = useState(0);
   const isDarkTheme = theme === "dark";
   const projectTabs = [
     {
       number: "01",
       title: "История",
-      text: "Откуда вырос Megabattle, зачем он нужен и почему сезон стал общей игрой факультетов.",
+      text: "Лор проекта, ретроспектива сезона и быстрый вход в историю Megabattle.",
       tags: ["лор проекта", "ретроспектива", "сезон"],
       to: "/history",
       cta: "Перейти к истории",
@@ -38,7 +39,7 @@ export default function HomePage() {
     {
       number: "02",
       title: "Команда",
-      text: "Люди, которые собирают проект: мегаорги, отвы, участники штаба и те, кто держит движ.",
+      text: "Орги, отвы и люди, которые держат сезон, сцену, медиа и весь движ.",
       tags: ["орги", "отвы", "люди"],
       to: "/people",
       cta: "Смотреть команду",
@@ -46,7 +47,7 @@ export default function HomePage() {
     {
       number: "03",
       title: "Роли",
-      text: "Можно быть на сцене, в медиа, технике, постановке, реквизите или придумать себе место самому.",
+      text: "Сцена, медиа, техника, постановка, реквизит и другие точки входа.",
       tags: ["сцена", "медиа", "техника"],
       to: "/ratings",
       cta: "К участникам",
@@ -54,7 +55,7 @@ export default function HomePage() {
     {
       number: "04",
       title: "Факультеты",
-      text: "Пять мегафаков, свои команды, рейтинги и карта направлений, где перваку проще понять структуру.",
+      text: "Пять мегафаков, команды, рейтинги и карта направлений для перваков.",
       tags: ["5 мегафаков", "карта", "рейтинг"],
       to: "/faculties",
       cta: "Открыть карту",
@@ -135,9 +136,13 @@ export default function HomePage() {
           <div className="project-menu" aria-label="Навигация по проекту">
             {projectTabs.map((item, index) => (
               <Link
-                className={`project-menu__item project-menu__item--${index + 1}`}
+                className={`project-menu__item project-menu__item--${index + 1}${
+                  activeProjectTab === index ? " is-active" : ""
+                }`}
                 to={item.to}
                 key={item.title}
+                onMouseEnter={() => setActiveProjectTab(index)}
+                onFocus={() => setActiveProjectTab(index)}
               >
                 <span className="project-menu__number">{item.number}</span>
                 <span className="project-menu__title">{item.title}</span>
