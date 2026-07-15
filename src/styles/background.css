@@ -9,9 +9,9 @@
     user-select: none;
     contain: strict;
     background:
-        radial-gradient(ellipse at 50% -16%, rgba(0, 102, 255, 0.18), transparent 34rem),
-        radial-gradient(ellipse at 18% 20%, rgba(255, 255, 255, 0.032), transparent 28rem),
-        linear-gradient(180deg, #000207 0%, #02050d 42%, #000 100%);
+        radial-gradient(ellipse at 50% -16%, rgba(0, 102, 255, 0.12), transparent 34rem),
+        radial-gradient(ellipse at 18% 20%, rgba(255, 255, 255, 0.022), transparent 28rem),
+        linear-gradient(180deg, #000104 0%, #01030a 40%, #000 100%);
 }
 
 .brand-background::before,
@@ -27,10 +27,10 @@
 .brand-background::before {
     content: "";
     background:
-        radial-gradient(ellipse 90% 18% at 48% 7%, rgba(255, 255, 255, 0.1), transparent 56%),
-        radial-gradient(ellipse 118% 24% at 52% 13%, rgba(0, 102, 255, 0.28), transparent 64%),
-        radial-gradient(ellipse 96% 32% at 54% 22%, rgba(0, 102, 255, 0.12), transparent 68%);
-    opacity: 0.68;
+        radial-gradient(ellipse 90% 18% at 48% 7%, rgba(255, 255, 255, 0.07), transparent 56%),
+        radial-gradient(ellipse 118% 24% at 52% 13%, rgba(0, 102, 255, 0.2), transparent 64%),
+        radial-gradient(ellipse 96% 32% at 54% 22%, rgba(0, 102, 255, 0.08), transparent 68%);
+    opacity: 0.56;
     transform: translate3d(0, -3%, 0) rotate(-1deg) scale(1.08);
     animation: brandSkyBreathe 34s ease-in-out infinite alternate;
     will-change: transform, opacity;
@@ -39,8 +39,8 @@
 .brand-background::after {
     content: "";
     background:
-        radial-gradient(ellipse at 50% 38%, transparent 0 32%, rgba(0, 0, 0, 0.34) 68%, rgba(0, 0, 0, 0.78) 100%),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.78), transparent 26%, transparent 74%, rgba(0, 0, 0, 0.78));
+        radial-gradient(ellipse at 50% 38%, transparent 0 28%, rgba(0, 0, 0, 0.48) 66%, rgba(0, 0, 0, 0.86) 100%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.86), transparent 28%, transparent 72%, rgba(0, 0, 0, 0.86));
 }
 
 .brand-background__aurora {
@@ -49,12 +49,12 @@
     height: 88vh;
     border-radius: 44% 56% 60% 40% / 24% 30% 70% 76%;
     background:
-        linear-gradient(180deg, transparent 0 12%, rgba(255, 255, 255, 0.06) 17%, rgba(0, 102, 255, 0.29) 25%, rgba(0, 102, 255, 0.12) 42%, transparent 73%),
-        repeating-linear-gradient(92deg, transparent 0 5.8%, rgba(255, 255, 255, 0.04) 6.6%, rgba(0, 102, 255, 0.13) 8%, transparent 10.5%),
-        radial-gradient(ellipse 44% 20% at 24% 26%, rgba(255, 255, 255, 0.085), transparent 70%),
-        radial-gradient(ellipse 54% 26% at 58% 24%, rgba(0, 102, 255, 0.18), transparent 72%),
-        radial-gradient(ellipse 36% 18% at 82% 28%, rgba(255, 255, 255, 0.05), transparent 72%);
-    opacity: 0.72;
+        linear-gradient(180deg, transparent 0 12%, rgba(255, 255, 255, 0.045) 17%, rgba(0, 102, 255, 0.2) 25%, rgba(0, 102, 255, 0.08) 42%, transparent 73%),
+        repeating-linear-gradient(92deg, transparent 0 5.8%, rgba(255, 255, 255, 0.03) 6.6%, rgba(0, 102, 255, 0.09) 8%, transparent 10.5%),
+        radial-gradient(ellipse 44% 20% at 24% 26%, rgba(255, 255, 255, 0.06), transparent 70%),
+        radial-gradient(ellipse 54% 26% at 58% 24%, rgba(0, 102, 255, 0.12), transparent 72%),
+        radial-gradient(ellipse 36% 18% at 82% 28%, rgba(255, 255, 255, 0.035), transparent 72%);
+    opacity: 0.56;
     transform: rotate(-5deg) scale(1.06);
     animation: brandAuroraRibbon 42s ease-in-out infinite alternate;
     will-change: transform, opacity;
@@ -64,7 +64,7 @@
     inset: 18% -40% auto auto;
     width: 142vw;
     height: 76vh;
-    opacity: 0.36;
+    opacity: 0.24;
     transform: rotate(8deg) scale(1.04);
     animation-delay: -21s;
 }
@@ -75,10 +75,10 @@
     height: 92vh;
     border-radius: 48% 52% 58% 42% / 22% 30% 70% 78%;
     background:
-        linear-gradient(180deg, transparent 0 18%, rgba(0, 102, 255, 0.14) 28%, rgba(255, 255, 255, 0.032) 38%, transparent 76%),
-        repeating-linear-gradient(87deg, transparent 0 7%, rgba(0, 102, 255, 0.08) 8.4%, rgba(255, 255, 255, 0.026) 9.2%, transparent 12%),
-        radial-gradient(ellipse 64% 18% at 48% 22%, rgba(255, 255, 255, 0.05), transparent 72%);
-    opacity: 0.44;
+        linear-gradient(180deg, transparent 0 18%, rgba(0, 102, 255, 0.09) 28%, rgba(255, 255, 255, 0.022) 38%, transparent 76%),
+        repeating-linear-gradient(87deg, transparent 0 7%, rgba(0, 102, 255, 0.05) 8.4%, rgba(255, 255, 255, 0.018) 9.2%, transparent 12%),
+        radial-gradient(ellipse 64% 18% at 48% 22%, rgba(255, 255, 255, 0.034), transparent 72%);
+    opacity: 0.32;
     transform: rotate(4deg) scale(1.04);
     animation: brandAuroraSlowDrift 48s ease-in-out infinite alternate;
     will-change: transform, opacity;
@@ -88,7 +88,7 @@
     inset: 42% -34% auto auto;
     width: 124vw;
     height: 70vh;
-    opacity: 0.26;
+    opacity: 0.18;
     transform: rotate(-10deg) scale(1.06);
     animation-duration: 54s;
     animation-delay: -28s;
@@ -100,11 +100,11 @@
         linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
     background-size: 96px 96px;
     mask-image: radial-gradient(ellipse at 50% 18%, rgba(0, 0, 0, 0.38), transparent 72%);
-    opacity: 0.13;
+    opacity: 0.08;
 }
 
 .brand-background__grain {
-    opacity: 0.1;
+    opacity: 0.07;
     mix-blend-mode: screen;
     background:
         radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.03), transparent 18rem),
