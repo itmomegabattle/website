@@ -5,7 +5,6 @@ import heroVideo from "/hero-video.mp4";
 import heroVideoMobile from "/hero-video-mobile.mp4";
 import heroPoster from "/hero-poster.jpg";
 import heroPosterMobile from "/hero-poster-mobile.jpg";
-import aboutImg from "/images/about-image.png";
 import "../styles/page-home.css";
 import Megabattle from "../components/Megabattle";
 import Partners from "../components/Partners";
@@ -99,64 +98,31 @@ export default function HomePage() {
 
         <section id="about" className="about main-width">
           <h1>ПРОЕКТ</h1>
-          <div className="about-showcase">
-            <div className="about-showcase-card about-showcase-card--main">
+          <div className="project-teaser">
+            <div className="project-teaser__content">
               <p className="card-kicker">ITMO MEGABATTLE</p>
-              <h2>Сезон, где факультеты становятся командами</h2>
+              <h2>Факультеты. События. Люди.</h2>
               <p>
-                Коротко: это большая студенческая экосистема ИТМО — мероприятия,
-                знакомства, роли, рейтинги и общий вайб, в котором каждый может
-                найти своё место в проекте.
+                Большой сезон ИТМО, где мегафаки собирают команды, участники
+                знакомятся через NFC, а каждое событие двигает общий сюжет.
               </p>
-              <div className="about-actions">
+              <div className="project-teaser__actions">
                 <Link className="text-button" to="/history">
                   История проекта
                 </Link>
-                <a className="ghost-link" href="#events">
-                  Ближайшее событие
-                </a>
               </div>
             </div>
-
-            <div className="about-showcase-card about-showcase-card--image">
-              <img
-                src={aboutImg}
-                width="670"
-                height="777"
-                alt="Команда ITMO Megabattle"
-                className="about-image"
-              />
-            </div>
-
-            <div className="about-showcase-card about-showcase-card--stat">
-              <span>5</span>
-              <p>мегафаков в одной игре</p>
-            </div>
-
-            <div className="about-showcase-card about-showcase-card--stat about-showcase-card--blue">
-              <span>NFC</span>
-              <p>визитки, профили и граф знакомств</p>
-            </div>
-
-            <div className="about-showcase-card about-showcase-card--wide">
-              <p>
-                Проект вырос из традиций “Весны в ИТМО” и “Я первокурсник”,
-                но теперь живёт как отдельная система: от концертов и квизов до
-                личных профилей, партнёрских событий и будущей админки.
-              </p>
+            <div className="project-teaser__visual" aria-hidden="true">
+              <span className="project-orbit project-orbit--one">5 МФ</span>
+              <span className="project-orbit project-orbit--two">NFC</span>
+              <span className="project-orbit project-orbit--three">LIVE</span>
+              <span className="project-core">MB</span>
             </div>
           </div>
         </section>
 
         <section id="events" className="events main-width">
           <h1>СОБЫТИЯ</h1>
-          <div className="home-event-head">
-            <p className="card-kicker">Ближайшая точка входа</p>
-            <p>
-              Первое мероприятие из общей секции — с описанием, местом, временем
-              и кнопкой регистрации, если она уже открыта.
-            </p>
-          </div>
           <EventList />
         </section>
 
