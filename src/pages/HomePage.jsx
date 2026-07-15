@@ -19,13 +19,13 @@ import {
   faTelegram,
   faInstagram,
   faTiktok,
-  faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
 export default function HomePage() {
   const [theme, setTheme] = useState(Theme.get());
   const [isMobileHero, setIsMobileHero] = useState(false);
   const [activeProjectTab, setActiveProjectTab] = useState(0);
+  const [activeContactTab, setActiveContactTab] = useState("card");
   const isDarkTheme = theme === "dark";
   const projectTabs = [
     {
@@ -61,43 +61,64 @@ export default function HomePage() {
       cta: "Открыть карту",
     },
   ];
-  const contactSocials = [
+  const contactTabs = [
     {
-      name: "VK",
-      title: "ВКонтакте",
-      href: "https://vk.com/itmomegabattle",
-      icon: faVk,
-      className: "contact-social--vk",
+      name: "card",
+      title: "Визитка",
+      shortTitle: "MB",
+      className: "contact-tab--card",
     },
     {
-      name: "TG",
+      name: "telegram",
       title: "Telegram",
+      shortTitle: "TG",
       href: "https://t.me/itmomegabattle",
+      handle: "@itmomegabattle",
+      meta: "Новости, события и жизнь проекта",
       icon: faTelegram,
-      className: "contact-social--telegram",
+      className: "contact-tab--telegram",
     },
     {
-      name: "YT",
-      title: "YouTube",
-      href: "https://www.youtube.com/@itmomegabattle",
-      icon: faYoutube,
-      className: "contact-social--youtube",
+      name: "vk",
+      title: "ВКонтакте",
+      shortTitle: "VK",
+      href: "https://vk.com/itmomegabattle",
+      handle: "ITMO Megabattle",
+      meta: "Официальное сообщество проекта",
+      icon: faVk,
+      className: "contact-tab--vk",
     },
     {
-      name: "IG",
+      name: "instagram",
       title: "Instagram",
+      shortTitle: "IG",
       href: "https://www.instagram.com/itmo.megabattle/",
+      handle: "itmo.megabattle",
+      meta: "Фото, backstage и лица сезона",
       icon: faInstagram,
-      className: "contact-social--instagram",
+      className: "contact-tab--instagram",
     },
     {
-      name: "TT",
+      name: "tiktok",
       title: "TikTok",
+      shortTitle: "TT",
       href: "https://www.tiktok.com/@itmo_megabattle",
+      handle: "@itmo_megabattle",
+      meta: "Короткие видео и тренды Megabattle",
       icon: faTiktok,
-      className: "contact-social--tiktok",
+      className: "contact-tab--tiktok",
+    },
+    {
+      name: "rutube",
+      title: "Rutube",
+      shortTitle: "RU",
+      href: "https://rutube.ru/",
+      handle: "ITMO Megabattle",
+      meta: "Записи концертов и большие видео",
+      className: "contact-tab--rutube",
     },
   ];
+  const activeContact = contactTabs.find((tab) => tab.name === activeContactTab) || contactTabs[0];
 
   useEffect(() => {
     Theme.addListener(setTheme, false);
@@ -134,43 +155,35 @@ export default function HomePage() {
         <section id="about" className="about main-width">
           <h1>ПРОЕКТ</h1>
           <div className="project-menu" aria-label="Навигация по проекту">
-            {projectTabs.map((item, index) => (
-              <div
-                className={`project-menu__item project-menu__item--${index + 1}${
-                  activeProjectTab === index ? " is-active" : ""
-                }`}
-                key={item.title}
-              >
+            <div className="project-menu__nav" role="tablist" aria-label="О проекте">
+              {projectTabs.map((item, index) => (
                 <button
-                  className="project-menu__trigger"
+                  className={`project-menu__trigger${activeProjectTab === index ? " is-active" : ""}`}
                   type="button"
-                  aria-expanded={activeProjectTab === index}
-                  aria-controls={`project-answer-${index}`}
+                  role="tab"
+                  aria-selected={activeProjectTab === index}
+                  aria-controls="project-panel"
                   onClick={() => setActiveProjectTab(index)}
+                  key={item.title}
                 >
                   <span className="project-menu__number">{item.number}</span>
                   <span className="project-menu__title">{item.title}</span>
-                  <span className="project-menu__indicator" aria-hidden="true" />
                 </button>
-                <div
-                  className="project-menu__answer"
-                  id={`project-answer-${index}`}
-                  aria-hidden={activeProjectTab !== index}
-                >
-                  <div className="project-menu__answer-inner">
-                    <div className="project-menu__tags">
-                      {item.tags.map((tag) => (
-                        <span key={tag}>{tag}</span>
-                      ))}
-                    </div>
-                    <p className="project-menu__text">{item.text}</p>
-                    <Link className="project-menu__cta" to={item.to}>
-                      {item.cta}
-                    </Link>
-                  </div>
-                </div>
+              ))}
+            </div>
+            <div className="project-menu__panel" id="project-panel" role="tabpanel" aria-live="polite">
+              <span className="project-menu__eyebrow">{projectTabs[activeProjectTab].number} / О проекте</span>
+              <h2>{projectTabs[activeProjectTab].title}</h2>
+              <div className="project-menu__tags">
+                {projectTabs[activeProjectTab].tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
               </div>
-            ))}
+              <p className="project-menu__text">{projectTabs[activeProjectTab].text}</p>
+              <Link className="project-menu__cta" to={projectTabs[activeProjectTab].to}>
+                {projectTabs[activeProjectTab].cta}
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -190,47 +203,72 @@ export default function HomePage() {
             <iframe className="yandex-map" title="Карта ИТМО" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade">
               Карта ИТМО
             </iframe>
-            <div className="contact-info">
-              <div className="contact-info-main">
-                <div className="contact-line">
-                  <FontAwesomeIcon icon={faLocationDot} />
-                  <span>ул. Ломоносова, д.9</span>
-                </div>
-                <div className="contact-line">
-                  <FontAwesomeIcon icon={faAt} />
-                  <span>megabattle@itmo.ru</span>
-                </div>
+            <div className={`contact-info contact-info--${activeContact.name}`}>
+              <div className="contact-info__screen" aria-live="polite">
+                {activeContact.name === "card" ? (
+                  <div className="contact-card">
+                    <div className="contact-card__head">
+                      <img src="/logo.svg" alt="ITMO Megabattle" width="109" height="67" />
+                      <span>Главная визитка</span>
+                    </div>
+                    <div className="contact-card__body">
+                      <p>Факультеты встречаются здесь.</p>
+                      <div className="contact-card__details">
+                        <div className="contact-line">
+                          <FontAwesomeIcon icon={faLocationDot} />
+                          <span>Санкт-Петербург, ул. Ломоносова, д. 9</span>
+                        </div>
+                        <a className="contact-line" href="mailto:megabattle@itmo.ru">
+                          <FontAwesomeIcon icon={faAt} />
+                          <span>megabattle@itmo.ru</span>
+                        </a>
+                      </div>
+                    </div>
+                    <span className="contact-card__mark">ITMO · 2026</span>
+                  </div>
+                ) : (
+                  <div className={`social-profile social-profile--${activeContact.name}`}>
+                    <div className="social-profile__chrome">
+                      <span className="social-profile__wordmark">{activeContact.title}</span>
+                      <span className="social-profile__status">официальный профиль</span>
+                    </div>
+                    <div className="social-profile__hero">
+                      <div className="social-profile__avatar">
+                        <img src="/logo.svg" alt="" width="109" height="67" />
+                      </div>
+                      <div className="social-profile__identity">
+                        <span className="social-profile__handle">{activeContact.handle}</span>
+                        <strong>ITMO Megabattle <span aria-label="Подтверждено">●</span></strong>
+                        <p>{activeContact.meta}</p>
+                      </div>
+                    </div>
+                    <div className="social-profile__metrics">
+                      <span><strong>5</strong> мегафаков</span>
+                      <span><strong>1</strong> большой сезон</span>
+                      <span><strong>∞</strong> знакомств</span>
+                    </div>
+                    <a className="social-profile__open" href={activeContact.href} target="_blank" rel="noreferrer">
+                      Открыть в {activeContact.title}
+                    </a>
+                  </div>
+                )}
               </div>
-
-              <div className="contact-socials-panel" aria-label="Социальные сети">
-                {contactSocials.map((social, index) => (
-                  <a
-                    key={social.name}
-                    className={`contact-social-link ${social.className}`}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={social.title}
-                    aria-label={social.title}
+              <div className="contact-tabs" role="tablist" aria-label="Контакты и социальные сети">
+                {contactTabs.map((tab) => (
+                  <button
+                    key={tab.name}
+                    className={`contact-tab ${tab.className}${activeContactTab === tab.name ? " is-active" : ""}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeContactTab === tab.name}
+                    title={tab.title}
+                    onClick={() => setActiveContactTab(tab.name)}
                   >
-                    <FontAwesomeIcon icon={social.icon} />
-                    <span>{social.title}</span>
-                  </a>
+                    {tab.icon ? <FontAwesomeIcon icon={tab.icon} /> : <span>{tab.shortTitle}</span>}
+                    <span className="contact-tab__label">{tab.title}</span>
+                  </button>
                 ))}
               </div>
-              {/* <button
-                className="button"
-                type="button"
-                onClick={() =>
-                  // todo: он строит маршрут к черному ходу, а не к основному
-                  window.open(
-                    "https://yandex.ru/maps/?rtext=~59.926503,30.338712&rtt=auto",
-                    "_blank",
-                  )
-                }
-              >
-                Построить маршрут
-              </button> */}
             </div>
           </div>
         </section>
