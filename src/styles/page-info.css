@@ -124,9 +124,11 @@
 }
 
 .event-showcase-card {
+    --event-card-media-size: clamp(340px, 31vw, 430px);
     display: grid;
-    grid-template-columns: minmax(340px, 0.92fr) minmax(0, 1.08fr);
-    min-height: auto;
+    grid-template-columns: var(--event-card-media-size) minmax(0, 1fr);
+    height: var(--event-card-media-size);
+    min-height: var(--event-card-media-size);
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--accent-color) 22%, var(--border-color));
     border-radius: var(--corner-radius);
@@ -138,7 +140,7 @@
 }
 
 .event-showcase-card:nth-child(even) {
-    grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+    grid-template-columns: minmax(0, 1fr) var(--event-card-media-size);
 }
 
 .event-showcase-card:nth-child(even) .event-showcase-media {
@@ -147,8 +149,9 @@
 
 .event-showcase-media {
     position: relative;
-    min-height: 0;
-    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
     overflow: hidden;
     background:
         linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 34%, transparent), transparent),
@@ -166,20 +169,22 @@
 .event-showcase-info {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: clamp(1.6rem, 3vw, 3rem);
+    gap: clamp(0.55rem, 0.9vw, 0.85rem);
+    min-height: 0;
+    overflow: hidden;
+    padding: clamp(1.25rem, 2vw, 2rem);
 }
 
 .event-showcase-info h2 {
     font-family: var(--heading-font);
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(2rem, 4.2vw, 3.55rem);
     line-height: 0.95;
 }
 
 .event-showcase-description {
     max-width: 760px;
-    font-size: clamp(1rem, 1.4vw, 1.18rem);
-    line-height: 1.65;
+    font-size: clamp(0.98rem, 1.16vw, 1.08rem);
+    line-height: 1.45;
 }
 
 .event-mobile-details {
@@ -189,12 +194,12 @@
 .event-meta-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.8rem;
-    margin: 0.4rem 0;
+    gap: 0.65rem;
+    margin: 0.2rem 0;
 }
 
 .event-meta-grid div {
-    padding: 0.85rem;
+    padding: 0.7rem 0.8rem;
     border: 1px solid color-mix(in srgb, var(--border-color) 55%, transparent);
     border-radius: 1rem;
     background: rgba(255, 255, 255, 0.06);
@@ -1995,7 +2000,9 @@
 
     .event-showcase-card,
     .event-showcase-card:nth-child(even) {
+        --event-card-media-size: min(100%, 520px);
         grid-template-columns: 1fr;
+        height: auto;
         min-height: auto;
     }
 
@@ -2004,6 +2011,8 @@
     }
 
     .event-showcase-media {
+        width: 100%;
+        height: auto;
         min-height: 0;
         max-height: none;
         aspect-ratio: 1 / 1;
