@@ -1,0 +1,328 @@
+.pixel-glass-widget {
+    --pixel-blue: #1683ff;
+    --pixel-blue-soft: #8bb5ff;
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    min-height: 420px;
+    padding: clamp(0.7rem, 1.2vw, 1rem);
+    overflow: hidden;
+    border: 1px solid rgba(139, 181, 255, 0.3);
+    border-radius: var(--corner-radius);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.025) 42%, rgba(0, 59, 139, 0.16)),
+        rgba(3, 8, 18, 0.72);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.17),
+        0 24px 64px rgba(0, 0, 0, 0.3),
+        0 0 48px rgba(0, 102, 255, 0.08);
+    color: #fff;
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+}
+
+.pixel-glass-widget::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(rgba(139, 181, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 181, 255, 0.045) 1px, transparent 1px);
+    background-size: 16px 16px;
+    mask-image: linear-gradient(to bottom, #000, transparent 84%);
+    content: "";
+}
+
+.pixel-glass-widget__glow {
+    position: absolute;
+    z-index: -1;
+    top: -32%;
+    right: -34%;
+    width: 85%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgba(0, 102, 255, 0.32);
+    filter: blur(56px);
+    opacity: 0.72;
+    pointer-events: none;
+}
+
+.pixel-glass-screen {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto auto auto 1fr auto;
+    gap: clamp(0.65rem, 1.3vw, 1rem);
+    height: 100%;
+    min-height: 100%;
+    padding: clamp(0.85rem, 1.5vw, 1.25rem);
+    overflow: hidden;
+    border: 1px solid rgba(139, 181, 255, 0.32);
+    border-radius: calc(var(--corner-radius) * 0.62);
+    background:
+        linear-gradient(115deg, rgba(255, 255, 255, 0.075), transparent 38%),
+        linear-gradient(180deg, rgba(5, 17, 37, 0.9), rgba(1, 5, 13, 0.94));
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+        inset 0 -30px 70px rgba(0, 102, 255, 0.08);
+}
+
+.pixel-glass-screen::before {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0 3px,
+        rgba(255, 255, 255, 0.018) 3px 4px
+    );
+    content: "";
+}
+
+.pixel-glass-screen::after {
+    position: absolute;
+    top: -60%;
+    left: -80%;
+    width: 48%;
+    height: 220%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    content: "";
+    transform: rotate(18deg);
+    animation: pixelGlassSweep 9s ease-in-out infinite;
+}
+
+.pixel-glass-screen__topbar,
+.pixel-glass-screen__footer,
+.pixel-progress-copy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: clamp(0.56rem, 0.75vw, 0.68rem);
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.pixel-glass-screen__topbar {
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid rgba(139, 181, 255, 0.18);
+}
+
+.pixel-status,
+.pixel-glass-screen__footer span:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.pixel-status i,
+.pixel-glass-screen__footer i {
+    width: 0.48rem;
+    height: 0.48rem;
+    background: var(--pixel-blue);
+    box-shadow: 0 0 0.75rem rgba(22, 131, 255, 0.9);
+    animation: pixelStatusBlink 2.1s steps(2, end) infinite;
+}
+
+.pixel-glass-screen__hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: end;
+}
+
+.pixel-level-copy > span,
+.pixel-achievements__label,
+.pixel-stat-grid span,
+.pixel-rank small {
+    display: block;
+    color: var(--pixel-blue-soft);
+    font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.pixel-level-copy h2 {
+    max-width: 9ch;
+    margin: 0.35rem 0 0;
+    color: #fff;
+    font-family: var(--heading-font);
+    font-size: clamp(1.3rem, 2.4vw, 2.35rem);
+    line-height: 0.9;
+    overflow-wrap: anywhere;
+    text-shadow: 3px 3px 0 rgba(0, 102, 255, 0.62);
+}
+
+.pixel-rank {
+    display: grid;
+    justify-items: end;
+    align-content: end;
+}
+
+.pixel-rank strong {
+    color: #fff;
+    font-family: var(--heading-font);
+    font-size: clamp(2rem, 4.5vw, 4.2rem);
+    line-height: 0.8;
+    text-shadow: 4px 4px 0 rgba(0, 102, 255, 0.72);
+}
+
+.pixel-progress-block {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.pixel-progress-copy span:first-child {
+    color: #fff;
+}
+
+.pixel-progress {
+    position: relative;
+    height: 1.05rem;
+    padding: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.54);
+    background: rgba(0, 0, 0, 0.42);
+}
+
+.pixel-progress::after {
+    position: absolute;
+    inset: 3px;
+    background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 2px), rgba(0, 0, 0, 0.72) calc(10% - 2px) 10%);
+    content: "";
+}
+
+.pixel-progress > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #0066ff, #71b2ff);
+    box-shadow: 0 0 1.2rem rgba(0, 102, 255, 0.75);
+    transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pixel-progress-block p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.54);
+    font-size: clamp(0.62rem, 0.85vw, 0.74rem);
+    line-height: 1.3;
+}
+
+.pixel-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+}
+
+.pixel-stat-grid > div {
+    min-width: 0;
+    padding: clamp(0.55rem, 1vw, 0.75rem);
+    border: 1px solid rgba(139, 181, 255, 0.19);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.065), transparent),
+        rgba(4, 13, 29, 0.76);
+    box-shadow: inset 0 0 1.4rem rgba(0, 102, 255, 0.06);
+}
+
+.pixel-stat-grid strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: #fff;
+    font-family: var(--heading-font);
+    font-size: clamp(1rem, 2vw, 1.6rem);
+    line-height: 1;
+}
+
+.pixel-achievements {
+    display: grid;
+    align-content: end;
+    gap: 0.45rem;
+    min-height: 0;
+}
+
+.pixel-achievements > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.pixel-chip {
+    max-width: 100%;
+    padding: 0.38rem 0.52rem;
+    overflow: hidden;
+    border: 1px solid rgba(139, 181, 255, 0.3);
+    background: rgba(0, 102, 255, 0.15);
+    color: #dbe9ff;
+    font-size: clamp(0.57rem, 0.8vw, 0.68rem);
+    font-weight: 900;
+    line-height: 1;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.pixel-glass-screen__footer {
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(139, 181, 255, 0.18);
+}
+
+@keyframes pixelStatusBlink {
+    50% { opacity: 0.38; }
+}
+
+@keyframes pixelGlassSweep {
+    0%, 54% { transform: translateX(0) rotate(18deg); opacity: 0; }
+    65% { opacity: 1; }
+    82%, 100% { transform: translateX(410%) rotate(18deg); opacity: 0; }
+}
+
+@media (max-width: 960px) {
+    .pixel-glass-widget {
+        min-height: 380px;
+    }
+}
+
+@media (max-width: 640px) {
+    .pixel-glass-widget {
+        min-height: 330px;
+        padding: 0.55rem;
+        border-radius: 1.35rem;
+        backdrop-filter: blur(12px) saturate(120%);
+        -webkit-backdrop-filter: blur(12px) saturate(120%);
+    }
+
+    .pixel-glass-screen {
+        gap: 0.58rem;
+        padding: 0.75rem;
+        border-radius: 0.95rem;
+    }
+
+    .pixel-glass-screen__hero {
+        align-items: center;
+    }
+
+    .pixel-level-copy h2 {
+        max-width: 12ch;
+        font-size: clamp(1.15rem, 6.2vw, 1.65rem);
+    }
+
+    .pixel-rank strong {
+        font-size: clamp(2rem, 13vw, 3.25rem);
+    }
+
+    .pixel-stat-grid > div {
+        padding: 0.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pixel-glass-screen::after,
+    .pixel-status i,
+    .pixel-glass-screen__footer i {
+        animation: none;
+    }
+}

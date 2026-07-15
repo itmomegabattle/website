@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../api";
 import { getProfileSocialLinks, getSocialLinkStyle } from "../utils/socialLinks";
+import GamificationWidget from "./GamificationWidget";
 
 function Leaderboard({ title, rows, nameKey = "name" }) {
   return (
@@ -68,6 +69,10 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
   const participantPlace =
     ratings.participantLeaderboard.find((item) => item.nickname === profile?.nickname)?.place ??
     "вне топ-5";
+  const participantScore =
+    ratings.participantLeaderboard.find((item) => item.nickname === profile?.nickname)?.score ??
+    profile?.megaballs ??
+    0;
   const avatar = profile?.avatar_url || Api.normalizeURL("/images/people/member.jpg");
   const links = getProfileSocialLinks(profile).slice(0, 4);
 
@@ -113,18 +118,12 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
         </div>
       </article>
 
-      <article className="info-card participant-square-card">
-        <p className="card-kicker">Твоё место</p>
-        <h2>{participantPlace}</h2>
-        <div className="participant-square-meta">
-          <span>{profile?.megaballs || 0} мегабаллов</span>
-          <span>{links.length || 0} соцсети</span>
-        </div>
-        <p>
-          Всё управление профилем, визиткой и NFC-носителями теперь живёт здесь,
-          в разделе для участников.
-        </p>
-      </article>
+      <GamificationWidget
+        profile={profile}
+        place={participantPlace}
+        score={participantScore}
+        socialCount={links.length}
+      />
     </div>
   );
 }
