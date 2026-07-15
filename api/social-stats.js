@@ -36,6 +36,19 @@ function defined(values) {
   return Object.fromEntries(Object.entries(values).filter(([, value]) => Number.isFinite(value)));
 }
 
+function instagramMedia(html) {
+  const normalized = html
+    .replace(/\\u00253D/g, "%3D")
+    .replace(/\\u0026/g, "&")
+    .replace(/\\+\//g, "/")
+    .replace(/&amp;/g, "&");
+  const urls = normalized.match(/https:\/\/[^"'<>\\\s]+?\.(?:jpe?g|webp)(?:\?[^"'<>\\\s]*)?/gi) || [];
+
+  return [...new Set(urls)]
+    .filter((url) => url.includes("scontent-") && !url.includes("t51.2885-19"))
+    .slice(0, 6);
+}
+
 async function telegramStats() {
   const html = await fetchText("https://t.me/itmomegabattle");
   return defined({
@@ -44,12 +57,18 @@ async function telegramStats() {
 }
 
 async function instagramStats() {
-  const html = await fetchText("https://www.instagram.com/itmo.megabattle/");
-  return defined({
+  const [html, embedHtml] = await Promise.all([
+    fetchText("https://www.instagram.com/itmo.megabattle/"),
+    fetchText("https://www.instagram.com/itmo.megabattle/embed/"),
+  ]);
+  return {
+    ...defined({
     followers: numberFromMatch(html, [/(?:content="|>)([\d,.\s]+)\s+Followers/i]),
     posts: numberFromMatch(html, [/([\d,.\s]+)\s+Posts/i]),
     following: numberFromMatch(html, [/([\d,.\s]+)\s+Following/i]),
-  });
+    }),
+    media: instagramMedia(embedHtml),
+  };
 }
 
 async function tiktokStats() {
@@ -62,24 +81,50 @@ async function tiktokStats() {
 }
 
 async function rutubeStats() {
-  const html = await fetchText("https://rutube.ru/channel/78402593/videos/");
-  return defined({
-    followers: numberFromMatch(html, [/"subscribers_count":\s*(\d+)/, /([\d\s]+)\s+подписчик/i]),
-    posts: numberFromMatch(html, [/"video_count":\s*(\d+)/, /"videos_count":\s*(\d+)/]),
-  });
+  const [html, apiText] = await Promise.all([
+    fetchText("https://rutube.ru/channel/78402593/videos/"),
+    fetchText("https://rutube.ru/api/video/person/78402593/?page=1&page_size=6", {
+      headers: { accept: "application/json" },
+    }),
+  ]);
+  const payload = JSON.parse(apiText);
+  const videos = (payload.results || []).slice(0, 6).map((video) => ({
+    title: video.title,
+    thumbnail: video.thumbnail_url,
+    url: video.video_url,
+  }));
+
+  return {
+    ...defined({
+      followers: numberFromMatch(html, [/"subscribers_count":\s*(\d+)/, /([\d\s]+)\s+подписчик/i]),
+      posts: numberFromMatch(html, [/"video_count":\s*(\d+)/, /"videos_count":\s*(\d+)/]),
+    }),
+    videos,
+  };
 }
 
 async function vkStats() {
-  if (!process.env.VK_SERVICE_TOKEN) return {};
-  const url = new URL("https://api.vk.com/method/groups.getById");
-  url.searchParams.set("group_id", "itmomegabattle");
-  url.searchParams.set("fields", "members_count");
-  url.searchParams.set("v", "5.199");
-  url.searchParams.set("access_token", process.env.VK_SERVICE_TOKEN);
+  if (process.env.VK_SERVICE_TOKEN) {
+    const url = new URL("https://api.vk.com/method/groups.getById");
+    url.searchParams.set("group_id", "itmomegabattle");
+    url.searchParams.set("fields", "members_count");
+    url.searchParams.set("v", "5.199");
+    url.searchParams.set("access_token", process.env.VK_SERVICE_TOKEN);
 
-  const payload = JSON.parse(await fetchText(url.toString(), { headers: { accept: "application/json" } }));
-  const group = Array.isArray(payload.response) ? payload.response[0] : payload.response?.groups?.[0];
-  return defined({ followers: Number(group?.members_count) });
+    const payload = JSON.parse(await fetchText(url.toString(), { headers: { accept: "application/json" } }));
+    const group = Array.isArray(payload.response) ? payload.response[0] : payload.response?.groups?.[0];
+    return defined({ followers: Number(group?.members_count) });
+  }
+
+  const html = await fetchText("https://vk.ru/itmomegabattle", {
+    headers: {
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "accept-language": "ru-RU,ru;q=0.9",
+    },
+  });
+  return defined({
+    followers: numberFromMatch(html, [/"members_count":\s*(\d+)/]),
+  });
 }
 
 async function safe(loader) {

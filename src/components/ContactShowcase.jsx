@@ -5,6 +5,7 @@ import {
   faAt,
   faBell,
   faCheck,
+  faComment,
   faEllipsis,
   faEnvelope,
   faLink,
@@ -27,9 +28,34 @@ const SOCIALS = [
 const FALLBACK_STATS = {
   telegram: { followers: 2385 },
   vk: { followers: null },
-  instagram: { followers: 1095, posts: null, following: null },
+  instagram: {
+    followers: 1095,
+    posts: 115,
+    following: 4,
+    media: ["/images/about-image.png", "/images/events/event1.jpg", "/images/events/event2.jpg"],
+  },
   tiktok: { followers: 169, likes: 1716, posts: 10 },
-  rutube: { followers: 206, posts: 15 },
+  rutube: {
+    followers: 206,
+    posts: 15,
+    videos: [
+      {
+        title: "ITMO MEGABATTLE 8 сезон 2 раунд",
+        thumbnail: "/images/about-image.png",
+        url: "https://rutube.ru/channel/78402593/videos/",
+      },
+      {
+        title: "ITMO MEGABATTLE 8 сезон 1 раунд",
+        thumbnail: "/images/events/event1.jpg",
+        url: "https://rutube.ru/channel/78402593/videos/",
+      },
+      {
+        title: "Гала-концерт ITMO MEGABATTLE",
+        thumbnail: "/images/events/event2.jpg",
+        url: "https://rutube.ru/channel/78402593/videos/",
+      },
+    ],
+  },
 };
 
 const compactNumber = new Intl.NumberFormat("ru-RU", { notation: "compact", maximumFractionDigits: 1 });
@@ -51,41 +77,66 @@ function ProjectAvatar({ className = "" }) {
 function BusinessCard() {
   return (
     <div className="employee-card">
-      <div className="employee-card__identity">
+      <div className="employee-card__brand">
         <ProjectAvatar />
-        <div>
-          <span className="employee-card__label">Официальная визитка</span>
-          <h2>ITMO Megabattle</h2>
-          <p>Команда студенческого проекта</p>
+        <span>MEGABATTLE</span>
+      </div>
+      <div className="employee-card__profile">
+        <span className="employee-card__label">Официальная визитка</span>
+        <h2>ITMO<br />Megabattle</h2>
+        <p>Команда студенческого проекта</p>
+        <div className="employee-card__contacts">
+          <a href="mailto:megabattle@itmo.ru"><FontAwesomeIcon icon={faEnvelope} /><span>megabattle@itmo.ru</span></a>
+          <span><FontAwesomeIcon icon={faLocationDot} /><span>Санкт-Петербург<br />Ломоносова, 9</span></span>
+          <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faAt} /><span>@itmomegabattle</span></a>
         </div>
       </div>
-      <div className="employee-card__contacts">
-        <a href="mailto:megabattle@itmo.ru"><FontAwesomeIcon icon={faEnvelope} /><span>megabattle@itmo.ru</span></a>
-        <span><FontAwesomeIcon icon={faLocationDot} /><span>Санкт-Петербург, Ломоносова, 9</span></span>
-        <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faAt} /><span>@itmomegabattle</span></a>
-      </div>
       <div className="employee-card__footer">
-        <span>MEGABATTLE TEAM</span>
-        <span>ID · PUBLIC</span>
+        <span>MB · TEAM</span>
+        <span>САНКТ-ПЕТЕРБУРГ · 2026</span>
       </div>
     </div>
   );
 }
 
 function TelegramProfile({ data, href }) {
+  const actions = [
+    { icon: faComment, label: "Чат" },
+    { icon: faPaperPlane, label: "Перейти" },
+    { icon: faBell, label: "Звук" },
+    { icon: faEllipsis, label: "Ещё" },
+  ];
+
   return (
     <div className="network-screen telegram-screen">
-      <div className="telegram-screen__cover" />
-      <div className="telegram-screen__bottom">
+      <div className="telegram-screen__hero">
         <ProjectAvatar />
-        <div className="telegram-screen__name">
-          <strong>ITMO MEGABATTLE</strong>
-          <span>{stat(data.followers)} подписчиков</span>
-        </div>
-        <a href={href} target="_blank" rel="noreferrer" aria-label="Открыть Telegram"><FontAwesomeIcon icon={faBell} /></a>
-        <FontAwesomeIcon icon={faEllipsis} />
+        <strong>ITMO Megabattle</strong>
+        <span>{stat(data.followers)} подписчиков</span>
       </div>
+      <div className="telegram-screen__actions">
+        {actions.map((action) => (
+          <a key={action.label} href={href} target="_blank" rel="noreferrer">
+            <FontAwesomeIcon icon={action.icon} />
+            <span>{action.label}</span>
+          </a>
+        ))}
+      </div>
+      <a className="telegram-screen__info" href={href} target="_blank" rel="noreferrer">
+        <span>Информация</span>
+        <p>Добро пожаловать в информационный канал проекта ITMO Megabattle 💙</p>
+        <div><small>ССЫЛКА</small><strong>@itmomegabattle</strong></div>
+      </a>
     </div>
+  );
+}
+
+function VkStat({ value, label }) {
+  return (
+    <span className="vk-screen__stat">
+      <strong>{value}</strong>
+      <small>{label}</small>
+    </span>
   );
 }
 
@@ -100,10 +151,15 @@ function VkProfile({ data, href }) {
         <ProjectAvatar />
         <div className="vk-screen__name">
           <strong>ITMO Megabattle <span><FontAwesomeIcon icon={faCheck} /></span></strong>
-          <small>{Number.isFinite(data.followers) ? `${stat(data.followers)} подписчиков` : "Официальное сообщество"}</small>
+          <small>@itmomegabattle</small>
+          <div className="vk-screen__stats">
+            <VkStat value={stat(data.followers)} label="подписчиков" />
+            <VkStat value="ИТМО" label="сообщество" />
+            <VkStat value="СПб" label="город" />
+          </div>
         </div>
         <a href={href} target="_blank" rel="noreferrer">Сообщение</a>
-        <button type="button">Ещё</button>
+        <a className="vk-screen__more" href={href} target="_blank" rel="noreferrer">Ещё</a>
       </div>
     </div>
   );
@@ -125,6 +181,13 @@ function InstagramProfile({ data, href }) {
         <strong>ITMO Megabattle</strong>
         <span>Major events by the makers at ITMO</span>
         <a href="https://mblinks.online" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLink} /> mblinks.online</a>
+      </div>
+      <div className="instagram-screen__media">
+        {(data.media || []).slice(0, 3).map((image, index) => (
+          <a href={href} target="_blank" rel="noreferrer" key={`${image}-${index}`}>
+            <img src={image} alt={`Публикация ITMO Megabattle ${index + 1}`} loading="lazy" />
+          </a>
+        ))}
       </div>
       <div className="instagram-screen__actions">
         <a href={href} target="_blank" rel="noreferrer">Подписаться</a>
@@ -148,10 +211,10 @@ function TiktokProfile({ data, href }) {
         </div>
         <div className="tiktok-screen__actions">
           <a href={href} target="_blank" rel="noreferrer">Подписаться</a>
-          <button type="button">Сообщение</button>
-          <button type="button"><FontAwesomeIcon icon={faUserPlus} /></button>
-          <button type="button"><FontAwesomeIcon icon={faShareNodes} /></button>
-          <button type="button"><FontAwesomeIcon icon={faEllipsis} /></button>
+          <a href={href} target="_blank" rel="noreferrer">Сообщение</a>
+          <a href={href} target="_blank" rel="noreferrer" aria-label="Добавить в TikTok"><FontAwesomeIcon icon={faUserPlus} /></a>
+          <a href={href} target="_blank" rel="noreferrer" aria-label="Поделиться TikTok"><FontAwesomeIcon icon={faShareNodes} /></a>
+          <a href={href} target="_blank" rel="noreferrer" aria-label="Открыть TikTok"><FontAwesomeIcon icon={faEllipsis} /></a>
         </div>
         <p>Major events by the makers at ITMO</p>
         <a className="tiktok-screen__link" href="https://mblinks.online" target="_blank" rel="noreferrer">mblinks.online</a>
@@ -161,17 +224,28 @@ function TiktokProfile({ data, href }) {
 }
 
 function RutubeProfile({ data, href }) {
+  const videos = (data.videos || []).slice(0, 3);
+
   return (
     <div className="network-screen rutube-screen">
-      <div className="rutube-screen__top"><strong>RUTUBE</strong><span>Канал</span><FontAwesomeIcon icon={faEllipsis} /></div>
-      <div className="rutube-screen__cover">
-        <img src="/images/about-image.png" alt="" width="670" height="777" />
-        <span>ГАЛА-КОНЦЕРТЫ<br />И АРХИВ СЕЗОНОВ</span>
+      <div className="rutube-screen__top">
+        <strong>RUTUBE</strong>
+        <a href={href} target="_blank" rel="noreferrer">Открыть канал</a>
       </div>
       <div className="rutube-screen__profile">
         <ProjectAvatar />
         <div><strong>ITMO MEGABATTLE</strong><span>{stat(data.followers)} подписчиков · {stat(data.posts)} видео</span></div>
-        <a href={href} target="_blank" rel="noreferrer">Смотреть канал</a>
+      </div>
+      <div className="rutube-screen__videos">
+        {videos.map((video, index) => (
+          <a href={video.url || href} target="_blank" rel="noreferrer" key={`${video.url}-${index}`}>
+            <span className="rutube-screen__thumbnail">
+              <img src={video.thumbnail} alt="" loading="lazy" />
+              <i>▶</i>
+            </span>
+            <strong>{video.title}</strong>
+          </a>
+        ))}
       </div>
     </div>
   );
