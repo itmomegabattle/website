@@ -125,7 +125,7 @@
 
 .event-showcase-card {
     display: grid;
-    grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+    grid-template-columns: minmax(340px, 0.92fr) minmax(0, 1.08fr);
     min-height: auto;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--accent-color) 22%, var(--border-color));
@@ -138,7 +138,7 @@
 }
 
 .event-showcase-card:nth-child(even) {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+    grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
 }
 
 .event-showcase-card:nth-child(even) .event-showcase-media {
