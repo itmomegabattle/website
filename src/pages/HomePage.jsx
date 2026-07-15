@@ -26,6 +26,40 @@ export default function HomePage() {
   const [theme, setTheme] = useState(Theme.get());
   const [isMobileHero, setIsMobileHero] = useState(false);
   const isDarkTheme = theme === "dark";
+  const projectTabs = [
+    {
+      number: "01",
+      title: "История",
+      text: "Откуда вырос Megabattle, зачем он нужен и почему сезон стал общей игрой факультетов.",
+      tags: ["лор проекта", "ретроспектива", "сезон"],
+      to: "/history",
+      cta: "Перейти к истории",
+    },
+    {
+      number: "02",
+      title: "Команда",
+      text: "Люди, которые собирают проект: мегаорги, отвы, участники штаба и те, кто держит движ.",
+      tags: ["орги", "отвы", "люди"],
+      to: "/people",
+      cta: "Смотреть команду",
+    },
+    {
+      number: "03",
+      title: "Роли",
+      text: "Можно быть на сцене, в медиа, технике, постановке, реквизите или придумать себе место самому.",
+      tags: ["сцена", "медиа", "техника"],
+      to: "/ratings",
+      cta: "К участникам",
+    },
+    {
+      number: "04",
+      title: "Факультеты",
+      text: "Пять мегафаков, свои команды, рейтинги и карта направлений, где перваку проще понять структуру.",
+      tags: ["5 мегафаков", "карта", "рейтинг"],
+      to: "/faculties",
+      cta: "Открыть карту",
+    },
+  ];
   const contactSocials = [
     {
       name: "VK",
@@ -98,26 +132,26 @@ export default function HomePage() {
 
         <section id="about" className="about main-width">
           <h1>ПРОЕКТ</h1>
-          <div className="project-teaser">
-            <div className="project-teaser__content">
-              <p className="card-kicker">ITMO MEGABATTLE</p>
-              <h2>Факультеты. События. Люди.</h2>
-              <p>
-                Большой сезон ИТМО, где мегафаки собирают команды, участники
-                знакомятся через NFC, а каждое событие двигает общий сюжет.
-              </p>
-              <div className="project-teaser__actions">
-                <Link className="text-button" to="/history">
-                  История проекта
-                </Link>
-              </div>
-            </div>
-            <div className="project-teaser__visual" aria-hidden="true">
-              <span className="project-orbit project-orbit--one">5 МФ</span>
-              <span className="project-orbit project-orbit--two">NFC</span>
-              <span className="project-orbit project-orbit--three">LIVE</span>
-              <span className="project-core">MB</span>
-            </div>
+          <div className="project-menu" aria-label="Навигация по проекту">
+            {projectTabs.map((item, index) => (
+              <Link
+                className={`project-menu__item project-menu__item--${index + 1}`}
+                to={item.to}
+                key={item.title}
+              >
+                <span className="project-menu__number">{item.number}</span>
+                <span className="project-menu__title">{item.title}</span>
+                <span className="project-menu__details">
+                  <span className="project-menu__tags">
+                    {item.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </span>
+                  <span className="project-menu__text">{item.text}</span>
+                  <span className="project-menu__cta">{item.cta}</span>
+                </span>
+              </Link>
+            ))}
           </div>
         </section>
 
