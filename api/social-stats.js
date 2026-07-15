@@ -36,19 +36,6 @@ function defined(values) {
   return Object.fromEntries(Object.entries(values).filter(([, value]) => Number.isFinite(value)));
 }
 
-function instagramMedia(html) {
-  const normalized = html
-    .replace(/\\u00253D/g, "%3D")
-    .replace(/\\u0026/g, "&")
-    .replace(/\\+\//g, "/")
-    .replace(/&amp;/g, "&");
-  const urls = normalized.match(/https:\/\/[^"'<>\\\s]+?\.(?:jpe?g|webp)(?:\?[^"'<>\\\s]*)?/gi) || [];
-
-  return [...new Set(urls)]
-    .filter((url) => url.includes("scontent-") && !url.includes("t51.2885-19"))
-    .slice(0, 6);
-}
-
 async function telegramStats() {
   const html = await fetchText("https://t.me/itmomegabattle");
   return defined({
@@ -57,18 +44,12 @@ async function telegramStats() {
 }
 
 async function instagramStats() {
-  const [html, embedHtml] = await Promise.all([
-    fetchText("https://www.instagram.com/itmo.megabattle/"),
-    fetchText("https://www.instagram.com/itmo.megabattle/embed/"),
-  ]);
-  return {
-    ...defined({
+  const html = await fetchText("https://www.instagram.com/itmo.megabattle/");
+  return defined({
     followers: numberFromMatch(html, [/(?:content="|>)([\d,.\s]+)\s+Followers/i]),
     posts: numberFromMatch(html, [/([\d,.\s]+)\s+Posts/i]),
     following: numberFromMatch(html, [/([\d,.\s]+)\s+Following/i]),
-    }),
-    media: instagramMedia(embedHtml),
-  };
+  });
 }
 
 async function tiktokStats() {
@@ -88,6 +69,7 @@ async function rutubeStats() {
     }),
   ]);
   const payload = JSON.parse(apiText);
+  const cover = (html.match(/"cover_image":"(https:[^"?]+)/)?.[1] || "").replace(/\\\//g, "/");
   const videos = (payload.results || []).slice(0, 6).map((video) => ({
     title: video.title,
     thumbnail: video.thumbnail_url,
@@ -99,6 +81,7 @@ async function rutubeStats() {
       followers: numberFromMatch(html, [/"subscribers_count":\s*(\d+)/, /([\d\s]+)\s+подписчик/i]),
       posts: numberFromMatch(html, [/"video_count":\s*(\d+)/, /"videos_count":\s*(\d+)/]),
     }),
+    ...(cover ? { cover } : {}),
     videos,
   };
 }

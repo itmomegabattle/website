@@ -167,6 +167,24 @@
   min-height: 0;
   overflow: hidden;
   border-radius: clamp(1rem, 1.5vw, 1.35rem);
+  cursor: pointer;
+  outline: none;
+}
+
+.network-screen,
+.network-screen * {
+  box-sizing: border-box;
+}
+
+.network-screen:focus-visible {
+  box-shadow: inset 0 0 0 2px #7fb3ff;
+}
+
+.contact-showcase__screen a,
+.contact-showcase__screen a:hover,
+.contact-showcase__screen a:focus,
+.contact-showcase__screen a:active {
+  text-decoration: none;
 }
 
 /* Telegram channel info */
@@ -318,10 +336,14 @@
 .vk-screen__name {
   display: grid;
   gap: 0.2rem;
+  min-width: 0;
 }
 
 .vk-screen__name strong {
+  overflow: hidden;
   font-size: clamp(1rem, 1.7vw, 1.45rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .vk-screen__name strong span {
@@ -378,7 +400,7 @@
 /* Instagram profile */
 .instagram-screen {
   display: grid;
-  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   padding: 0.75rem 1rem 1rem;
   color: #111;
   background: #fff;
@@ -423,6 +445,7 @@
 
 .instagram-screen__stats span {
   display: grid;
+  min-width: 0;
   font-size: 0.72rem;
 }
 
@@ -436,29 +459,6 @@
   gap: 0.25rem;
   padding-top: 0.6rem;
   font-size: 0.83rem;
-}
-
-.instagram-screen__media {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  min-height: 0;
-  margin: 0.55rem -1rem 0.65rem;
-  overflow: hidden;
-}
-
-.instagram-screen__media a {
-  min-width: 0;
-  overflow: hidden;
-  background: #ececec;
-}
-
-.instagram-screen__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  object-fit: cover;
 }
 
 .instagram-screen__bio a {
@@ -486,6 +486,11 @@
 }
 
 .instagram-screen__actions > a {
+  color: #111;
+  background: #eceef1;
+}
+
+.instagram-screen__actions > a:first-child {
   color: #fff;
   background: #0095f6;
 }
@@ -592,27 +597,25 @@
 /* Rutube channel */
 .rutube-screen {
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(8.5rem, 1.25fr) auto minmax(7.5rem, 1fr);
   color: #fff;
-  background: #0d0e12;
+  background: #090a0c;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .rutube-screen__top {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
+  gap: 0.8rem;
   min-height: 48px;
   padding: 0.6rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .rutube-screen__top strong {
-  font-size: 1.15rem;
-}
-
-.rutube-screen__top strong {
   color: #fff;
+  font-size: 1.15rem;
   letter-spacing: -0.04em;
 }
 
@@ -620,37 +623,128 @@
   color: #ff4d00;
 }
 
-.rutube-screen__top a {
+.rutube-screen__top > span {
+  overflow: hidden;
   padding: 0.45rem 0.7rem;
-  border-radius: 0.6rem;
-  color: #fff;
-  background: #ff4d00;
-  text-decoration: none;
+  border-radius: 0.65rem;
+  color: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.07);
   font-size: 0.68rem;
-  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rutube-screen__hero {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #050506;
+}
+
+.rutube-screen__hero > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.rutube-screen__hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 43%, rgba(0, 0, 0, 0.88));
 }
 
 .rutube-screen__profile {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  position: absolute;
+  z-index: 1;
+  left: 0.85rem;
+  bottom: 0.65rem;
+  display: flex;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.75rem 1rem 0.55rem;
+  gap: 0.7rem;
+  min-width: 0;
 }
 
 .rutube-screen__profile .contact-project-avatar {
-  width: 4rem;
-  color: #ff4d00;
+  width: clamp(3.25rem, 5vw, 4rem);
+  color: #fff;
+  border-width: 2px;
+  background: #020306;
 }
 
 .rutube-screen__profile > div {
   display: grid;
   gap: 0.25rem;
+  min-width: 0;
+}
+
+.rutube-screen__profile strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .rutube-screen__profile span {
-  color: rgba(255, 255, 255, 0.48);
-  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.65rem;
+}
+
+.rutube-screen__channel-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.5rem);
+  min-height: 36px;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.67rem;
+}
+
+.rutube-screen__channel-nav strong {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.rutube-screen__channel-nav strong::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: #fff;
+}
+
+.rutube-screen__feed {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+}
+
+.rutube-screen__feed-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding: 0.45rem 1rem 0.15rem;
+}
+
+.rutube-screen__feed-title span {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.57rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rutube-screen__feed-title strong {
+  flex: 0 0 auto;
+  font-size: 0.82rem;
 }
 
 .rutube-screen__videos {
@@ -658,7 +752,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.7rem;
   min-height: 0;
-  padding: 0.3rem 1rem 1rem;
+  padding: 0.3rem 1rem 0.7rem;
 }
 
 .rutube-screen__videos > a {
@@ -677,6 +771,7 @@
   overflow: hidden;
   border-radius: 0.7rem;
   background: #1a1b20;
+  aspect-ratio: 16 / 9;
 }
 
 .rutube-screen__thumbnail img {
@@ -692,13 +787,13 @@
   bottom: 0.6rem;
   display: grid;
   place-items: center;
-  width: 2rem;
+  width: 1.65rem;
   aspect-ratio: 1;
   border-radius: 50%;
   color: #fff;
   background: #ff4d00;
   font-style: normal;
-  font-size: 0.65rem;
+  font-size: 0.55rem;
 }
 
 .rutube-screen__videos > a > strong {
@@ -824,8 +919,21 @@
     padding-inline: 0.75rem;
   }
 
-  .instagram-screen__media {
-    margin-inline: -0.75rem;
+  .instagram-screen__profile {
+    grid-template-columns: 4.2rem minmax(0, 1fr);
+    gap: 0.65rem;
+  }
+
+  .instagram-screen__stats {
+    gap: 0.12rem;
+  }
+
+  .instagram-screen__stats span {
+    font-size: 0.56rem;
+  }
+
+  .instagram-screen__stats strong {
+    font-size: 0.95rem;
   }
 
   .tiktok-screen {
@@ -848,7 +956,18 @@
   }
 
   .tiktok-screen__stats {
-    gap: 0.65rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .tiktok-screen__stats span {
+    display: grid;
+    min-width: 0;
+    font-size: 0.55rem;
+  }
+
+  .tiktok-screen__stats strong {
+    font-size: 0.82rem;
   }
 
   .tiktok-screen__actions > *:nth-last-child(-n + 2) {
@@ -856,11 +975,31 @@
   }
 
   .rutube-screen__videos {
-    gap: 0.45rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  .rutube-screen__videos > a:nth-child(3) {
+    display: none;
+  }
+
+  .rutube-screen__top {
+    min-height: 42px;
+    padding-inline: 0.75rem;
+  }
+
+  .rutube-screen__channel-nav {
+    gap: 0.9rem;
+    padding-inline: 0.75rem;
+    font-size: 0.6rem;
+  }
+
+  .rutube-screen__feed-title {
     padding-inline: 0.75rem;
   }
 
   .rutube-screen__profile .contact-project-avatar {
-    width: 3.3rem;
+    width: 3rem;
   }
 }
