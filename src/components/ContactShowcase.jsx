@@ -27,7 +27,7 @@ const SOCIALS = [
 
 const FALLBACK_STATS = {
   telegram: { followers: 2385 },
-  vk: { followers: null },
+  vk: { followers: 5860 },
   instagram: {
     followers: 1095,
     posts: 115,
@@ -58,6 +58,14 @@ const FALLBACK_STATS = {
   },
 };
 
+const PROJECT_AVATAR = "/logo.svg";
+const EVENT_STORIES = [
+  { title: "Гала", image: "/images/events/event1.jpg" },
+  { title: "Раунд", image: "/images/events/event2.jpg" },
+  { title: "Актив", image: "/images/about-image.png" },
+  { title: "Команда", image: "/images/people/optimized/member-21-small.webp" },
+];
+
 const compactNumber = new Intl.NumberFormat("ru-RU", { notation: "compact", maximumFractionDigits: 1 });
 const exactNumber = new Intl.NumberFormat("ru-RU");
 
@@ -69,7 +77,7 @@ function stat(value, compact = false) {
 function ProjectAvatar({ className = "" }) {
   return (
     <span className={`contact-project-avatar ${className}`.trim()}>
-      <img src="/logo.svg" alt="" width="109" height="67" />
+      <img src={PROJECT_AVATAR} alt="" width="109" height="67" />
     </span>
   );
 }
@@ -101,19 +109,23 @@ function SocialScreen({ className, href, children }) {
 function BusinessCard() {
   return (
     <div className="employee-card">
-      <div className="employee-card__brand">
+      <div className="employee-card__media">
+        <img src="/images/about-image.png" alt="" width="670" height="777" />
         <ProjectAvatar />
-        <span>MEGABATTLE</span>
       </div>
       <div className="employee-card__profile">
         <span className="employee-card__label">Официальная визитка</span>
         <h2>ITMO<br />Megabattle</h2>
-        <p>Команда студенческого проекта</p>
+        <p>Команда студенческого проекта, которая собирает людей, факультеты и большую сцену в один сезон.</p>
         <div className="employee-card__contacts">
           <a href="mailto:megabattle@itmo.ru"><FontAwesomeIcon icon={faEnvelope} /><span>megabattle@itmo.ru</span></a>
           <span><FontAwesomeIcon icon={faLocationDot} /><span>Санкт-Петербург<br />Ломоносова, 9</span></span>
           <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faAt} /><span>@itmomegabattle</span></a>
         </div>
+        <a className="employee-card__message" href="https://t.me/Arshinovoleg" target="_blank" rel="noreferrer">
+          <FontAwesomeIcon icon={faPaperPlane} />
+          <span>Написать @Arshinovoleg</span>
+        </a>
       </div>
       <div className="employee-card__footer">
         <span>MB · TEAM</span>
@@ -193,23 +205,33 @@ function InstagramProfile({ data, href }) {
   return (
     <SocialScreen className="instagram-screen" href={href}>
       <div className="instagram-screen__top"><span>‹</span><strong>itmo.megabattle</strong><FontAwesomeIcon icon={faEllipsis} /></div>
-      <div className="instagram-screen__profile">
-        <ProjectAvatar />
-        <div className="instagram-screen__stats">
-          <span><strong>{stat(data.posts)}</strong>публикации</span>
-          <span><strong>{stat(data.followers, true)}</strong>подписчики</span>
-          <span><strong>{stat(data.following)}</strong>подписки</span>
+      <div className="instagram-screen__center">
+        <div className="instagram-screen__profile">
+          <ProjectAvatar />
+          <div className="instagram-screen__stats">
+            <span><strong>{stat(data.posts)}</strong>публикации</span>
+            <span><strong>{stat(data.followers, true)}</strong>подписчики</span>
+            <span><strong>{stat(data.following)}</strong>подписки</span>
+          </div>
         </div>
-      </div>
-      <div className="instagram-screen__bio">
-        <strong>ITMO Megabattle</strong>
-        <span>Major events by the makers at ITMO</span>
-        <a href={href} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLink} /> mblinks.online</a>
-      </div>
-      <div className="instagram-screen__actions">
-        <a href={href} target="_blank" rel="noreferrer">Подписаться</a>
-        <a href={href} target="_blank" rel="noreferrer">Сообщение</a>
-        <a href={href} target="_blank" rel="noreferrer" aria-label="Открыть Instagram"><FontAwesomeIcon icon={faUserPlus} /></a>
+        <div className="instagram-screen__bio">
+          <strong>ITMO Megabattle</strong>
+          <span>Major events by the makers at ITMO</span>
+          <a href={href} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faLink} /> mblinks.online</a>
+        </div>
+        <div className="instagram-screen__actions">
+          <a href={href} target="_blank" rel="noreferrer">Подписаться</a>
+          <a href={href} target="_blank" rel="noreferrer">Сообщение</a>
+          <a href={href} target="_blank" rel="noreferrer" aria-label="Открыть Instagram"><FontAwesomeIcon icon={faUserPlus} /></a>
+        </div>
+        <div className="instagram-screen__stories" aria-label="Архивные истории">
+          {EVENT_STORIES.map((story) => (
+            <span key={story.title}>
+              <img src={story.image} alt="" loading="lazy" />
+              <small>{story.title}</small>
+            </span>
+          ))}
+        </div>
       </div>
     </SocialScreen>
   );
@@ -242,6 +264,7 @@ function TiktokProfile({ data, href }) {
 
 function RutubeProfile({ data, href }) {
   const videos = (data.videos || []).slice(0, 3);
+  const cover = data.cover || FALLBACK_STATS.rutube.cover;
 
   return (
     <SocialScreen className="rutube-screen" href={href}>
@@ -251,7 +274,7 @@ function RutubeProfile({ data, href }) {
         <FontAwesomeIcon icon={faEllipsis} />
       </div>
       <div className="rutube-screen__hero">
-        <img src={data.cover} alt="" loading="lazy" />
+        <img src={cover} alt="" loading="lazy" />
         <div className="rutube-screen__profile">
           <ProjectAvatar />
           <div><strong>ITMO MEGABATTLE</strong><span>{stat(data.followers)} подписчиков</span></div>

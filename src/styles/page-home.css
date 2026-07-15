@@ -662,7 +662,7 @@
 .contact-tab--vk.is-active { color: #2688eb; }
 .contact-tab--instagram.is-active { color: #e6689a; }
 .contact-tab--tiktok.is-active { color: #25f4ee; }
-.contact-tab--rutube.is-active { color: #ff4d00; }
+.contact-tab--rutube.is-active { color: #fff; }
 
 .contact-tab:focus-visible {
     outline: 2px solid #8baaff;
