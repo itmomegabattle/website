@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Api } from "../api";
 import "../styles/event-list.css";
-import { EventCard } from "./EventSections";
+import EventCard from "./EventCard";
 
 function getEventSortTime(event) {
   const rawDate = event.event_date_label || event.date || "";

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Api } from "../api";
 import { useAuth } from "../context/AuthContext";
+import EventCard from "./EventCard";
 import {
   deleteAdminEvent,
   getAdminEvents,
@@ -86,72 +87,6 @@ function mapEventToForm(event, groupId) {
     itmo_events_id: event.itmo_events_id || "",
     sort_order: event.sort_order || 100,
   };
-}
-
-export function EventCard({ event }) {
-  const hasRegistration = event.registration?.status === "open" && event.registration.link;
-  const eventDetails = (
-    <>
-      <p className="event-showcase-description">{event.description}</p>
-
-      <dl className="event-meta-grid">
-        <div>
-          <dt>Когда</dt>
-          <dd>{event.date}</dd>
-        </div>
-        <div>
-          <dt>Время</dt>
-          <dd>{event.time}</dd>
-        </div>
-        <div>
-          <dt>Где</dt>
-          <dd>{event.location}</dd>
-        </div>
-      </dl>
-
-      <div className="pill-row">
-        {event.details.map((detail) => (
-          <span className="pill" key={detail}>
-            {detail}
-          </span>
-        ))}
-      </div>
-    </>
-  );
-
-  return (
-    <article className="event-showcase-card">
-      <div className="event-showcase-media">
-        <img src={Api.normalizeURL(event.image)} alt={event.name} />
-      </div>
-
-      <div className="event-showcase-info">
-        <p className="card-kicker">{event.type}</p>
-        <h2>{event.name}</h2>
-        <div className="event-showcase-desktop-details">{eventDetails}</div>
-        <details className="event-mobile-details">
-          <summary>Подробнее</summary>
-          {eventDetails}
-        </details>
-
-        {hasRegistration ? (
-          <a
-            className="text-button event-registration-button"
-            href={event.registration.link}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {event.registration.label}
-          </a>
-        ) : (
-          <span className="event-registration-button event-registration-button--disabled">
-            {event.registration?.label ?? "Регистрация появится позже"}
-          </span>
-        )}
-
-      </div>
-    </article>
-  );
 }
 
 function InlineEventEditor({ groupId, selectedEvent, onClose }) {
