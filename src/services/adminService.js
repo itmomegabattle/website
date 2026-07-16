@@ -1,181 +1,43 @@
 import { supabase } from "../lib/supabase";
+import { backendApi } from "../lib/backendApi";
 
 export const bootstrapAdminIsu = "466870";
+export const isAdminProfile = (profile) => Boolean(profile?.is_admin || profile?.roles?.some((role) => ["admin", "site_admin"].includes(role)));
+export async function logAdminAction() { /* Backend writes an audit record for every mutation. */ }
 
-export function isAdminProfile(profile) {
-  return Boolean(profile?.is_admin || profile?.isu_number === bootstrapAdminIsu);
+export async function getAdminEvents() { return (await backendApi("/api/v1/admin/content/events")).items ?? []; }
+export async function upsertAdminEvent(event) { return backendApi(`/api/v1/admin/content/events${event.id ? `/${event.id}` : ""}`, { method: event.id ? "PATCH" : "POST", body: JSON.stringify(event) }); }
+export const deleteAdminEvent = (eventId) => backendApi(`/api/v1/admin/content/events/${eventId}`, { method: "DELETE" });
+export async function uploadAdminEventImage(file) { return uploadAdminMedia(file); }
+
+async function uploadAdminMedia(file) {
+  const signed=await backendApi("/api/v1/media/upload",{method:"POST",body:JSON.stringify({mimeType:file.type,sizeBytes:file.size,purpose:"content"})});
+  if(!supabase)throw new Error("Storage не настроен"); const {error}=await supabase.storage.from(signed.bucket).uploadToSignedUrl(signed.path,signed.token,file,{contentType:file.type}); if(error)throw error; return signed.publicUrl;
 }
 
-function requireSupabase() {
-  if (!supabase) {
-    throw new Error("Supabase не настроен");
-  }
+const mapAdminProfile=(item)=>({...item,is_admin:item.profile_roles?.some((role)=>role.role==="admin"||role.role==="site_admin")});
+export async function getAdminProfiles({ search="", all=false }={}) {
+  const params=new URLSearchParams({limit:all?"100":"10",offset:"0",includeDeleted:"true"});
+  if(search.trim())params.set("search",search.trim());
+  let result=await backendApi(`/api/v1/admin/profiles?${params}`); let items=result.items??[];
+  if(all){ for(let offset=items.length;offset<result.total;offset+=100){params.set("offset",String(offset));const page=await backendApi(`/api/v1/admin/profiles?${params}`);items.push(...(page.items??[]));} }
+  return {items:items.map(mapAdminProfile),total:result.total??items.length};
 }
-
-export async function logAdminAction(profile, action, entityType, entityId, payload = {}) {
-  requireSupabase();
-  const { error } = await supabase.from("admin_audit_logs").insert({
-    actor_profile_id: profile?.id,
-    action,
-    entity_type: entityType,
-    entity_id: entityId ? String(entityId) : null,
-    payload,
-  });
-  if (error) throw error;
-  trimAdminAuditLogs().catch(() => {});
+export async function updateAdminProfile(profileId, values) {
+  if (Object.hasOwn(values,"is_admin")) await backendApi(`/api/v1/admin/profiles/${profileId}/roles/admin`,{method:values.is_admin?"PUT":"DELETE"});
+  const moderation={}; for(const key of ["is_banned","ban_reason","role_badge","is_best_actor"]) if(Object.hasOwn(values,key)) moderation[key]=values[key];
+  if(Object.keys(moderation).length) return backendApi(`/api/v1/admin/profiles/${profileId}/moderation`,{method:"PATCH",body:JSON.stringify(moderation)});
+  return {ok:true};
 }
+export const deleteAdminProfile=(profileId)=>backendApi(`/api/v1/admin/profiles/${profileId}`,{method:"DELETE"});
 
-async function trimAdminAuditLogs(limit = 50) {
-  const { data, error } = await supabase
-    .from("admin_audit_logs")
-    .select("id")
-    .order("created_at", { ascending: false })
-    .range(limit, limit + 250);
+export async function getAdminNfcTags(){ return ((await backendApi("/api/v1/admin/nfc?limit=200")).tags??[]).map((item)=>({...item,profile:item.profiles})); }
+export const createAdminNfcTags=(values)=>backendApi("/api/v1/admin/nfc",{method:"POST",body:JSON.stringify(values)});
+export const updateAdminNfcTag=(tagId,values)=>backendApi(`/api/v1/admin/nfc/${tagId}`,{method:"PATCH",body:JSON.stringify(values)});
 
-  if (error || !data?.length) return;
-  await supabase.from("admin_audit_logs").delete().in("id", data.map((item) => item.id));
-}
-
-export async function getAdminEvents() {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("project_events")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data || [];
-}
-
-export async function upsertAdminEvent(event, actorProfile) {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("project_events")
-    .upsert(event, { onConflict: "slug" })
-    .select()
-    .single();
-  if (error) throw error;
-  await logAdminAction(actorProfile, event.id ? "event.update" : "event.create", "project_events", data.id, {
-    slug: data.slug,
-    status: data.status,
-  });
-  return data;
-}
-
-export async function deleteAdminEvent(eventId, actorProfile) {
-  requireSupabase();
-  await logAdminAction(actorProfile, "event.delete", "project_events", eventId);
-  const { data, error } = await supabase.from("project_events").delete().eq("id", eventId).select("id");
-  if (error) throw error;
-  if (!data?.length) throw new Error("Событие не удалено: нет доступа или запись уже удалена");
-}
-
-export async function uploadAdminEventImage(file) {
-  requireSupabase();
-  const extension = file.name.split(".").pop() || "jpg";
-  const path = `events/${Date.now()}-${Math.random().toString(16).slice(2)}.${extension}`;
-  const { error } = await supabase.storage.from("event-images").upload(path, file, {
-    cacheControl: "3600",
-    upsert: false,
-  });
-  if (error) throw error;
-  const { data } = supabase.storage.from("event-images").getPublicUrl(path);
-  return data.publicUrl;
-}
-
-export async function getAdminProfiles() {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .order("nickname", { ascending: true });
-  if (error) throw error;
-  return data || [];
-}
-
-export async function getAdminNfcTags() {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("nfc_tags")
-    .select("*, profile:profiles(id,nickname,isu_number,faculty,is_banned)")
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data || [];
-}
-
-export async function updateAdminNfcTag(tagId, values, actorProfile) {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("nfc_tags")
-    .update(values)
-    .eq("id", tagId)
-    .select("*, profile:profiles(id,nickname,isu_number,faculty,is_banned)")
-    .single();
-  if (error) throw error;
-  await logAdminAction(actorProfile, "tag.update", "nfc_tags", tagId, values);
-  return data;
-}
-
-export async function updateAdminProfile(profileId, values, actorProfile) {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("profiles")
-    .update(values)
-    .eq("id", profileId)
-    .select()
-    .single();
-  if (error) throw error;
-  await logAdminAction(actorProfile, "profile.update", "profiles", profileId, values);
-  return data;
-}
-
-export async function deleteAdminProfile(profileId, actorProfile) {
-  requireSupabase();
-  await logAdminAction(actorProfile, "profile.delete", "profiles", profileId);
-  const { data, error } = await supabase.from("profiles").delete().eq("id", profileId).select("id");
-  if (error) throw error;
-  if (!data?.length) throw new Error("Профиль не удалён: нет доступа или запись уже удалена");
-}
-
-export async function getAdminPasswords() {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("project_passwords")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data || [];
-}
-
-export async function upsertAdminPassword(secret, actorProfile) {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("project_passwords")
-    .upsert(secret)
-    .select()
-    .single();
-  if (error) throw error;
-  await logAdminAction(actorProfile, secret.id ? "password.update" : "password.create", "project_passwords", data.id, {
-    title: data.title,
-  });
-  return data;
-}
-
-export async function deleteAdminPassword(secretId, actorProfile) {
-  requireSupabase();
-  await logAdminAction(actorProfile, "password.delete", "project_passwords", secretId);
-  const { data, error } = await supabase.from("project_passwords").delete().eq("id", secretId).select("id");
-  if (error) throw error;
-  if (!data?.length) throw new Error("Запись не удалена: нет доступа или запись уже удалена");
-}
-
-export async function getAdminAuditLogs() {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("admin_audit_logs")
-    .select("*, actor:profiles(nickname,isu_number)")
-    .order("created_at", { ascending: false })
-    .limit(50);
-  if (error) throw error;
-  return data || [];
-}
+const pin=()=>sessionStorage.getItem("mb_vault_pin")||"";
+export async function unlockAdminVault(value){ await backendApi("/api/v1/admin/vault/unlock",{method:"POST",body:JSON.stringify({pin:value})}); sessionStorage.setItem("mb_vault_pin",value); }
+export async function getAdminPasswords(){ const value=pin(); if(!value)return []; const data=await backendApi("/api/v1/admin/vault/list",{method:"POST",body:JSON.stringify({pin:value})}); return (data.entries??[]).map((item)=>({...item,password_value:item.password,login:item.login,url:item.url,notes:item.notes})); }
+export async function upsertAdminPassword(secret){ const value=pin(); if(!value)throw new Error("Сначала открой vault"); const entry={title:secret.title,login:secret.login||null,password:secret.password_value||null,url:secret.url||null,notes:secret.notes||null}; return backendApi(`/api/v1/admin/vault${secret.id?`/${secret.id}`:""}`,{method:secret.id?"PUT":"POST",body:JSON.stringify({pin:value,entry})}); }
+export const deleteAdminPassword=(secretId)=>backendApi(`/api/v1/admin/vault/${secretId}`,{method:"DELETE",body:JSON.stringify({pin:pin()})});
+export async function getAdminAuditLogs(){ const data=await backendApi("/api/v1/admin/audit?limit=50"); return (data.logs??[]).map((item)=>({...item,actor:item.profiles})); }

@@ -7,6 +7,7 @@ import {
   claimTag,
   getTagByCode,
   logProfileView,
+  transferCurrency,
 } from "../services/profileService";
 import "../styles/page-info.css";
 
@@ -17,6 +18,8 @@ export default function NfcPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
+  const [transferAmount, setTransferAmount] = useState("10");
+  const [isTransferring, setIsTransferring] = useState(false);
 
   const ownerProfile = tag?.profiles ?? null;
   const isOwnTag = ownerProfile?.id && ownerProfile.id === ownProfile?.id;
@@ -73,12 +76,23 @@ export default function NfcPage() {
       await addFriendship({
         requesterProfileId: ownProfile.id,
         receiverProfileId: ownerProfile.id,
+        nfcTagId: tag.id,
       });
       setStatus("Знакомство добавлено в граф");
     } catch (friendshipError) {
       setError(friendshipError.message);
       setStatus("");
     }
+  };
+
+  const handleTransfer = async () => {
+    const amount = Number(transferAmount);
+    if (!Number.isInteger(amount) || amount < 10) return setError("Минимальный перевод — 10, только целые числа");
+    if (isTransferring) return;
+    setError(""); setStatus("Переводим валюту…"); setIsTransferring(true);
+    try { await transferCurrency({ receiverProfileId: ownerProfile.id, amount }); setStatus(`Переведено ${amount} валюты`); }
+    catch (transferError) { setError(transferError.message); setStatus(""); }
+    finally { setIsTransferring(false); }
   };
 
   if (!isSupabaseConfigured) {
@@ -109,9 +123,13 @@ export default function NfcPage() {
                   Это твоя метка
                 </Link>
               ) : isAuthenticated ? (
-                <button type="button" onClick={handleFriendship}>
-                  Добавить знакомство
-                </button>
+                <>
+                  <button type="button" onClick={handleFriendship}>Добавить знакомство</button>
+                  <label className="nfc-transfer-control">
+                    <input type="number" min="10" step="1" value={transferAmount} onChange={(event) => setTransferAmount(event.target.value)} aria-label="Сумма перевода" />
+                    <button type="button" disabled={isTransferring} onClick={handleTransfer}>{isTransferring ? "Переводим…" : "Перевести валюту"}</button>
+                  </label>
+                </>
               ) : (
                 <Link to={`/auth?redirect=/nfc/${tagCode}`}>
                   Войти, чтобы добавить знакомство

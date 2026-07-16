@@ -1,232 +1,33 @@
 import { supabase } from "../lib/supabase";
-import { logAdminAction } from "./adminService";
+import { backendApi } from "../lib/backendApi";
 
-function requireSupabase() {
-  if (!supabase) throw new Error("Supabase не настроен");
+export const mapDbPartner = (item) => ({ id: item.id, sourceKey: item.source_key, name: item.name, logo: item.logo_url || "/images/about-image.png", description: item.description || "", link: item.link || "", status: item.status, sortOrder: item.sort_order });
+export const mapDbStory = (item) => ({ id: item.id, key: item.source_key || item.id, name: item.name, faculty: item.faculty || "", description: item.description || "", date: item.story_date_label || "", image: item.image_url || "/images/people/member.jpg", status: item.status, sortOrder: item.sort_order, submitterProfileId: item.submitter_profile_id, submitterContact: item.submitter_contact || "", moderationComment: item.moderation_comment || "", createdAt: item.created_at });
+
+export async function getPublishedPartners(fallback = []) { try { const data = await backendApi("/api/v1/content/partners?limit=200"); return data.items?.length ? data.items.map(mapDbPartner) : fallback; } catch { return fallback; } }
+export async function getAdminPartners() { return (await backendApi("/api/v1/admin/content/partners")).items ?? []; }
+export async function upsertPartner(partner) {
+  const payload = { ...partner, source_key: partner.source_key || partner.sourceKey || null }; delete payload.sourceKey;
+  return backendApi(`/api/v1/admin/content/partners${partner.id ? `/${partner.id}` : ""}`, { method: partner.id ? "PATCH" : "POST", body: JSON.stringify(payload) });
 }
+export const deletePartner = (id) => backendApi(`/api/v1/admin/content/partners/${id}`, { method: "DELETE" });
+export async function importStaticPartners(partners) { const rows = []; for (const [index, partner] of partners.entries()) rows.push(await upsertPartner({ source_key: String(partner.partnerKey || partner.id || `${partner.name}-${index}`), status: "published", name: partner.name, logo_url: partner.logo || "", description: partner.description || "", link: partner.link || "", sort_order: index * 10 })); return rows; }
 
-export function mapDbPartner(item) {
-  return {
-    id: item.id,
-    sourceKey: item.source_key,
-    name: item.name,
-    logo: item.logo_url || "/images/about-image.png",
-    description: item.description || "",
-    link: item.link || "",
-    status: item.status,
-    sortOrder: item.sort_order,
-  };
+export async function getPublishedStories(fallback = []) { try { const data = await backendApi("/api/v1/content/stories?limit=200"); return data.items?.length ? data.items.map(mapDbStory) : fallback; } catch { return fallback; } }
+export async function getAdminStories() { return (await backendApi("/api/v1/admin/content/stories")).items ?? []; }
+export async function upsertStory(story) {
+  const payload = { ...story, source_key: story.source_key || story.key || null }; for (const key of ["key","submitterProfileId","submitterContact","moderationComment","createdAt"]) delete payload[key];
+  return backendApi(`/api/v1/admin/content/stories${story.id ? `/${story.id}` : ""}`, { method: story.id ? "PATCH" : "POST", body: JSON.stringify(payload) });
 }
-
-export function mapDbStory(item) {
-  return {
-    id: item.id,
-    key: item.source_key || item.id,
-    name: item.name,
-    faculty: item.faculty || "",
-    description: item.description || "",
-    date: item.story_date_label || "",
-    image: item.image_url || "/images/people/member.jpg",
-    status: item.status,
-    sortOrder: item.sort_order,
-    submitterProfileId: item.submitter_profile_id,
-    submitterContact: item.submitter_contact || "",
-    moderationComment: item.moderation_comment || "",
-    createdAt: item.created_at,
-  };
-}
-
-export async function getPublishedPartners(fallback = []) {
-  if (!supabase) return fallback;
-  const { data, error } = await supabase
-    .from("partners")
-    .select("*")
-    .eq("status", "published")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
-
-  if (error || !data?.length) return fallback;
-  return data.map(mapDbPartner);
-}
-
-export async function getAdminPartners() {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("partners")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data || [];
-}
-
-export async function upsertPartner(partner, actorProfile) {
-  requireSupabase();
-  const payload = {
-    ...partner,
-    source_key: partner.source_key || partner.sourceKey || null,
-  };
-  delete payload.sourceKey;
-
-  const { data, error } = await supabase
-    .from("partners")
-    .upsert(payload, { onConflict: payload.id ? "id" : "source_key" })
-    .select()
-    .single();
-  if (error) throw error;
-  await logAdminAction(actorProfile, partner.id ? "partner.update" : "partner.create", "partners", data.id, {
-    name: data.name,
-    status: data.status,
-  });
-  return data;
-}
-
-export async function deletePartner(id, actorProfile) {
-  requireSupabase();
-  await logAdminAction(actorProfile, "partner.delete", "partners", id);
-  const { data, error } = await supabase.from("partners").delete().eq("id", id).select("id");
-  if (error) throw error;
-  if (!data?.length) throw new Error("Партнёр не удалён: нет доступа или запись уже удалена");
-}
-
-export async function importStaticPartners(partners, actorProfile) {
-  requireSupabase();
-  const uniquePartners = Array.from(
-    new Map(partners.map((partner) => [partner.partnerKey || partner.link || partner.name, partner])).values(),
-  );
-  const payload = uniquePartners.map((partner, index) => ({
-    source_key: String(partner.partnerKey || partner.id || `${partner.name}-${index}`),
-    status: "published",
-    name: partner.name,
-    logo_url: partner.logo || "",
-    description: partner.description || "",
-    link: partner.link || "",
-    sort_order: index * 10,
-  }));
-  const { data, error } = await supabase.from("partners").upsert(payload, { onConflict: "source_key" }).select();
-  if (error) throw error;
-  await logAdminAction(actorProfile, "partner.import_json", "partners", null, { count: data?.length || 0 });
-  return data || [];
-}
-
-export async function getPublishedStories(fallback = []) {
-  if (!supabase) return fallback;
-  const { data, error } = await supabase
-    .from("participant_stories")
-    .select("*")
-    .eq("status", "published")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
-
-  if (error || !data?.length) return fallback;
-  return data.map(mapDbStory);
-}
-
-export async function getAdminStories() {
-  requireSupabase();
-  const { data, error } = await supabase
-    .from("participant_stories")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data || [];
-}
-
-export async function upsertStory(story, actorProfile) {
-  requireSupabase();
-  const payload = {
-    ...story,
-    source_key: story.source_key || story.key || null,
-  };
-  delete payload.key;
-  delete payload.submitterProfileId;
-  delete payload.submitterContact;
-  delete payload.moderationComment;
-  delete payload.createdAt;
-
-  const { data, error } = await supabase
-    .from("participant_stories")
-    .upsert(payload, { onConflict: payload.id ? "id" : "source_key" })
-    .select()
-    .single();
-  if (error) throw error;
-  await logAdminAction(actorProfile, story.id ? "story.update" : "story.create", "participant_stories", data.id, {
-    name: data.name,
-    status: data.status,
-  });
-  return data;
-}
-
-export async function deleteStory(id, actorProfile) {
-  requireSupabase();
-  await logAdminAction(actorProfile, "story.delete", "participant_stories", id);
-  const { data, error } = await supabase.from("participant_stories").delete().eq("id", id).select("id");
-  if (error) throw error;
-  if (!data?.length) throw new Error("История не удалена: нет доступа или запись уже удалена");
-}
-
-export async function importStaticStories(stories, actorProfile) {
-  requireSupabase();
-  const payload = stories.map((story, index) => ({
-    source_key: story.key || `${story.name}-${index}`,
-    status: "published",
-    name: story.name,
-    faculty: story.faculty || "",
-    description: story.description || "",
-    story_date_label: story.date || "",
-    image_url: story.image || "",
-    sort_order: index * 10,
-  }));
-  const { data, error } = await supabase
-    .from("participant_stories")
-    .upsert(payload, { onConflict: "source_key" })
-    .select();
-  if (error) throw error;
-  await logAdminAction(actorProfile, "story.import_json", "participant_stories", null, { count: data?.length || 0 });
-  return data || [];
-}
-
+export const deleteStory = (id) => backendApi(`/api/v1/admin/content/stories/${id}`, { method: "DELETE" });
+export async function importStaticStories(stories) { const rows=[]; for (const [index,story] of stories.entries()) rows.push(await upsertStory({ source_key:story.key||`${story.name}-${index}`,status:"published",name:story.name,faculty:story.faculty||"",description:story.description||"",story_date_label:story.date||"",image_url:story.image||"",sort_order:index*10 })); return rows; }
 export async function submitStoryProposal(story, profile) {
-  requireSupabase();
   if (!profile?.id) throw new Error("Нужно войти в профиль, чтобы предложить историю");
-
-  const name = String(story.name || "").trim();
-  const description = String(story.description || "").trim();
-  if (!name) throw new Error("Укажи имя для истории");
-  if (!description) throw new Error("Напиши саму историю");
-
-  const payload = {
-    source_key: `proposal-${profile.id}-${Date.now()}`,
-    status: "pending",
-    name,
-    faculty: String(story.faculty || profile.faculty || "").trim(),
-    description,
-    story_date_label: String(story.story_date_label || "").trim(),
-    image_url: story.image_url || "",
-    sort_order: 1000,
-    submitter_profile_id: profile.id,
-    submitter_contact: String(story.submitter_contact || "").trim(),
-  };
-
-  const { data, error } = await supabase.from("participant_stories").insert(payload).select().single();
-  if (error) throw error;
-  return data;
+  return backendApi("/api/v1/stories/submissions", { method: "POST", body: JSON.stringify({ name: story.name, faculty: story.faculty || profile.faculty, description: story.description, storyDateLabel: story.story_date_label || null, imageUrl: story.image_url || null, contact: story.submitter_contact || null }) });
 }
-
 export async function uploadContentImage(file, folder = "content") {
-  requireSupabase();
-  const extension = file.name.split(".").pop() || "jpg";
-  const path = `${folder}/${Date.now()}-${Math.random().toString(16).slice(2)}.${extension}`;
-  const { error } = await supabase.storage.from("content-images").upload(path, file, {
-    cacheControl: "3600",
-    upsert: false,
-  });
-  if (error) throw error;
-  const { data } = supabase.storage.from("content-images").getPublicUrl(path);
-  return data.publicUrl;
+  const signed = await backendApi("/api/v1/media/upload", { method: "POST", body: JSON.stringify({ mimeType: file.type, sizeBytes: file.size, purpose: folder === "story-submissions" ? "story" : "content" }) });
+  if (!supabase) throw new Error("Storage не настроен");
+  const { error } = await supabase.storage.from(signed.bucket).uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type }); if (error) throw error; return signed.publicUrl;
 }
-
-export function uploadStorySubmissionImage(file) {
-  return uploadContentImage(file, "story-submissions");
-}
+export const uploadStorySubmissionImage = (file) => uploadContentImage(file, "story-submissions");

@@ -1,30 +1,25 @@
 {
   "name": "mbsite",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "Сайт экосистемы ITMO Megabattle",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "backend:dev": "npm --prefix backend run dev",
-    "backend:build": "npm --prefix backend run build",
-    "backend:typecheck": "npm --prefix backend run typecheck",
-    "render:preloader": "node scripts/render-preloader-video.mjs",
-    "migrate:images": "node scripts/migrate-images-to-supabase.cjs"
+    "render:preloader": "node scripts/render-preloader-video.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/svnnkv/MBsite.git"
+    "url": "git+https://github.com/itmomegabattle/website.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/svnnkv/MBsite/issues"
+    "url": "https://github.com/itmomegabattle/website/issues"
   },
-  "homepage": "https://github.com/svnnkv/MBsite#readme",
+  "homepage": "https://github.com/itmomegabattle/website#readme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-brands-svg-icons": "^7.2.0",

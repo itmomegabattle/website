@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   deleteAdminPassword,
   deleteAdminProfile,
+  createAdminNfcTags,
   getAdminAuditLogs,
   getAdminNfcTags,
   getAdminPasswords,
@@ -10,6 +11,7 @@ import {
   updateAdminNfcTag,
   updateAdminProfile,
   upsertAdminPassword,
+  unlockAdminVault,
 } from "../services/adminService";
 import { useAuth } from "../context/AuthContext";
 
@@ -93,7 +95,8 @@ function ProfilesPanel() {
   const [roleDrafts, setRoleDrafts] = useState({});
   const [search, setSearch] = useState("");
   const [showAll, setShowAll] = useState(false);
-  const { data = [], error } = useQuery({ queryKey: ["admin-profiles"], queryFn: getAdminProfiles });
+  const { data: profileResult = { items: [], total: 0 }, error } = useQuery({ queryKey: ["admin-profiles", search.trim(), showAll], queryFn: () => getAdminProfiles({ search, all: showAll }) });
+  const data = profileResult.items;
   const updateMutation = useMutation({
     mutationFn: ({ profileId, values }) => updateAdminProfile(profileId, values, profile),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-profiles"] }),
@@ -106,14 +109,10 @@ function ProfilesPanel() {
   const filteredProfiles = useMemo(() => {
     const query = search.trim().toLowerCase();
     const sorted = [...data].sort((first, second) => String(first.nickname || "").localeCompare(String(second.nickname || ""), "ru"));
-    if (!query) return sorted;
-    return sorted.filter((item) => (
-      String(item.nickname || "").toLowerCase().includes(query) ||
-      String(item.isu_number || "").includes(query)
-    ));
+    return sorted;
   }, [data, search]);
 
-  const visibleProfiles = showAll || search.trim() ? filteredProfiles : filteredProfiles.slice(0, 10);
+  const visibleProfiles = filteredProfiles;
   const getRoleValue = (item) => roleDrafts[item.id] ?? item.role_badge ?? "";
 
   return (
@@ -180,9 +179,9 @@ function ProfilesPanel() {
           </div>
         ))}
       </div>
-      {!search.trim() && filteredProfiles.length > 10 && (
+      {!search.trim() && profileResult.total > 10 && (
         <button className="admin-show-all" type="button" onClick={() => setShowAll((value) => !value)}>
-          {showAll ? "Показать первые 10" : `Открыть весь список (${filteredProfiles.length})`}
+          {showAll ? "Показать первые 10" : `Открыть весь список (${profileResult.total})`}
         </button>
       )}
     </article>
@@ -193,9 +192,15 @@ function TagsPanel() {
   const { profile } = useAuth();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
+  const [newTagCount, setNewTagCount] = useState(1);
+  const [newTagType, setNewTagType] = useState("card");
   const { data = [], error } = useQuery({ queryKey: ["admin-nfc-tags"], queryFn: getAdminNfcTags });
   const updateMutation = useMutation({
     mutationFn: ({ tagId, values }) => updateAdminNfcTag(tagId, values, profile),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-nfc-tags"] }),
+  });
+  const createMutation = useMutation({
+    mutationFn: () => createAdminNfcTags({ count: Number(newTagCount), tagType: newTagType, labelPrefix: "Метка" }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-nfc-tags"] }),
   });
 
@@ -223,6 +228,13 @@ function TagsPanel() {
         </label>
       </div>
       {error && <p className="form-error">{error.message}</p>}
+      <div className="admin-row-actions admin-tag-create">
+        <input type="number" min="1" max="500" value={newTagCount} onChange={(event) => setNewTagCount(event.target.value)} aria-label="Количество новых меток" />
+        <select value={newTagType} onChange={(event) => setNewTagType(event.target.value)} aria-label="Тип новых меток">
+          <option value="keychain">Брелок</option><option value="card">Карта</option><option value="removable">Съёмная</option><option value="sticker">Стикер</option><option value="other">Другое</option>
+        </select>
+        <button type="button" disabled={createMutation.isPending} onClick={() => createMutation.mutate()}>Создать метки</button>
+      </div>
       <div className="admin-list">
         {visibleTags.map((tag) => (
           <div className="admin-list-row admin-tag-row" key={tag.id}>
@@ -293,10 +305,14 @@ function PasswordsPanel() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-passwords"] }),
   });
 
-  const openVault = () => {
+  const openVault = async () => {
     if (/^\d{4}$/.test(pinInput)) {
-      setVaultPin(pinInput);
-      setVaultError("");
+      try {
+        await unlockAdminVault(pinInput);
+        setVaultPin(pinInput);
+        setVaultError("");
+        queryClient.invalidateQueries({ queryKey: ["admin-passwords"] });
+      } catch (error) { setVaultError(error.message); }
       return;
     }
     setVaultError("Код должен быть из 4 цифр");

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Api } from "../api";
 import { getProfileSocialLinks, getSocialLinkStyle } from "../utils/socialLinks";
 import GamificationWidget from "./GamificationWidget";
+import { backendApi } from "../lib/backendApi";
 
 function Leaderboard({ title, rows, nameKey = "name" }) {
   return (
@@ -65,12 +66,14 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
       features: [],
     },
   }).data;
+  const game = useQuery({ queryKey: ["game-dashboard", profile?.id], queryFn: () => backendApi("/api/v1/game/dashboard"), enabled: Boolean(profile?.id) }).data;
 
   const participantPlace =
     ratings.participantLeaderboard.find((item) => item.nickname === profile?.nickname)?.place ??
     "вне топ-5";
   const participantScore =
     ratings.participantLeaderboard.find((item) => item.nickname === profile?.nickname)?.score ??
+    game?.level?.xp ??
     profile?.megaballs ??
     0;
   const avatar = profile?.avatar_url || Api.normalizeURL("/images/people/member.jpg");
@@ -119,9 +122,9 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
       </article>
 
       <GamificationWidget
-        profile={profile}
-        place={participantPlace}
-        score={participantScore}
+        profile={{ ...profile, megaballs: game?.balances?.find((item) => item.code === "credits")?.amount ?? profile?.megaballs, achievements: game?.achievements }}
+        place={game?.rank ?? participantPlace}
+        score={game?.level?.xp ?? participantScore}
         socialCount={links.length}
       />
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import {
   createBrowserRouter,
@@ -16,21 +16,20 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Preloader from "./components/Preloader";
 import { AuthProvider } from "./context/AuthContext";
-import AuthPage from "./pages/AuthPage";
-import AdminPage from "./pages/AdminPage";
-import EventsPage from "./pages/EventsPage";
-import FacultiesPage from "./pages/FacultiesPage";
-import HistoryPage from "./pages/HistoryPage";
-import HomePage from "./pages/HomePage";
-import NfcPage from "./pages/NfcPage";
-import PeoplePage from "./pages/PeoplePage";
-import PartnersPage from "./pages/PartnersPage";
-import PublicProfilePage from "./pages/PublicProfilePage";
-import RatingsPage from "./pages/RatingsPage";
 import "./styles/common.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
+const HomePage = lazy(() => import("./pages/HomePage"));
+const PeoplePage = lazy(() => import("./pages/PeoplePage"));
+const FacultiesPage = lazy(() => import("./pages/FacultiesPage"));
+const HistoryPage = lazy(() => import("./pages/HistoryPage"));
+const PartnersPage = lazy(() => import("./pages/PartnersPage"));
+const EventsPage = lazy(() => import("./pages/EventsPage"));
+const RatingsPage = lazy(() => import("./pages/RatingsPage"));
+const AuthPage = lazy(() => import("./pages/AuthPage"));
+const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
+const NfcPage = lazy(() => import("./pages/NfcPage"));
 
 function App() {
   const matches = useMatches();
@@ -47,7 +46,7 @@ function App() {
           <Preloader />
           <Header />
           {!hideBackground && <Background />}
-          <Outlet />
+          <Suspense fallback={null}><Outlet /></Suspense>
           <ScrollRestoration />
           {!hideFooter && <Footer />}
         </div>
@@ -67,7 +66,7 @@ const router = createBrowserRouter(
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<RatingsPage />} />
-      <Route path="/admin" element={<AdminPage />} />
+      <Route path="/admin" element={<Navigate to="/ratings" replace />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/register" element={<AuthPage mode="signup" />} />
       <Route path="/profile" element={<Navigate to="/ratings" replace />} />

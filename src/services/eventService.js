@@ -1,5 +1,5 @@
 import { Api } from "../api";
-import { supabase } from "../lib/supabase";
+import { backendApi } from "../lib/backendApi";
 
 function mapDbEvent(event) {
   return {
@@ -34,24 +34,8 @@ function mapDbEvent(event) {
 }
 
 export async function getPublishedEvents() {
-  if (!supabase) {
-    return Api.getStaticEvents();
-  }
-
-  const { data, error } = await supabase
-    .from("project_events")
-    .select("*")
-    .eq("status", "published")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
-
-  if (error) {
-    return Api.getStaticEvents();
-  }
-
-  if (!data?.length) {
-    return Api.getStaticEvents();
-  }
-
-  return data.map(mapDbEvent);
+  try {
+    const result = await backendApi("/api/v1/content/events?limit=200");
+    return result.items?.length ? result.items.map(mapDbEvent) : Api.getStaticEvents();
+  } catch { return Api.getStaticEvents(); }
 }

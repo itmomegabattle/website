@@ -1,169 +1,58 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { isuToAuthEmail, isSupabaseConfigured, supabase } from "../lib/supabase";
 
 const AuthContext = createContext(null);
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
 
-async function fetchOwnProfile(userId) {
-  if (!supabase || !userId) return null;
-
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("auth_user_id", userId)
-    .maybeSingle();
-
-  if (error) throw error;
+async function request(path, options = {}) {
+  const token = sessionStorage.getItem("mb_session_token");
+  const response = await fetch(`${API_BASE}${path}`, { credentials: "include", ...options, headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || data.message || "Ошибка авторизации");
   return data;
 }
 
 export function AuthProvider({ children }) {
-  const [session, setSession] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [isLoading, setIsLoading] = useState(isSupabaseConfigured);
+  const [auth, setAuth] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState("");
 
-  const user = session?.user ?? null;
-
-  const refreshProfile = async (nextUser = user) => {
-    if (!nextUser) {
-      setProfile(null);
+  const refreshProfile = async () => {
+    try {
+      const data = await request("/auth/me");
+      const roles = data.principal?.roles ?? [];
+      const profile = { ...data.profile, roles, is_admin: roles.includes("admin") || roles.includes("site_admin") };
+      setAuth({ principal: data.principal, profile });
+      return profile;
+    } catch {
+      setAuth(null);
       return null;
     }
-
-    const nextProfile = await fetchOwnProfile(nextUser.id);
-    setProfile(nextProfile);
-    return nextProfile;
   };
 
-  useEffect(() => {
-    if (!supabase) {
-      setIsLoading(false);
-      return undefined;
-    }
+  useEffect(() => { refreshProfile().finally(() => setIsLoading(false)); }, []);
 
-    let isMounted = true;
-
-    supabase.auth.getSession().then(async ({ data }) => {
-      if (!isMounted) return;
-      setSession(data.session);
-      if (data.session?.user) {
-        try {
-          await refreshProfile(data.session.user);
-        } catch (error) {
-          setAuthError(error.message);
-        }
-      }
-      setIsLoading(false);
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
-      setSession(nextSession);
-      if (nextSession?.user) {
-        try {
-          await refreshProfile(nextSession.user);
-        } catch (error) {
-          setAuthError(error.message);
-        }
-      } else {
-        setProfile(null);
-      }
-      setIsLoading(false);
-    });
-
-    return () => {
-      isMounted = false;
-      listener.subscription.unsubscribe();
-    };
-  }, []);
-
-  const value = useMemo(
-    () => ({
-      authError,
-      isAuthenticated: Boolean(user),
-      isLoading,
-      isSupabaseConfigured,
-      profile,
-      refreshProfile,
-      session,
-      user,
-      async signIn({ isuNumber, password }) {
-        if (!supabase) throw new Error("Supabase не настроен");
-        setAuthError("");
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: isuToAuthEmail(isuNumber),
-          password,
-        });
-        if (error) {
-          setAuthError(error.message);
-          throw error;
-        }
-        return data;
-      },
-      async signUp({ isuNumber, password, nickname, fullName, faculty }) {
-        if (!supabase) throw new Error("Supabase не настроен");
-        setAuthError("");
-        const { data, error } = await supabase.auth.signUp({
-          email: isuToAuthEmail(isuNumber),
-          password,
-          options: {
-            data: {
-              isu_number: String(isuNumber).trim(),
-              nickname,
-              full_name: fullName,
-              faculty,
-            },
-          },
-        });
-        if (error) {
-          setAuthError(error.message);
-          throw error;
-        }
-
-        if (data.user && data.session) {
-          const nextProfile = await refreshProfile(data.user);
-          if (!nextProfile) {
-            const { data: profileData, error: profileError } = await supabase
-              .from("profiles")
-              .upsert(
-                {
-                  auth_user_id: data.user.id,
-                  isu_number: String(isuNumber).trim(),
-                  nickname,
-                  full_name: fullName,
-                  faculty,
-                },
-                { onConflict: "auth_user_id" },
-              )
-              .select()
-              .single();
-
-            if (profileError) {
-              setAuthError(profileError.message);
-              throw profileError;
-            }
-
-            setProfile(profileData);
-          }
-        }
-
-        return data;
-      },
-      async signOut() {
-        if (!supabase) return;
-        await supabase.auth.signOut();
-        setProfile(null);
-      },
-    }),
-    [authError, isLoading, profile, session, user],
-  );
+  const value = useMemo(() => ({
+    authError,
+    isAuthenticated: Boolean(auth?.profile),
+    isLoading,
+    isSupabaseConfigured: true,
+    profile: auth?.profile ?? null,
+    session: auth?.principal ? { user: { id: auth.principal.profileId } } : null,
+    user: auth?.principal ? { id: auth.principal.profileId } : null,
+    refreshProfile,
+    async signInTelegram(payload) {
+      setAuthError("");
+      try { const session = await request("/auth/telegram/login", { method: "POST", body: JSON.stringify(payload) }); sessionStorage.setItem("mb_session_token", session.token); return await refreshProfile(); }
+      catch (error) { setAuthError(error.message); throw error; }
+    },
+    async signOut() { await request("/auth/logout", { method: "POST", body: "{}" }).catch(() => undefined); sessionStorage.removeItem("mb_session_token"); setAuth(null); },
+  }), [auth, authError, isLoading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used inside AuthProvider");
   return context;
 }

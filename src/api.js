@@ -65,7 +65,18 @@ export const Api = {
     return fetchJson('data/external-pr.json');
   },
 
-  getRatings() {
-    return fetchJson('data/ratings.json');
+  async getRatings() {
+    const fallback = await fetchJson('data/ratings.json');
+    try {
+      const apiBase = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
+      const response = await fetch(`${apiBase}/api/v1/game/leaderboard?limit=100`);
+      if (!response.ok) return fallback;
+      const data = await response.json();
+      return {
+        ...fallback,
+        facultyLeaderboard: (data.faculties || []).map((item) => ({ place: item.place, faculty: item.faculty, name: item.faculty, score: item.balance })),
+        participantLeaderboard: (data.participants || []).map((item) => ({ place: Number(item.place), nickname: item.nickname, score: Number(item.xp), badge: item.full_name || "" })),
+      };
+    } catch { return fallback; }
   }
 };

@@ -35,6 +35,7 @@ export default function GamificationWidget({
   const level = getLevelProgress(score || profile?.megaballs);
   const placeLabel = Number.isFinite(Number(place)) ? `#${place}` : "N/A";
   const badges = [...new Set([
+    ...(profile?.achievements || []).map((item) => (Array.isArray(item.achievements) ? item.achievements[0]?.name : item.achievements?.name)).filter(Boolean),
     profile?.role_badge,
     profile?.is_best_actor ? "Лучший актёр" : null,
     profile?.is_admin ? "Организатор" : null,

@@ -1,146 +1,50 @@
 import { supabase } from "../lib/supabase";
 
-export async function getProfileById(profileId) {
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", profileId)
-    .maybeSingle();
-
-  if (error) throw error;
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
+async function api(path, options = {}) {
+  const token = sessionStorage.getItem("mb_session_token");
+  const response = await fetch(`${API_BASE}${path}`, { credentials: "include", ...options, headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });
+  const data = response.status === 204 ? null : await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data?.error || data?.message || "Ошибка API");
   return data;
 }
 
-export async function updateProfile(profileId, values) {
-  const { data, error } = await supabase
-    .from("profiles")
-    .update(values)
-    .eq("id", profileId)
-    .select()
-    .single();
+export const getProfileById = (profileId) => api(`/api/v1/profiles/${encodeURIComponent(profileId)}`);
+export const updateProfile = (_profileId, values) => api("/api/v1/profile", { method: "PATCH", body: JSON.stringify(values) });
 
+export async function uploadAvatar(_profileId, file) {
+  const signed = await api("/api/v1/media/upload", { method: "POST", body: JSON.stringify({ mimeType: file.type, sizeBytes: file.size, purpose: "avatar" }) });
+  if (!supabase) throw new Error("Storage не настроен");
+  const { error } = await supabase.storage.from(signed.bucket).uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type });
   if (error) throw error;
-  return data;
-}
-
-export async function uploadAvatar(profileId, file) {
-  const extension = file.name.split(".").pop() || "jpg";
-  const path = `${profileId}/${Date.now()}.${extension}`;
-
-  const { error } = await supabase.storage
-    .from("profile-avatars")
-    .upload(path, file, {
-      cacheControl: "3600",
-      upsert: true,
-    });
-
-  if (error) throw error;
-
-  const { data } = supabase.storage.from("profile-avatars").getPublicUrl(path);
-  return data.publicUrl;
+  return signed.publicUrl;
 }
 
 export async function getTagByCode(code) {
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from("nfc_tags")
-    .select("*, profiles(*)")
-    .eq("code", code)
-    .maybeSingle();
-
-  if (error) throw error;
-  return data;
+  try { const data = await api(`/api/v1/nfc/${encodeURIComponent(code)}`); return { ...data.tag, profile_id: data.profile?.id, profiles: data.profile, canConnect: data.canConnect }; }
+  catch (error) { if (error.message.includes("Метка")) return null; throw error; }
 }
 
 export async function ensureTag(code) {
-  const existing = await getTagByCode(code);
-  if (existing) return existing;
-
-  const { data, error } = await supabase
-    .from("nfc_tags")
-    .insert({ code })
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data;
+  const existing = await getTagByCode(code); if (existing) return existing;
+  throw new Error("Метка ещё не выпущена администратором");
 }
 
-export async function claimTag({ code, profileId, label = "NFC-метка", tagType = "other" }) {
-  const tag = await ensureTag(code);
-
-  if (tag.profile_id && tag.profile_id !== profileId) {
-    throw new Error("Эта NFC-метка уже привязана к другому профилю");
-  }
-
-  const { data, error } = await supabase
-    .from("nfc_tags")
-    .update({
-      profile_id: profileId,
-      label,
-      tag_type: tagType,
-      claimed_at: new Date().toISOString(),
-    })
-    .eq("code", code)
-    .select("*, profiles(*)")
-    .single();
-
-  if (error) throw error;
-  return data;
+export async function claimTag({ code, label = "NFC-метка", tagType = "other" }) {
+  await api(`/api/v1/nfc/${encodeURIComponent(code)}/claim`, { method: "POST", body: JSON.stringify({ label, tagType }) });
+  return getTagByCode(code);
 }
 
-export async function getProfileTags(profileId) {
-  if (!supabase || !profileId) return [];
-
-  const { data, error } = await supabase
-    .from("nfc_tags")
-    .select("*")
-    .eq("profile_id", profileId)
-    .order("created_at", { ascending: false });
-
-  if (error) throw error;
-  return data;
+export async function getProfileTags() { const data = await api("/api/v1/nfc"); return data.tags ?? []; }
+export async function addFriendship({ receiverProfileId, nfcTagId }) { return api("/api/v1/connections", { method: "POST", body: JSON.stringify({ profileId: receiverProfileId, nfcTagId }) }); }
+export async function transferCurrency({ receiverProfileId, amount }) {
+  const idempotencyKey = `website-transfer:${crypto.randomUUID()}`;
+  return api("/api/v1/game/transfers", { method: "POST", body: JSON.stringify({ receiverProfileId, amount, idempotencyKey }) });
 }
-
-export async function addFriendship({ requesterProfileId, receiverProfileId }) {
-  const { data, error } = await supabase
-    .from("friendships")
-    .upsert(
-      {
-        requester_profile_id: requesterProfileId,
-        receiver_profile_id: receiverProfileId,
-        status: "active",
-      },
-      { onConflict: "requester_profile_id,receiver_profile_id" },
-    )
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data;
-}
-
-export async function logProfileView({ viewerProfileId, viewedProfileId, nfcTagId }) {
-  if (!supabase || !viewedProfileId) return;
-
-  await supabase.from("profile_views").insert({
-    viewer_profile_id: viewerProfileId ?? null,
-    viewed_profile_id: viewedProfileId,
-    nfc_tag_id: nfcTagId ?? null,
-  });
-}
+export async function logProfileView() { /* NFC endpoint logs views atomically. */ }
 
 export async function getFriendshipGraph() {
-  if (!supabase) return [];
-
-  const { data, error } = await supabase
-    .from("friendships")
-    .select("*, requester:profiles!friendships_requester_profile_id_fkey(id,nickname,faculty), receiver:profiles!friendships_receiver_profile_id_fkey(id,nickname,faculty)")
-    .eq("status", "active");
-
-  if (error) throw error;
-  return data;
+  const data = await api("/api/v1/connections/graph?limit=2000");
+  const nodes = new Map((data.nodes ?? []).map((node) => [node.id, node]));
+  return (data.edges ?? []).map((edge) => ({ ...edge, requester: nodes.get(edge.requester_profile_id), receiver: nodes.get(edge.receiver_profile_id) }));
 }
