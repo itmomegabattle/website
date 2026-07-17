@@ -19,6 +19,10 @@ export function AuthProvider({ children }) {
   const refreshProfile = async () => {
     try {
       const data = await request("/auth/me");
+      if (!data.authenticated || !data.principal || !data.profile) {
+        setAuth(null);
+        return null;
+      }
       const roles = data.principal?.roles ?? [];
       const profile = { ...data.profile, roles, is_admin: roles.includes("admin") || roles.includes("site_admin") };
       setAuth({ principal: data.principal, profile });
