@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 const AuthContext = createContext(null);
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState("");
 
-  const refreshProfile = async () => {
+  const refreshProfile = useCallback(async () => {
     try {
       const data = await request("/auth/me");
       if (!data.authenticated || !data.principal || !data.profile) {
@@ -31,9 +31,42 @@ export function AuthProvider({ children }) {
       setAuth(null);
       return null;
     }
-  };
+  }, []);
 
-  useEffect(() => { refreshProfile().finally(() => setIsLoading(false)); }, []);
+  useEffect(() => { refreshProfile().finally(() => setIsLoading(false)); }, [refreshProfile]);
+
+  const beginTelegramWebLogin = useCallback(async () => {
+    setAuthError("");
+    try { return await request("/auth/telegram/web/start", { method: "POST", body: "{}" }); }
+    catch (error) { setAuthError(error.message); throw error; }
+  }, []);
+
+  const completeTelegramWebLogin = useCallback(async (startToken, browserSecret) => {
+    try {
+      const result = await request("/auth/telegram/web/complete", {
+        method: "POST",
+        body: JSON.stringify({ startToken, browserSecret }),
+      });
+      if (!result.authenticated || !result.token) return null;
+      sessionStorage.setItem("mb_session_token", result.token);
+      return await refreshProfile();
+    } catch (error) {
+      setAuthError(error.message);
+      throw error;
+    }
+  }, [refreshProfile]);
+
+  const signInTelegram = useCallback(async (payload) => {
+    setAuthError("");
+    try { const session = await request("/auth/telegram/login", { method: "POST", body: JSON.stringify(payload) }); sessionStorage.setItem("mb_session_token", session.token); return await refreshProfile(); }
+    catch (error) { setAuthError(error.message); throw error; }
+  }, [refreshProfile]);
+
+  const signOut = useCallback(async () => {
+    await request("/auth/logout", { method: "POST", body: "{}" }).catch(() => undefined);
+    sessionStorage.removeItem("mb_session_token");
+    setAuth(null);
+  }, []);
 
   const value = useMemo(() => ({
     authError,
@@ -44,13 +77,11 @@ export function AuthProvider({ children }) {
     session: auth?.principal ? { user: { id: auth.principal.profileId } } : null,
     user: auth?.principal ? { id: auth.principal.profileId } : null,
     refreshProfile,
-    async signInTelegram(payload) {
-      setAuthError("");
-      try { const session = await request("/auth/telegram/login", { method: "POST", body: JSON.stringify(payload) }); sessionStorage.setItem("mb_session_token", session.token); return await refreshProfile(); }
-      catch (error) { setAuthError(error.message); throw error; }
-    },
-    async signOut() { await request("/auth/logout", { method: "POST", body: "{}" }).catch(() => undefined); sessionStorage.removeItem("mb_session_token"); setAuth(null); },
-  }), [auth, authError, isLoading]);
+    beginTelegramWebLogin,
+    completeTelegramWebLogin,
+    signInTelegram,
+    signOut,
+  }), [auth, authError, beginTelegramWebLogin, completeTelegramWebLogin, isLoading, refreshProfile, signInTelegram, signOut]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
