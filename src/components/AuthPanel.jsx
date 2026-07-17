@@ -75,7 +75,6 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
   const startLogin = async () => {
     setError("");
     setIsStarting(true);
-    const telegramWindow = window.open("about:blank", "telegram-login");
     try {
       const nextAttempt = await beginTelegramWebLogin();
       const stored = {
@@ -85,14 +84,22 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
       };
       sessionStorage.setItem(PENDING_LOGIN_KEY, JSON.stringify(stored));
       setAttempt(stored);
-      if (telegramWindow) telegramWindow.location.replace(nextAttempt.botUrl);
-      else window.location.assign(nextAttempt.botUrl);
+      // Use the current tab: asynchronous popups are blocked by mobile Safari
+      // and some Telegram in-app browsers. A direct navigation reliably opens
+      // the native Telegram app and the bot brings the user back afterwards.
+      window.location.assign(nextAttempt.botUrl);
     } catch (authError) {
-      telegramWindow?.close();
       setError(authError.message);
     } finally {
       setIsStarting(false);
     }
+  };
+
+  const cancelLogin = () => {
+    sessionStorage.removeItem(PENDING_LOGIN_KEY);
+    setAttempt(null);
+    setIsStarting(false);
+    setError("");
   };
 
   return (
@@ -103,7 +110,12 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
       <button className="text-button auth-telegram-button" type="button" onClick={startLogin} disabled={isStarting || Boolean(attempt)}>
         {isStarting ? "Создаём ссылку…" : attempt ? "Ожидаем подтверждение…" : "Открыть Telegram"}
       </button>
-      {attempt && <p className="form-status">Нажми «Подтвердить вход» в боте и вернись на сайт.</p>}
+      {attempt && (
+        <div className="auth-pending-actions">
+          <p className="form-status">Нажми «Подтвердить вход» в боте и вернись на сайт.</p>
+          <button className="auth-cancel-button" type="button" onClick={cancelLogin}>Отменить вход</button>
+        </div>
+      )}
       {error && <p className="form-error">{error}</p>}
       <p className="auth-switch">ITMO.ID появится здесь после получения доступа от университета.</p>
     </div>

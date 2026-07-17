@@ -902,6 +902,34 @@
     opacity: 0.72;
 }
 
+.auth-pending-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.auth-pending-actions .form-status {
+  margin: 0;
+}
+
+.auth-cancel-button {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(0, 0, 0, 0.18);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-cancel-button:hover {
+  color: #fff;
+  border-color: rgba(138, 181, 255, 0.8);
+}
+
 .auth-switch {
     margin-bottom: 0;
 }
