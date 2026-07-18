@@ -1,62 +1,73 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const PENDING_LOGIN_KEY = "mb_telegram_web_login";
+const PENDING_LOGIN_KEY = "mb_telegram_oidc_login";
+const LEGACY_PENDING_LOGIN_KEY = "mb_telegram_web_login";
+
+function base64Url(bytes) {
+  let binary = "";
+  bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+async function createPkce() {
+  const verifier = base64Url(crypto.getRandomValues(new Uint8Array(32)));
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+  return { verifier, challenge: base64Url(new Uint8Array(digest)) };
+}
 
 function returnAttempt() {
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-  const startToken = hash.get("telegram_attempt");
-  const browserSecret = hash.get("telegram_secret");
-  if (startToken && browserSecret) {
-    const attempt = {
-      startToken,
-      browserSecret,
-      expiresAt: new Date(Date.now() + 10 * 60_000).toISOString(),
-    };
-    sessionStorage.setItem(PENDING_LOGIN_KEY, JSON.stringify(attempt));
+  const code = hash.get("telegram_code");
+  const state = hash.get("telegram_state");
+  const callbackError = hash.get("telegram_error");
+  let stored = null;
+  try { stored = JSON.parse(sessionStorage.getItem(PENDING_LOGIN_KEY) || "null"); }
+  catch { sessionStorage.removeItem(PENDING_LOGIN_KEY); }
+
+  if (code || state || callbackError) {
     window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
-    return attempt;
+    if (callbackError) {
+      sessionStorage.removeItem(PENDING_LOGIN_KEY);
+      return { callbackError: `Telegram не подтвердил вход: ${callbackError}` };
+    }
+    if (!stored?.state || stored.state !== state || !stored.codeVerifier) {
+      return { callbackError: "Подтверждение открыто не в том браузере. Начни вход заново в исходной вкладке." };
+    }
+    if (new Date(stored.expiresAt).getTime() <= Date.now()) {
+      sessionStorage.removeItem(PENDING_LOGIN_KEY);
+      return { callbackError: "Время подтверждения истекло. Начни вход заново." };
+    }
+    return { ...stored, code };
   }
-  try {
-    const stored = JSON.parse(sessionStorage.getItem(PENDING_LOGIN_KEY) || "null");
-    if (stored?.startToken && stored?.browserSecret && new Date(stored.expiresAt).getTime() > Date.now()) return stored;
-  } catch {
-    sessionStorage.removeItem(PENDING_LOGIN_KEY);
-  }
+  if (stored?.state && stored?.codeVerifier && new Date(stored.expiresAt).getTime() > Date.now()) return stored;
+  sessionStorage.removeItem(PENDING_LOGIN_KEY);
   return null;
 }
 
 export default function AuthPanel({ redirectTo = "/ratings" }) {
   const navigate = useNavigate();
-  const { beginTelegramWebLogin, completeTelegramWebLogin } = useAuth();
-  const [attempt, setAttempt] = useState(returnAttempt);
+  const { beginTelegramOidcLogin, completeTelegramOidcLogin } = useAuth();
+  const [initialAttempt] = useState(returnAttempt);
+  const [attempt, setAttempt] = useState(initialAttempt?.callbackError ? null : initialAttempt);
   const [isStarting, setIsStarting] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(initialAttempt?.callbackError ?? "");
+  const completionStarted = useRef(false);
 
   useEffect(() => {
-    if (!attempt) return undefined;
+    if (!attempt?.code || completionStarted.current) return undefined;
+    completionStarted.current = true;
     let cancelled = false;
-    let timer;
 
-    const poll = async () => {
-      if (new Date(attempt.expiresAt).getTime() <= Date.now()) {
-        sessionStorage.removeItem(PENDING_LOGIN_KEY);
-        if (!cancelled) {
-          setAttempt(null);
-          setError("Время подтверждения истекло. Создай новую ссылку входа.");
-        }
-        return;
-      }
+    const complete = async () => {
       try {
-        const profile = await completeTelegramWebLogin(attempt.startToken, attempt.browserSecret);
+        const profile = await completeTelegramOidcLogin(attempt.code, attempt.state, attempt.codeVerifier);
         if (cancelled) return;
         if (profile) {
           sessionStorage.removeItem(PENDING_LOGIN_KEY);
           navigate(redirectTo, { replace: true });
-          return;
         }
-        timer = window.setTimeout(poll, 1800);
       } catch (authError) {
         if (cancelled) return;
         sessionStorage.removeItem(PENDING_LOGIN_KEY);
@@ -65,29 +76,27 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
       }
     };
 
-    poll();
+    complete();
     return () => {
       cancelled = true;
-      window.clearTimeout(timer);
     };
-  }, [attempt, completeTelegramWebLogin, navigate, redirectTo]);
+  }, [attempt, completeTelegramOidcLogin, navigate, redirectTo]);
 
   const startLogin = async () => {
     setError("");
     setIsStarting(true);
+    sessionStorage.removeItem(LEGACY_PENDING_LOGIN_KEY);
     try {
-      const nextAttempt = await beginTelegramWebLogin();
+      const pkce = await createPkce();
+      const nextAttempt = await beginTelegramOidcLogin(pkce.challenge, `${window.location.origin}/ratings`);
       const stored = {
-        startToken: nextAttempt.startToken,
-        browserSecret: nextAttempt.browserSecret,
+        state: nextAttempt.state,
+        codeVerifier: pkce.verifier,
         expiresAt: nextAttempt.expiresAt,
       };
       sessionStorage.setItem(PENDING_LOGIN_KEY, JSON.stringify(stored));
       setAttempt(stored);
-      // Use the current tab: asynchronous popups are blocked by mobile Safari
-      // and some Telegram in-app browsers. A direct navigation reliably opens
-      // the native Telegram app and the bot brings the user back afterwards.
-      window.location.assign(nextAttempt.botUrl);
+      window.location.assign(nextAttempt.authorizationUrl);
     } catch (authError) {
       setError(authError.message);
     } finally {
@@ -97,6 +106,7 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
 
   const cancelLogin = () => {
     sessionStorage.removeItem(PENDING_LOGIN_KEY);
+    sessionStorage.removeItem(LEGACY_PENDING_LOGIN_KEY);
     setAttempt(null);
     setIsStarting(false);
     setError("");
@@ -106,13 +116,13 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
     <div className="info-card auth-card">
       <p className="card-kicker">Telegram</p>
       <h2>Войти в экосистему</h2>
-      <p>Один аккаунт для сайта, NFC-визитки и бота. Подтверди вход в приложении Telegram — открытая страница авторизуется автоматически.</p>
+      <p>Один аккаунт для сайта, NFC-визитки и бота. Telegram откроет приложение и попросит подтвердить вход для этого браузера.</p>
       <button className="text-button auth-telegram-button" type="button" onClick={startLogin} disabled={isStarting || Boolean(attempt)}>
-        {isStarting ? "Создаём ссылку…" : attempt ? "Ожидаем подтверждение…" : "Открыть Telegram"}
+        {isStarting ? "Подключаем Telegram…" : attempt?.code ? "Завершаем вход…" : attempt ? "Ожидаем Telegram…" : "Войти через Telegram"}
       </button>
       {attempt && (
         <div className="auth-pending-actions">
-          <p className="form-status">Нажми «Подтвердить вход» в боте и вернись на сайт.</p>
+          <p className="form-status">Подтверди вход в приложении Telegram. Не пересылай адрес авторизации.</p>
           <button className="auth-cancel-button" type="button" onClick={cancelLogin}>Отменить вход</button>
         </div>
       )}

@@ -39,6 +39,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/auth/telegram/oidc/callback",
+      "destination": "https://imb-backend.vercel.app/auth/telegram/oidc/callback"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

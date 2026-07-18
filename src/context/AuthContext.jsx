@@ -35,17 +35,22 @@ export function AuthProvider({ children }) {
 
   useEffect(() => { refreshProfile().finally(() => setIsLoading(false)); }, [refreshProfile]);
 
-  const beginTelegramWebLogin = useCallback(async () => {
+  const beginTelegramOidcLogin = useCallback(async (codeChallenge, returnTo) => {
     setAuthError("");
-    try { return await request("/auth/telegram/web/start", { method: "POST", body: "{}" }); }
+    try {
+      return await request("/auth/telegram/oidc/start", {
+        method: "POST",
+        body: JSON.stringify({ codeChallenge, returnTo }),
+      });
+    }
     catch (error) { setAuthError(error.message); throw error; }
   }, []);
 
-  const completeTelegramWebLogin = useCallback(async (startToken, browserSecret) => {
+  const completeTelegramOidcLogin = useCallback(async (code, state, codeVerifier) => {
     try {
-      const result = await request("/auth/telegram/web/complete", {
+      const result = await request("/auth/telegram/oidc/complete", {
         method: "POST",
-        body: JSON.stringify({ startToken, browserSecret }),
+        body: JSON.stringify({ code, state, codeVerifier }),
       });
       if (!result.authenticated || !result.token) return null;
       sessionStorage.setItem("mb_session_token", result.token);
@@ -77,11 +82,11 @@ export function AuthProvider({ children }) {
     session: auth?.principal ? { user: { id: auth.principal.profileId } } : null,
     user: auth?.principal ? { id: auth.principal.profileId } : null,
     refreshProfile,
-    beginTelegramWebLogin,
-    completeTelegramWebLogin,
+    beginTelegramOidcLogin,
+    completeTelegramOidcLogin,
     signInTelegram,
     signOut,
-  }), [auth, authError, beginTelegramWebLogin, completeTelegramWebLogin, isLoading, refreshProfile, signInTelegram, signOut]);
+  }), [auth, authError, beginTelegramOidcLogin, completeTelegramOidcLogin, isLoading, refreshProfile, signInTelegram, signOut]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
