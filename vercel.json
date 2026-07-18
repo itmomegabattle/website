@@ -43,6 +43,10 @@
       "destination": "https://imb-backend.vercel.app/auth/telegram/oidc/callback"
     },
     {
+      "source": "/api/backend/:path*",
+      "destination": "https://imb-backend.vercel.app/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

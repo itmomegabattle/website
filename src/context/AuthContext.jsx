@@ -1,11 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { BACKEND_API } from "../lib/apiBase";
 
 const AuthContext = createContext(null);
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
 
 async function request(path, options = {}) {
-  const token = sessionStorage.getItem("mb_session_token");
-  const response = await fetch(`${API_BASE}${path}`, { credentials: "include", ...options, headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });
+  const response = await fetch(`${BACKEND_API}${path}`, { credentials: "include", ...options, headers: { "Content-Type": "application/json", ...options.headers } });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error || data.message || "Ошибка авторизации");
   return data;
@@ -52,8 +51,8 @@ export function AuthProvider({ children }) {
         method: "POST",
         body: JSON.stringify({ code, state, codeVerifier, nonce }),
       });
-      if (!result.authenticated || !result.token) return null;
-      sessionStorage.setItem("mb_session_token", result.token);
+      if (!result.authenticated) return null;
+      sessionStorage.removeItem("mb_session_token");
       return await refreshProfile();
     } catch (error) {
       setAuthError(error.message);
@@ -63,7 +62,7 @@ export function AuthProvider({ children }) {
 
   const signInTelegram = useCallback(async (payload) => {
     setAuthError("");
-    try { const session = await request("/auth/telegram/login", { method: "POST", body: JSON.stringify(payload) }); sessionStorage.setItem("mb_session_token", session.token); return await refreshProfile(); }
+    try { await request("/auth/telegram/login", { method: "POST", body: JSON.stringify(payload) }); sessionStorage.removeItem("mb_session_token"); return await refreshProfile(); }
     catch (error) { setAuthError(error.message); throw error; }
   }, [refreshProfile]);
 

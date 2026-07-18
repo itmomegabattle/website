@@ -1,3 +1,5 @@
+import { BACKEND_API } from "./lib/apiBase";
+
 const API_BASE = `${import.meta.env.BASE_URL}`;
 
 async function fetchJson(path) {
@@ -68,8 +70,7 @@ export const Api = {
   async getRatings() {
     const fallback = await fetchJson('data/ratings.json');
     try {
-      const apiBase = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
-      const response = await fetch(`${apiBase}/api/v1/game/leaderboard?limit=100`);
+      const response = await fetch(`${BACKEND_API}/api/v1/game/leaderboard?limit=100`, { credentials: "include" });
       if (!response.ok) return fallback;
       const data = await response.json();
       return {

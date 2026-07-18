@@ -1,9 +1,8 @@
 import { supabase } from "../lib/supabase";
+import { BACKEND_API } from "../lib/apiBase";
 
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
 async function api(path, options = {}) {
-  const token = sessionStorage.getItem("mb_session_token");
-  const response = await fetch(`${API_BASE}${path}`, { credentials: "include", ...options, headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers } });
+  const response = await fetch(`${BACKEND_API}${path}`, { credentials: "include", ...options, headers: { "Content-Type": "application/json", ...options.headers } });
   const data = response.status === 204 ? null : await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data?.error || data?.message || "Ошибка API");
   return data;
