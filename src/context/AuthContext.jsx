@@ -46,11 +46,11 @@ export function AuthProvider({ children }) {
     catch (error) { setAuthError(error.message); throw error; }
   }, []);
 
-  const completeTelegramOidcLogin = useCallback(async (code, state, codeVerifier) => {
+  const completeTelegramOidcLogin = useCallback(async (code, state, codeVerifier, nonce) => {
     try {
       const result = await request("/auth/telegram/oidc/complete", {
         method: "POST",
-        body: JSON.stringify({ code, state, codeVerifier }),
+        body: JSON.stringify({ code, state, codeVerifier, nonce }),
       });
       if (!result.authenticated || !result.token) return null;
       sessionStorage.setItem("mb_session_token", result.token);

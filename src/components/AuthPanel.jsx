@@ -32,7 +32,7 @@ function returnAttempt() {
       sessionStorage.removeItem(PENDING_LOGIN_KEY);
       return { callbackError: `Telegram не подтвердил вход: ${callbackError}` };
     }
-    if (!stored?.state || stored.state !== state || !stored.codeVerifier) {
+    if (!stored?.state || stored.state !== state || !stored.codeVerifier || !stored.nonce) {
       return { callbackError: "Подтверждение открыто не в том браузере. Начни вход заново в исходной вкладке." };
     }
     if (new Date(stored.expiresAt).getTime() <= Date.now()) {
@@ -41,7 +41,7 @@ function returnAttempt() {
     }
     return { ...stored, code };
   }
-  if (stored?.state && stored?.codeVerifier && new Date(stored.expiresAt).getTime() > Date.now()) return stored;
+  if (stored?.state && stored?.codeVerifier && stored?.nonce && new Date(stored.expiresAt).getTime() > Date.now()) return stored;
   sessionStorage.removeItem(PENDING_LOGIN_KEY);
   return null;
 }
@@ -62,7 +62,7 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
 
     const complete = async () => {
       try {
-        const profile = await completeTelegramOidcLogin(attempt.code, attempt.state, attempt.codeVerifier);
+        const profile = await completeTelegramOidcLogin(attempt.code, attempt.state, attempt.codeVerifier, attempt.nonce);
         if (cancelled) return;
         if (profile) {
           sessionStorage.removeItem(PENDING_LOGIN_KEY);
@@ -91,6 +91,7 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
       const nextAttempt = await beginTelegramOidcLogin(pkce.challenge, `${window.location.origin}/ratings`);
       const stored = {
         state: nextAttempt.state,
+        nonce: nextAttempt.nonce,
         codeVerifier: pkce.verifier,
         expiresAt: nextAttempt.expiresAt,
       };
