@@ -42,10 +42,10 @@ function PartnerEditor({ fallbackPartners }) {
     enabled: isOpen,
   });
 
-  const refresh = () => {
-    queryClient.invalidateQueries({ queryKey: ["partners"] });
-    queryClient.invalidateQueries({ queryKey: ["admin-partners"] });
-  };
+  const refresh = () => Promise.all([
+    queryClient.invalidateQueries({ queryKey: ["partners"] }),
+    queryClient.invalidateQueries({ queryKey: ["admin-partners"] }),
+  ]);
 
   const saveMutation = useMutation({
     mutationFn: (payload) => upsertPartner(payload, profile),
@@ -56,7 +56,14 @@ function PartnerEditor({ fallbackPartners }) {
       refresh();
     },
   });
-  const deleteMutation = useMutation({ mutationFn: (id) => deletePartner(id, profile), onSuccess: refresh });
+  const deleteMutation = useMutation({
+    mutationFn: (id) => deletePartner(id, profile),
+    onSuccess: async (_result, deletedId) => {
+      if (selectedPartner?.id === deletedId) setSelectedPartner(null);
+      setStatus("Партнёр удалён");
+      await refresh();
+    },
+  });
   const importMutation = useMutation({
     mutationFn: () => importStaticPartners(fallbackPartners, profile),
     onSuccess: (items) => {
@@ -86,6 +93,12 @@ function PartnerEditor({ fallbackPartners }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveMutation.mutate({ ...form, source_key: form.source_key || `${form.name}-${Date.now()}` });
+  };
+
+  const requestDelete = (partner) => {
+    if (!window.confirm(`Удалить партнёра «${partner.name}»? Это действие нельзя отменить.`)) return;
+    setStatus("");
+    deleteMutation.mutate(partner.id);
   };
 
   return (
@@ -134,7 +147,14 @@ function PartnerEditor({ fallbackPartners }) {
                   </div>
                   <div>
                     <button type="button" onClick={() => setSelectedPartner(partner)}>Изменить</button>
-                    <button type="button" onClick={() => deleteMutation.mutate(partner.id)}>Удалить</button>
+                    <button
+                      className="partners-admin-delete"
+                      type="button"
+                      onClick={() => requestDelete(partner)}
+                      disabled={deleteMutation.isPending}
+                    >
+                      {deleteMutation.isPending && deleteMutation.variables === partner.id ? "Удаляем…" : "Удалить"}
+                    </button>
                   </div>
                 </div>
               ))}
@@ -157,25 +177,33 @@ export default function PartnersBento() {
     <div className="partners-bento-section">
       {canEdit && <PartnerEditor fallbackPartners={partners} />}
       <div className="partners-bento">
-        {visiblePartners.map((partner, index) => (
-          <a
-            key={partner.id || partner.sourceKey || partner.partnerKey || `${partner.name}-${index}`}
-            className={`partner-bento-card partner-bento-card--${index % 5}`}
-            href={partner.link || undefined}
-            target={partner.link ? "_blank" : undefined}
-            rel={partner.link ? "noreferrer" : undefined}
-            aria-label={partner.name}
-          >
-            <div className="partner-bento-logo">
-              <img src={Api.normalizeURL(partner.logo)} alt={partner.name} />
-            </div>
-            <div className="partner-bento-info">
-              <p className="card-kicker">Партнёр</p>
-              <h3>{partner.name}</h3>
-              <p>{partner.description}</p>
-            </div>
-          </a>
-        ))}
+        {visiblePartners.map((partner, index) => {
+          const Card = partner.link ? "a" : "article";
+          return (
+            <Card
+              key={partner.id || partner.sourceKey || partner.partnerKey || `${partner.name}-${index}`}
+              className={`partner-bento-card partner-bento-card--${index % 5}`}
+              href={partner.link || undefined}
+              target={partner.link ? "_blank" : undefined}
+              rel={partner.link ? "noreferrer" : undefined}
+              aria-label={partner.name}
+            >
+              <div className="partner-bento-logo">
+                <img
+                  src={Api.normalizeURL(partner.logo)}
+                  alt={partner.name}
+                  loading="lazy"
+                  onError={(event) => { event.currentTarget.src = Api.normalizeURL("/images/about-image.png"); }}
+                />
+              </div>
+              <div className="partner-bento-info">
+                <h3>{partner.name}</h3>
+                {partner.description && <p>{partner.description}</p>}
+                {partner.link && <span className="partner-bento-link">Перейти <span aria-hidden="true">↗</span></span>}
+              </div>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

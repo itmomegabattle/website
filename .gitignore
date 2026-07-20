@@ -7,3 +7,7 @@
 /work
 .env
 .env.local
+.env.back
+.env.bot
+.env.example
+

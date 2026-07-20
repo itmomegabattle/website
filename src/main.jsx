@@ -62,7 +62,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<HomePage />} />
       <Route path="/people" element={<PeoplePage />} />
       <Route path="/faculties" element={<FacultiesPage />} />
-      <Route path="/history" element={<HistoryPage />} />
+      <Route path="/history" element={<HistoryPage />} handle={{ hideFooter: true, hideBackground: true }} />
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<RatingsPage />} />

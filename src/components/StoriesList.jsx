@@ -60,10 +60,10 @@ function StoryEditor({ fallbackStories }) {
   const pendingStories = data.filter((story) => story.status === "pending");
   const editableStories = data.filter((story) => story.status !== "pending");
 
-  const refresh = () => {
-    queryClient.invalidateQueries({ queryKey: ["stories"] });
-    queryClient.invalidateQueries({ queryKey: ["admin-stories"] });
-  };
+  const refresh = () => Promise.all([
+    queryClient.invalidateQueries({ queryKey: ["stories"] }),
+    queryClient.invalidateQueries({ queryKey: ["admin-stories"] }),
+  ]);
 
   const saveMutation = useMutation({
     mutationFn: (payload) => upsertStory(payload, profile),
@@ -74,7 +74,15 @@ function StoryEditor({ fallbackStories }) {
       refresh();
     },
   });
-  const deleteMutation = useMutation({ mutationFn: (id) => deleteStory(id, profile), onSuccess: refresh });
+  const deleteMutation = useMutation({
+    mutationFn: (id) => deleteStory(id, profile),
+    onSuccess: async (_, deletedId) => {
+      if (selectedStory?.id === deletedId) setSelectedStory(null);
+      if (previewStory?.id === deletedId) setPreviewStory(null);
+      setStatus("История удалена");
+      await refresh();
+    },
+  });
   const importMutation = useMutation({
     mutationFn: () => importStaticStories(fallbackStories, profile),
     onSuccess: (items) => {
@@ -134,6 +142,12 @@ function StoryEditor({ fallbackStories }) {
       description: story.description || "",
       faculty: story.faculty || "",
     });
+  };
+
+  const requestDelete = (story) => {
+    if (!window.confirm(`Удалить историю «${story.name}»? Это действие нельзя отменить.`)) return;
+    setStatus("");
+    deleteMutation.mutate(story.id);
   };
 
   return (
@@ -196,7 +210,9 @@ function StoryEditor({ fallbackStories }) {
                         <button type="button" onClick={() => reviewStory(story, "rejected")}>Отклонить</button>
                         <button type="button" onClick={() => openPreview(story)}>Предпросмотр</button>
                         <button type="button" onClick={() => setSelectedStory(story)}>Изменить</button>
-                        <button type="button" onClick={() => deleteMutation.mutate(story.id)}>Удалить</button>
+                        <button type="button" onClick={() => requestDelete(story)} disabled={deleteMutation.isPending}>
+                          {deleteMutation.isPending && deleteMutation.variables === story.id ? "Удаляем…" : "Удалить"}
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -213,7 +229,9 @@ function StoryEditor({ fallbackStories }) {
                   </div>
                   <div>
                     <button type="button" onClick={() => setSelectedStory(story)}>Изменить</button>
-                    <button type="button" onClick={() => deleteMutation.mutate(story.id)}>Удалить</button>
+                    <button type="button" onClick={() => requestDelete(story)} disabled={deleteMutation.isPending}>
+                      {deleteMutation.isPending && deleteMutation.variables === story.id ? "Удаляем…" : "Удалить"}
+                    </button>
                   </div>
                 </div>
               ))}

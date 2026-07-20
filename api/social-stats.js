@@ -64,16 +64,20 @@ async function tiktokStats() {
 async function rutubeStats() {
   const [html, apiText] = await Promise.all([
     fetchText("https://rutube.ru/channel/78402593/videos/"),
-    fetchText("https://rutube.ru/api/video/person/78402593/?page=1&page_size=6", {
+    fetchText("https://rutube.ru/api/video/person/78402593/?page=1&page_size=20", {
       headers: { accept: "application/json" },
     }),
   ]);
   const payload = JSON.parse(apiText);
   const cover = (html.match(/"cover_image":"(https:[^"?]+)/)?.[1] || "").replace(/\\\//g, "/");
-  const videos = (payload.results || []).slice(0, 6).map((video) => ({
+  const videos = (payload.results || []).slice(0, 20).map((video) => ({
+    id: video.id,
     title: video.title,
     thumbnail: video.thumbnail_url,
     url: video.video_url,
+    embedUrl: video.embed_url,
+    duration: video.duration,
+    publishedAt: video.publication_ts,
   }));
 
   return {

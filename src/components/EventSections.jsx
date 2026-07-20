@@ -178,6 +178,7 @@ export default function EventSections() {
   const canEdit = isAdminProfile(profile);
   const queryClient = useQueryClient();
   const [editor, setEditor] = useState(null);
+  const [adminStatus, setAdminStatus] = useState("");
   const events = useQuery({
     queryKey: ["events"],
     queryFn: Api.getEvents,
@@ -190,11 +191,21 @@ export default function EventSections() {
   });
   const deleteMutation = useMutation({
     mutationFn: (eventId) => deleteAdminEvent(eventId, profile),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
-      queryClient.invalidateQueries({ queryKey: ["admin-events-inline"] });
+    onSuccess: async (_result, deletedId) => {
+      if (editor?.event?.id === deletedId) setEditor(null);
+      setAdminStatus("Мероприятие удалено");
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["events"] }),
+        queryClient.invalidateQueries({ queryKey: ["admin-events-inline"] }),
+      ]);
     },
   });
+
+  const requestDelete = (event) => {
+    if (!window.confirm(`Удалить мероприятие «${event.name}»? Связанные регистрации также будут удалены.`)) return;
+    setAdminStatus("");
+    deleteMutation.mutate(event.id);
+  };
 
   return eventGroups.map((group) => {
     const groupEvents = events
@@ -211,11 +222,19 @@ export default function EventSections() {
               Добавить мероприятие
             </button>
             {deleteMutation.error && <span className="event-admin-error">{deleteMutation.error.message}</span>}
+            {adminStatus && <span className="event-admin-status">{adminStatus}</span>}
             {groupAdminEvents.map((event) => (
               <span className="event-admin-chip" key={event.id}>
                 {event.name} · {event.status}
                 <button type="button" onClick={() => setEditor({ groupId: group.id, event })}>изменить</button>
-                <button type="button" onClick={() => deleteMutation.mutate(event.id)}>удалить</button>
+                <button
+                  className="event-admin-delete"
+                  type="button"
+                  onClick={() => requestDelete(event)}
+                  disabled={deleteMutation.isPending}
+                >
+                  {deleteMutation.isPending && deleteMutation.variables === event.id ? "удаляем…" : "удалить"}
+                </button>
               </span>
             ))}
           </div>

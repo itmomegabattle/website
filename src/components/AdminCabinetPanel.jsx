@@ -114,6 +114,10 @@ function ProfilesPanel() {
 
   const visibleProfiles = filteredProfiles;
   const getRoleValue = (item) => roleDrafts[item.id] ?? item.role_badge ?? "";
+  const requestProfileDelete = (item) => {
+    if (!window.confirm(`Удалить профиль «${item.nickname || "без имени"}» и связанные с ним данные?`)) return;
+    deleteMutation.mutate(item.id);
+  };
 
   return (
     <article className="info-card admin-panel">
@@ -174,7 +178,9 @@ function ProfilesPanel() {
               >
                 {item.is_banned ? "Разбанить" : "Бан"}
               </button>
-              <button type="button" onClick={() => deleteMutation.mutate(item.id)}>Удалить</button>
+              <button type="button" onClick={() => requestProfileDelete(item)} disabled={deleteMutation.isPending}>
+                {deleteMutation.isPending && deleteMutation.variables === item.id ? "Удаляем…" : "Удалить"}
+              </button>
             </div>
           </div>
         ))}

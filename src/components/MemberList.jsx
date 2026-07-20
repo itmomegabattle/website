@@ -59,11 +59,11 @@ function TeamAdminEditor({ section, fallbackMembers }) {
     enabled: isOpen,
   });
 
-  const refreshPublicLists = () => {
-    queryClient.invalidateQueries({ queryKey: ["organizers"] });
-    queryClient.invalidateQueries({ queryKey: ["responsible"] });
-    queryClient.invalidateQueries({ queryKey });
-  };
+  const refreshPublicLists = () => Promise.all([
+    queryClient.invalidateQueries({ queryKey: ["organizers"] }),
+    queryClient.invalidateQueries({ queryKey: ["responsible"] }),
+    queryClient.invalidateQueries({ queryKey }),
+  ]);
 
   const saveMutation = useMutation({
     mutationFn: (payload) => upsertTeamMember(payload, profile),
@@ -78,7 +78,11 @@ function TeamAdminEditor({ section, fallbackMembers }) {
 
   const deleteMutation = useMutation({
     mutationFn: (id) => deleteTeamMember(id, profile),
-    onSuccess: refreshPublicLists,
+    onSuccess: async (_, deletedId) => {
+      if (selectedMember?.id === deletedId) setSelectedMember(null);
+      setStatus("Человек удалён");
+      await refreshPublicLists();
+    },
   });
 
   const importMutation = useMutation({
@@ -127,6 +131,12 @@ function TeamAdminEditor({ section, fallbackMembers }) {
       source_key: form.source_key || `${section}-${Date.now()}`,
       links: textToLinks(linksText),
     });
+  };
+
+  const requestDelete = (member) => {
+    if (!window.confirm(`Удалить «${member.name}» из раздела? Это действие нельзя отменить.`)) return;
+    setStatus("");
+    deleteMutation.mutate(member.id);
   };
 
   return (
@@ -212,7 +222,9 @@ function TeamAdminEditor({ section, fallbackMembers }) {
                   </div>
                   <div>
                     <button type="button" onClick={() => setSelectedMember(member)}>Изменить</button>
-                    <button type="button" onClick={() => deleteMutation.mutate(member.id)}>Удалить</button>
+                    <button type="button" onClick={() => requestDelete(member)} disabled={deleteMutation.isPending}>
+                      {deleteMutation.isPending && deleteMutation.variables === member.id ? "Удаляем…" : "Удалить"}
+                    </button>
                   </div>
                 </div>
               ))}
