@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Api } from "../api";
 import "../styles/member-list.css";
-import VisibleScroll from "./VisibleScroll";
 import ExternalLink from "./ExternalLink";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
@@ -237,76 +236,104 @@ function TeamAdminEditor({ section, fallbackMembers }) {
   );
 }
 
-function MemberListInternal({ members, autoScroll = false }) {
+function MemberListInternal({ members }) {
   const [activeMember, setActiveMember] = useState(null);
 
-  // колбэк на выбор нового просматриваемого участника
-  const handleMemberClick = (member) => {
-    if (activeMember === member) {
-      setActiveMember(null);
-      return;
-    }
-    setActiveMember(member);
-  };
+  useEffect(() => {
+    setActiveMember(null);
+  }, [members]);
 
   useEffect(() => {
-    setActiveMember(members[0] || null);
-  }, [members]);
+    if (!activeMember) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setActiveMember(null);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [activeMember]);
 
   return (
     <>
-      <VisibleScroll autoScroll={autoScroll} showArrows={!autoScroll}>
-        {members.map((member) => {
-          const isActive = activeMember === member;
-          return (
-            <div
-              key={member.key ?? `${member.name}-${member.activity}`}
-              className={`team-member${isActive ? " active" : ""}`}
-              onClick={() => handleMemberClick(member)}
-            >
-              <div className="member-image">
-                <img
-                  src={Api.normalizeURL(member.smallImage)}
-                  alt={member.name}
-                />
-              </div>
-              <h3 className="member-name">{member.name}</h3>
-              <p className="member-role">{member.activity}</p>
-            </div>
-          );
-        })}
-      </VisibleScroll>
-
-      <div className="main-width">
-        {activeMember && (
-          <div className="member-info-expanded">
-            <div className="member-expanded-image">
+      <div className="people-roster">
+        {members.map((member, index) => (
+          <button
+            key={member.key ?? `${member.name}-${member.activity}`}
+            className={`people-person-card people-person-card--${(index % 7) + 1}`}
+            type="button"
+            onClick={() => setActiveMember(member)}
+            style={{
+              "--person-index": String(index + 1).padStart(2, "0"),
+              "--person-tilt": `${((index * 11) % 5 - 2) * 0.22}deg`,
+              "--person-shift": `${[0, 1.7, 0.55, 2.25, 0.9][index % 5]}rem`,
+            }}
+          >
+            <span className="people-person-card__media">
               <img
-                src={Api.normalizeURL(activeMember.bigImage)}
+                src={Api.normalizeURL(member.bigImage || member.smallImage || "/images/people/member-full.jpg")}
+                alt={member.name}
+                width="900"
+                height="1200"
+                loading="lazy"
+              />
+            </span>
+            <span className="people-person-card__index">{String(index + 1).padStart(2, "0")}</span>
+            <span className="people-person-card__copy">
+              <small>{member.activity || "Команда Megabattle"}</small>
+              <strong>{member.name}</strong>
+              <em>Открыть профиль ↗</em>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {activeMember && (
+        <div
+          className="people-member-modal-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setActiveMember(null);
+          }}
+        >
+          <article className="people-member-modal" role="dialog" aria-modal="true" aria-label={activeMember.name}>
+            <button
+              className="people-member-modal__close"
+              type="button"
+              aria-label="Закрыть"
+              onClick={() => setActiveMember(null)}
+            >
+              ×
+            </button>
+            <div className="people-member-modal__image">
+              <img
+                src={Api.normalizeURL(activeMember.bigImage || activeMember.smallImage || "/images/people/member-full.jpg")}
                 alt={activeMember.name}
+                width="1000"
+                height="1200"
               />
             </div>
-            <div className="member-expanded-info">
+            <div className="people-member-modal__copy">
+              <p className="people-member-modal__kicker">{activeMember.activity || "Команда Megabattle"}</p>
               <h3>{activeMember.name}</h3>
-              <p>
-                <span className="member-expanded-role">
-                  {activeMember.role}
-                </span>
-              </p>
-              <p className="member-expanded-description">
-                {activeMember.description}
-              </p>
+              {activeMember.role && <p className="people-member-modal__role">{activeMember.role}</p>}
+              {activeMember.description && (
+                <p className="people-member-modal__description">{activeMember.description}</p>
+              )}
               {activeMember.links?.length > 0 && (
-                <div className="member-expanded-links">
+                <div className="people-member-modal__links">
                   {activeMember.links.map((item, i) => (
                     <ExternalLink key={i} href={item.link} text={item.text} />
                   ))}
                 </div>
               )}
             </div>
-          </div>
-        )}
-      </div>
+          </article>
+        </div>
+      )}
     </>
   );
 }
@@ -354,18 +381,13 @@ export default function MemberList() {
         </div>
       </div>
 
-      <div hidden={activeFilter !== "organizers"}>
-        {canEdit && <TeamAdminEditor section="organizers" fallbackMembers={organizers} />}
-        <MemberListInternal members={organizers} autoScroll />
-      </div>
-
-      {/* todo: У нас на экране по ширине помещается примерно 4 человека,
-      то есть последний пятый мегаответственный - ЛОХ так как почти всегда будет
-      за границей экрана  */}
-      <div hidden={activeFilter !== "responsible"}>
-        {canEdit && <TeamAdminEditor section="responsible" fallbackMembers={responsible} />}
-        <MemberListInternal members={responsible} />
-      </div>
+      {canEdit && (
+        <TeamAdminEditor
+          section={activeFilter}
+          fallbackMembers={activeFilter === "organizers" ? organizers : responsible}
+        />
+      )}
+      <MemberListInternal members={activeFilter === "organizers" ? organizers : responsible} />
     </>
   );
 }

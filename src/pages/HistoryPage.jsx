@@ -10,8 +10,12 @@ export default function HistoryPage() {
   useEffect(() => {
     let active = true;
     Api.getHistory()
-      .then((data) => active && setHistory(data))
-      .catch(() => active && setHistory({ chapters: [], archive: [] }));
+      .then((result) => {
+        if (active) setHistory(result);
+      })
+      .catch(() => {
+        if (active) setHistory({ chapters: [], archive: [] });
+      });
     return () => { active = false; };
   }, []);
 

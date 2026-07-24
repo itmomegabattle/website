@@ -5,7 +5,6 @@ import {
 } from "../components/RatingsSections";
 import AdminCabinetPanel from "../components/AdminCabinetPanel";
 import AuthPanel from "../components/AuthPanel";
-import FriendshipGraph from "../components/FriendshipGraph";
 import NfcTagsPanel from "../components/NfcTagsPanel";
 import ProfileEditor from "../components/ProfileEditor";
 import SocialBioCard from "../components/SocialBioCard";
@@ -63,7 +62,6 @@ export default function RatingsPage() {
         )}
 
         <RatingsOverview />
-        <FriendshipGraph />
       </section>
 
       {isAuthenticated && canAdmin && <AdminCabinetPanel />}

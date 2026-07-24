@@ -31,8 +31,8 @@ function HistoryAccess({ ready, progress, onEnter }) {
     <section className="history-access" aria-label="Загрузка истории">
       <div className="history-access__image" aria-hidden="true" />
       <div className="history-access__content">
-        <p>THE STORY OF</p>
-        <h1>MEGABATTLE</h1>
+        <p>ITMO MEGABATTLE</p>
+        <h1>ИСТОРИЯ</h1>
         <div className="history-access__meter"><i style={{ width: `${progress}%` }} /></div>
         <strong>{progress}%</strong>
         <button type="button" disabled={!ready} onClick={onEnter}>
@@ -88,9 +88,21 @@ function SeasonCard({ season, index, onOpen }) {
           <small>СЕЗОН {season.number} · {season.years}</small>
           <strong>{season.title}</strong>
           <span>{season.summary}</span>
+          <span className="history-season-card__result">
+            <b>{season.winner}</b>
+            {season.organizer && <em>{season.organizer}</em>}
+          </span>
+          <span className="history-season-card__highlights">
+            {season.highlights?.slice(0, 3).map((item) => <em key={item}>{item}</em>)}
+          </span>
           <i>ОТКРЫТЬ ГЛАВУ ↗</i>
         </span>
       </button>
+      <div className="history-season-card__date" aria-hidden="true">
+        <i />
+        <strong>{season.years}</strong>
+        <span>СЕЗОН {season.number}</span>
+      </div>
     </article>
   );
 }
@@ -137,7 +149,7 @@ function HistoryChapter({ season, video, onPlay, onClose }) {
 }
 
 export default function HistoryExperience({ data }) {
-  const [entered, setEntered] = useState(false);
+  const [entered] = useState(true);
   const [ready, setReady] = useState(false);
   const [loadProgress, setLoadProgress] = useState(0);
   const [remoteVideos, setRemoteVideos] = useState([]);
@@ -152,7 +164,6 @@ export default function HistoryExperience({ data }) {
   const seasonVideos = useMemo(() => pickSeasonVideos(allVideos), [allVideos]);
   const galleryVideos = useMemo(() => allVideos.slice(0, 8), [allVideos]);
   const seasons = data.seasons || [];
-  const milestones = data.milestones || [];
   const quickFacts = data.quickFacts || [];
   const featured = seasonVideos.at(-1) || allVideos[0];
 
@@ -212,7 +223,8 @@ export default function HistoryExperience({ data }) {
         const travel = Math.max(1, rail.offsetHeight - window.innerHeight);
         const progress = Math.min(1, Math.max(0, -rect.top / travel));
         const track = rail.querySelector(".history-seasons__track");
-        const horizontalTravel = Math.max(0, (track?.scrollWidth || 0) - window.innerWidth + window.innerWidth * 0.08);
+        const trackLeft = track ? parseFloat(window.getComputedStyle(track).left) || 0 : 0;
+        const horizontalTravel = Math.max(0, (track?.scrollWidth || 0) + trackLeft - window.innerWidth + window.innerWidth * 0.1);
         rail.style.setProperty("--rail-progress", progress.toFixed(4));
         rail.style.setProperty("--rail-x", `${(-progress * horizontalTravel).toFixed(1)}px`);
       }
@@ -241,44 +253,28 @@ export default function HistoryExperience({ data }) {
 
   return (
     <>
-      {!entered && <HistoryAccess ready={ready} progress={loadProgress} onEnter={() => setEntered(true)} />}
-
-      <div className={`history-world${entered ? " is-entered" : ""}`} aria-hidden={!entered}>
-        <nav className="history-local-nav" aria-label="Навигация по истории">
-          <a href="#plot" onClick={(event) => navigateTo(event, "plot")}>Начало</a>
-          <a href="#origin" onClick={(event) => navigateTo(event, "origin")}>Истоки</a>
-          <a href="#seasons" onClick={(event) => navigateTo(event, "seasons")}>Сезоны</a>
-          <a href="#turns" onClick={(event) => navigateTo(event, "turns")}>Повороты</a>
-          <a href="#facts" onClick={(event) => navigateTo(event, "facts")}>Факты</a>
-          <a href="#gallery" onClick={(event) => navigateTo(event, "gallery")}>Видео</a>
-        </nav>
-
+      <div className="history-world is-entered" aria-hidden={false}>
         <header className="history-hero" id="history-top">
           <div className="history-hero__backdrop" style={featured ? { backgroundImage: `url("${featured.thumbnail}")` } : undefined} />
           <div className="history-hero__film" aria-hidden="true" />
           <div className="history-hero__title">
             <span>THE STORY OF</span>
-            <h1>MEGA<br />BATTLE</h1>
-            <p>2018—2026 · Восемь сезонов · Одна большая история</p>
+            <img
+              className="history-hero__logo"
+              src="/history-logo.svg"
+              alt="ITMO Megabattle"
+              width="420"
+              height="256"
+            />
+            <p>2018—2026</p>
           </div>
-          <a className="history-scroll-cue" href="#plot" onClick={(event) => navigateTo(event, "plot")}><span>SCROLL TO EXPLORE</span><i>↓</i></a>
+          <a className="history-scroll-cue" href="#origin" onClick={(event) => navigateTo(event, "origin")}><span>SCROLL TO EXPLORE</span><i>↓</i></a>
         </header>
-
-        <section className="history-plot" id="plot">
-          <span className="history-section-tag">01 / РОЖДЕНИЕ</span>
-          <div className="history-plot__copy">
-            <small>{data.founding?.date || "03.09.2018"}</small>
-            <h2>НАЧАЛО</h2>
-            <p>{data.founding?.text || "ITMO.Megabattle объединил университетские традиции в одну годовую систему."}</p>
-            {featured && <button type="button" onClick={() => setActiveVideo(featured)}><span>СМОТРЕТЬ КОНЦЕРТ</span><i>▶</i></button>}
-          </div>
-          <div className="history-plot__orbit" aria-hidden="true"><i /><i /><i /></div>
-        </section>
 
         {data.origin && (
           <section className="history-origin" id="origin">
             <div className="history-origin__copy">
-              <span className="history-section-tag">02 / {data.origin.eyebrow}</span>
+              <span className="history-section-tag">00 / ЗАРОЖДЕНИЕ / {data.origin.eyebrow}</span>
               <h2>{data.origin.title}</h2>
               <p className="history-origin__lead">{data.origin.lead}</p>
               <p>{data.origin.text}</p>
@@ -295,14 +291,19 @@ export default function HistoryExperience({ data }) {
               </figure>
               <span className="history-origin__stamp">ДО<br />MEGA<br />BATTLE</span>
             </div>
-            <div className="history-origin__founding">
-              <span>{data.founding?.date}</span>
-              <h3>{data.founding?.title}</h3>
-              <p>{data.founding?.purpose}</p>
-              <div>{data.founding?.facts?.map((fact) => <b key={fact}>{fact}</b>)}</div>
-            </div>
           </section>
         )}
+
+        <section className="history-plot history-plot--birth" id="plot">
+          <span className="history-section-tag">01 / РОЖДЕНИЕ</span>
+          <div className="history-plot__copy">
+            <small>{data.founding?.date || "03.09.2018"}</small>
+            <h2>РОЖДЕНИЕ<br />MEGABATTLE</h2>
+            <p>{data.founding?.text || "ITMO.Megabattle объединил университетские традиции в одну годовую систему."}</p>
+            {featured && <button type="button" onClick={() => setActiveVideo(featured)}><span>СМОТРЕТЬ КОНЦЕРТ</span><i>▶</i></button>}
+          </div>
+          <div className="history-plot__orbit" aria-hidden="true"><i /><i /><i /></div>
+        </section>
 
         <section className="history-seasons" id="seasons" ref={railRef} style={{ "--season-count": Math.max(1, seasons.length) }}>
           <div className="history-seasons__sticky">
@@ -314,7 +315,7 @@ export default function HistoryExperience({ data }) {
             <div className="history-seasons__track">
               {seasons.map((season, index) => <SeasonCard key={season.number} season={season} index={index} onOpen={setActiveSeason} />)}
             </div>
-            <div className="history-seasons__progress"><i /></div>
+            <div className="history-seasons__progress" aria-hidden="true"><i /></div>
           </div>
         </section>
 
@@ -323,38 +324,6 @@ export default function HistoryExperience({ data }) {
           <p>MEGABATTLE</p>
           <h2>ЭТО НЕ ТОЛЬКО<br /><em>СЦЕНА</em></h2>
           <span>ЛЮДИ · КОМАНДА · ПАМЯТЬ</span>
-        </section>
-
-        <section className="history-milestones" id="turns">
-          <header>
-            <span className="history-section-tag">04 / ПОВОРОТНЫЕ МОМЕНТЫ</span>
-            <h2>КОГДА ПРОЕКТ<br />МЕНЯЛСЯ</h2>
-            <p>Не полная летопись, а восемь решений, после которых Megabattle уже не мог быть прежним.</p>
-          </header>
-          <div className="history-milestones__rail">
-            {milestones.map((milestone, index) => (
-              <article className="history-milestone" key={`${milestone.year}-${milestone.title}`} style={{ "--milestone": index }}>
-                <div className="history-milestone__year"><span>{milestone.year}</span><i>{String(index + 1).padStart(2, "0")}</i></div>
-                <figure style={{ "--history-image": `url("${milestone.image}")` }}><img src={milestone.image} alt="" width="1280" height="960" loading="lazy" /><figcaption>КАДР ИЗ ИСТОРИИ · {milestone.year}</figcaption></figure>
-                <div className="history-milestone__copy"><h3>{milestone.title}</h3><p>{milestone.text}</p></div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="history-credits" id="credits">
-          <span className="history-section-tag">05 / МАСШТАБ</span>
-          <div className="history-credits__grid">
-            <article><strong>{seasons.length || 8}</strong><h3>СЕЗОНОВ</h3><p>Каждый учебный год — новая глава, тема и набор собственных форматов.</p></article>
-            <article><strong>16</strong><h3>ГАЛА</h3><p>Два больших финала в год: осенний и весенний раунды.</p></article>
-            <article><strong>5</strong><h3>МЕГАФАКОВ</h3><p>Разные направления ИТМО встречаются в одном общем зачёте.</p></article>
-          </div>
-          <div className="history-credits__details">
-            <span><b>ФОРМАТ</b>творческая битва</span>
-            <span><b>УНИВЕРСИТЕТ</b>ИТМО</span>
-            <span><b>ГОРОД</b>Санкт-Петербург</span>
-            <span><b>СТАРТ</b>2018 год</span>
-          </div>
         </section>
 
         <section className="history-facts" id="facts">
@@ -369,14 +338,22 @@ export default function HistoryExperience({ data }) {
         </section>
 
         <section className="history-gallery" id="gallery">
-          <header><span className="history-section-tag">07 / ВИДЕОАРХИВ</span><h2>ГАЛЕРЕЯ<br />КОНЦЕРТОВ</h2></header>
-          <div className="history-gallery__grid">
-            {galleryVideos.map((video, index) => (
-              <button type="button" key={video.id} className={`history-gallery__item history-gallery__item--${index + 1}`} onClick={() => setActiveVideo(video)}>
-                <img src={video.thumbnail} alt="" width="1280" height="720" loading="lazy" />
-                <span><b>{video.title}</b><i>{formatDuration(video.duration)} · PLAY ↗</i></span>
+          <header><span className="history-section-tag">08 / ВИДЕОАРХИВ</span><h2>ГАЛЕРЕЯ КОНЦЕРТОВ</h2></header>
+          <div className="history-gallery__stage">
+            {galleryVideos[0] && (
+              <button type="button" className="history-gallery__feature" onClick={() => setActiveVideo(galleryVideos[0])}>
+                <img src={galleryVideos[0].thumbnail} alt="" width="1280" height="720" loading="lazy" />
+                <span><small>ITMO MEGABATTLE · ВИДЕОАРХИВ</small><b>{galleryVideos[0].title}</b><i>{formatDuration(galleryVideos[0].duration)} · СМОТРЕТЬ ▶</i></span>
               </button>
-            ))}
+            )}
+            <div className="history-gallery__rail">
+              {galleryVideos.slice(1).map((video) => (
+                <button type="button" key={video.id} className="history-gallery__item" onClick={() => setActiveVideo(video)}>
+                  <img src={video.thumbnail} alt="" width="1280" height="720" loading="lazy" />
+                  <span><b>{video.title}</b><i>{formatDuration(video.duration)} · PLAY ↗</i></span>
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 

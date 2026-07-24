@@ -1,27 +1,39 @@
-import Megabattle from "../components/Megabattle";
+import FriendshipGraph from "../components/FriendshipGraph";
 import MemberList from "../components/MemberList";
+import PeopleCloud from "../components/PeopleCloud";
 import StoriesList from "../components/StoriesList";
 import "../styles/page-people.css";
 
 export default function PeoplePage() {
   return (
     <main className="people-page">
-      <section className="main-width">
-        {/* todo: скучновато */}
-        <Megabattle className="people-title" />
-      </section>
-
-      <section id="team" className="team" >
-        <h1>КОМАНДА</h1>
+      <section id="team" className="people-team main-width">
+        <h1 className="people-team-title">КОМАНДА</h1>
         <MemberList />
       </section>
 
+      <PeopleCloud />
+
       <section id="stories" className="stories">
-        <h1 className="stories-title">
+        <h2 className="stories-title">
           <span>ИСТОРИИ</span>
           <span>УЧАСТНИКОВ</span>
-        </h1>
+        </h2>
         <StoriesList />
+      </section>
+
+      <section id="connections" className="people-connections main-width">
+        <header className="people-section-heading">
+          <div>
+            <p className="people-kicker">Живые связи</p>
+            <h2>ГРАФ<br />ЗНАКОМСТВ</h2>
+          </div>
+          <p>
+            Карта знакомств участников. Приближай, перемещай и выбирай человека,
+            чтобы подсветить его связи.
+          </p>
+        </header>
+        <FriendshipGraph />
       </section>
     </main>
   );
