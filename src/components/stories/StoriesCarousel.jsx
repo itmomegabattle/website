@@ -39,7 +39,17 @@ export default function StoriesCarousel({ stories }) {
             <div className={`stories-page${pageIndex === page ? " stories-page--active" : ""}`} key={`stories-page-${pageIndex}`}>
               {items.map((story, idx) => (
                 <button className="story-card" key={story.key ?? `${story.name}-${idx}`} data-tag={idx % 3} type="button" onClick={() => setOpenedStory(story)}>
-                  <div className="story-image-container"><img src={Api.normalizeURL(story.image)} alt={story.name} className="story-image" /></div>
+                  <div className="story-image-container">
+                    <img
+                      src={Api.normalizeURL(story.image)}
+                      alt={story.name}
+                      className="story-image"
+                      width="640"
+                      height="640"
+                      loading={pageIndex === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  </div>
                   <h3 className="story-name">{story.name}</h3>
                   <p className="story-faculty">{story.faculty}</p>
                 </button>
@@ -60,7 +70,16 @@ export default function StoriesCarousel({ stories }) {
         <div className="story-modal-backdrop" role="presentation" onClick={() => setOpenedStory(null)}>
           <article className="story-modal" role="dialog" aria-modal="true" aria-label={openedStory.name} onClick={(event) => event.stopPropagation()}>
             <button className="story-modal-close" type="button" onClick={() => setOpenedStory(null)} aria-label="Закрыть историю">×</button>
-            <div className="story-image-container story-modal-image"><img src={Api.normalizeURL(openedStory.image)} alt={openedStory.name} className="story-image" /></div>
+            <div className="story-image-container story-modal-image">
+              <img
+                src={Api.normalizeURL(openedStory.image)}
+                alt={openedStory.name}
+                className="story-image"
+                width="640"
+                height="640"
+                decoding="async"
+              />
+            </div>
             <h2>{openedStory.name}</h2>
             <p className="story-faculty">{openedStory.faculty}</p>
             <p className="story-modal-description">{openedStory.description}</p>

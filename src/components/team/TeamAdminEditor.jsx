@@ -74,7 +74,7 @@ export default function TeamAdminEditor({ section, fallbackMembers }) {
     const file = event.target.files?.[0];
     if (!file) return;
     setStatus("Загружаем фото…");
-    const imageUrl = await uploadTeamMemberImage(file);
+    const imageUrl = await uploadTeamMemberImage(file, field === "small_image_url" ? "thumbnail" : "content");
     setForm((current) => ({ ...current, [field]: imageUrl }));
     setStatus("Фото загружено");
   };

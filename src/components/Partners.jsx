@@ -16,7 +16,7 @@ export default function Partners() {
   const partners = useQuery({
     queryKey: ["partners"],
     queryFn: Api.getPartners,
-    initialData: [],
+    placeholderData: [],
   }).data;
 
   const visiblePartners = useMemo(() => uniquePartners(partners), [partners]);
@@ -89,7 +89,14 @@ export default function Partners() {
         aria-label={p.name}
       >
         <div className="partner-wall-card__media">
-          <img src={Api.normalizeURL(p.logo)} alt={p.name} loading="lazy" />
+          <img
+            src={Api.normalizeURL(p.logo)}
+            alt={p.name}
+            width="960"
+            height="640"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div className="partner-wall-card__caption">
           <span>Партнёр</span>

@@ -21,7 +21,7 @@ export default function EventList() {
   const events = useQuery({
     queryKey: ["events"],
     queryFn: Api.getEvents,
-    initialData: [],
+    placeholderData: [],
   }).data;
 
   // На главной выводим первое мероприятие из общей секции мероприятий.

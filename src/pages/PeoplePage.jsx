@@ -1,4 +1,4 @@
-import FriendshipGraph from "../components/FriendshipGraph";
+import FriendshipGraphLaunch from "../components/graph/FriendshipGraphLaunch";
 import MemberList from "../components/MemberList";
 import PeopleCloud from "../components/PeopleCloud";
 import StoriesList from "../components/StoriesList";
@@ -29,11 +29,11 @@ export default function PeoplePage() {
             <h2>ГРАФ<br />ЗНАКОМСТВ</h2>
           </div>
           <p>
-            Карта знакомств участников. Приближай, перемещай и выбирай человека,
-            чтобы подсветить его связи.
+            Карта знакомств участников откроется 29 августа. До запуска тяжёлый
+            граф не загружается и не расходует трафик устройства.
           </p>
         </header>
-        <FriendshipGraph />
+        <FriendshipGraphLaunch />
       </section>
     </main>
   );

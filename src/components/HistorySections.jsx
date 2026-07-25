@@ -5,7 +5,7 @@ export function ProjectTimeline() {
   const history = useQuery({
     queryKey: ["history"],
     queryFn: Api.getHistory,
-    initialData: { timeline: [], archive: [] },
+    placeholderData: { timeline: [], archive: [] },
   }).data;
 
   return (
@@ -27,7 +27,7 @@ export function ArchiveCards() {
   const history = useQuery({
     queryKey: ["history"],
     queryFn: Api.getHistory,
-    initialData: { timeline: [], archive: [] },
+    placeholderData: { timeline: [], archive: [] },
   }).data;
 
   return (

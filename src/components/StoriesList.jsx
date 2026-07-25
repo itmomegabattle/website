@@ -12,7 +12,7 @@ export default function StoriesList() {
   const stories = useQuery({
     queryKey: ["stories"],
     queryFn: Api.getStories,
-    initialData: [],
+    placeholderData: [],
   }).data;
 
   return (

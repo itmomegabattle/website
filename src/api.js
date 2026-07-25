@@ -14,6 +14,17 @@ export const Api = {
   normalizeURL(url) {
     if (!url) return "";
     if (/^(https?:|data:|blob:)/i.test(url)) return url;
+    const optimizedStaticImages = {
+      "/images/about-image.png": "/images/about-image.webp",
+      "/images/events/event1.jpg": "/images/events/event1.webp",
+      "/images/events/event2.jpg": "/images/events/event2.webp",
+      "/images/partners/double.png": "/images/partners/double.webp",
+      "/images/partners/drinkit.png": "/images/partners/drinkit.webp",
+      "/images/partners/kaori.jpg": "/images/partners/kaori.webp",
+      "/images/partners/perekr.jpeg": "/images/partners/perekr.webp",
+      "/images/partners/podpisn.jpeg": "/images/partners/podpisn.webp",
+    };
+    url = optimizedStaticImages[url] || url;
     if (url.startsWith('/')) url = url.slice(1);
     return `${API_BASE}${url}`;
   },

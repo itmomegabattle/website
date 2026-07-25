@@ -170,7 +170,7 @@ function PartnerEditor({ fallbackPartners }) {
 export default function PartnersBento() {
   const { profile } = useAuth();
   const canEdit = isAdminProfile(profile);
-  const partners = useQuery({ queryKey: ["partners"], queryFn: Api.getPartners, initialData: [] }).data;
+  const partners = useQuery({ queryKey: ["partners"], queryFn: Api.getPartners, placeholderData: [] }).data;
   const visiblePartners = useMemo(() => uniquePartners(partners), [partners]);
 
   return (
@@ -192,7 +192,10 @@ export default function PartnersBento() {
                 <img
                   src={Api.normalizeURL(partner.logo)}
                   alt={partner.name}
+                  width="960"
+                  height="640"
                   loading="lazy"
+                  decoding="async"
                   onError={(event) => { event.currentTarget.src = Api.normalizeURL("/images/about-image.png"); }}
                 />
               </div>

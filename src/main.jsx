@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import {
   createBrowserRouter,
@@ -15,19 +15,30 @@ import Background from "./components/Background";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Preloader from "./components/Preloader";
+import PageStage from "./components/PageStage";
 import { AuthProvider } from "./context/AuthContext";
+import { scheduleSiteWarmup } from "./lib/sitePrefetch";
+import { routeModuleLoaders } from "./routes/pageModules";
 import "./styles/common.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
-const HomePage = lazy(() => import("./pages/HomePage"));
-const PeoplePage = lazy(() => import("./pages/PeoplePage"));
-const FacultiesPage = lazy(() => import("./pages/FacultiesPage"));
-const HistoryPage = lazy(() => import("./pages/HistoryPage"));
-const PartnersPage = lazy(() => import("./pages/PartnersPage"));
-const EventsPage = lazy(() => import("./pages/EventsPage"));
-const RatingsPage = lazy(() => import("./pages/RatingsPage"));
-const AuthPage = lazy(() => import("./pages/AuthPage"));
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 30 * 60 * 1000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+const HomePage = lazy(routeModuleLoaders["/"]);
+const PeoplePage = lazy(routeModuleLoaders["/people"]);
+const FacultiesPage = lazy(routeModuleLoaders["/faculties"]);
+const HistoryPage = lazy(routeModuleLoaders["/history"]);
+const PartnersPage = lazy(routeModuleLoaders["/partners"]);
+const EventsPage = lazy(routeModuleLoaders["/events"]);
+const RatingsPage = lazy(routeModuleLoaders["/ratings"]);
+const AuthPage = lazy(routeModuleLoaders["/auth"]);
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const NfcPage = lazy(() => import("./pages/NfcPage"));
 
@@ -39,6 +50,10 @@ function App() {
     ? "app-shell app-shell--compact"
     : "app-shell";
 
+  useEffect(() => {
+    scheduleSiteWarmup(queryClient);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -46,7 +61,9 @@ function App() {
           <Preloader />
           <Header />
           {!hideBackground && <Background />}
-          <Suspense fallback={null}><Outlet /></Suspense>
+          <Suspense fallback={<div className="page-stage-loading" aria-label="Загрузка страницы" />}>
+            <PageStage><Outlet /></PageStage>
+          </Suspense>
           <ScrollRestoration />
           {!hideFooter && <Footer />}
         </div>

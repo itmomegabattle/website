@@ -1,5 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { backendApi } from "../lib/backendApi";
+import { uploadOptimizedImage } from "../utils/uploadOptimizedImage";
 
 export const mapDbPartner = (item) => ({ id: item.id, sourceKey: item.source_key, name: item.name, logo: item.logo_url || "/images/about-image.png", description: item.description || "", link: item.link || "", status: item.status, sortOrder: item.sort_order });
 export const mapDbStory = (item) => ({ id: item.id, key: item.source_key || item.id, name: item.name, faculty: item.faculty || "", description: item.description || "", date: item.story_date_label || "", image: item.image_url || "/images/people/member.jpg", status: item.status, sortOrder: item.sort_order, submitterProfileId: item.submitter_profile_id, submitterContact: item.submitter_contact || "", moderationComment: item.moderation_comment || "", createdAt: item.created_at });
@@ -82,8 +83,20 @@ export async function submitStoryProposal(story, profile) {
   return backendApi("/api/v1/stories/submissions", { method: "POST", body: JSON.stringify({ name: story.name, faculty: story.faculty || profile.faculty, description: story.description, storyDateLabel: story.story_date_label || null, imageUrl: story.image_url || null, contact: story.submitter_contact || null }) });
 }
 export async function uploadContentImage(file, folder = "content") {
-  const signed = await backendApi("/api/v1/media/upload", { method: "POST", body: JSON.stringify({ mimeType: file.type, sizeBytes: file.size, purpose: folder === "story-submissions" ? "story" : "content" }) });
   if (!supabase) throw new Error("Storage не настроен");
-  const { error } = await supabase.storage.from(signed.bucket).uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type }); if (error) throw error; return signed.publicUrl;
+  return uploadOptimizedImage(file, {
+    preset: folder === "partners" ? "thumbnail" : "content",
+    purpose: folder === "story-submissions" ? "story" : "content",
+    requestUpload: (payload) => backendApi("/api/v1/media/upload", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+    uploadFile: async (signed, optimizedFile) => {
+      const { error } = await supabase.storage
+        .from(signed.bucket)
+        .uploadToSignedUrl(signed.path, signed.token, optimizedFile, { contentType: optimizedFile.type });
+      if (error) throw error;
+    },
+  });
 }
 export const uploadStorySubmissionImage = (file) => uploadContentImage(file, "story-submissions");

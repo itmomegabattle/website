@@ -13,7 +13,7 @@ export default function EventSections() {
   const queryClient = useQueryClient();
   const [editor, setEditor] = useState(null);
   const [adminStatus, setAdminStatus] = useState("");
-  const events = useQuery({ queryKey: ["events"], queryFn: Api.getEvents, initialData: [] }).data;
+  const events = useQuery({ queryKey: ["events"], queryFn: Api.getEvents, placeholderData: [] }).data;
   const { data: adminEvents = [] } = useQuery({ queryKey: ["admin-events-inline"], queryFn: getAdminEvents, enabled: canEdit });
   const deleteMutation = useMutation({
     mutationFn: (eventId) => deleteAdminEvent(eventId, profile),

@@ -7,7 +7,7 @@ export default function NfcTagsPanel({ profileId, compact = false }) {
     queryKey: ["profile-tags", profileId],
     queryFn: () => getProfileTags(profileId),
     enabled: Boolean(profileId),
-    initialData: [],
+    placeholderData: [],
   }).data;
 
   return (

@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../api";
+import { getMemberCardImage } from "./team/memberImages";
 
 const fallbackAvatar = "/images/people/member-full.jpg";
 
@@ -15,12 +16,12 @@ export default function PeopleCloud() {
   const organizers = useQuery({
     queryKey: ["organizers"],
     queryFn: Api.getOrganizers,
-    initialData: [],
+    placeholderData: [],
   }).data;
   const responsible = useQuery({
     queryKey: ["responsible"],
     queryFn: Api.getResponsible,
-    initialData: [],
+    placeholderData: [],
   }).data;
 
   const bubbles = useMemo(() => {
@@ -70,11 +71,12 @@ export default function PeopleCloud() {
               }}
             >
               <img
-                src={Api.normalizeURL(person.smallImage || person.bigImage || fallbackAvatar)}
+                src={Api.normalizeURL(getMemberCardImage(person) || fallbackAvatar)}
                 alt=""
                 width="256"
                 height="256"
-                loading="lazy"
+                loading="eager"
+                decoding="async"
               />
               <span>
                 <strong>{person.name}</strong>

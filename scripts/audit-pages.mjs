@@ -7,13 +7,23 @@ const baseUrl = "http://127.0.0.1:4173";
 const returningVisit = process.argv.includes("--returning");
 const outputArgument = process.argv.find((argument) => argument.startsWith("--output="));
 const outputPath = outputArgument?.slice("--output=".length);
+const routesArgument = process.argv.find((argument) => argument.startsWith("--routes="));
+const profilesArgument = process.argv.find((argument) => argument.startsWith("--profiles="));
 const preloaderStorageKey = "mb:preloader:version";
 const preloaderStorageVersion = "2026-07-25-optimized";
-const routes = ["/", "/people", "/faculties", "/history", "/partners", "/events", "/ratings", "/auth"];
-const profiles = [
+const routes = routesArgument
+  ? routesArgument.slice("--routes=".length).split(",").filter(Boolean)
+  : ["/", "/people", "/faculties", "/history", "/partners", "/events", "/ratings", "/auth"];
+const allProfiles = [
   { name: "desktop", width: 1440, height: 900, mobile: false, scale: 1 },
   { name: "mobile", width: 390, height: 844, mobile: true, scale: 1 },
 ];
+const selectedProfiles = profilesArgument
+  ? new Set(profilesArgument.slice("--profiles=".length).split(",").filter(Boolean))
+  : null;
+const profiles = selectedProfiles
+  ? allProfiles.filter((profile) => selectedProfiles.has(profile.name))
+  : allProfiles;
 function launchChrome(port, runId) {
   return spawn(chromePath, [
     "--headless=new",
@@ -138,6 +148,12 @@ async function auditPage(cdp, route, profile) {
       domNodes: document.querySelectorAll("*").length,
       images: document.images.length,
       videos: document.querySelectorAll("video").length,
+      videoState: [...document.querySelectorAll("video")].map((video) => ({
+        currentSrc: video.currentSrc,
+        readyState: video.readyState,
+        networkState: video.networkState,
+        error: video.error?.message || null
+      })),
       iframes: document.querySelectorAll("iframe").length,
       scrollWidth: root.scrollWidth,
       scrollHeight: root.scrollHeight,

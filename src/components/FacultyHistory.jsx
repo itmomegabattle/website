@@ -5,7 +5,7 @@ export default function FacultyHistory() {
   const faculties = useQuery({
     queryKey: ["faculties"],
     queryFn: Api.getFaculties,
-    initialData: [],
+    placeholderData: [],
   }).data;
 
   return (

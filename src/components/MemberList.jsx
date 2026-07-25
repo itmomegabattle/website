@@ -11,8 +11,8 @@ export default function MemberList() {
   const { profile } = useAuth();
   const [activeFilter, setActiveFilter] = useState("organizers");
   const canEdit = isAdminProfile(profile);
-  const organizers = useQuery({ queryKey: ["organizers"], queryFn: Api.getOrganizers, initialData: [] }).data;
-  const responsible = useQuery({ queryKey: ["responsible"], queryFn: Api.getResponsible, initialData: [] }).data;
+  const organizers = useQuery({ queryKey: ["organizers"], queryFn: Api.getOrganizers, placeholderData: [] }).data;
+  const responsible = useQuery({ queryKey: ["responsible"], queryFn: Api.getResponsible, placeholderData: [] }).data;
   const activeMembers = activeFilter === "organizers" ? organizers : responsible;
 
   return (

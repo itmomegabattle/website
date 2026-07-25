@@ -63,7 +63,7 @@ export default function FacultyMap() {
   const faculties = useQuery({
     queryKey: ["faculties"],
     queryFn: Api.getFaculties,
-    initialData: [],
+    placeholderData: [],
   }).data;
 
   const [activeId, setActiveId] = useState("ktu");

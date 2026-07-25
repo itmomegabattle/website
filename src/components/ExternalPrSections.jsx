@@ -5,7 +5,7 @@ export function ExternalPrCards() {
   const data = useQuery({
     queryKey: ["external-pr"],
     queryFn: Api.getExternalPr,
-    initialData: { items: [], contact: null },
+    placeholderData: { items: [], contact: null },
   }).data;
 
   return (
@@ -24,7 +24,7 @@ export function ExternalPrContact() {
   const data = useQuery({
     queryKey: ["external-pr"],
     queryFn: Api.getExternalPr,
-    initialData: { items: [], contact: null },
+    placeholderData: { items: [], contact: null },
   }).data;
 
   if (!data.contact) {

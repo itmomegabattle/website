@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/header.css";
 import { Theme } from "../theme";
+import { useQueryClient } from "@tanstack/react-query";
+import { prefetchRoute } from "../lib/sitePrefetch";
 
 function SunIcon() {
   return (
@@ -124,6 +126,8 @@ function InnerSpace() {
 }
 
 export default function Header() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [theme, setTheme] = useState(Theme.get());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isDarkTheme = theme === "dark";
@@ -146,6 +150,25 @@ export default function Header() {
     Theme.set(isDarkTheme ? "light" : "dark");
   };
 
+  const warmRoute = (to) => {
+    prefetchRoute(to, queryClient).catch(() => null);
+  };
+
+  const handleNavigation = (event, to) => {
+    setIsMenuOpen(false);
+    if (
+      event.defaultPrevented
+      || event.button !== 0
+      || event.metaKey
+      || event.ctrlKey
+      || event.shiftKey
+      || event.altKey
+      || !document.startViewTransition
+    ) return;
+    event.preventDefault();
+    document.startViewTransition(() => navigate(to));
+  };
+
   return (
     <header className={`header${isMenuOpen ? " header--menu-open" : ""}`}>
       <button
@@ -163,7 +186,10 @@ export default function Header() {
             className="header-item"
             to={item.to}
             key={item.to}
-            onClick={() => setIsMenuOpen(false)}
+            onPointerEnter={() => warmRoute(item.to)}
+            onFocus={() => warmRoute(item.to)}
+            onTouchStart={() => warmRoute(item.to)}
+            onClick={(event) => handleNavigation(event, item.to)}
           >
             {item.label}
           </Link>
@@ -181,7 +207,14 @@ export default function Header() {
         {isDarkTheme ? <SunIcon /> : <MoonIcon />}
       </button>
       {navItems.map((item) => (
-        <Link className="header-item header-link" to={item.to} key={item.to}>
+        <Link
+          className="header-item header-link"
+          to={item.to}
+          key={item.to}
+          onPointerEnter={() => warmRoute(item.to)}
+          onFocus={() => warmRoute(item.to)}
+          onClick={(event) => handleNavigation(event, item.to)}
+        >
           {item.label}
         </Link>
       ))}

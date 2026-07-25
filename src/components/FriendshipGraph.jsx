@@ -12,7 +12,7 @@ export default function FriendshipGraph() {
   const { data = [] } = useQuery({
     queryKey: ["friendship-graph"],
     queryFn: getFriendshipGraph,
-    initialData: [],
+    placeholderData: [],
   });
   const [viewBox, setViewBox] = useState(defaultViewBox);
   const [selectedNodeId, setSelectedNodeId] = useState(null);

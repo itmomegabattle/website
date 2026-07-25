@@ -1,5 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { backendApi } from "../lib/backendApi";
+import { uploadOptimizedImage } from "../utils/uploadOptimizedImage";
 
 export const bootstrapAdminIsu = "466870";
 export const isAdminProfile = (profile) => Boolean(profile?.is_admin || profile?.roles?.some((role) => ["admin", "site_admin"].includes(role)));
@@ -11,8 +12,21 @@ export const deleteAdminEvent = (eventId) => backendApi(`/api/v1/admin/content/e
 export async function uploadAdminEventImage(file) { return uploadAdminMedia(file); }
 
 async function uploadAdminMedia(file) {
-  const signed=await backendApi("/api/v1/media/upload",{method:"POST",body:JSON.stringify({mimeType:file.type,sizeBytes:file.size,purpose:"content"})});
-  if(!supabase)throw new Error("Storage не настроен"); const {error}=await supabase.storage.from(signed.bucket).uploadToSignedUrl(signed.path,signed.token,file,{contentType:file.type}); if(error)throw error; return signed.publicUrl;
+  if (!supabase) throw new Error("Storage не настроен");
+  return uploadOptimizedImage(file, {
+    preset: "content",
+    purpose: "content",
+    requestUpload: (payload) => backendApi("/api/v1/media/upload", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+    uploadFile: async (signed, optimizedFile) => {
+      const { error } = await supabase.storage
+        .from(signed.bucket)
+        .uploadToSignedUrl(signed.path, signed.token, optimizedFile, { contentType: optimizedFile.type });
+      if (error) throw error;
+    },
+  });
 }
 
 const mapAdminProfile=(item)=>({...item,is_admin:item.profile_roles?.some((role)=>role.role==="admin"||role.role==="site_admin")});

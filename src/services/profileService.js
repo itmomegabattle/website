@@ -1,5 +1,6 @@
 import { supabase } from "../lib/supabase";
 import { BACKEND_API } from "../lib/apiBase";
+import { uploadOptimizedImage } from "../utils/uploadOptimizedImage";
 
 async function api(path, options = {}) {
   const response = await fetch(`${BACKEND_API}${path}`, { credentials: "include", ...options, headers: { "Content-Type": "application/json", ...options.headers } });
@@ -12,11 +13,21 @@ export const getProfileById = (profileId) => api(`/api/v1/profiles/${encodeURICo
 export const updateProfile = (_profileId, values) => api("/api/v1/profile", { method: "PATCH", body: JSON.stringify(values) });
 
 export async function uploadAvatar(_profileId, file) {
-  const signed = await api("/api/v1/media/upload", { method: "POST", body: JSON.stringify({ mimeType: file.type, sizeBytes: file.size, purpose: "avatar" }) });
   if (!supabase) throw new Error("Storage не настроен");
-  const { error } = await supabase.storage.from(signed.bucket).uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type });
-  if (error) throw error;
-  return signed.publicUrl;
+  return uploadOptimizedImage(file, {
+    preset: "avatar",
+    purpose: "avatar",
+    requestUpload: (payload) => api("/api/v1/media/upload", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+    uploadFile: async (signed, optimizedFile) => {
+      const { error } = await supabase.storage
+        .from(signed.bucket)
+        .uploadToSignedUrl(signed.path, signed.token, optimizedFile, { contentType: optimizedFile.type });
+      if (error) throw error;
+    },
+  });
 }
 
 export async function getTagByCode(code) {

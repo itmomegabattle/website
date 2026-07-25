@@ -1,11 +1,43 @@
 import { useEffect, useState } from "react";
 import { Api } from "../../api";
 import ExternalLink from "../ExternalLink";
+import { getMemberCardImage, getMemberDetailImage } from "./memberImages";
 
 export default function MemberRoster({ members }) {
   const [activeMember, setActiveMember] = useState(null);
+  const [isRosterReady, setIsRosterReady] = useState(false);
 
   useEffect(() => setActiveMember(null), [members]);
+  useEffect(() => {
+    let cancelled = false;
+    setIsRosterReady(false);
+    const sources = [...new Set(
+      members
+        .map((member) => Api.normalizeURL(getMemberCardImage(member)))
+        .filter(Boolean),
+    )];
+    if (!sources.length) {
+      setIsRosterReady(true);
+      return undefined;
+    }
+
+    Promise.allSettled(
+      sources.map((src) => new Promise((resolve) => {
+        const image = new Image();
+        image.decoding = "async";
+        image.onload = resolve;
+        image.onerror = resolve;
+        image.src = src;
+        if (image.complete) resolve();
+      })),
+    ).then(() => {
+      if (!cancelled) setIsRosterReady(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [members]);
   useEffect(() => {
     if (!activeMember) return undefined;
     const onKeyDown = (event) => {
@@ -22,7 +54,10 @@ export default function MemberRoster({ members }) {
 
   return (
     <>
-      <div className="people-roster">
+      <div
+        className={`people-roster${isRosterReady ? " is-ready" : " is-preparing"}`}
+        aria-busy={!isRosterReady}
+      >
         {members.map((member, index) => (
           <button
             key={member.key ?? `${member.name}-${member.activity}`}
@@ -36,7 +71,14 @@ export default function MemberRoster({ members }) {
             }}
           >
             <span className="people-person-card__media">
-              <img src={Api.normalizeURL(member.bigImage || member.smallImage || "/images/people/member-full.jpg")} alt={member.name} width="900" height="1200" loading="lazy" />
+              <img
+                src={Api.normalizeURL(getMemberCardImage(member))}
+                alt={member.name}
+                width="480"
+                height="640"
+                loading="eager"
+                decoding="async"
+              />
             </span>
             <span className="people-person-card__index">{String(index + 1).padStart(2, "0")}</span>
             <span className="people-person-card__copy">
@@ -54,7 +96,13 @@ export default function MemberRoster({ members }) {
           <article className="people-member-modal" role="dialog" aria-modal="true" aria-label={activeMember.name}>
             <button className="people-member-modal__close" type="button" aria-label="Закрыть" onClick={() => setActiveMember(null)}>×</button>
             <div className="people-member-modal__image">
-              <img src={Api.normalizeURL(activeMember.bigImage || activeMember.smallImage || "/images/people/member-full.jpg")} alt={activeMember.name} width="1000" height="1200" />
+              <img
+                src={Api.normalizeURL(getMemberDetailImage(activeMember))}
+                alt={activeMember.name}
+                width="900"
+                height="1200"
+                decoding="async"
+              />
             </div>
             <div className="people-member-modal__copy">
               <p className="people-member-modal__kicker">{activeMember.activity || "Команда Megabattle"}</p>

@@ -21,17 +21,17 @@ export const FALLBACK_STATS = {
     videos: [
       {
         title: "ITMO MEGABATTLE 8 сезон 2 раунд",
-        thumbnail: "/images/about-image.png",
+        thumbnail: "/images/about-image.webp",
         url: "https://rutube.ru/channel/78402593/videos/",
       },
       {
         title: "ITMO MEGABATTLE 8 сезон 1 раунд",
-        thumbnail: "/images/events/event1.jpg",
+        thumbnail: "/images/events/event1.webp",
         url: "https://rutube.ru/channel/78402593/videos/",
       },
       {
         title: "Гала-концерт ITMO MEGABATTLE",
-        thumbnail: "/images/events/event2.jpg",
+        thumbnail: "/images/events/event2.webp",
         url: "https://rutube.ru/channel/78402593/videos/",
       },
     ],
@@ -41,9 +41,9 @@ export const FALLBACK_STATS = {
 export const PROJECT_AVATAR = "/logo.svg";
 
 export const EVENT_STORIES = [
-  { title: "Гала", image: "/images/events/event1.jpg" },
-  { title: "Раунд", image: "/images/events/event2.jpg" },
-  { title: "Актив", image: "/images/about-image.png" },
+  { title: "Гала", image: "/images/events/event1.webp" },
+  { title: "Раунд", image: "/images/events/event2.webp" },
+  { title: "Актив", image: "/images/about-image.webp" },
   { title: "Команда", image: "/images/people/optimized/member-21-small.webp" },
 ];
 

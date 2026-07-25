@@ -16,7 +16,7 @@ export function BusinessCard() {
   return (
     <div className="employee-card">
       <div className="employee-card__media">
-        <img src="/images/about-image.png" alt="" width="670" height="777" />
+        <img src="/images/about-image.webp" alt="" width="670" height="777" />
         <ProjectAvatar />
       </div>
       <div className="employee-card__profile">
@@ -81,7 +81,7 @@ export function VkProfile({ data, href }) {
   return (
     <SocialScreen className="vk-screen" href={href}>
       <div className="vk-screen__cover">
-        <img src="/images/about-image.png" alt="" width="670" height="777" />
+        <img src="/images/about-image.webp" alt="" width="670" height="777" />
         <img className="vk-screen__logo" src="/logo.svg" alt="ITMO Megabattle" width="109" height="67" />
       </div>
       <div className="vk-screen__profile">

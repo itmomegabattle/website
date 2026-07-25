@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import EventList from "../components/EventList";
 import heroVideo from "/hero-video.mp4";
 import heroVideoMobile from "/hero-video-mobile.mp4";
-import heroPoster from "/hero-poster.jpg";
-import heroPosterMobile from "/hero-poster-mobile.jpg";
+import heroVideoAv1 from "/hero-video-av1.webm";
+import heroVideoMobileAv1 from "/hero-video-mobile-av1.webm";
+import heroPoster from "/hero-poster.webp";
+import heroPosterMobile from "/hero-poster-mobile.webp";
 import "../styles/page-home.css";
 import Megabattle from "../components/Megabattle";
 import Partners from "../components/Partners";
@@ -13,7 +15,14 @@ import { Theme } from "../theme";
 
 export default function HomePage() {
   const [theme, setTheme] = useState(Theme.get());
-  const [isMobileHero, setIsMobileHero] = useState(false);
+  const [isMobileHero, setIsMobileHero] = useState(
+    () => window.matchMedia?.("(max-width: 768px)")?.matches ?? false,
+  );
+  const [allowHeroVideo] = useState(() => {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    return !connection?.saveData && !window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  });
+  const heroVideoRef = useRef(null);
   const [activeProjectTab, setActiveProjectTab] = useState(0);
   const isDarkTheme = theme === "dark";
   const projectTabs = [
@@ -57,6 +66,27 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video || !allowHeroVideo) return undefined;
+
+    const updatePlayback = (isVisible = true) => {
+      if (document.hidden || !isVisible) video.pause();
+      else video.play().catch(() => null);
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => updatePlayback(entry.isIntersecting),
+      { threshold: 0.08 },
+    );
+    const handleVisibility = () => updatePlayback(video.getBoundingClientRect().bottom > 0);
+    observer.observe(video);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [allowHeroVideo]);
+
+  useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     const updateHeroMode = () => setIsMobileHero(mediaQuery.matches);
     updateHeroMode();
@@ -73,9 +103,23 @@ export default function HomePage() {
       <main>
         <section className="hero" id="home">
           <div className="video-background">
-            <video autoPlay muted loop playsInline preload="metadata" poster={isMobileHero ? heroPosterMobile : heroPoster}>
-              <source src={heroVideoMobile} media="(max-width: 768px)" type="video/mp4" />
-              <source src={heroVideo} type="video/mp4" />
+            <video
+              ref={heroVideoRef}
+              autoPlay={allowHeroVideo}
+              muted
+              loop
+              playsInline
+              preload={allowHeroVideo ? "metadata" : "none"}
+              poster={isMobileHero ? heroPosterMobile : heroPoster}
+            >
+              {allowHeroVideo && (
+                <>
+                  <source src={heroVideoMobileAv1} media="(max-width: 768px)" type='video/webm; codecs="av01.0.08M.08"' />
+                  <source src={heroVideoAv1} type='video/webm; codecs="av01.0.08M.08"' />
+                  <source src={heroVideoMobile} media="(max-width: 768px)" type="video/mp4" />
+                  <source src={heroVideo} type="video/mp4" />
+                </>
+              )}
             </video>
           </div>
           <div className="hero-content">

@@ -26,7 +26,7 @@ export function RatingsOverview() {
   const ratings = useQuery({
     queryKey: ["ratings"],
     queryFn: Api.getRatings,
-    initialData: {
+    placeholderData: {
       facultyLeaderboard: [],
       participantLeaderboard: [],
       lastSeasonWinner: null,
@@ -59,7 +59,7 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
   const ratings = useQuery({
     queryKey: ["ratings"],
     queryFn: Api.getRatings,
-    initialData: {
+    placeholderData: {
       facultyLeaderboard: [],
       participantLeaderboard: [],
       lastSeasonWinner: null,

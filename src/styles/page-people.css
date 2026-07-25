@@ -47,6 +47,21 @@
   text-align: center;
 }
 
+.people-roster.is-preparing .people-person-card {
+  opacity: 0.08;
+  filter: blur(10px);
+}
+
+.people-roster.is-ready .people-person-card {
+  opacity: 1;
+  filter: none;
+  transition:
+    opacity 320ms ease,
+    filter 420ms ease,
+    transform 260ms ease,
+    border-color 220ms ease;
+}
+
 .people-section-heading {
   display: grid;
   justify-items: center;
@@ -197,6 +212,59 @@
     linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 42%),
     rgba(4, 10, 20, 0.82);
   box-shadow: 0 2rem 7rem rgba(0, 0, 0, 0.36);
+}
+
+.people-connections .friendship-graph-card--launch {
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.friendship-graph-card__preview {
+  position: absolute;
+  inset: 8%;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0.48;
+  filter: blur(16px);
+  background:
+    linear-gradient(115deg, transparent 5%, rgba(79, 145, 255, 0.16) 45%, transparent 78%),
+    repeating-linear-gradient(90deg, rgba(137, 181, 255, 0.08) 0 1px, transparent 1px 9rem),
+    repeating-linear-gradient(0deg, rgba(137, 181, 255, 0.06) 0 1px, transparent 1px 7rem);
+}
+
+.friendship-graph-card__preview span {
+  position: absolute;
+  width: 25rem;
+  height: 25rem;
+  border: 1px solid rgba(123, 171, 255, 0.18);
+  border-radius: 50%;
+}
+
+.friendship-graph-card__preview span:nth-child(1) { left: 8%; top: 10%; }
+.friendship-graph-card__preview span:nth-child(2) { right: 5%; top: 22%; }
+.friendship-graph-card__preview span:nth-child(3) { left: 36%; bottom: -18%; }
+
+.friendship-graph-card__launch-copy {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.friendship-graph-card__launch-copy > span,
+.friendship-graph-card__launch-copy > strong {
+  color: #83afff;
+  font: 800 0.72rem/1 Arial, sans-serif;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.friendship-graph-card__launch-copy time {
+  color: #f7f8fb;
+  font: 500 clamp(4rem, 11vw, 9rem)/0.9 var(--heading-font);
+  letter-spacing: -0.06em;
 }
 
 .people-connections .friendship-graph-toolbar {
