@@ -28,6 +28,10 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: clip;
+}
+
 /* Плавная смена цвета при смене темы */
 html.theme-transitioning,
 html.theme-transitioning *,

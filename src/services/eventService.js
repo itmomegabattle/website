@@ -36,6 +36,7 @@ function mapDbEvent(event) {
 export async function getPublishedEvents() {
   try {
     const result = await backendApi("/api/v1/content/events?limit=200");
-    return (result.items ?? []).map(mapDbEvent);
+    const items = result.items ?? [];
+    return items.length > 0 ? items.map(mapDbEvent) : Api.getStaticEvents();
   } catch { return Api.getStaticEvents(); }
 }

@@ -1,45 +1,77 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import MovingHeadScene from "./MovingHeadScene";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import "../styles/preloader.css";
+
+const PreloaderCapture = lazy(() => import("./PreloaderCapture"));
+
+export const PRELOADER_STORAGE_KEY = "mb:preloader:version";
+export const PRELOADER_STORAGE_VERSION = "2026-07-25-optimized";
 
 const PRELOADER_VIDEO_DURATION_MS = 3800;
 const PRELOADER_MAX_VISIBLE_MS = PRELOADER_VIDEO_DURATION_MS + 3000;
 const PRELOADER_FADE_MS = 120;
 const MOBILE_PRELOADER_QUERY = "(max-width: 680px)";
 
+function isCaptureMode() {
+  return new URLSearchParams(window.location.search).get("capturePreloader") === "1";
+}
+
+function hasSeenPreloader() {
+  if (isCaptureMode()) return false;
+  try {
+    return window.localStorage.getItem(PRELOADER_STORAGE_KEY) === PRELOADER_STORAGE_VERSION;
+  } catch {
+    return false;
+  }
+}
+
+function rememberPreloader() {
+  try {
+    window.localStorage.setItem(PRELOADER_STORAGE_KEY, PRELOADER_STORAGE_VERSION);
+  } catch {
+    // В приватном режиме localStorage может быть недоступен: прелоадер всё равно
+    // корректно завершится, но повторится после полной перезагрузки документа.
+  }
+}
+
 export default function Preloader() {
-  const location = useLocation();
-  const captureMode = new URLSearchParams(window.location.search).get("capturePreloader") === "1";
-  const [isMobileVideo, setIsMobileVideo] = useState(() => window.matchMedia?.(MOBILE_PRELOADER_QUERY)?.matches ?? false);
+  const captureMode = isCaptureMode();
+  const [isMobileVideo, setIsMobileVideo] = useState(
+    () => window.matchMedia?.(MOBILE_PRELOADER_QUERY)?.matches ?? false,
+  );
   const [isLeaving, setIsLeaving] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
-  const [sceneReady, setSceneReady] = useState(false);
+  const [isHidden, setIsHidden] = useState(() => hasSeenPreloader());
   const [videoError, setVideoError] = useState(false);
   const finishRef = useRef(null);
   const pageLoadedRef = useRef(false);
-  const sceneReadyRef = useRef(false);
+  const mediaReadyRef = useRef(false);
   const videoRef = useRef(null);
   const useVideoPreloader = !captureMode && !videoError;
-  const preloaderVideoSrc = isMobileVideo ? "/videos/preloader-mobile.mp4" : "/videos/preloader-desktop.mp4";
-  const preloaderPosterSrc = isMobileVideo ? "/videos/preloader-mobile-poster.jpg" : "/videos/preloader-desktop-poster.jpg";
+  const videoVariant = isMobileVideo ? "mobile" : "desktop";
+  const preloaderPosterSrc = `/videos/preloader-${videoVariant}-poster.jpg`;
 
-  const handleSceneReady = useCallback(() => {
-    sceneReadyRef.current = true;
-    setSceneReady(true);
+  const handleMediaReady = useCallback(() => {
+    mediaReadyRef.current = true;
     finishRef.current?.();
   }, []);
 
+  const handleVideoError = useCallback(() => {
+    setVideoError(true);
+    handleMediaReady();
+  }, [handleMediaReady]);
+
   useEffect(() => {
+    if (isHidden || captureMode) return undefined;
     const media = window.matchMedia?.(MOBILE_PRELOADER_QUERY);
     if (!media) return undefined;
     const update = () => setIsMobileVideo(media.matches);
     update();
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
-  }, []);
+  }, [captureMode, isHidden]);
 
   useEffect(() => {
+    if (isHidden) return undefined;
+
     const startedAt = performance.now();
     let fadeTimer;
     let hideTimer;
@@ -47,19 +79,15 @@ export default function Preloader() {
     let isFinished = false;
 
     performance.mark?.("mb-preloader-start");
-    sceneReadyRef.current = false;
+    mediaReadyRef.current = false;
     pageLoadedRef.current = document.readyState === "complete";
     finishRef.current = null;
-    setSceneReady(false);
-    setVideoError(false);
-    setIsHidden(false);
     setIsLeaving(false);
     document.body.classList.add("preloader-lock");
 
     const finish = (force = false) => {
-      if (captureMode) return;
-      if (isFinished) return;
-      if (!force && (!pageLoadedRef.current || !sceneReadyRef.current)) return;
+      if (captureMode || isFinished) return;
+      if (!force && (!pageLoadedRef.current || !mediaReadyRef.current)) return;
       isFinished = true;
       const elapsed = performance.now() - startedAt;
       const delay = Math.max(0, PRELOADER_VIDEO_DURATION_MS - elapsed);
@@ -67,6 +95,7 @@ export default function Preloader() {
       fadeTimer = window.setTimeout(() => {
         setIsLeaving(true);
         hideTimer = window.setTimeout(() => {
+          rememberPreloader();
           document.body.classList.remove("preloader-lock");
           performance.mark?.("mb-preloader-end");
           performance.measure?.("mb-preloader-visible", "mb-preloader-start", "mb-preloader-end");
@@ -88,7 +117,9 @@ export default function Preloader() {
       window.addEventListener("load", handlePageLoad, { once: true });
     }
 
-    maxTimer = captureMode ? undefined : window.setTimeout(() => finish(true), PRELOADER_MAX_VISIBLE_MS);
+    maxTimer = captureMode
+      ? undefined
+      : window.setTimeout(() => finish(true), PRELOADER_MAX_VISIBLE_MS);
 
     return () => {
       window.removeEventListener("load", handlePageLoad);
@@ -98,54 +129,52 @@ export default function Preloader() {
       finishRef.current = null;
       document.body.classList.remove("preloader-lock");
     };
-  }, [location.key, location.pathname]);
+  }, [captureMode, isHidden]);
 
   useEffect(() => {
-    if (!useVideoPreloader) return undefined;
+    if (!useVideoPreloader || isHidden) return undefined;
     const video = videoRef.current;
     if (!video) return undefined;
     video.currentTime = 0;
-    const playPromise = video.play?.();
-    playPromise?.catch?.(() => {
-      setVideoError(true);
-    });
+    video.play?.().catch?.(handleVideoError);
     return undefined;
-  }, [location.key, location.pathname, useVideoPreloader]);
+  }, [handleVideoError, isHidden, useVideoPreloader, videoVariant]);
 
   if (isHidden) return null;
 
   return (
-    <div className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`} aria-live="polite" aria-label="Загрузка ITMO MEGABATTLE">
+    <div
+      className={`site-preloader${isLeaving ? " site-preloader--leaving" : ""}`}
+      aria-live="polite"
+      aria-label="Загрузка ITMO MEGABATTLE"
+    >
+      {captureMode ? (
+        <Suspense fallback={null}>
+          <PreloaderCapture onReady={handleMediaReady} />
+        </Suspense>
+      ) : null}
+
       {useVideoPreloader ? (
         <video
-          key={`${location.key}-${preloaderVideoSrc}`}
+          key={videoVariant}
           ref={videoRef}
           className="site-preloader__video"
-          src={preloaderVideoSrc}
           autoPlay
           muted
           playsInline
           preload="auto"
           poster={preloaderPosterSrc}
-          onLoadedData={handleSceneReady}
-          onCanPlay={handleSceneReady}
-          onError={() => setVideoError(true)}
+          onLoadedData={handleMediaReady}
+          onCanPlay={handleMediaReady}
+          onError={handleVideoError}
           aria-hidden="true"
-        />
-      ) : (
-        <>
-          <MovingHeadScene onReady={handleSceneReady} />
-          <div className="site-preloader__spot" aria-hidden="true" />
-          <div className="site-preloader__wash" aria-hidden="true" />
-          <div className="site-preloader__content">
-            <div className="site-preloader__logo-wrap" aria-hidden="true">
-              <img className="site-preloader__logo" src="/logo.svg" width="109" height="67" alt="" />
-            </div>
-            <span className="site-preloader__sr">ITMO MEGABATTLE</span>
-          </div>
-        </>
-      )}
-      {useVideoPreloader ? (
+        >
+          <source src={`/videos/preloader-${videoVariant}.webm`} type="video/webm" />
+          <source src={`/videos/preloader-${videoVariant}.mp4`} type="video/mp4" />
+        </video>
+      ) : null}
+
+      {!captureMode && videoError ? (
         <div className="site-preloader__video-fallback" aria-hidden="true">
           <img src="/logo.svg" width="109" height="67" alt="" />
         </div>
