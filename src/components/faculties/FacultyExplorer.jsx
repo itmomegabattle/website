@@ -141,12 +141,12 @@ export default function FacultyExplorer() {
       <div className="faculty-search-zone">
         <label className="faculty-search" htmlFor="faculty-search-input">
           <SearchIcon />
-          <span className="visually-hidden">Поиск факультета или направления</span>
           <input
             id="faculty-search-input"
             type="search"
             value={query}
             placeholder="Найди факультет или направление"
+            aria-label="Поиск факультета или направления"
             autoComplete="off"
             onChange={(event) => {
               setQuery(event.target.value);

@@ -27,12 +27,15 @@
 }
 
 .faculties-title {
-    margin-top: 8rem;
-    margin-bottom: 2rem;
+    margin-top: 5.5rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+    font-size: clamp(1.9rem, 3vw, 2.65rem);
+    line-height: 0.92;
 }
 
 .faculties-page {
-    gap: 6rem;
+    gap: 2rem;
     padding-bottom: 6rem;
 }
 
