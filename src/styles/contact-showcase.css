@@ -54,7 +54,7 @@
     radial-gradient(circle at 90% 10%, rgba(0, 105, 224, 0.42), transparent 27%),
     linear-gradient(127deg, rgba(0, 105, 224, 0.26), transparent 48%),
     #05080f;
-  border: 1px solid rgba(139, 170, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 1.8rem 4rem rgba(0, 0, 0, 0.48), inset 0 1px rgba(255, 255, 255, 0.1);
 }
 
@@ -102,7 +102,7 @@
   width: clamp(4.6rem, 7.2vw, 6rem);
   color: #2a83ff;
   background: #030407;
-  box-shadow: 0 0 2.8rem rgba(0, 102, 255, 0.26);
+  box-shadow: 0 0 2.8rem rgba(0, 105, 224, 0.16);
 }
 
 .employee-card__profile {
@@ -113,7 +113,7 @@
 }
 
 .employee-card__label {
-  color: #8baaff;
+  color: rgba(255, 255, 255, 0.72);
   font-size: clamp(0.62rem, 0.8vw, 0.78rem);
   font-weight: 900;
   letter-spacing: 0.1em;
@@ -154,7 +154,7 @@
 }
 
 .employee-card__contacts svg {
-  color: #8baaff;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .employee-card__message {

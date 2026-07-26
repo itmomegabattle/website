@@ -88,8 +88,8 @@
 }
 
 .header-item:hover {
-    background-color: color-mix(var(--accent-color) 16%, transparent);
-    color: var(--accent-color);
+    background-color: color-mix(in srgb, var(--text-color) 8%, transparent);
+    color: var(--text-color);
 }
 
 .theme-toggle {

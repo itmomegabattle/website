@@ -1,0 +1,1104 @@
+{
+  "mode": "audit",
+  "generatedAt": "2026-07-25T23:26:01.706Z",
+  "deleteOriginals": false,
+  "totals": {
+    "buckets": 6,
+    "storageObjects": 82,
+    "imageCandidates": 82,
+    "processed": 36,
+    "skipped": 46,
+    "databaseUpdates": 25,
+    "sourceBytes": 11322811,
+    "targetBytes": 6782234,
+    "savedBytes": 4540577,
+    "savedPercent": 40.1
+  },
+  "migrations": [
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255638665-e433b2e3c8b6eca9.png",
+      "targetPath": "avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255638665-e433b2e3c8b6eca9.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255638665-e433b2e3c8b6eca9.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255638665-e433b2e3c8b6eca9.optimized.webp",
+      "sourceBytes": 390520,
+      "targetBytes": 8318,
+      "sourceSha256": "3651127c3b2366d4fb60ed59ac8ec38fe201502f825e1faaeb09a5b56428515c",
+      "targetSha256": "1b94ee3c1191ac45828edeefc8122cb637e1b9c6f1c21ac397c67a1b3bb52324",
+      "sourceWidth": 3456,
+      "sourceHeight": 2234,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255649621-6746b216f9ee2ce7.png",
+      "targetPath": "avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255649621-6746b216f9ee2ce7.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255649621-6746b216f9ee2ce7.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/14102b79-f889-4577-8b4a-8582e03a55aa/1784255649621-6746b216f9ee2ce7.optimized.webp",
+      "sourceBytes": 390520,
+      "targetBytes": 8318,
+      "sourceSha256": "3651127c3b2366d4fb60ed59ac8ec38fe201502f825e1faaeb09a5b56428515c",
+      "targetSha256": "1b94ee3c1191ac45828edeefc8122cb637e1b9c6f1c21ac397c67a1b3bb52324",
+      "sourceWidth": 3456,
+      "sourceHeight": 2234,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255520066-774633320ad295e2.jpg",
+      "targetPath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255520066-774633320ad295e2.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255520066-774633320ad295e2.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255520066-774633320ad295e2.optimized.webp",
+      "sourceBytes": 157171,
+      "targetBytes": 40620,
+      "sourceSha256": "f236bfd8f12a132a8756ba35016b76b151c4215ed9148f0076221e45f2ea7338",
+      "targetSha256": "29c9a8ae138e1ddeb216e39f8064edde616851f2e04b5a56df6934907bcb3bc3",
+      "sourceWidth": 960,
+      "sourceHeight": 1280,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255543580-7bb15b68aa3945ea.jpg",
+      "targetPath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255543580-7bb15b68aa3945ea.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255543580-7bb15b68aa3945ea.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255543580-7bb15b68aa3945ea.optimized.webp",
+      "sourceBytes": 157171,
+      "targetBytes": 40620,
+      "sourceSha256": "f236bfd8f12a132a8756ba35016b76b151c4215ed9148f0076221e45f2ea7338",
+      "targetSha256": "29c9a8ae138e1ddeb216e39f8064edde616851f2e04b5a56df6934907bcb3bc3",
+      "sourceWidth": 960,
+      "sourceHeight": 1280,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255547970-057152f49c34d039.jpg",
+      "targetPath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255547970-057152f49c34d039.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255547970-057152f49c34d039.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255547970-057152f49c34d039.optimized.webp",
+      "sourceBytes": 157171,
+      "targetBytes": 40620,
+      "sourceSha256": "f236bfd8f12a132a8756ba35016b76b151c4215ed9148f0076221e45f2ea7338",
+      "targetSha256": "29c9a8ae138e1ddeb216e39f8064edde616851f2e04b5a56df6934907bcb3bc3",
+      "sourceWidth": 960,
+      "sourceHeight": 1280,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255572215-a512815d6fe1a4a2.jpg",
+      "targetPath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255572215-a512815d6fe1a4a2.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255572215-a512815d6fe1a4a2.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255572215-a512815d6fe1a4a2.optimized.webp",
+      "sourceBytes": 157171,
+      "targetBytes": 40620,
+      "sourceSha256": "f236bfd8f12a132a8756ba35016b76b151c4215ed9148f0076221e45f2ea7338",
+      "targetSha256": "29c9a8ae138e1ddeb216e39f8064edde616851f2e04b5a56df6934907bcb3bc3",
+      "sourceWidth": 960,
+      "sourceHeight": 1280,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255598804-c48e7ccc5c4e1022.jpg",
+      "targetPath": "avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255598804-c48e7ccc5c4e1022.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255598804-c48e7ccc5c4e1022.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/avatar/996e6d9c-be79-45de-9cad-4f0255f06160/1784255598804-c48e7ccc5c4e1022.optimized.webp",
+      "sourceBytes": 157171,
+      "targetBytes": 40620,
+      "sourceSha256": "f236bfd8f12a132a8756ba35016b76b151c4215ed9148f0076221e45f2ea7338",
+      "targetSha256": "29c9a8ae138e1ddeb216e39f8064edde616851f2e04b5a56df6934907bcb3bc3",
+      "sourceWidth": 960,
+      "sourceHeight": 1280,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "profile-avatars",
+      "sourcePath": "cde45b8b-7e23-4c41-963c-585c3f961288/1783104324181.jpg",
+      "targetPath": "cde45b8b-7e23-4c41-963c-585c3f961288/1783104324181.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/cde45b8b-7e23-4c41-963c-585c3f961288/1783104324181.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/cde45b8b-7e23-4c41-963c-585c3f961288/1783104324181.optimized.webp",
+      "sourceBytes": 172131,
+      "targetBytes": 65088,
+      "sourceSha256": "b2313f54fd15fc1c429539313fdb1163b57fb7d7c134eb4cbcaf32794acc8e84",
+      "targetSha256": "6f8afd9bdf4e51ea58b427f04123c4863947c91116bbb868efe155da61d87d6a",
+      "sourceWidth": 959,
+      "sourceHeight": 1280,
+      "targetDimension": 720,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176137206-bde544992aa65.jpeg",
+      "targetPath": "events/1783176137206-bde544992aa65.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176137206-bde544992aa65.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176137206-bde544992aa65.optimized.webp",
+      "sourceBytes": 203104,
+      "targetBytes": 88640,
+      "sourceSha256": "17c267b2b61cc65fb862dde0cb0d3fd89040fe21c40bfc609cbb9782bcaa86ad",
+      "targetSha256": "1ab1752074163f8a259d6430f3028b48e427f188328de845d26eca4342ffaf8c",
+      "sourceWidth": 2120,
+      "sourceHeight": 2099,
+      "targetDimension": 1440,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176280825-6e68000bda9ce8.jpeg",
+      "targetPath": "events/1783176280825-6e68000bda9ce8.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176280825-6e68000bda9ce8.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176280825-6e68000bda9ce8.optimized.webp",
+      "sourceBytes": 203104,
+      "targetBytes": 88640,
+      "sourceSha256": "17c267b2b61cc65fb862dde0cb0d3fd89040fe21c40bfc609cbb9782bcaa86ad",
+      "targetSha256": "1ab1752074163f8a259d6430f3028b48e427f188328de845d26eca4342ffaf8c",
+      "sourceWidth": 2120,
+      "sourceHeight": 2099,
+      "targetDimension": 1440,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176295255-38bf08260ded28.jpeg",
+      "targetPath": "events/1783176295255-38bf08260ded28.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176295255-38bf08260ded28.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176295255-38bf08260ded28.optimized.webp",
+      "sourceBytes": 93002,
+      "targetBytes": 35862,
+      "sourceSha256": "b401a8971b8a3c2078abbdcb33a85c36eeb9052871c8426783c84f18dc8e620f",
+      "targetSha256": "9a907c9c322d1ec0b199fdd320bae3393eaf2612679c9ef536c2f90eb9f3337a",
+      "sourceWidth": 1280,
+      "sourceHeight": 1280,
+      "targetDimension": 1280,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176311050-c906c5fda0e8f.jpeg",
+      "targetPath": "events/1783176311050-c906c5fda0e8f.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176311050-c906c5fda0e8f.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176311050-c906c5fda0e8f.optimized.webp",
+      "sourceBytes": 320535,
+      "targetBytes": 229234,
+      "sourceSha256": "8f750d37263c0fe18ac21112258987ddc983c90c3e4098aea3eeee3676bf766d",
+      "targetSha256": "811493fbcb89c85c7e18905904acf9c1411019ee907df15e38cd38470f3e1fc3",
+      "sourceWidth": 1280,
+      "sourceHeight": 1280,
+      "targetDimension": 1280,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176343374-ee22883bc71a3.jpeg",
+      "targetPath": "events/1783176343374-ee22883bc71a3.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176343374-ee22883bc71a3.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176343374-ee22883bc71a3.optimized.webp",
+      "sourceBytes": 85059,
+      "targetBytes": 52604,
+      "sourceSha256": "68d7532800e7e2e0086d55a8bb67a05e2abdbe07b37a9103fca7160efb369c40",
+      "targetSha256": "a662b143a774bac9a715433ebd082d093e944f0cc9c675d24e532106363c8fc7",
+      "sourceWidth": 1223,
+      "sourceHeight": 1223,
+      "targetDimension": 1223,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176365902-af6e19251c88a8.jpeg",
+      "targetPath": "events/1783176365902-af6e19251c88a8.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176365902-af6e19251c88a8.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176365902-af6e19251c88a8.optimized.webp",
+      "sourceBytes": 129117,
+      "targetBytes": 99928,
+      "sourceSha256": "41e427a00e0104cff3a81516ba12ea5242a487bf9e80fae0f4fbcd2ff44e80e6",
+      "targetSha256": "b9a5275046f433eb18c196443f107f4f734cfb616cd4e9600e25f136c56b2594",
+      "sourceWidth": 986,
+      "sourceHeight": 1280,
+      "targetDimension": 1280,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176437090-32887b1b7d987.jpeg",
+      "targetPath": "events/1783176437090-32887b1b7d987.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176437090-32887b1b7d987.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176437090-32887b1b7d987.optimized.webp",
+      "sourceBytes": 14496,
+      "targetBytes": 5264,
+      "sourceSha256": "8915a9c9b2007468aa0f6ae8f40f8fb10fd666dba44a24a056fa11a8c0c08f78",
+      "targetSha256": "bc6f5443d845b9b03bd2bbdaa54b0228729a937dbce33e5b4b246f556630d9b4",
+      "sourceWidth": 640,
+      "sourceHeight": 640,
+      "targetDimension": 640,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176454115-b6291dade0f31.jpeg",
+      "targetPath": "events/1783176454115-b6291dade0f31.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176454115-b6291dade0f31.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176454115-b6291dade0f31.optimized.webp",
+      "sourceBytes": 121705,
+      "targetBytes": 52258,
+      "sourceSha256": "bd4d57d8519024ba8073f157f989f11e386c19c4076df13c94827404bbbc1db3",
+      "targetSha256": "3f7b60827aaa40608bfa64e545e4f326eae165e8fc8dbde9639700c69e938084",
+      "sourceWidth": 640,
+      "sourceHeight": 640,
+      "targetDimension": 640,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176478207-ffa01507fd5cc.jpeg",
+      "targetPath": "events/1783176478207-ffa01507fd5cc.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176478207-ffa01507fd5cc.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176478207-ffa01507fd5cc.optimized.webp",
+      "sourceBytes": 124543,
+      "targetBytes": 100230,
+      "sourceSha256": "1ed3b51b9c3f1c49d0a234e0686f148e2e551c3fb5ea84acdc293f27b202f590",
+      "targetSha256": "5f81b10b739c31294d491e4cfdabc4031326aafc6a7ef1e02b2fa2234fdd7466",
+      "sourceWidth": 960,
+      "sourceHeight": 1132,
+      "targetDimension": 1132,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/1783176679134-609779ce3f3d9.jpeg",
+      "targetPath": "events/1783176679134-609779ce3f3d9.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176679134-609779ce3f3d9.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176679134-609779ce3f3d9.optimized.webp",
+      "sourceBytes": 223184,
+      "targetBytes": 140830,
+      "sourceSha256": "e1d0b0590b480b87a63b8d77bb38763d9bf4cd87de0736128aa1ebc09720c400",
+      "targetSha256": "b573f0deb065983ce77ca8d5fb72f1b5b4269fbe641d37f3b26ef1dd4a61b27c",
+      "sourceWidth": 1280,
+      "sourceHeight": 1267,
+      "targetDimension": 1280,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/about-image.png",
+      "targetPath": "events/about-image.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/about-image.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/about-image.optimized.webp",
+      "sourceBytes": 789419,
+      "targetBytes": 65472,
+      "sourceSha256": "eb0aca1ceb77ed027aaf3ad3af10d2ff542c50241e1cacfad7fc91ce72aabd2f",
+      "targetSha256": "2d1eb1ceed1ac0d8001fd790f9c1550d2c883b5c2ed60e475fd2d6083589388c",
+      "sourceWidth": 670,
+      "sourceHeight": 777,
+      "targetDimension": 777,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/events/event1.jpg",
+      "targetPath": "events/events/event1.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/events/event1.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/events/event1.optimized.webp",
+      "sourceBytes": 160081,
+      "targetBytes": 56476,
+      "sourceSha256": "f7b2fc8e2292d2206a5bd5c0783de0c22e96e2d7ff6a2403c876c7f646eb4633",
+      "targetSha256": "b842eae57cc05138883fc8e9f7a61bd566138e2d8278d0876c767017b9af1fef",
+      "sourceWidth": 821,
+      "sourceHeight": 627,
+      "targetDimension": 821,
+      "quality": 82
+    },
+    {
+      "bucket": "event-images",
+      "sourcePath": "events/events/event2.jpg",
+      "targetPath": "events/events/event2.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/events/event2.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/events/event2.optimized.webp",
+      "sourceBytes": 71601,
+      "targetBytes": 32202,
+      "sourceSha256": "5698080b6e43c1aa9a90004036210c5afd67e6b23477767aea82942444498e8b",
+      "targetSha256": "3182807f25afa135ad0ac16a1d4784939d37e4b59b6e830c3da965239f935e51",
+      "sourceWidth": 409,
+      "sourceHeight": 442,
+      "targetDimension": 442,
+      "quality": 82
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/1783103948587-7e39777f882568.png",
+      "targetPath": "team/1783103948587-7e39777f882568.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783103948587-7e39777f882568.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783103948587-7e39777f882568.optimized.webp",
+      "sourceBytes": 143836,
+      "targetBytes": 38500,
+      "sourceSha256": "01cb72d666e4ca7f970a5c47cfbe67cefd470a5456532d2b5987d6883ef34196",
+      "targetSha256": "e531685668fcd38e27b9f69a5468c73d10a78b4f9ea2185493fe3adb22727408",
+      "sourceWidth": 1188,
+      "sourceHeight": 1196,
+      "targetDimension": 1196,
+      "quality": 82
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/1783103957619-b225dcd1b7a49.png",
+      "targetPath": "team/1783103957619-b225dcd1b7a49.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783103957619-b225dcd1b7a49.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783103957619-b225dcd1b7a49.optimized.webp",
+      "sourceBytes": 1243945,
+      "targetBytes": 62908,
+      "sourceSha256": "3b4bad8cecef7b0fdd70efb4bdc86951c3adc2670b9728cd6421937f26a09de2",
+      "targetSha256": "d25af6dc28e5a5b2343e4b623423e57c87f05456f7c8c80747d4bc72a2cbf2c6",
+      "sourceWidth": 1324,
+      "sourceHeight": 1188,
+      "targetDimension": 1324,
+      "quality": 82
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/1783104557546-cb3de04314f78.jpg",
+      "targetPath": "team/1783104557546-cb3de04314f78.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783104557546-cb3de04314f78.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783104557546-cb3de04314f78.optimized.webp",
+      "sourceBytes": 172131,
+      "targetBytes": 172084,
+      "sourceSha256": "b2313f54fd15fc1c429539313fdb1163b57fb7d7c134eb4cbcaf32794acc8e84",
+      "targetSha256": "e8a9c6ede09a13d56b6740f2df625f31f8548881dea6135754fbef83b66f14fc",
+      "sourceWidth": 959,
+      "sourceHeight": 1280,
+      "targetDimension": 1280,
+      "quality": 82
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/1783104591822-5b2dc3b76c5d.jpg",
+      "targetPath": "team/1783104591822-5b2dc3b76c5d.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783104591822-5b2dc3b76c5d.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/1783104591822-5b2dc3b76c5d.optimized.webp",
+      "sourceBytes": 172131,
+      "targetBytes": 172084,
+      "sourceSha256": "b2313f54fd15fc1c429539313fdb1163b57fb7d7c134eb4cbcaf32794acc8e84",
+      "targetSha256": "e8a9c6ede09a13d56b6740f2df625f31f8548881dea6135754fbef83b66f14fc",
+      "sourceWidth": 959,
+      "sourceHeight": 1280,
+      "targetDimension": 1280,
+      "quality": 82
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/member-full.jpg",
+      "targetPath": "team/people/member-full.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.optimized.webp",
+      "sourceBytes": 71601,
+      "targetBytes": 32202,
+      "sourceSha256": "5698080b6e43c1aa9a90004036210c5afd67e6b23477767aea82942444498e8b",
+      "targetSha256": "3182807f25afa135ad0ac16a1d4784939d37e4b59b6e830c3da965239f935e51",
+      "sourceWidth": 409,
+      "sourceHeight": 442,
+      "targetDimension": 442,
+      "quality": 82
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/member.jpg",
+      "targetPath": "team/people/member.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.optimized.webp",
+      "sourceBytes": 55816,
+      "targetBytes": 5250,
+      "sourceSha256": "a1ae7a01625d024d8a71a8e24546b4b48f1082658372d9a53f1ffe7f32465edf",
+      "targetSha256": "dd29857d8bdb45da4cc7dbe49779226706dd9f5c735461ebb30b5fdcb0842265",
+      "sourceWidth": 264,
+      "sourceHeight": 364,
+      "targetDimension": 364,
+      "quality": 82
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-0-big.webp",
+      "targetPath": "team/people/optimized/member-0-big.webp",
+      "sourceBytes": 398974,
+      "targetBytes": 398974,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-0-small.webp",
+      "targetPath": "team/people/optimized/member-0-small.webp",
+      "sourceBytes": 11042,
+      "targetBytes": 11042,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-1-big.webp",
+      "targetPath": "team/people/optimized/member-1-big.webp",
+      "sourceBytes": 126348,
+      "targetBytes": 126348,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-1-small.webp",
+      "targetPath": "team/people/optimized/member-1-small.webp",
+      "sourceBytes": 24222,
+      "targetBytes": 24222,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-10-big.webp",
+      "targetPath": "team/people/optimized/member-10-big.webp",
+      "sourceBytes": 184030,
+      "targetBytes": 184030,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-10-small.webp",
+      "targetPath": "team/people/optimized/member-10-small.webp",
+      "sourceBytes": 13782,
+      "targetBytes": 13782,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-11-big.webp",
+      "targetPath": "team/people/optimized/member-11-big.webp",
+      "sourceBytes": 273980,
+      "targetBytes": 273980,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-11-small.webp",
+      "targetPath": "team/people/optimized/member-11-small.webp",
+      "sourceBytes": 27380,
+      "targetBytes": 27380,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-12-big.webp",
+      "targetPath": "team/people/optimized/member-12-big.webp",
+      "sourceBytes": 250090,
+      "targetBytes": 250090,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-12-small.webp",
+      "targetPath": "team/people/optimized/member-12-small.webp",
+      "sourceBytes": 23606,
+      "targetBytes": 23606,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-13-big.webp",
+      "targetPath": "team/people/optimized/member-13-big.webp",
+      "sourceBytes": 509984,
+      "targetBytes": 509984,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-13-small.webp",
+      "targetPath": "team/people/optimized/member-13-small.webp",
+      "sourceBytes": 19126,
+      "targetBytes": 19126,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-14-big.webp",
+      "targetPath": "team/people/optimized/member-14-big.webp",
+      "sourceBytes": 79156,
+      "targetBytes": 79156,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-14-small.webp",
+      "targetPath": "team/people/optimized/member-14-small.webp",
+      "sourceBytes": 21254,
+      "targetBytes": 21254,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-15-big.webp",
+      "targetPath": "team/people/optimized/member-15-big.webp",
+      "sourceBytes": 96712,
+      "targetBytes": 96712,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-15-small.webp",
+      "targetPath": "team/people/optimized/member-15-small.webp",
+      "sourceBytes": 18604,
+      "targetBytes": 18604,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-16-big.webp",
+      "targetPath": "team/people/optimized/member-16-big.webp",
+      "sourceBytes": 232526,
+      "targetBytes": 232526,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-16-small.webp",
+      "targetPath": "team/people/optimized/member-16-small.webp",
+      "sourceBytes": 15884,
+      "targetBytes": 15884,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-17-big.webp",
+      "targetPath": "team/people/optimized/member-17-big.webp",
+      "sourceBytes": 52542,
+      "targetBytes": 52542,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-17-small.webp",
+      "targetPath": "team/people/optimized/member-17-small.webp",
+      "sourceBytes": 15644,
+      "targetBytes": 15644,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-18-big.webp",
+      "targetPath": "team/people/optimized/member-18-big.webp",
+      "sourceBytes": 34880,
+      "targetBytes": 34880,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-18-small.webp",
+      "targetPath": "team/people/optimized/member-18-small.webp",
+      "sourceBytes": 22328,
+      "targetBytes": 22328,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-19-big.webp",
+      "targetPath": "team/people/optimized/member-19-big.webp",
+      "sourceBytes": 242804,
+      "targetBytes": 242804,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-19-small.webp",
+      "targetPath": "team/people/optimized/member-19-small.webp",
+      "sourceBytes": 30830,
+      "targetBytes": 30830,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-2-big.webp",
+      "targetPath": "team/people/optimized/member-2-big.webp",
+      "sourceBytes": 119792,
+      "targetBytes": 119792,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-2-small.webp",
+      "targetPath": "team/people/optimized/member-2-small.webp",
+      "sourceBytes": 12690,
+      "targetBytes": 12690,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-20-big.webp",
+      "targetPath": "team/people/optimized/member-20-big.webp",
+      "sourceBytes": 272538,
+      "targetBytes": 272538,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-20-small.webp",
+      "targetPath": "team/people/optimized/member-20-small.webp",
+      "sourceBytes": 26982,
+      "targetBytes": 26982,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-21-big.webp",
+      "targetPath": "team/people/optimized/member-21-big.webp",
+      "sourceBytes": 65888,
+      "targetBytes": 65888,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-21-second.webp",
+      "targetPath": "team/people/optimized/member-21-second.webp",
+      "sourceBytes": 123892,
+      "targetBytes": 123892,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-22-big.webp",
+      "targetPath": "team/people/optimized/member-22-big.webp",
+      "sourceBytes": 73652,
+      "targetBytes": 73652,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-22-small.webp",
+      "targetPath": "team/people/optimized/member-22-small.webp",
+      "sourceBytes": 28900,
+      "targetBytes": 28900,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-23-big.webp",
+      "targetPath": "team/people/optimized/member-23-big.webp",
+      "sourceBytes": 91746,
+      "targetBytes": 91746,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-23-small.webp",
+      "targetPath": "team/people/optimized/member-23-small.webp",
+      "sourceBytes": 26200,
+      "targetBytes": 26200,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-24-big.webp",
+      "targetPath": "team/people/optimized/member-24-big.webp",
+      "sourceBytes": 245508,
+      "targetBytes": 245508,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-24-small.webp",
+      "targetPath": "team/people/optimized/member-24-small.webp",
+      "sourceBytes": 38974,
+      "targetBytes": 38974,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-25-big.webp",
+      "targetPath": "team/people/optimized/member-25-big.webp",
+      "sourceBytes": 276800,
+      "targetBytes": 276800,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-25-small.webp",
+      "targetPath": "team/people/optimized/member-25-small.webp",
+      "sourceBytes": 22382,
+      "targetBytes": 22382,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-4-big.webp",
+      "targetPath": "team/people/optimized/member-4-big.webp",
+      "sourceBytes": 275724,
+      "targetBytes": 275724,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-4-small.webp",
+      "targetPath": "team/people/optimized/member-4-small.webp",
+      "sourceBytes": 14356,
+      "targetBytes": 14356,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-6-big.webp",
+      "targetPath": "team/people/optimized/member-6-big.webp",
+      "sourceBytes": 21322,
+      "targetBytes": 21322,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-6-small.webp",
+      "targetPath": "team/people/optimized/member-6-small.webp",
+      "sourceBytes": 4602,
+      "targetBytes": 4602,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-8-big.webp",
+      "targetPath": "team/people/optimized/member-8-big.webp",
+      "sourceBytes": 161114,
+      "targetBytes": 161114,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-8-small.webp",
+      "targetPath": "team/people/optimized/member-8-small.webp",
+      "sourceBytes": 23420,
+      "targetBytes": 23420,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-9-big.webp",
+      "targetPath": "team/people/optimized/member-9-big.webp",
+      "sourceBytes": 218310,
+      "targetBytes": 218310,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "team-images",
+      "sourcePath": "team/people/optimized/member-9-small.webp",
+      "targetPath": "team/people/optimized/member-9-small.webp",
+      "sourceBytes": 20856,
+      "targetBytes": 20856,
+      "skipped": "already-optimized"
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "partners/partners/double.png",
+      "targetPath": "partners/partners/double.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/double.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/double.optimized.webp",
+      "sourceBytes": 2179,
+      "targetBytes": 1448,
+      "sourceSha256": "e8a62848a2129621bbf7b4ffd6ba7ccb52450f5ed95733c9ef2d6a07fde230a2",
+      "targetSha256": "26a2764a5dbd7622162653acd3375ee84cd89d660b54f7bcc3f9de59af04b8d0",
+      "sourceWidth": 200,
+      "sourceHeight": 200,
+      "targetDimension": 200,
+      "quality": 80
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "partners/partners/drinkit.png",
+      "targetPath": "partners/partners/drinkit.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/drinkit.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/drinkit.optimized.webp",
+      "sourceBytes": 27748,
+      "targetBytes": 7344,
+      "sourceSha256": "ae896430774007af51858ab0cc9cd92dca65a4839c8a5c39484f0c4c2f69bc46",
+      "targetSha256": "93df715b09c920d7f44ad9f89b19231ba5ef3623fa9715c21edaeaa419e39f56",
+      "sourceWidth": 240,
+      "sourceHeight": 240,
+      "targetDimension": 240,
+      "quality": 80
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "partners/partners/kaori.jpg",
+      "targetPath": "partners/partners/kaori.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/kaori.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/kaori.optimized.webp",
+      "sourceBytes": 33950,
+      "targetBytes": 8898,
+      "sourceSha256": "d870cc3b65e9fbf068b1acc310ef61c4818c118aa14763c8d16f359a4dce129d",
+      "targetSha256": "a4914bf6721c3da13bbab96055a9804e86ce599d1d9827a56e8b1b6c48e3fefd",
+      "sourceWidth": 500,
+      "sourceHeight": 500,
+      "targetDimension": 500,
+      "quality": 80
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "partners/partners/perekr.jpeg",
+      "targetPath": "partners/partners/perekr.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/perekr.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/perekr.optimized.webp",
+      "sourceBytes": 7203,
+      "targetBytes": 4374,
+      "sourceSha256": "3b62668264ca1aa96f763fbc082362d356f4b7a1bd289e910134c42f51761bc1",
+      "targetSha256": "d989fe6ac960ed52f4beaa5fae75f932b699c84c52c0a2006cc2a5028e137d5a",
+      "sourceWidth": 225,
+      "sourceHeight": 225,
+      "targetDimension": 225,
+      "quality": 80
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "partners/partners/podpisn.jpeg",
+      "targetPath": "partners/partners/podpisn.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/podpisn.jpeg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/partners/partners/podpisn.optimized.webp",
+      "sourceBytes": 15319,
+      "targetBytes": 3422,
+      "sourceSha256": "e63d83a1a0d3ae2cd0e49691efeacee999b1714d355ae4aef13590a8f236fbcf",
+      "targetSha256": "2a480df997bfe1e43335df4358a6e2f450b69481bc26c107236105f3af5bb614",
+      "sourceWidth": 313,
+      "sourceHeight": 313,
+      "targetDimension": 313,
+      "quality": 80
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "stories/people/member-full.jpg",
+      "targetPath": "stories/people/member-full.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member-full.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member-full.optimized.webp",
+      "sourceBytes": 71601,
+      "targetBytes": 32202,
+      "sourceSha256": "5698080b6e43c1aa9a90004036210c5afd67e6b23477767aea82942444498e8b",
+      "targetSha256": "3182807f25afa135ad0ac16a1d4784939d37e4b59b6e830c3da965239f935e51",
+      "sourceWidth": 409,
+      "sourceHeight": 442,
+      "targetDimension": 442,
+      "quality": 82
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "stories/people/member.jpg",
+      "targetPath": "stories/people/member.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member.optimized.webp",
+      "sourceBytes": 55816,
+      "targetBytes": 5250,
+      "sourceSha256": "a1ae7a01625d024d8a71a8e24546b4b48f1082658372d9a53f1ffe7f32465edf",
+      "targetSha256": "dd29857d8bdb45da4cc7dbe49779226706dd9f5c735461ebb30b5fdcb0842265",
+      "sourceWidth": 264,
+      "sourceHeight": 364,
+      "targetDimension": 364,
+      "quality": 82
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "stories/people/participant1.jpg",
+      "targetPath": "stories/people/participant1.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/participant1.jpg",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/participant1.optimized.webp",
+      "sourceBytes": 55816,
+      "targetBytes": 5250,
+      "sourceSha256": "a1ae7a01625d024d8a71a8e24546b4b48f1082658372d9a53f1ffe7f32465edf",
+      "targetSha256": "dd29857d8bdb45da4cc7dbe49779226706dd9f5c735461ebb30b5fdcb0842265",
+      "sourceWidth": 264,
+      "sourceHeight": 364,
+      "targetDimension": 364,
+      "quality": 82
+    },
+    {
+      "bucket": "content-images",
+      "sourcePath": "story-submissions/1783295164980-ee700c2d8a08f8.png",
+      "targetPath": "story-submissions/1783295164980-ee700c2d8a08f8.optimized.webp",
+      "sourceUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/story-submissions/1783295164980-ee700c2d8a08f8.png",
+      "targetUrl": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/story-submissions/1783295164980-ee700c2d8a08f8.optimized.webp",
+      "sourceBytes": 24367,
+      "targetBytes": 7178,
+      "sourceSha256": "8d7a526b6c03aa7e6b07c7d68d96fa798164a8a0dc5f2f4c1371ff548d5a4ade",
+      "targetSha256": "4c930289be4ed0443d4901442513f14c55bcea31591791f36044990ff10c8ae8",
+      "sourceWidth": 1856,
+      "sourceHeight": 1856,
+      "targetDimension": 1440,
+      "quality": 82
+    }
+  ],
+  "databaseUpdates": [
+    {
+      "table": "profiles",
+      "id": "cde45b8b-7e23-4c41-963c-585c3f961288",
+      "field": "avatar_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/cde45b8b-7e23-4c41-963c-585c3f961288/1783104324181.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/profile-avatars/cde45b8b-7e23-4c41-963c-585c3f961288/1783104324181.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "623c4d78-f878-4134-b506-832ba580973a",
+      "field": "small_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "623c4d78-f878-4134-b506-832ba580973a",
+      "field": "big_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "a08732e1-5338-434a-904d-b966bc1f03a7",
+      "field": "small_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "a08732e1-5338-434a-904d-b966bc1f03a7",
+      "field": "big_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "712f9285-ebf1-46e9-92c7-678cee0be895",
+      "field": "small_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "712f9285-ebf1-46e9-92c7-678cee0be895",
+      "field": "big_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "293b3e09-4905-4ffa-a981-2b1d779cbcf6",
+      "field": "small_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member-full.optimized.webp"
+    },
+    {
+      "table": "team_members",
+      "id": "293b3e09-4905-4ffa-a981-2b1d779cbcf6",
+      "field": "big_image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/team-images/team/people/member.optimized.webp"
+    },
+    {
+      "table": "participant_stories",
+      "id": "655888ca-89dd-4d7a-8bd1-2eee5e517a2f",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/participant1.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/participant1.optimized.webp"
+    },
+    {
+      "table": "participant_stories",
+      "id": "c1a0c3ae-b5ca-4348-bc9b-06b4a8804346",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member.optimized.webp"
+    },
+    {
+      "table": "participant_stories",
+      "id": "1401289d-2226-4e87-934a-47e1e0211767",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member-full.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member-full.optimized.webp"
+    },
+    {
+      "table": "participant_stories",
+      "id": "968582c3-de5e-417f-a59b-fc7afb5037f9",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member.optimized.webp"
+    },
+    {
+      "table": "participant_stories",
+      "id": "9d4327f2-3454-474d-81c6-a9442c12dbbb",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/participant1.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/participant1.optimized.webp"
+    },
+    {
+      "table": "participant_stories",
+      "id": "3b68c340-0af7-4992-8e41-3379007e0be8",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member-full.jpg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/stories/people/member-full.optimized.webp"
+    },
+    {
+      "table": "participant_stories",
+      "id": "7addc686-cbfd-4a87-b5a1-14f084a3b993",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/story-submissions/1783295164980-ee700c2d8a08f8.png",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/content-images/story-submissions/1783295164980-ee700c2d8a08f8.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "076d4b5e-1c50-41d3-b3c0-ff8acd11b233",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176295255-38bf08260ded28.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176295255-38bf08260ded28.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "3525d819-c2aa-4fc4-84d3-95ad728bceea",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176311050-c906c5fda0e8f.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176311050-c906c5fda0e8f.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "cfc21d98-50c1-479e-9051-67603f9e4044",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176679134-609779ce3f3d9.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176679134-609779ce3f3d9.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "200a3655-db9f-4415-b095-6fad3915ea86",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176454115-b6291dade0f31.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176454115-b6291dade0f31.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "d92c8746-dabd-4a42-b50a-88104b42a3a6",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176343374-ee22883bc71a3.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176343374-ee22883bc71a3.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "14de898e-32d5-444f-940d-036c6e1d41d8",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176478207-ffa01507fd5cc.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176478207-ffa01507fd5cc.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "1af90036-1ba8-48cb-a3c4-c16127712f66",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176280825-6e68000bda9ce8.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176280825-6e68000bda9ce8.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "eac10f26-b226-43f8-a8c3-6d3da22471f7",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176365902-af6e19251c88a8.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176365902-af6e19251c88a8.optimized.webp"
+    },
+    {
+      "table": "project_events",
+      "id": "3895746e-8721-4310-a36e-9621a6c9971d",
+      "field": "image_url",
+      "from": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176437090-32887b1b7d987.jpeg",
+      "to": "https://qrvckblzecdtyyoybwtv.supabase.co/storage/v1/object/public/event-images/events/1783176437090-32887b1b7d987.optimized.webp"
+    }
+  ]
+}

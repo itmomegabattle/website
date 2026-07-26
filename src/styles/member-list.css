@@ -13,7 +13,7 @@
   grid-template-columns: 1fr 1fr;
   width: min(100%, 29rem);
   padding: 0.28rem;
-  border: 1px solid color-mix(in srgb, var(--accent-color) 26%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   background: color-mix(in srgb, var(--surface-color-special) 76%, transparent);
   box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, 0.28);
@@ -24,12 +24,12 @@
   position: absolute;
   inset: 0.28rem auto 0.28rem 0.28rem;
   width: calc(50% - 0.28rem);
-  border: 1px solid rgba(142, 183, 255, 0.5);
+  border: 1px solid var(--control-border-hover);
   border-radius: 999px;
   background:
-    linear-gradient(135deg, rgba(0, 109, 255, 0.62), rgba(63, 117, 225, 0.24)),
-    rgba(8, 28, 63, 0.78);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0.8rem 2rem rgba(0, 68, 190, 0.24);
+    linear-gradient(135deg, rgba(0, 105, 224, 0.28), rgba(0, 105, 224, 0.08)),
+    var(--control-background);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0.8rem 2rem rgba(0, 0, 0, 0.24);
   transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -73,9 +73,9 @@
   min-width: 0;
   aspect-ratio: 0.72;
   padding: 0;
-  border: 1px solid rgba(139, 181, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: clamp(1.25rem, 2vw, 2rem);
-  background: #07101e;
+  background: #000000;
   box-shadow: 0 1.35rem 4rem rgba(0, 0, 0, 0.36);
   color: #fff;
   cursor: pointer;
@@ -88,8 +88,8 @@
 .people-person-card:hover,
 .people-person-card:focus-visible {
   z-index: 2;
-  border-color: rgba(136, 182, 255, 0.7);
-  box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, 0.48), 0 0 0 0.35rem rgba(0, 109, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, 0.48), 0 0 0 0.25rem rgba(0, 105, 224, 0.07);
   outline: none;
   transform: translateY(calc(var(--person-shift) - 0.55rem)) rotate(0deg);
 }
@@ -104,7 +104,7 @@
   content: "";
   background:
     linear-gradient(180deg, rgba(1, 5, 12, 0.05) 22%, rgba(1, 6, 14, 0.22) 50%, rgba(1, 5, 12, 0.96) 100%),
-    linear-gradient(135deg, transparent 50%, rgba(0, 96, 255, 0.16));
+    linear-gradient(135deg, transparent 50%, rgba(0, 105, 224, 0.08));
 }
 
 .people-person-card__media img {
@@ -149,7 +149,7 @@
 }
 
 .people-person-card__copy small {
-  color: #8fb7ff;
+  color: rgba(255, 255, 255, 0.72);
   font-size: 0.66rem;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -194,11 +194,11 @@
   grid-template-columns: minmax(18rem, 0.9fr) minmax(20rem, 1.1fr);
   width: min(94vw, 72rem);
   max-height: min(88svh, 54rem);
-  border: 1px solid rgba(146, 186, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: clamp(1.4rem, 2.4vw, 2.4rem);
   background:
-    radial-gradient(circle at 90% 0%, rgba(0, 109, 255, 0.22), transparent 38%),
-    rgba(5, 11, 22, 0.96);
+    radial-gradient(circle at 90% 0%, rgba(0, 105, 224, 0.1), transparent 38%),
+    rgba(0, 0, 0, 0.96);
   box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.65);
   overflow: hidden;
 }
@@ -225,7 +225,7 @@
 
 .people-member-modal__kicker {
   margin: 0 0 1rem;
-  color: #8eb7ff;
+  color: rgba(255, 255, 255, 0.72);
   font-size: 0.7rem;
   font-weight: 900;
   letter-spacing: 0.14em;
@@ -271,9 +271,9 @@
   aspect-ratio: 1;
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 50%;
-  background: rgba(2, 8, 18, 0.72);
+  background: rgba(0, 0, 0, 0.72);
   color: #fff;
-  font: 400 1.55rem/1 Arial, sans-serif;
+  font: 400 1.55rem/1 var(--body-font);
   cursor: pointer;
 }
 
@@ -292,10 +292,10 @@
 .team-admin-row button {
   min-height: 2.6rem;
   padding: 0 1rem;
-  border: var(--card-border);
-  border-radius: 999px;
-  background: var(--surface-color-special);
-  color: var(--text-color-special);
+  border: 1px solid var(--control-border);
+  border-radius: var(--control-radius);
+  background: var(--control-background);
+  color: var(--control-color);
   font: inherit;
   font-weight: 900;
   cursor: pointer;
@@ -304,8 +304,8 @@
 .team-admin-toggle {
   display: block;
   margin: 0;
-  background: var(--accent-color);
-  color: var(--text-color-inverted);
+  background: var(--control-background);
+  color: var(--control-color);
 }
 
 .team-admin-panel {

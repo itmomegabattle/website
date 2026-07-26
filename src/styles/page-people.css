@@ -7,8 +7,8 @@
   padding: clamp(4.75rem, 6vw, 6rem) 0 8rem;
   overflow: clip;
   background:
-    radial-gradient(ellipse at 74% 8%, rgba(0, 91, 231, 0.15), transparent 34rem),
-    radial-gradient(ellipse at 18% 46%, rgba(35, 92, 182, 0.1), transparent 28rem);
+    radial-gradient(ellipse at 74% 8%, rgba(0, 105, 224, 0.055), transparent 34rem),
+    radial-gradient(ellipse at 18% 46%, rgba(255, 255, 255, 0.025), transparent 28rem);
 }
 
 .people-page::before {
@@ -17,8 +17,8 @@
   z-index: -1;
   inset: 0;
   background:
-    linear-gradient(rgba(121, 169, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(121, 169, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
   background-size: 7rem 7rem;
   pointer-events: none;
 }
@@ -29,7 +29,7 @@
 
 .people-kicker {
   margin: 0 0 1rem;
-  color: #82adff;
+  color: rgba(255, 255, 255, 0.68);
   font-size: clamp(0.62rem, 0.82vw, 0.75rem);
   font-weight: 900;
   letter-spacing: 0.18em;
@@ -45,6 +45,9 @@
 .people-team-title {
   margin: 0;
   text-align: center;
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
 }
 
 .people-roster.is-preparing .people-person-card {
@@ -71,8 +74,8 @@
 
 .people-section-heading h2 {
   margin: 0;
-  font: 500 clamp(2.8rem, 4.4vw, 4rem)/0.9 var(--heading-font);
-  letter-spacing: -0.045em;
+  font: 500 clamp(2.25rem, 5vw, 4.25rem)/0.92 var(--heading-font);
+  letter-spacing: -0.035em;
 }
 
 .people-section-heading > p {
@@ -92,11 +95,11 @@
   gap: clamp(2.3rem, 5vw, 4.5rem);
   min-height: 100svh;
   padding: clamp(3rem, 6vw, 6rem);
-  border: 1px solid rgba(128, 172, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: clamp(2rem, 4vw, 4rem);
   background:
-    radial-gradient(circle at 78% 28%, rgba(0, 108, 255, 0.14), transparent 29%),
-    linear-gradient(145deg, rgba(11, 25, 48, 0.62), rgba(1, 5, 12, 0.66));
+    radial-gradient(circle at 78% 28%, rgba(0, 105, 224, 0.08), transparent 29%),
+    linear-gradient(145deg, rgba(18, 18, 18, 0.72), rgba(2, 2, 2, 0.76));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 2rem 7rem rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
@@ -140,7 +143,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(151, 190, 255, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: clamp(0.75rem, 1.2vw, 1.15rem);
   object-fit: cover;
   filter: grayscale(0.72) brightness(0.8);
@@ -158,7 +161,7 @@
   width: max-content;
   max-width: min(18rem, 72vw);
   padding: 0.65rem 0.8rem;
-  border: 1px solid rgba(151, 190, 255, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.8rem;
   background: rgba(3, 8, 16, 0.94);
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.55);
@@ -174,7 +177,7 @@
 }
 
 .people-cloud-person small {
-  color: #83afff;
+  color: rgba(255, 255, 255, 0.66);
   font-size: 0.56rem;
   line-height: 1.25;
 }
@@ -187,9 +190,9 @@
 
 .people-cloud-person:hover img,
 .people-cloud-person:focus-visible img {
-  border-color: #78aaff;
+  border-color: var(--brand-blue);
   filter: grayscale(0) brightness(1);
-  box-shadow: 0 0 0 0.3rem rgba(0, 109, 255, 0.12), 0 1.4rem 3.5rem rgba(0, 0, 0, 0.56);
+  box-shadow: 0 0 0 0.3rem rgba(0, 105, 224, 0.1), 0 1.4rem 3.5rem rgba(0, 0, 0, 0.56);
   transform: scale(1.12);
 }
 
@@ -204,11 +207,11 @@
   min-height: clamp(35rem, 62vw, 51rem);
   margin: 0;
   padding: 0;
-  border: 1px solid rgba(134, 179, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: clamp(1.75rem, 3vw, 3rem);
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 42%, rgba(0, 109, 255, 0.18), transparent 46%),
+    radial-gradient(circle at 50% 42%, rgba(0, 105, 224, 0.1), transparent 46%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 42%),
     rgba(4, 10, 20, 0.82);
   box-shadow: 0 2rem 7rem rgba(0, 0, 0, 0.36);
@@ -229,16 +232,16 @@
   opacity: 0.48;
   filter: blur(16px);
   background:
-    linear-gradient(115deg, transparent 5%, rgba(79, 145, 255, 0.16) 45%, transparent 78%),
-    repeating-linear-gradient(90deg, rgba(137, 181, 255, 0.08) 0 1px, transparent 1px 9rem),
-    repeating-linear-gradient(0deg, rgba(137, 181, 255, 0.06) 0 1px, transparent 1px 7rem);
+    linear-gradient(115deg, transparent 5%, rgba(255, 255, 255, 0.08) 45%, transparent 78%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 9rem),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 7rem);
 }
 
 .friendship-graph-card__preview span {
   position: absolute;
   width: 25rem;
   height: 25rem;
-  border: 1px solid rgba(123, 171, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
 }
 
@@ -255,14 +258,14 @@
 
 .friendship-graph-card__launch-copy > span,
 .friendship-graph-card__launch-copy > strong {
-  color: #83afff;
-  font: 800 0.72rem/1 Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+  font: 800 0.72rem/1 var(--body-font);
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
 .friendship-graph-card__launch-copy time {
-  color: #f7f8fb;
+  color: var(--brand-white);
   font: 500 clamp(4rem, 11vw, 9rem)/0.9 var(--heading-font);
   letter-spacing: -0.06em;
 }
@@ -275,9 +278,9 @@
   display: flex;
   gap: 0.45rem;
   padding: 0.35rem;
-  border: 1px solid rgba(139, 181, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
-  background: rgba(3, 9, 19, 0.82);
+  background: rgba(8, 8, 8, 0.86);
   backdrop-filter: blur(16px);
 }
 
@@ -287,9 +290,9 @@
   padding: 0 0.85rem;
   border: 0;
   border-radius: 999px;
-  background: rgba(15, 32, 60, 0.82);
-  color: #91b9ff;
-  font-family: Arial, sans-serif;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--brand-white);
+  font-family: var(--body-font);
   font-size: 0.95rem;
   font-weight: 900;
   cursor: pointer;
@@ -330,6 +333,12 @@
 
   .people-page .main-width {
     width: min(94vw, 1540px);
+  }
+
+  .people-team-title {
+    font-size: clamp(1.8rem, 8vw, 2.15rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
   }
 
   .people-section-heading h2 {

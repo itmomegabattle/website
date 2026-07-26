@@ -4,7 +4,7 @@
 /* Footer */
 .footer {
     background:
-        radial-gradient(circle at 18% 0%, rgba(0, 102, 255, 0.32), transparent 18rem),
+        radial-gradient(circle at 18% 0%, rgba(0, 105, 224, 0.16), transparent 18rem),
         radial-gradient(circle at 82% 100%, rgba(255, 255, 255, 0.08), transparent 18rem),
         color-mix(in srgb, var(--surface-color-special) 92%, transparent);
     color: #ffffff;

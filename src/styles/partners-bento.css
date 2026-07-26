@@ -158,10 +158,10 @@
 .partners-admin-row button {
   min-height: 2.6rem;
   padding: 0 1rem;
-  border: var(--card-border);
-  border-radius: 999px;
-  background: var(--surface-color-special);
-  color: var(--text-color-special);
+  border: 1px solid var(--control-border);
+  border-radius: var(--control-radius);
+  background: var(--control-background);
+  color: var(--control-color);
   font: inherit;
   font-weight: 900;
   cursor: pointer;
@@ -170,8 +170,8 @@
 .partners-admin-toggle {
   display: block;
   margin: 0 auto;
-  background: var(--accent-color);
-  color: var(--text-color-inverted);
+  background: var(--control-background);
+  color: var(--control-color);
 }
 
 .partners-admin-panel {

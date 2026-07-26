@@ -49,7 +49,7 @@
 
 .event-showcase-info .card-kicker {
     margin: 0;
-    color: var(--accent-color);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.78rem;
     font-weight: 800;
     letter-spacing: 0.12em;
@@ -109,7 +109,7 @@
 
 .event-meta-grid dt {
     margin-bottom: 0.35rem;
-    color: var(--accent-color);
+    color: color-mix(in srgb, var(--text-color) 68%, transparent);
     font-size: 0.72rem;
     font-weight: 900;
     letter-spacing: 0.12em;
@@ -127,14 +127,16 @@
     align-items: center;
     justify-self: start;
     width: fit-content;
-    min-height: 2.4rem;
+    min-height: var(--control-height);
     margin-top: auto;
-    padding: 0.45rem 0.9rem;
-    border-radius: 999px;
-    background: var(--surface-color-special);
-    color: var(--text-color-special);
+    padding: var(--control-padding);
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--control-color);
     font-weight: 800;
     text-decoration: none;
+    box-shadow: var(--control-shadow);
 }
 
 .event-registration-button--disabled {
@@ -175,7 +177,7 @@
     .event-mobile-details summary {
         min-height: 2.55rem;
         padding: 0.65rem 0.8rem;
-        color: var(--accent-color);
+        color: var(--text-color);
         font-weight: 900;
         cursor: pointer;
         list-style: none;

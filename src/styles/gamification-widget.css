@@ -1,21 +1,21 @@
 .pixel-glass-widget {
-    --pixel-blue: #1683ff;
-    --pixel-blue-soft: #8bb5ff;
+    --pixel-blue: var(--brand-blue);
+    --pixel-blue-soft: rgba(255, 255, 255, 0.7);
     position: relative;
     isolation: isolate;
     min-width: 0;
     min-height: 420px;
     padding: clamp(0.7rem, 1.2vw, 1rem);
     overflow: hidden;
-    border: 1px solid rgba(139, 181, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: var(--corner-radius);
     background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.025) 42%, rgba(0, 59, 139, 0.16)),
-        rgba(3, 8, 18, 0.72);
+        linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.02) 42%, rgba(0, 105, 224, 0.06)),
+        rgba(0, 0, 0, 0.76);
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.17),
         0 24px 64px rgba(0, 0, 0, 0.3),
-        0 0 48px rgba(0, 102, 255, 0.08);
+        0 0 48px rgba(0, 105, 224, 0.05);
     color: #fff;
     backdrop-filter: blur(18px) saturate(125%);
     -webkit-backdrop-filter: blur(18px) saturate(125%);
@@ -26,8 +26,8 @@
     inset: 0;
     z-index: -1;
     background-image:
-        linear-gradient(rgba(139, 181, 255, 0.055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(139, 181, 255, 0.045) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
     background-size: 16px 16px;
     mask-image: linear-gradient(to bottom, #000, transparent 84%);
     content: "";
@@ -41,7 +41,7 @@
     width: 85%;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: rgba(0, 102, 255, 0.32);
+    background: rgba(0, 105, 224, 0.18);
     filter: blur(56px);
     opacity: 0.72;
     pointer-events: none;
@@ -56,14 +56,14 @@
     min-height: 100%;
     padding: clamp(0.85rem, 1.5vw, 1.25rem);
     overflow: hidden;
-    border: 1px solid rgba(139, 181, 255, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: calc(var(--corner-radius) * 0.62);
     background:
         linear-gradient(115deg, rgba(255, 255, 255, 0.075), transparent 38%),
-        linear-gradient(180deg, rgba(5, 17, 37, 0.9), rgba(1, 5, 13, 0.94));
+        linear-gradient(180deg, rgba(8, 10, 14, 0.94), rgba(0, 0, 0, 0.96));
     box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.035),
-        inset 0 -30px 70px rgba(0, 102, 255, 0.08);
+        inset 0 -30px 70px rgba(0, 105, 224, 0.05);
 }
 
 .pixel-glass-screen::before {
@@ -108,7 +108,7 @@
 
 .pixel-glass-screen__topbar {
     padding-bottom: 0.65rem;
-    border-bottom: 1px solid rgba(139, 181, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .pixel-status,
@@ -123,7 +123,7 @@
     width: 0.48rem;
     height: 0.48rem;
     background: var(--pixel-blue);
-    box-shadow: 0 0 0.75rem rgba(22, 131, 255, 0.9);
+    box-shadow: 0 0 0.75rem rgba(0, 105, 224, 0.7);
     animation: pixelStatusBlink 2.1s steps(2, end) infinite;
 }
 
@@ -155,7 +155,7 @@
     font-size: clamp(1.3rem, 2.4vw, 2.35rem);
     line-height: 0.9;
     overflow-wrap: anywhere;
-    text-shadow: 3px 3px 0 rgba(0, 102, 255, 0.62);
+    text-shadow: 3px 3px 0 rgba(0, 105, 224, 0.48);
 }
 
 .pixel-rank {
@@ -169,7 +169,7 @@
     font-family: var(--heading-font);
     font-size: clamp(2rem, 4.5vw, 4.2rem);
     line-height: 0.8;
-    text-shadow: 4px 4px 0 rgba(0, 102, 255, 0.72);
+    text-shadow: 4px 4px 0 rgba(0, 105, 224, 0.52);
 }
 
 .pixel-progress-block {
@@ -200,8 +200,8 @@
 .pixel-progress > span {
     display: block;
     height: 100%;
-    background: linear-gradient(90deg, #0066ff, #71b2ff);
-    box-shadow: 0 0 1.2rem rgba(0, 102, 255, 0.75);
+    background: linear-gradient(90deg, var(--brand-blue), var(--brand-white));
+    box-shadow: 0 0 1.2rem rgba(0, 105, 224, 0.52);
     transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -221,11 +221,11 @@
 .pixel-stat-grid > div {
     min-width: 0;
     padding: clamp(0.55rem, 1vw, 0.75rem);
-    border: 1px solid rgba(139, 181, 255, 0.19);
+    border: 1px solid rgba(255, 255, 255, 0.13);
     background:
         linear-gradient(135deg, rgba(255, 255, 255, 0.065), transparent),
-        rgba(4, 13, 29, 0.76);
-    box-shadow: inset 0 0 1.4rem rgba(0, 102, 255, 0.06);
+        rgba(0, 0, 0, 0.62);
+    box-shadow: inset 0 0 1.4rem rgba(0, 105, 224, 0.04);
 }
 
 .pixel-stat-grid strong {
@@ -254,9 +254,9 @@
     max-width: 100%;
     padding: 0.38rem 0.52rem;
     overflow: hidden;
-    border: 1px solid rgba(139, 181, 255, 0.3);
-    background: rgba(0, 102, 255, 0.15);
-    color: #dbe9ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 105, 224, 0.1);
+    color: var(--brand-white);
     font-size: clamp(0.57rem, 0.8vw, 0.68rem);
     font-weight: 900;
     line-height: 1;
@@ -267,7 +267,7 @@
 
 .pixel-glass-screen__footer {
     padding-top: 0.65rem;
-    border-top: 1px solid rgba(139, 181, 255, 0.18);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 @keyframes pixelStatusBlink {

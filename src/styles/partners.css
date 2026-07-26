@@ -12,7 +12,7 @@
   min-height: clamp(520px, 58vw, 760px);
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 50% 46%, rgba(0, 102, 255, 0.18), transparent 36rem),
+    radial-gradient(ellipse at 50% 46%, rgba(0, 105, 224, 0.1), transparent 36rem),
     radial-gradient(ellipse at 52% 58%, rgba(255, 255, 255, 0.045), transparent 30rem),
     linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.34) 16%, rgba(0, 0, 0, 0.78) 52%, rgba(0, 0, 0, 0.36) 86%, transparent 100%);
   border-block: 0;
@@ -47,14 +47,14 @@
 .partners-wall__shade--top {
   top: 0;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(0, 102, 255, 0.12), transparent 58%),
+    radial-gradient(ellipse at 50% 0%, rgba(0, 105, 224, 0.07), transparent 58%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.42) 44%, transparent 100%);
 }
 
 .partners-wall__shade--bottom {
   bottom: 0;
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(0, 102, 255, 0.08), transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 105, 224, 0.05), transparent 60%),
     linear-gradient(0deg, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0.44) 46%, transparent 100%);
 }
 
@@ -118,7 +118,7 @@
   text-decoration: none;
   background:
     radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.14), transparent 30%),
-    linear-gradient(135deg, rgba(0, 102, 255, 0.22), rgba(255, 255, 255, 0.045) 48%, rgba(0, 0, 0, 0.42)),
+    linear-gradient(135deg, rgba(0, 105, 224, 0.1), rgba(255, 255, 255, 0.045) 48%, rgba(0, 0, 0, 0.42)),
     rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
@@ -136,7 +136,7 @@
   border-color: rgba(255, 255, 255, 0.42);
   box-shadow:
     0 1.7rem 3.8rem rgba(0, 0, 0, 0.66),
-    0 0 2.4rem rgba(0, 102, 255, 0.18),
+    0 0 2.4rem rgba(0, 105, 224, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
   text-decoration: none;
 }
@@ -204,7 +204,7 @@
 }
 
 .partner-wall-card__caption span {
-  color: var(--brand-blue-soft);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.14em;
@@ -217,7 +217,7 @@
   font-size: clamp(1.05rem, 1.75vw, 1.8rem);
   line-height: 0.95;
   text-transform: uppercase;
-  text-shadow: 0.08em 0.08em 0 rgba(0, 102, 255, 0.72);
+  text-shadow: 0.08em 0.08em 0 rgba(0, 105, 224, 0.45);
 }
 
 .partners-wall-marquee {

@@ -41,7 +41,6 @@ export default function PeopleCloud() {
     <section className="people-cloud-section main-width" aria-labelledby="people-cloud-title">
       <header className="people-section-heading people-cloud-heading">
         <div>
-          <p className="people-kicker">Архив команды</p>
           <h2 id="people-cloud-title">КТО НАД ЭТИМ<br />ТРУДИЛСЯ</h2>
         </div>
         <p>

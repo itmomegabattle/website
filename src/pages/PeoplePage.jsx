@@ -25,7 +25,6 @@ export default function PeoplePage() {
       <section id="connections" className="people-connections main-width">
         <header className="people-section-heading">
           <div>
-            <p className="people-kicker">Живые связи</p>
             <h2>ГРАФ<br />ЗНАКОМСТВ</h2>
           </div>
           <p>

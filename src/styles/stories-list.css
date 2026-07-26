@@ -58,9 +58,9 @@
     justify-content: center;
 }
 
-.story-card[data-tag="0"] { --tag-color: rgba(0, 102, 255, 0.32); }
+.story-card[data-tag="0"] { --tag-color: rgba(0, 105, 224, 0.22); }
 .story-card[data-tag="1"] { --tag-color: rgba(255, 255, 255, 0.12); }
-.story-card[data-tag="2"] { --tag-color: rgba(0, 102, 255, 0.18); }
+.story-card[data-tag="2"] { --tag-color: rgba(0, 105, 224, 0.12); }
 
 .story-card {
     background:
@@ -87,7 +87,7 @@
 /* Анимация фотографии при наведении */
 .story-card:hover .story-image-container {
     transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0, 102, 255, 0.28)
+    box-shadow: 0 0 30px rgba(0, 105, 224, 0.18)
 }
 
 .story-image {
@@ -175,10 +175,10 @@
     min-width: 2.75rem;
     min-height: 2.75rem;
     padding: 0 1rem;
-    border: var(--card-border);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--surface-color-special) 78%, transparent);
-    color: var(--text-color-special);
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--control-color);
     font: inherit;
     font-size: 1rem;
     font-weight: 900;
@@ -188,14 +188,15 @@
 
 .stories-carousel-controls button:first-child,
 .stories-carousel-controls button:last-child {
-    font-family: Arial, sans-serif;
+    font-family: var(--body-font);
     font-size: 1.75rem;
     line-height: 1;
 }
 
 .stories-carousel-controls button:hover {
-    border-color: color-mix(in srgb, var(--accent-color) 62%, var(--border-color));
-    color: var(--accent-color);
+    border-color: var(--control-border-hover);
+    background: var(--control-background-hover);
+    color: var(--control-color);
 }
 
 .stories-carousel-hint {
@@ -288,10 +289,10 @@
 .story-submit-panel button {
     min-height: 2.6rem;
     padding: 0 1rem;
-    border: var(--card-border);
-    border-radius: 999px;
-    background: var(--surface-color-special);
-    color: var(--text-color-special);
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--control-color);
     font: inherit;
     font-weight: 900;
     cursor: pointer;
@@ -300,8 +301,8 @@
 .stories-admin-toggle {
     display: block;
     margin: 0 auto;
-    background: var(--accent-color);
-    color: var(--text-color-inverted);
+    background: var(--control-background);
+    color: var(--control-color);
 }
 
 .story-submit {
@@ -314,8 +315,8 @@
     width: fit-content;
     margin: 0 auto;
     text-decoration: none;
-    background: color-mix(in srgb, var(--accent-color) 86%, var(--surface-color));
-    color: var(--text-color-inverted);
+    background: var(--control-background);
+    color: var(--control-color);
 }
 
 .story-submit-panel {

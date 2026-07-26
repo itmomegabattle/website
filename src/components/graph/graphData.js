@@ -1,11 +1,11 @@
 const facultyNames = ["КТУ", "ТИНТ", "НОЖ", "ФТМФ", "ФТМИ"];
 
 const facultyColors = {
-  КТУ: "#0066FF",
-  ТИНТ: "#8BB5FF",
+  КТУ: "#0069E0",
+  ТИНТ: "#FFFFFF",
   НОЖ: "#FFFFFF",
-  ФТМФ: "#2F7DFF",
-  ФТМИ: "#BFD5FF",
+  ФТМФ: "#0069E0",
+  ФТМИ: "#FFFFFF",
 };
 
 export const graphWorld = { width: 5200, height: 3600, padding: 220 };
