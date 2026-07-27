@@ -43,6 +43,66 @@ function ArrowIcon() {
   );
 }
 
+function getDepartmentLabel(department) {
+  return typeof department === "string" ? department : department.name;
+}
+
+function getDepartmentSearchText(department) {
+  if (typeof department === "string") {
+    return department;
+  }
+
+  return [
+    department.name,
+    department.short,
+    ...(department.aliases ?? []),
+    department.kind,
+    department.isuId,
+    ...(department.programs ?? []).flatMap((program) => [
+      program.name,
+      program.short,
+      ...(program.aliases ?? []),
+      program.level,
+      ...(program.directions ?? []).flatMap((direction) => [
+        direction.code,
+        direction.name,
+        ...(direction.aliases ?? []),
+      ]),
+    ]),
+    ...(department.projects ?? []).flatMap((project) => [
+      project.name,
+      project.type,
+      ...(project.aliases ?? []),
+    ]),
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function getUnitCountLabel(count, unitType = "faculties") {
+  const lastTwoDigits = count % 100;
+  const lastDigit = count % 10;
+  const words = {
+    directions: ["направление", "направления", "направлений"],
+    units: ["подразделение", "подразделения", "подразделений"],
+    faculties: ["факультет", "факультета", "факультетов"],
+  }[unitType] ?? ["подразделение", "подразделения", "подразделений"];
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+    return `${String(count).padStart(2, "0")} ${words[2]}`;
+  }
+
+  if (lastDigit === 1) {
+    return `${String(count).padStart(2, "0")} ${words[0]}`;
+  }
+
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return `${String(count).padStart(2, "0")} ${words[1]}`;
+  }
+
+  return `${String(count).padStart(2, "0")} ${words[2]}`;
+}
+
 function buildSearchResults(faculties, query) {
   const normalizedQuery = query.trim().toLocaleLowerCase("ru");
 
@@ -58,6 +118,7 @@ function buildSearchResults(faculties, query) {
         faculty.tag,
         faculty.short,
         faculty.description,
+        ...(faculty.aliases ?? []),
       ]
         .join(" ")
         .toLocaleLowerCase("ru");
@@ -75,20 +136,98 @@ function buildSearchResults(faculties, query) {
       }
 
       faculty.departments.forEach((department) => {
-        if (department.toLocaleLowerCase("ru").includes(normalizedQuery)) {
+        const departmentLabel = getDepartmentLabel(department);
+        const isDirection = faculty.unitType === "directions";
+
+        const departmentOwnText = [
+          department.name,
+          department.short,
+          ...(department.aliases ?? []),
+          department.kind,
+          department.isuId,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLocaleLowerCase("ru");
+
+        if (departmentOwnText.includes(normalizedQuery)) {
           results.push({
-            id: `${faculty.id}-${department}`,
+            id: `${faculty.id}-${department.isuId ?? departmentLabel}`,
             faculty,
-            eyebrow: faculty.name,
-            label: department,
-            detail: `Относится к ${faculty.name}`,
+            eyebrow: `${isDirection ? "Направление" : department.kind ?? "Подразделение"} · ${faculty.name}`,
+            label: departmentLabel,
+            detail: `${isDirection ? "Входит" : "Относится"} в ${faculty.name}`,
           });
         }
+
+        department.programs?.forEach((program, programIndex) => {
+          const programText = [
+            program.name,
+            program.short,
+            ...(program.aliases ?? []),
+            program.level,
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLocaleLowerCase("ru");
+
+          if (programText.includes(normalizedQuery)) {
+            results.push({
+              id: `${faculty.id}-${department.isuId ?? departmentLabel}-program-${programIndex}`,
+              faculty,
+              eyebrow: `Программа · ${faculty.name}`,
+              label: program.name,
+              detail: `${department.short ?? department.name} · ${program.level ?? "Образовательная программа"}`,
+            });
+          }
+
+          program.directions?.forEach((direction, directionIndex) => {
+            const directionText = [
+              direction.code,
+              direction.name,
+              ...(direction.aliases ?? []),
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .toLocaleLowerCase("ru");
+
+            if (directionText.includes(normalizedQuery)) {
+              results.push({
+                id: `${faculty.id}-${department.isuId ?? departmentLabel}-direction-${programIndex}-${directionIndex}`,
+                faculty,
+                eyebrow: `Направление подготовки · ${faculty.name}`,
+                label: direction.name,
+                detail: `${direction.code} · программа «${program.name}»`,
+              });
+            }
+          });
+        });
+
+        department.projects?.forEach((project, projectIndex) => {
+          const projectText = [
+            project.name,
+            project.type,
+            ...(project.aliases ?? []),
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLocaleLowerCase("ru");
+
+          if (projectText.includes(normalizedQuery)) {
+            results.push({
+              id: `${faculty.id}-${department.isuId ?? departmentLabel}-project-${projectIndex}`,
+              faculty,
+              eyebrow: `Проект · ${faculty.name}`,
+              label: project.name,
+              detail: `${department.short ?? department.name} · не отдельное направление`,
+            });
+          }
+        });
       });
 
       return results;
     })
-    .slice(0, 8);
+    .slice(0, 10);
 }
 
 export default function FacultyExplorer() {
@@ -111,6 +250,13 @@ export default function FacultyExplorer() {
     () => buildSearchResults(faculties, query),
     [faculties, query],
   );
+  const activeUnitType = activeFaculty?.unitType ?? "faculties";
+  const activeUnitTitle =
+    activeUnitType === "directions"
+      ? `Направления ${activeFaculty?.name ?? ""}`
+      : activeUnitType === "units"
+        ? `Структура и программы ${activeFaculty?.name ?? ""}`
+        : `Факультеты ${activeFaculty?.name ?? ""}`;
 
   useEffect(() => {
     if (requestedFaculty && faculties.some((faculty) => faculty.id === requestedFaculty)) {
@@ -145,8 +291,8 @@ export default function FacultyExplorer() {
             id="faculty-search-input"
             type="search"
             value={query}
-            placeholder="Найди факультет или направление"
-            aria-label="Поиск факультета или направления"
+            placeholder="Найди мегафак, подразделение, программу или направление"
+            aria-label="Поиск по структуре мегафакультетов"
             autoComplete="off"
             onChange={(event) => {
               setQuery(event.target.value);
@@ -177,7 +323,7 @@ export default function FacultyExplorer() {
               ×
             </button>
           ) : (
-            <span className="faculty-search-hint">КТУ, БИ, биотех…</span>
+            <span className="faculty-search-hint">СППО, ИВТ, ИИИ…</span>
           )}
         </label>
 
@@ -202,7 +348,8 @@ export default function FacultyExplorer() {
               ))
             ) : (
               <p className="faculty-search-empty">
-                Ничего не нашли. Попробуй название факультета или сокращение.
+                Ничего не найдено. Попробуй название программы, код направления,
+                сокращение или ИСУ-ID.
               </p>
             )}
           </div>
@@ -254,43 +401,83 @@ export default function FacultyExplorer() {
           <header className="faculty-section-head">
             <div>
               <p className="faculty-section-index">
-                {String(activeFaculty.departments.length).padStart(2, "0")} направлений
+                {getUnitCountLabel(activeFaculty.departments.length, activeUnitType)}
               </p>
-              <h2>Что входит в {activeFaculty.name}</h2>
+              <h2>{activeUnitTitle}</h2>
             </div>
-            <p>
-              Нажми на мегафак выше или найди конкретное направление через поиск —
-              остальная страница перестроится автоматически.
-            </p>
+            {activeUnitType === "directions" ? (
+              <p>
+                ФТМИ — отдельный мегафакультет. Здесь собраны его основные
+                образовательные направления без подмены ФТМИ одним из факультетов.
+              </p>
+            ) : (
+              <p>{activeFaculty.structureNote ?? "Структура сверена с ИСУ ИТМО."}</p>
+            )}
           </header>
 
           <div className="faculty-program-grid">
             {activeFaculty.departments.map((department, index) => (
-              <article className="faculty-program-card" key={department}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{department}</h3>
+              <article
+                className={`faculty-program-card${
+                  (department.programs?.length ?? 0) >= 3 ? " is-wide" : ""
+                }`}
+                key={department.isuId ?? getDepartmentLabel(department)}
+              >
+                <span>
+                  {String(index + 1).padStart(2, "0")}
+                  {department.kind ? ` · ${department.kind}` : ""}
+                  {department.isuId ? ` · ИСУ ${department.isuId}` : ""}
+                </span>
+                <h3>
+                  {department.short ? <small>{department.short}</small> : null}
+                  {getDepartmentLabel(department)}
+                </h3>
+                {department.programs?.length ? (
+                  <div className="faculty-program-list">
+                    {department.programs.map((program) => (
+                      <article
+                        className="faculty-degree"
+                        key={`${department.isuId ?? department.name}-${program.name}`}
+                      >
+                        <div className="faculty-degree-head">
+                          <span>{program.level ?? "Программа"}</span>
+                          {program.short ? <b>{program.short}</b> : null}
+                        </div>
+                        <h4>{program.name}</h4>
+                        <div className="faculty-direction-list">
+                          {program.directions?.map((direction) => (
+                            <p key={`${direction.code}-${direction.name}`}>
+                              <code>{direction.code}</code>
+                              <span>{direction.name}</span>
+                            </p>
+                          ))}
+                        </div>
+                        {program.url ? (
+                          <a href={program.url} target="_blank" rel="noreferrer">
+                            Страница программы
+                            <ArrowIcon />
+                          </a>
+                        ) : null}
+                      </article>
+                    ))}
+                  </div>
+                ) : null}
+                {department.projects?.length ? (
+                  <div className="faculty-projects">
+                    <strong>Проекты подразделения</strong>
+                    <div>
+                      {department.projects.map((project) => (
+                        <span key={project.name}>
+                          {project.name}
+                          <small>{project.type}</small>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </article>
             ))}
           </div>
-        </section>
-
-        <section className="faculty-bento">
-          <article className="faculty-bento-card faculty-bento-card--vibe">
-            <p className="faculty-section-index">Характер</p>
-            <h2>{activeFaculty.vibe}</h2>
-          </article>
-
-          <article className="faculty-bento-card faculty-bento-card--roles">
-            <p className="faculty-section-index">В Megabattle</p>
-            <div className="faculty-role-list">
-              {activeFaculty.megabattle.map((role, index) => (
-                <span key={role}>
-                  <small>{String(index + 1).padStart(2, "0")}</small>
-                  {role}
-                </span>
-              ))}
-            </div>
-          </article>
         </section>
 
         <section className="faculty-retrospective">
@@ -300,8 +487,21 @@ export default function FacultyExplorer() {
               alt={activeFaculty.history.title}
             />
           </div>
+          <div className="faculty-retrospective-wash" aria-hidden="true" />
+          <span className="faculty-retrospective-mark" aria-hidden="true">
+            {activeFaculty.name}
+          </span>
           <div className="faculty-retrospective-copy">
-            <p className="faculty-section-index">Ретроспектива · {activeFaculty.name}</p>
+            <div className="faculty-retrospective-meta">
+              <span>Архив мегафака</span>
+              <span>
+                {String(
+                  faculties.findIndex((faculty) => faculty.id === activeFaculty.id) + 1,
+                ).padStart(2, "0")}{" "}
+                / {String(faculties.length).padStart(2, "0")}
+              </span>
+            </div>
+            <p className="faculty-section-index">Ретроспектива</p>
             <h2>{activeFaculty.history.title}</h2>
             <p>{activeFaculty.history.text}</p>
           </div>
