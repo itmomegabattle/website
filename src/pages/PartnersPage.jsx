@@ -10,12 +10,15 @@ export default function PartnersPage() {
         <PartnersBento />
       </section>
 
-      <section className="main-width">
+      <section className="main-width partnership-formats-section">
         <h1>Форматы</h1>
+        <p className="partnership-section-lead">
+          От одного события до целого сезона — собираем партнёрство под задачу бренда и интересы участников.
+        </p>
         <ExternalPrCards />
       </section>
 
-      <section className="main-width">
+      <section className="main-width partnership-contact-section">
         <ExternalPrContact />
       </section>
     </main>

@@ -9,11 +9,14 @@ export function ExternalPrCards() {
   }).data;
 
   return (
-    <div className="feature-grid">
-      {data.items.map((item) => (
-        <article className="info-card" key={item.title}>
-          <h2>{item.title}</h2>
-          <p>{item.text}</p>
+    <div className="partnership-formats">
+      {data.items.map((item, index) => (
+        <article className="partnership-format-card" key={item.title}>
+          <span className="partnership-format-index">{String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <h2>{item.title}</h2>
+            <p>{item.text}</p>
+          </div>
         </article>
       ))}
     </div>
@@ -31,11 +34,25 @@ export function ExternalPrContact() {
     return null;
   }
 
+  const contacts = data.contact.links?.length
+    ? data.contact.links
+    : [{ label: data.contact.title, href: `mailto:${data.contact.title}` }];
+
   return (
-    <article className="info-card contact-cta">
-      <p className="card-kicker">{data.contact.kicker}</p>
-      <h2>{data.contact.title}</h2>
-      <p>{data.contact.text}</p>
+    <article className="partnership-contact">
+      <div className="partnership-contact-copy">
+        <p className="card-kicker">{data.contact.kicker}</p>
+        <h2>{data.contact.heading || "Давайте сделаем что-то вместе"}</h2>
+        <p>{data.contact.text}</p>
+      </div>
+      <div className="partnership-contact-links">
+        {contacts.map((contact) => (
+          <a href={contact.href} key={`${contact.label}-${contact.href}`}>
+            <span>{contact.label}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
     </article>
   );
 }

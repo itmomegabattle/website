@@ -188,21 +188,28 @@ export default function PartnersBento() {
               rel={partner.link ? "noreferrer" : undefined}
               aria-label={partner.name}
             >
-              <div className="partner-bento-logo">
-                <img
-                  src={Api.normalizeURL(partner.logo)}
-                  alt={partner.name}
-                  width="960"
-                  height="640"
-                  loading="lazy"
-                  decoding="async"
-                  onError={(event) => { event.currentTarget.src = Api.normalizeURL("/images/about-image.png"); }}
-                />
+              <div className="partner-bento-media">
+                <div className="partner-bento-logo">
+                  <img
+                    src={Api.normalizeURL(partner.logo)}
+                    alt={partner.name}
+                    width="640"
+                    height="640"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(event) => { event.currentTarget.src = Api.normalizeURL("/images/about-image.png"); }}
+                  />
+                </div>
               </div>
               <div className="partner-bento-info">
                 <h3>{partner.name}</h3>
                 {partner.description && <p>{partner.description}</p>}
-                {partner.link && <span className="partner-bento-link">Перейти <span aria-hidden="true">↗</span></span>}
+                {partner.link && (
+                  <span className="partner-bento-link">
+                    Открыть сайт
+                    <span aria-hidden="true">↗</span>
+                  </span>
+                )}
               </div>
             </Card>
           );
