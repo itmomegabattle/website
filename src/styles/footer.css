@@ -1,839 +1,362 @@
+.footer {
+  position: relative;
+  padding: clamp(1rem, 2.4vw, 2rem) 0;
+}
+
 .footer-content {
-    position: relative;
-    isolation: isolate;
-
-    width: min(100%, 1180px);
-    min-height: 190px;
-    margin: 0 auto;
-    padding: 1rem;
-
-    display: grid;
-    grid-template-columns:
-        minmax(125px, 0.8fr)
-        repeat(6, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(70px, auto));
-    gap: 0.75rem;
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: clamp(1.15rem, 2vw, 1.75rem);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.045),
-            rgba(255, 255, 255, 0.012)
-        );
-
-    box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.045);
-
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-}
-
-/* Декоративный маршрут между блоками */
-.footer-content::before {
-    position: absolute;
-    top: 50%;
-    left: 17%;
-    right: 3%;
-    z-index: -1;
-
-    height: 1px;
-
-    content: "";
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            90deg,
-            color-mix(in srgb, var(--accent-color) 65%, transparent),
-            rgba(255, 255, 255, 0.12) 30%,
-            rgba(255, 255, 255, 0.05) 70%,
-            transparent
-        );
-}
-
-/* Световой узел маршрута */
-.footer-content::after {
-    position: absolute;
-    top: calc(50% - 4px);
-    left: 48%;
-
-    width: 8px;
-    height: 8px;
-
-    content: "";
-    pointer-events: none;
-
-    border-radius: 50%;
-    background: var(--accent-color);
-
-    box-shadow:
-        0 0 0 5px
-        color-mix(in srgb, var(--accent-color) 12%, transparent),
-        0 0 22px
-        color-mix(in srgb, var(--accent-color) 65%, transparent);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: min(100%, 1180px);
+  min-height: 210px;
+  margin: 0 auto;
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns:
+    minmax(170px, 0.85fr)
+    minmax(260px, 1.45fr)
+    minmax(360px, 2fr);
+  grid-template-rows: repeat(2, minmax(82px, auto));
+  gap: 0.75rem;
+  border: 1px solid var(--glass-border);
+  border-radius: clamp(1.25rem, 2vw, 1.75rem);
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      color-mix(in srgb, var(--accent-color) 11%, transparent),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--glass-background-strong) 86%, transparent),
+      var(--glass-background)
+    );
+  box-shadow:
+    0 22px 58px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .footer-content > * {
-    position: relative;
-    min-width: 0;
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--border-color) 72%, transparent);
+  border-radius: 1.1rem;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 
-/*
- * Первый блок — док с логотипом.
- * Он занимает всю высоту футера.
- */
-.footer-content > *:first-child {
-    grid-column: 1 / 2;
-    grid-row: 1 / 3;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 1rem;
-
-    border-radius: 1.15rem;
-
-    background:
-        radial-gradient(
-            circle at 50% 20%,
-            color-mix(in srgb, var(--accent-color) 20%, transparent),
-            transparent 65%
-        ),
-        rgba(255, 255, 255, 0.035);
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+.footer-brand {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      color-mix(in srgb, var(--accent-color) 16%, transparent),
+      transparent 66%
+    ),
+    rgba(255, 255, 255, 0.018);
 }
 
-/* Маленький индикатор в блоке логотипа */
-.footer-content > *:first-child::after {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-
-    width: 7px;
-    height: 7px;
-
-    content: "";
-
-    border-radius: 50%;
-    background: var(--accent-color);
-
-    box-shadow:
-        0 0 14px
-        color-mix(in srgb, var(--accent-color) 70%, transparent);
-}
-
-/* Остальные блоки выглядят как свободные модули */
-.footer-content > *:not(:first-child) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 0.32rem;
-
-    min-height: 70px;
-    padding: 0.75rem 0.9rem;
-
-    border-radius: 1rem;
-    border: 1px solid transparent;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.045),
-            rgba(255, 255, 255, 0.012)
-        );
-
-    transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        background 0.25s ease;
-}
-
-.footer-content > *:not(:first-child):hover {
-    z-index: 2;
-
-    transform: translateY(-3px);
-
-    border-color:
-        color-mix(
-            in srgb,
-            var(--accent-color) 30%,
-            rgba(255, 255, 255, 0.08)
-        );
-
-    background:
-        linear-gradient(
-            135deg,
-            color-mix(
-                in srgb,
-                var(--accent-color) 10%,
-                rgba(255, 255, 255, 0.045)
-            ),
-            rgba(255, 255, 255, 0.015)
-        );
-}
-
-/* Ступенчатая композиция */
-.footer-content > *:nth-child(2) {
-    grid-column: 2 / 5;
-    grid-row: 1;
-}
-
-.footer-content > *:nth-child(3) {
-    grid-column: 5 / 8;
-    grid-row: 1;
-    transform: translateY(10px);
-}
-
-.footer-content > *:nth-child(4) {
-    grid-column: 2 / 4;
-    grid-row: 2;
-    transform: translateX(18px);
-}
-
-.footer-content > *:nth-child(5) {
-    grid-column: 4 / 7;
-    grid-row: 2;
-}
-
-.footer-content > *:nth-child(6) {
-    grid-column: 7 / 8;
-    grid-row: 2;
-
-    align-items: center;
-    text-align: center;
-}
-
-/* Не сбрасываем начальное смещение при hover */
-.footer-content > *:nth-child(3):hover {
-    transform: translateY(7px);
-}
-
-.footer-content > *:nth-child(4):hover {
-    transform: translate(18px, -3px);
-}
-
-
-/* Логотип */
 .footer-logo {
-    display: block;
-
-    width: clamp(76px, 7.5vw, 108px);
-    max-width: 100%;
-    height: auto;
-
-    filter:
-        drop-shadow(0 10px 22px rgba(0, 0, 0, 0.28));
-
-    transition:
-        transform 0.3s cubic-bezier(.2, .75, .2, 1),
-        filter 0.3s ease;
+  display: block;
+  width: min(100%, 132px);
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.28s ease, filter 0.28s ease;
 }
 
-.footer-content > *:first-child:hover .footer-logo {
-    transform: rotate(-4deg) scale(1.06);
-
-    filter:
-        drop-shadow(
-            0 13px 28px
-            color-mix(
-                in srgb,
-                var(--accent-color) 25%,
-                rgba(0, 0, 0, 0.3)
-            )
-        );
+.footer-brand:hover .footer-logo {
+  transform: translateY(-3px) scale(1.025);
+  filter: drop-shadow(0 10px 24px rgba(0, 105, 224, 0.2));
 }
 
-
-/* Типографика */
-.footer h2,
-.footer h3,
-.footer h4 {
-    margin: 0 0 0.2rem;
-
-    color: #fff;
-    font-family: var(--heading-font);
-    font-size: clamp(0.72rem, 0.9vw, 0.84rem);
-    line-height: 1.1;
-    letter-spacing: 0.075em;
-    text-transform: uppercase;
+.footer-info {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  gap: 1.25rem;
+  padding: clamp(1rem, 2.2vw, 1.55rem);
 }
 
-.footer p {
-    max-width: 26rem;
-    margin: 0;
-
-    color:
-        color-mix(
-            in srgb,
-            var(--text-color-special, #fff) 60%,
-            transparent
-        );
-
-    font-size: 0.8rem;
-    line-height: 1.4;
+.footer-info p {
+  margin: 0;
+  color: color-mix(in srgb, var(--text-color) 70%, transparent);
+  font: 500 clamp(0.78rem, 1vw, 0.94rem) / 1.55 var(--body-font);
 }
 
-.footer a {
-    position: relative;
-
-    width: fit-content;
-    max-width: 100%;
-    padding: 0.12rem 0;
-
-    color:
-        color-mix(
-            in srgb,
-            var(--text-color-special, #fff) 73%,
-            transparent
-        );
-
-    font-size: 0.82rem;
-    font-weight: 600;
-    line-height: 1.3;
-    text-decoration: none;
-
-    overflow-wrap: anywhere;
-
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
+.footer-info a,
+.footer-policy a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.footer a::before {
-    display: inline-block;
-
-    width: 4px;
-    height: 4px;
-    margin-right: 0.45rem;
-    vertical-align: middle;
-
-    content: "";
-
-    border-radius: 50%;
-    background:
-        color-mix(
-            in srgb,
-            var(--accent-color) 75%,
-            #fff
-        );
-
-    opacity: 0;
-    transform: scale(0);
-    transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
+.footer-info a {
+  color: var(--text-color);
+  font-weight: 650;
 }
 
-.footer a:hover {
-    color: #fff;
-    text-decoration: none;
-    transform: translateX(4px);
+.footer-info a:hover,
+.footer-policy a:hover {
+  color: var(--accent-color);
 }
 
-.footer a:hover::before {
-    opacity: 1;
-    transform: scale(1);
+.footer-socials {
+  grid-column: 3;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  padding: 0.65rem;
 }
 
-/* =========================================================
-   УБИРАЕМ ВСЕ ДЕКОРАТИВНЫЕ ТОЧКИ
-   ========================================================= */
-
-.footer-content::after,
-.footer-content > *:first-child::after,
-.footer a::before {
-    display: none !important;
-    content: none !important;
+.footer-socials a {
+  min-width: 0;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 0.85rem;
+  color: color-mix(in srgb, var(--text-color) 68%, transparent);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.018);
+  transition:
+    color 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease;
 }
-
-
-/* =========================================================
-   БЛОК СОЦСЕТЕЙ
-   Лучше добавить контейнеру className="footer-socials".
-   nth-child(3) оставлен как запасной вариант.
-   ========================================================= */
-
-.footer-socials,
-.footer-content > *:nth-child(3) {
-    grid-column: 5 / 8;
-    grid-row: 1;
-
-    display: grid;
-    grid-template-columns: repeat(4, minmax(56px, 1fr));
-    align-items: center;
-    justify-items: center;
-    gap: clamp(0.45rem, 1vw, 0.9rem);
-
-    min-height: 0;
-    padding: clamp(0.8rem, 1.5vw, 1.2rem);
-
-    transform: none;
-
-    border: 1px solid transparent;
-    border-radius: 1rem;
-
-    background:
-        radial-gradient(
-            circle at 50% 50%,
-            color-mix(
-                in srgb,
-                var(--accent-color) 8%,
-                transparent
-            ),
-            transparent 72%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.045),
-            rgba(255, 255, 255, 0.012)
-        );
-}
-
-.footer-socials:hover,
-.footer-content > *:nth-child(3):hover {
-    transform: none;
-
-    border-color:
-        color-mix(
-            in srgb,
-            var(--accent-color) 22%,
-            rgba(255, 255, 255, 0.07)
-        );
-}
-
-
-/* =========================================================
-   ССЫЛКИ — ТОЛЬКО БОЛЬШИЕ ЛОГОТИПЫ
-   ========================================================= */
-
-.footer-socials a,
-.footer-content > *:nth-child(3) > a {
-    position: relative;
-
-    display: grid;
-    place-items: center;
-
-    width: clamp(56px, 5vw, 74px);
-    max-width: 100%;
-    aspect-ratio: 1;
-    padding: 0;
-
-    color:
-        color-mix(
-            in srgb,
-            var(--text-color-special, #fff) 72%,
-            transparent
-        );
-
-    /* Скрывает обычный текст внутри ссылки */
-    font-size: 0;
-    line-height: 0;
-
-    text-decoration: none;
-
-    border: 0;
-    border-radius: 1rem;
-    background: transparent;
-
-    overflow: visible;
-
-    transition:
-        color 0.22s ease,
-        transform 0.22s cubic-bezier(.2, .75, .2, 1),
-        filter 0.22s ease;
-}
-
-/* Если название соцсети находится в span */
-.footer-socials a span,
-.footer-content > *:nth-child(3) > a span {
-    display: none;
-}
-
-/* SVG-иконки */
-.footer-socials a svg,
-.footer-content > *:nth-child(3) > a svg {
-    display: block;
-
-    width: clamp(31px, 3.3vw, 43px);
-    height: clamp(31px, 3.3vw, 43px);
-
-    flex: 0 0 auto;
-
-    fill: currentColor;
-    color: currentColor;
-
-    transition: transform 0.22s ease;
-}
-
-/* Иконки-картинки */
-.footer-socials a img,
-.footer-content > *:nth-child(3) > a img {
-    display: block;
-
-    width: clamp(31px, 3.3vw, 43px);
-    height: clamp(31px, 3.3vw, 43px);
-
-    object-fit: contain;
-
-    transition: transform 0.22s ease;
-}
-
-/* Font Awesome */
-.footer-socials a i,
-.footer-content > *:nth-child(3) > a i {
-    display: block;
-
-    color: currentColor;
-    font-size: clamp(31px, 3.3vw, 43px);
-    line-height: 1;
-
-    transition: transform 0.22s ease;
-}
-
-
-/* Hover — без сдвига вправо */
 
 .footer-socials a:hover,
-.footer-content > *:nth-child(3) > a:hover {
-    color: #fff;
-
-    text-decoration: none;
-
-    transform: translateY(-3px) scale(1.08);
-
-    filter:
-        drop-shadow(
-            0 8px 12px rgba(0, 0, 0, 0.25)
-        )
-        drop-shadow(
-            0 0 14px
-            color-mix(
-                in srgb,
-                var(--accent-color) 24%,
-                transparent
-            )
-        );
+.footer-socials a:focus-visible {
+  color: var(--text-color);
+  border-color: color-mix(in srgb, var(--accent-color) 48%, var(--border-color));
+  background: color-mix(in srgb, var(--accent-color) 9%, transparent);
+  transform: translateY(-2px);
+  outline: none;
 }
 
-.footer-socials a:hover svg,
-.footer-socials a:hover img,
-.footer-socials a:hover i,
-.footer-content > *:nth-child(3) > a:hover svg,
-.footer-content > *:nth-child(3) > a:hover img,
-.footer-content > *:nth-child(3) > a:hover i {
-    transform: scale(1.04);
+.footer-socials a svg {
+  width: clamp(28px, 2.5vw, 38px);
+  height: clamp(28px, 2.5vw, 38px);
+  fill: currentColor;
 }
 
-.footer-socials a:focus-visible,
-.footer-content > *:nth-child(3) > a:focus-visible {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 5px;
+.footer-socials a[aria-label="TikTok"] svg {
+  transform: scale(1.06);
 }
 
+.footer-actions {
+  grid-column: 3;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(180px, 0.85fr);
+  gap: 0.55rem;
+  padding: 0.65rem;
+}
 
-/* =========================================================
-   ПЛАНШЕТ
-   ========================================================= */
+.footer-policy,
+.footer-support {
+  min-width: 0;
+  min-height: 68px;
+  border-radius: 0.85rem;
+}
+
+.footer-policy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.28rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.footer-section-label {
+  color: color-mix(in srgb, var(--text-color) 43%, transparent);
+  font: 700 0.58rem / 1 var(--heading-font);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.footer-policy a {
+  overflow-wrap: anywhere;
+  color: color-mix(in srgb, var(--text-color) 78%, transparent);
+  font: 550 clamp(0.72rem, 0.9vw, 0.86rem) / 1.3 var(--body-font);
+  transition: color 0.2s ease;
+}
+
+.footer-support {
+  appearance: none;
+  border: 1px solid transparent;
+  padding: 0.85rem 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: color-mix(in srgb, var(--text-color) 78%, transparent);
+  background: rgba(255, 255, 255, 0.018);
+  font: 700 clamp(0.7rem, 0.88vw, 0.84rem) / 1.2 var(--body-font);
+  text-align: left;
+  cursor: default;
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease;
+}
+
+.footer-support:hover,
+.footer-support:focus-visible {
+  border-color: color-mix(in srgb, var(--text-color) 16%, transparent);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text-color);
+  transform: none;
+  outline: none;
+}
+
+.footer-support-status {
+  display: none;
+}
 
 @media (max-width: 900px) {
-    .footer-socials,
-    .footer-content > *:nth-child(3) {
-        grid-column: auto;
-        grid-row: auto;
+  .footer-content {
+    grid-template-columns: minmax(140px, 0.7fr) minmax(0, 2fr);
+    grid-template-rows: auto auto auto;
+  }
 
-        grid-template-columns: repeat(4, minmax(45px, 1fr));
-        gap: 0.4rem;
+  .footer-brand {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
 
-        padding: 0.7rem;
-        transform: none;
-    }
+  .footer-info {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 1rem 1.15rem;
+  }
 
-    .footer-socials:hover,
-    .footer-content > *:nth-child(3):hover {
-        transform: none;
-    }
+  .footer-socials {
+    grid-column: 2;
+    grid-row: 2;
+  }
 
-    .footer-socials a,
-    .footer-content > *:nth-child(3) > a {
-        width: clamp(46px, 7vw, 60px);
-    }
-
-    .footer-socials a svg,
-    .footer-socials a img,
-    .footer-content > *:nth-child(3) > a svg,
-    .footer-content > *:nth-child(3) > a img {
-        width: 31px;
-        height: 31px;
-    }
-
-    .footer-socials a i,
-    .footer-content > *:nth-child(3) > a i {
-        font-size: 31px;
-    }
+  .footer-actions {
+    grid-column: 1 / 3;
+    grid-row: 3;
+  }
 }
-
-
-/* =========================================================
-   МОБИЛЬНАЯ ВЕРСИЯ
-   ========================================================= */
 
 @media (max-width: 640px) {
-    .footer-socials,
-    .footer-content > *:nth-child(3) {
-        grid-column: 2;
-        grid-row: auto;
+  .footer {
+    padding: 0.75rem 0;
+  }
 
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+  .footer-content {
+    width: 100%;
+    padding: 0.55rem;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 0.55rem;
+    border-radius: 1.2rem;
+  }
 
-        min-height: 48px;
-        padding: 0.35rem 0.45rem;
-        gap: 0.2rem;
+  .footer-brand,
+  .footer-info,
+  .footer-socials,
+  .footer-actions {
+    grid-column: 1;
+    grid-row: auto;
+  }
 
-        border-radius: 0.75rem;
-        transform: none;
-    }
+  .footer-brand {
+    min-height: 86px;
+    padding: 0.8rem 1rem;
+    justify-content: flex-start;
+  }
 
-    .footer-socials a,
-    .footer-content > *:nth-child(3) > a {
-        width: 100%;
-        height: 42px;
-        aspect-ratio: auto;
+  .footer-logo {
+    width: 88px;
+  }
 
-        border-radius: 0.65rem;
-        transform: none;
-    }
+  .footer-info {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0.9rem;
+  }
 
-    .footer-socials a:hover,
-    .footer-content > *:nth-child(3) > a:hover {
-        transform: scale(1.04);
-    }
+  .footer-info p {
+    font-size: 0.7rem;
+    line-height: 1.45;
+  }
 
-    .footer-socials a svg,
-    .footer-socials a img,
-    .footer-content > *:nth-child(3) > a svg,
-    .footer-content > *:nth-child(3) > a img {
-        width: 25px;
-        height: 25px;
-    }
+  .footer-socials {
+    gap: 0.4rem;
+    padding: 0.45rem;
+  }
 
-    .footer-socials a i,
-    .footer-content > *:nth-child(3) > a i {
-        font-size: 25px;
-    }
+  .footer-socials a {
+    min-height: 52px;
+    border-radius: 0.7rem;
+  }
+
+  .footer-socials a svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .footer-actions {
+    grid-template-columns: minmax(0, 1fr) minmax(145px, 0.9fr);
+    gap: 0.4rem;
+    padding: 0.45rem;
+  }
+
+  .footer-policy,
+  .footer-support {
+    min-height: 58px;
+    border-radius: 0.7rem;
+  }
+
+  .footer-policy {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .footer-section-label {
+    font-size: 0.5rem;
+  }
+
+  .footer-policy a,
+  .footer-support {
+    font-size: 0.64rem;
+  }
+
+  .footer-support-status {
+    display: none;
+  }
 }
-
 
 @media (max-width: 380px) {
-    .footer-socials a,
-    .footer-content > *:nth-child(3) > a {
-        height: 38px;
-    }
-
-    .footer-socials a svg,
-    .footer-socials a img,
-    .footer-content > *:nth-child(3) > a svg,
-    .footer-content > *:nth-child(3) > a img {
-        width: 22px;
-        height: 22px;
-    }
-
-    .footer-socials a i,
-    .footer-content > *:nth-child(3) > a i {
-        font-size: 22px;
-    }
+  .footer-info,
+  .footer-actions {
+    grid-template-columns: 1fr;
+  }
 }
-
-/* Убираем горизонтальную синюю линию и все её элементы */
-.footer-content::before,
-.footer-content::after,
-.footer-content > *:first-child::after,
-.footer-socials a::before,
-.footer-content > *:nth-child(3) > a::before {
-    display: none !important;
-    content: none !important;
-}
-
-/* Логотипы соцсетей крупнее */
-.footer-socials a svg,
-.footer-content > *:nth-child(3) > a svg {
-    width: clamp(38px, 3.8vw, 50px);
-    height: clamp(38px, 3.8vw, 50px);
-    fill: currentColor;
-}
-
-/* TikTok немного лучше смотрится с небольшим увеличением */
-.footer-socials a[aria-label="TikTok"] svg,
-.footer-content > *:nth-child(3) > a[aria-label="TikTok"] svg {
-    transform: scale(1.08);
-}
-
-.footer-socials a[aria-label="TikTok"]:hover svg,
-.footer-content > *:nth-child(3) > a[aria-label="TikTok"]:hover svg {
-    transform: scale(1.16);
-}
-
-@media (max-width: 640px) {
-    .footer-socials a svg,
-    .footer-content > *:nth-child(3) > a svg {
-        width: 28px;
-        height: 28px;
-    }
-
-    .footer-socials a[aria-label="TikTok"] svg,
-    .footer-content > *:nth-child(3) > a[aria-label="TikTok"] svg {
-        transform: scale(1.08);
-    }
-}
-
-
-/* Планшет */
-@media (max-width: 900px) {
-    .footer-content {
-        grid-template-columns:
-            minmax(105px, 0.7fr)
-            repeat(2, minmax(0, 1fr));
-        grid-template-rows: repeat(2, auto);
-        min-height: 0;
-    }
-
-    .footer-content::before,
-    .footer-content::after {
-        display: none;
-    }
-
-    .footer-content > *:first-child {
-        grid-column: 1;
-        grid-row: 1 / 3;
-    }
-
-    .footer-content > *:nth-child(n + 2) {
-        grid-column: auto;
-        grid-row: auto;
-        transform: none;
-    }
-
-    .footer-content > *:nth-child(n + 2):hover {
-        transform: translateY(-3px);
-    }
-}
-
-
-/* Мобильная версия */
-@media (max-width: 640px) {
-    .footer-content {
-        padding: 0.65rem;
-
-        grid-template-columns: 72px minmax(0, 1fr);
-        grid-template-rows: auto;
-        gap: 0.5rem;
-
-        border-radius: 1rem;
-    }
-
-    /*
-     * На мобильном логотип становится
-     * постоянной боковой панелью.
-     */
-    .footer-content > *:first-child {
-        grid-column: 1;
-        grid-row: 1 / span 4;
-
-        min-height: 100%;
-        padding: 0.55rem;
-
-        border-radius: 0.85rem;
-    }
-
-    .footer-logo {
-        position: sticky;
-        top: 1rem;
-        width: 48px;
-    }
-
-    .footer-content > *:not(:first-child) {
-        grid-column: 2;
-        grid-row: auto;
-
-        min-height: 0;
-        padding: 0.58rem 0.7rem;
-        gap: 0.2rem;
-
-        border-radius: 0.75rem;
-        transform: none;
-    }
-
-    .footer-content > *:not(:first-child):hover {
-        transform: none;
-    }
-
-    /*
-     * На мобильном часть ссылок можно
-     * распределить в две внутренние колонки.
-     */
-    .footer-content > *:not(:first-child) {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: center;
-        column-gap: 0.65rem;
-    }
-
-    .footer-content > *:not(:first-child) h2,
-    .footer-content > *:not(:first-child) h3,
-    .footer-content > *:not(:first-child) h4,
-    .footer-content > *:not(:first-child) p {
-        grid-column: 1 / -1;
-    }
-
-    .footer h2,
-    .footer h3,
-    .footer h4 {
-        font-size: 0.64rem;
-    }
-
-    .footer a,
-    .footer p {
-        font-size: 0.7rem;
-        line-height: 1.25;
-    }
-
-    .footer a::before {
-        display: none;
-    }
-}
-
-
-/* Очень узкие экраны */
-@media (max-width: 380px) {
-    .footer-content {
-        grid-template-columns: 58px minmax(0, 1fr);
-    }
-
-    .footer-logo {
-        width: 40px;
-    }
-
-    .footer-content > *:not(:first-child) {
-        grid-template-columns: 1fr;
-    }
-}
-
 
 @media (prefers-reduced-motion: reduce) {
-    .footer-content > *,
-    .footer-logo,
-    .footer a,
-    .footer a::before {
-        transition: none;
-    }
+  .footer-logo,
+  .footer-socials a,
+  .footer-support {
+    transition: none;
+  }
 }

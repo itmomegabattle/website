@@ -20,6 +20,7 @@ const emptyPartner = {
   logo_url: "",
   link: "",
   sort_order: 100,
+  partner_group: "regular",
 };
 
 function uniquePartners(partners) {
@@ -73,7 +74,11 @@ function PartnerEditor({ fallbackPartners }) {
   });
 
   useEffect(() => {
-    setForm(selectedPartner ? { ...emptyPartner, ...selectedPartner } : emptyPartner);
+    setForm(selectedPartner ? {
+      ...emptyPartner,
+      ...selectedPartner,
+      partner_group: String(selectedPartner.source_key || "").startsWith("general:") ? "general" : "regular",
+    } : emptyPartner);
   }, [selectedPartner]);
 
   const updateField = (event) => {
@@ -92,7 +97,11 @@ function PartnerEditor({ fallbackPartners }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    saveMutation.mutate({ ...form, source_key: form.source_key || `${form.name}-${Date.now()}` });
+    const rawSourceKey = String(form.source_key || `${form.name}-${Date.now()}`).replace(/^general:/, "");
+    saveMutation.mutate({
+      ...form,
+      source_key: form.partner_group === "general" ? `general:${rawSourceKey}` : rawSourceKey,
+    });
   };
 
   const requestDelete = (partner) => {
@@ -123,6 +132,7 @@ function PartnerEditor({ fallbackPartners }) {
               <div className="partners-admin-form-grid">
                 <label className="form-field"><span>Название</span><input name="name" value={form.name} onChange={updateField} required /></label>
                 <label className="form-field"><span>Статус</span><select name="status" value={form.status} onChange={updateField}><option value="draft">Черновик</option><option value="published">Опубликовано</option><option value="archived">Архив</option></select></label>
+                <label className="form-field"><span>Категория</span><select name="partner_group" value={form.partner_group} onChange={updateField}><option value="regular">Партнёр</option><option value="general">Генеральный партнёр</option></select></label>
               </div>
               <label className="form-field"><span>Описание</span><textarea name="description" value={form.description || ""} onChange={updateField} rows="3" /></label>
               <label className="form-field"><span>Ссылка</span><input name="link" value={form.link || ""} onChange={updateField} /></label>
@@ -143,7 +153,7 @@ function PartnerEditor({ fallbackPartners }) {
                 <div className="partners-admin-row" key={partner.id}>
                   <div>
                     <strong>{partner.name}</strong>
-                    <span>{partner.status} · {partner.description || "без описания"}</span>
+                    <span>{String(partner.source_key || "").startsWith("general:") ? "генеральный" : "партнёр"} · {partner.status} · {partner.description || "без описания"}</span>
                   </div>
                   <div>
                     <button type="button" onClick={() => setSelectedPartner(partner)}>Изменить</button>
@@ -170,22 +180,42 @@ function PartnerEditor({ fallbackPartners }) {
 export default function PartnersBento() {
   const { profile } = useAuth();
   const canEdit = isAdminProfile(profile);
+  const [activeGroup, setActiveGroup] = useState("regular");
   const partners = useQuery({ queryKey: ["partners"], queryFn: Api.getPartners, placeholderData: [] }).data;
   const visiblePartners = useMemo(() => uniquePartners(partners), [partners]);
+  const groupedPartners = useMemo(
+    () => visiblePartners.filter((partner) => (partner.partnerGroup || (String(partner.sourceKey || "").startsWith("general:") ? "general" : "regular")) === activeGroup),
+    [visiblePartners, activeGroup],
+  );
 
   return (
     <div className="partners-bento-section">
       {canEdit && <PartnerEditor fallbackPartners={partners} />}
+      <div className="partners-group-tabs" role="tablist" aria-label="Категории партнёров">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeGroup === "regular"}
+          className={activeGroup === "regular" ? "is-active" : ""}
+          onClick={() => setActiveGroup("regular")}
+        >
+          Партнёры
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeGroup === "general"}
+          className={activeGroup === "general" ? "is-active" : ""}
+          onClick={() => setActiveGroup("general")}
+        >
+          Генеральные партнёры
+        </button>
+      </div>
       <div className="partners-bento">
-        {visiblePartners.map((partner, index) => {
-          const Card = partner.link ? "a" : "article";
-          return (
-            <Card
+        {groupedPartners.map((partner, index) => (
+            <article
               key={partner.id || partner.sourceKey || partner.partnerKey || `${partner.name}-${index}`}
               className={`partner-bento-card partner-bento-card--${index % 5}`}
-              href={partner.link || undefined}
-              target={partner.link ? "_blank" : undefined}
-              rel={partner.link ? "noreferrer" : undefined}
               aria-label={partner.name}
             >
               <div className="partner-bento-media">
@@ -203,18 +233,30 @@ export default function PartnersBento() {
               </div>
               <div className="partner-bento-info">
                 <h3>{partner.name}</h3>
-                {partner.description && <p>{partner.description}</p>}
+                {partner.description && <p className="partner-bento-description">{partner.description}</p>}
+                {partner.description && (
+                  <details className="partner-bento-details">
+                    <summary>Подробнее</summary>
+                    <p>{partner.description}</p>
+                  </details>
+                )}
                 {partner.link && (
-                  <span className="partner-bento-link">
+                  <a className="partner-bento-link" href={partner.link} target="_blank" rel="noreferrer">
                     Открыть сайт
                     <span aria-hidden="true">↗</span>
-                  </span>
+                  </a>
                 )}
               </div>
-            </Card>
-          );
-        })}
+            </article>
+        ))}
       </div>
+      {!groupedPartners.length && (
+        <p className="partners-empty">
+          {activeGroup === "general"
+            ? "Генеральные партнёры появятся здесь."
+            : "Партнёры пока не добавлены."}
+        </p>
+      )}
     </div>
   );
 }

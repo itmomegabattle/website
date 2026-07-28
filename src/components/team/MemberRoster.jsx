@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Api } from "../../api";
 import ExternalLink from "../ExternalLink";
+import ModalPortal from "../ModalPortal";
 import { getMemberCardImage, getMemberDetailImage } from "./memberImages";
 
 export default function MemberRoster({ members }) {
@@ -43,11 +44,8 @@ export default function MemberRoster({ members }) {
     const onKeyDown = (event) => {
       if (event.key === "Escape") setActiveMember(null);
     };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [activeMember]);
@@ -89,33 +87,35 @@ export default function MemberRoster({ members }) {
         ))}
       </div>
       {activeMember && (
-        <div className="people-member-modal-backdrop" role="presentation" onMouseDown={(event) => {
-          if (event.target === event.currentTarget) setActiveMember(null);
-        }}>
-          <article className="people-member-modal" role="dialog" aria-modal="true" aria-label={activeMember.name}>
-            <button className="people-member-modal__close" type="button" aria-label="Закрыть" onClick={() => setActiveMember(null)}>×</button>
-            <div className="people-member-modal__image">
-              <img
-                src={Api.normalizeURL(getMemberDetailImage(activeMember))}
-                alt={activeMember.name}
-                width="900"
-                height="1200"
-                decoding="async"
-              />
-            </div>
-            <div className="people-member-modal__copy">
-              <p className="people-member-modal__kicker">{activeMember.activity || "Команда Megabattle"}</p>
-              <h3>{activeMember.name}</h3>
-              {activeMember.role && <p className="people-member-modal__role">{activeMember.role}</p>}
-              {activeMember.description && <p className="people-member-modal__description">{activeMember.description}</p>}
-              {activeMember.links?.length > 0 && (
-                <div className="people-member-modal__links">
-                  {activeMember.links.map((item, i) => <ExternalLink key={i} href={item.link} text={item.text} />)}
-                </div>
-              )}
-            </div>
-          </article>
-        </div>
+        <ModalPortal>
+          <div className="people-member-modal-backdrop" role="presentation" onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setActiveMember(null);
+          }}>
+            <article className="people-member-modal" role="dialog" aria-modal="true" aria-label={activeMember.name}>
+              <button className="people-member-modal__close" type="button" aria-label="Закрыть" onClick={() => setActiveMember(null)}>×</button>
+              <div className="people-member-modal__image">
+                <img
+                  src={Api.normalizeURL(getMemberDetailImage(activeMember))}
+                  alt={activeMember.name}
+                  width="900"
+                  height="1200"
+                  decoding="async"
+                />
+              </div>
+              <div className="people-member-modal__copy">
+                <p className="people-member-modal__kicker">{activeMember.activity || "Команда Megabattle"}</p>
+                <h3>{activeMember.name}</h3>
+                {activeMember.role && <p className="people-member-modal__role">{activeMember.role}</p>}
+                {activeMember.description && <p className="people-member-modal__description">{activeMember.description}</p>}
+                {activeMember.links?.length > 0 && (
+                  <div className="people-member-modal__links">
+                    {activeMember.links.map((item, i) => <ExternalLink key={i} href={item.link} text={item.text} />)}
+                  </div>
+                )}
+              </div>
+            </article>
+          </div>
+        </ModalPortal>
       )}
     </>
   );

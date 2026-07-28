@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Api } from "../../api";
 import { useAuth } from "../../context/AuthContext";
+import ModalPortal from "../ModalPortal";
 import {
   deleteStory,
   getAdminStories,
@@ -171,21 +172,23 @@ export default function StoryEditor({ fallbackStories }) {
         </div>
       )}
       {previewStory && (
-        <div className="story-modal-backdrop" role="presentation" onClick={() => setPreviewStory(null)}>
-          <article className="story-modal story-modal--admin-preview" role="dialog" aria-modal="true" aria-label={`Предпросмотр: ${previewStory.name}`} onClick={(event) => event.stopPropagation()}>
-            <button className="story-modal-close" type="button" onClick={() => setPreviewStory(null)} aria-label="Закрыть предпросмотр">×</button>
-            <p className="card-kicker">Предпросмотр публикации</p>
-            <div className="story-image-container story-modal-image"><img src={Api.normalizeURL(previewStory.image)} alt={previewStory.name} className="story-image" /></div>
-            <h2>{previewStory.name}</h2>
-            <p className="story-faculty">{previewStory.faculty || "без факультета"}</p>
-            <p className="story-modal-description">{previewStory.description}</p>
-            <p className="story-date">{previewStory.date || "без даты"}</p>
-            <div className="story-preview-actions">
-              <button type="button" onClick={() => reviewStory(previewStory, "published")}>Одобрить</button>
-              <button type="button" onClick={() => setPreviewStory(null)}>Закрыть</button>
-            </div>
-          </article>
-        </div>
+        <ModalPortal>
+          <div className="story-modal-backdrop" role="presentation" onClick={() => setPreviewStory(null)}>
+            <article className="story-modal story-modal--admin-preview" role="dialog" aria-modal="true" aria-label={`Предпросмотр: ${previewStory.name}`} onClick={(event) => event.stopPropagation()}>
+              <button className="story-modal-close" type="button" onClick={() => setPreviewStory(null)} aria-label="Закрыть предпросмотр">×</button>
+              <p className="card-kicker">Предпросмотр публикации</p>
+              <div className="story-image-container story-modal-image"><img src={Api.normalizeURL(previewStory.image)} alt={previewStory.name} className="story-image" /></div>
+              <h2>{previewStory.name}</h2>
+              <p className="story-faculty">{previewStory.faculty || "без факультета"}</p>
+              <p className="story-modal-description">{previewStory.description}</p>
+              <p className="story-date">{previewStory.date || "без даты"}</p>
+              <div className="story-preview-actions">
+                <button type="button" onClick={() => reviewStory(previewStory, "published")}>Одобрить</button>
+                <button type="button" onClick={() => setPreviewStory(null)}>Закрыть</button>
+              </div>
+            </article>
+          </div>
+        </ModalPortal>
       )}
     </div>
   );

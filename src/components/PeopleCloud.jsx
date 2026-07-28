@@ -1,15 +1,24 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../api";
+import { getPublishedTeamMembers } from "../services/teamService";
 import { getMemberCardImage } from "./team/memberImages";
 
 const fallbackAvatar = "/images/people/member-full.jpg";
 
-function cleanPeople(organizers, responsible) {
-  return [
+function cleanPeople(organizers, responsible, contributors) {
+  const currentPeople = [
     ...organizers.map((person) => ({ ...person, teamLabel: "Организатор" })),
     ...responsible.map((person) => ({ ...person, teamLabel: "Ответственный" })),
+  ];
+  const allPeople = [
+    ...currentPeople,
+    ...contributors.map((person) => ({ ...person, teamLabel: person.activity || "Команда Megabattle" })),
   ].filter((person) => person.name && person.name.trim().toLowerCase() !== "имя фамилия");
+
+  return Array.from(
+    new Map(allPeople.map((person) => [person.name.trim().toLocaleLowerCase("ru"), person])).values(),
+  );
 }
 
 export default function PeopleCloud() {
@@ -23,17 +32,19 @@ export default function PeopleCloud() {
     queryFn: Api.getResponsible,
     placeholderData: [],
   }).data;
+  const contributors = useQuery({
+    queryKey: ["contributors"],
+    queryFn: () => getPublishedTeamMembers("contributors", []),
+    placeholderData: [],
+  }).data;
 
   const bubbles = useMemo(() => {
-    const people = cleanPeople(organizers, responsible);
-    if (!people.length) return [];
-    const split = Math.ceil(people.length / 2);
-    const echo = [...people.slice(split), ...people.slice(0, split)];
-    return [...people, ...echo].map((person, index) => ({
+    const people = cleanPeople(organizers, responsible, contributors);
+    return people.map((person, index) => ({
       ...person,
       bubbleKey: `${person.key || person.id || person.name}-${index}`,
     }));
-  }, [organizers, responsible]);
+  }, [organizers, responsible, contributors]);
 
   if (!bubbles.length) return null;
 

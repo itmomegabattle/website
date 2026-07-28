@@ -170,7 +170,16 @@ export default function Header() {
   };
 
   return (
-    <header className={`header${isMenuOpen ? " header--menu-open" : ""}`}>
+    <>
+      {isMenuOpen && (
+        <button
+          className="mobile-menu-backdrop"
+          type="button"
+          aria-label="Закрыть меню"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+      <header className={`header${isMenuOpen ? " header--menu-open" : ""}`}>
       <button
         type="button"
         className="burger-toggle header-item"
@@ -233,6 +242,7 @@ export default function Header() {
       <InnerSpace />
       <OuterCorner tag="1" />
       <OuterCorner tag="2" />
-    </header>
+      </header>
+    </>
   );
 }

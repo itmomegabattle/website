@@ -28,6 +28,7 @@ export default function TeamAdminEditor({ section, fallbackMembers }) {
   const refreshPublicLists = () => Promise.all([
     queryClient.invalidateQueries({ queryKey: ["organizers"] }),
     queryClient.invalidateQueries({ queryKey: ["responsible"] }),
+    queryClient.invalidateQueries({ queryKey: ["contributors"] }),
     queryClient.invalidateQueries({ queryKey }),
   ]);
   const saveMutation = useMutation({

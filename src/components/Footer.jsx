@@ -96,14 +96,25 @@ export default function Footer() {
             </a>
           </nav>
 
-          <div className="footer-policy">
-            <a
-              href="https://www.youtube.com/watch?v=0H_69KHDcP0"
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="footer-actions">
+            <div className="footer-policy">
+              <span className="footer-section-label">Документы</span>
+              <a
+                href="https://www.youtube.com/watch?v=0H_69KHDcP0"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Политика конфиденциальности
+              </a>
+            </div>
+
+            <button
+              className="footer-support"
+              type="button"
+              title="Функция появится позже"
             >
-              Политика конфиденциальности
-            </a>
+              Поддержка
+            </button>
           </div>
         </div>
       </div>

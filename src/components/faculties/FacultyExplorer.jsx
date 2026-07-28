@@ -103,8 +103,33 @@ function getUnitCountLabel(count, unitType = "faculties") {
   return `${String(count).padStart(2, "0")} ${words[2]}`;
 }
 
+function normalizeSearchValue(value) {
+  return String(value ?? "")
+    .normalize("NFKC")
+    .toLocaleLowerCase("ru")
+    .replaceAll("ё", "е")
+    .replace(/[–—/(),.:]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getSearchScore(query, primaryValues, aliases = []) {
+  const normalizedQuery = normalizeSearchValue(query);
+  const primary = primaryValues.map(normalizeSearchValue).filter(Boolean);
+  const aliasValues = aliases.map(normalizeSearchValue).filter(Boolean);
+  const allValues = [...aliasValues, ...primary];
+  if (!normalizedQuery) return 0;
+
+  if (aliasValues.includes(normalizedQuery)) return 1200;
+  if (primary.includes(normalizedQuery)) return 1100;
+  if (allValues.some((value) => value.split(" ").includes(normalizedQuery))) return 900;
+  if (allValues.some((value) => value.startsWith(normalizedQuery))) return 650;
+  if (normalizedQuery.length >= 3 && allValues.some((value) => value.includes(normalizedQuery))) return 400;
+  return 0;
+}
+
 function buildSearchResults(faculties, query) {
-  const normalizedQuery = query.trim().toLocaleLowerCase("ru");
+  const normalizedQuery = normalizeSearchValue(query);
 
   if (!normalizedQuery) {
     return [];
@@ -112,114 +137,99 @@ function buildSearchResults(faculties, query) {
 
   return faculties
     .flatMap((faculty) => {
-      const facultyText = [
+      const facultyPrimary = [
         faculty.name,
         faculty.title,
         faculty.tag,
         faculty.short,
         faculty.description,
-        ...(faculty.aliases ?? []),
-      ]
-        .join(" ")
-        .toLocaleLowerCase("ru");
-
+      ];
       const results = [];
+      const facultyScore = getSearchScore(normalizedQuery, facultyPrimary, faculty.aliases ?? []);
 
-      if (facultyText.includes(normalizedQuery)) {
+      if (facultyScore) {
         results.push({
           id: `${faculty.id}-megafaculty`,
           faculty,
           eyebrow: "Мегафакультет",
           label: faculty.name,
           detail: faculty.title,
+          score: facultyScore + 10,
         });
       }
 
-      faculty.departments.forEach((department) => {
+      (faculty.departments ?? []).forEach((department) => {
         const departmentLabel = getDepartmentLabel(department);
         const isDirection = faculty.unitType === "directions";
-
-        const departmentOwnText = [
+        const departmentScore = getSearchScore(normalizedQuery, [
           department.name,
           department.short,
-          ...(department.aliases ?? []),
           department.kind,
           department.isuId,
-        ]
-          .filter(Boolean)
-          .join(" ")
-          .toLocaleLowerCase("ru");
+        ], department.aliases ?? []);
 
-        if (departmentOwnText.includes(normalizedQuery)) {
+        if (departmentScore) {
           results.push({
             id: `${faculty.id}-${department.isuId ?? departmentLabel}`,
             faculty,
             eyebrow: `${isDirection ? "Направление" : department.kind ?? "Подразделение"} · ${faculty.name}`,
             label: departmentLabel,
             detail: `${isDirection ? "Входит" : "Относится"} в ${faculty.name}`,
+            score: departmentScore + 20,
           });
         }
 
         department.programs?.forEach((program, programIndex) => {
-          const programText = [
+          const programScore = getSearchScore(normalizedQuery, [
             program.name,
             program.short,
-            ...(program.aliases ?? []),
             program.level,
-          ]
-            .filter(Boolean)
-            .join(" ")
-            .toLocaleLowerCase("ru");
+          ], program.aliases ?? []);
 
-          if (programText.includes(normalizedQuery)) {
+          if (programScore) {
             results.push({
               id: `${faculty.id}-${department.isuId ?? departmentLabel}-program-${programIndex}`,
               faculty,
               eyebrow: `Программа · ${faculty.name}`,
               label: program.name,
               detail: `${department.short ?? department.name} · ${program.level ?? "Образовательная программа"}`,
+              score: programScore + 40,
             });
           }
 
           program.directions?.forEach((direction, directionIndex) => {
-            const directionText = [
+            const directionScore = getSearchScore(normalizedQuery, [
               direction.code,
               direction.name,
-              ...(direction.aliases ?? []),
-            ]
-              .filter(Boolean)
-              .join(" ")
-              .toLocaleLowerCase("ru");
+            ], direction.aliases ?? []);
 
-            if (directionText.includes(normalizedQuery)) {
+            if (directionScore) {
               results.push({
                 id: `${faculty.id}-${department.isuId ?? departmentLabel}-direction-${programIndex}-${directionIndex}`,
                 faculty,
                 eyebrow: `Направление подготовки · ${faculty.name}`,
                 label: direction.name,
                 detail: `${direction.code} · программа «${program.name}»`,
+                score: directionScore + 50,
               });
             }
           });
         });
 
         department.projects?.forEach((project, projectIndex) => {
-          const projectText = [
+          const projectScore = getSearchScore(normalizedQuery, [
             project.name,
             project.type,
-            ...(project.aliases ?? []),
-          ]
-            .filter(Boolean)
-            .join(" ")
-            .toLocaleLowerCase("ru");
+          ], project.aliases ?? []);
 
-          if (projectText.includes(normalizedQuery)) {
+          if (projectScore) {
             results.push({
               id: `${faculty.id}-${department.isuId ?? departmentLabel}-project-${projectIndex}`,
               faculty,
               eyebrow: `Проект · ${faculty.name}`,
               label: project.name,
               detail: `${department.short ?? department.name} · не отдельное направление`,
+              score: projectScore + 30,
             });
           }
         });
@@ -227,6 +237,7 @@ function buildSearchResults(faculties, query) {
 
       return results;
     })
+    .sort((left, right) => right.score - left.score || left.label.localeCompare(right.label, "ru"))
     .slice(0, 10);
 }
 

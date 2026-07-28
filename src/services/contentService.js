@@ -2,7 +2,7 @@ import { supabase } from "../lib/supabase";
 import { backendApi } from "../lib/backendApi";
 import { uploadOptimizedImage } from "../utils/uploadOptimizedImage";
 
-export const mapDbPartner = (item) => ({ id: item.id, sourceKey: item.source_key, name: item.name, logo: item.logo_url || "/images/about-image.png", description: item.description || "", link: item.link || "", status: item.status, sortOrder: item.sort_order });
+export const mapDbPartner = (item) => ({ id: item.id, sourceKey: item.source_key, partnerGroup: String(item.source_key || "").startsWith("general:") ? "general" : "regular", name: item.name, logo: item.logo_url || "/images/about-image.png", description: item.description || "", link: item.link || "", status: item.status, sortOrder: item.sort_order });
 export const mapDbStory = (item) => ({ id: item.id, key: item.source_key || item.id, name: item.name, faculty: item.faculty || "", description: item.description || "", date: item.story_date_label || "", image: item.image_url || "/images/people/member.jpg", status: item.status, sortOrder: item.sort_order, submitterProfileId: item.submitter_profile_id, submitterContact: item.submitter_contact || "", moderationComment: item.moderation_comment || "", createdAt: item.created_at });
 
 export async function getPublishedPartners(fallback = []) {
@@ -16,7 +16,9 @@ export async function getPublishedPartners(fallback = []) {
 }
 export async function getAdminPartners() { return (await backendApi("/api/v1/admin/content/partners")).items ?? []; }
 export async function upsertPartner(partner) {
-  const payload = { ...partner, source_key: partner.source_key || partner.sourceKey || null }; delete payload.sourceKey;
+  const payload = { ...partner, source_key: partner.source_key || partner.sourceKey || null };
+  delete payload.sourceKey;
+  delete payload.partner_group;
   return backendApi(`/api/v1/admin/content/partners${partner.id ? `/${partner.id}` : ""}`, { method: partner.id ? "PATCH" : "POST", body: JSON.stringify(payload) });
 }
 export const deletePartner = (id) => backendApi(`/api/v1/admin/content/partners/${id}`, { method: "DELETE" });

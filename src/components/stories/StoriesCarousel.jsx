@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Api } from "../../api";
+import ModalPortal from "../ModalPortal";
 
 export default function StoriesCarousel({ stories }) {
   const [page, setPage] = useState(0);
@@ -67,25 +68,27 @@ export default function StoriesCarousel({ stories }) {
         <p className="stories-carousel-hint">Наведи, чтобы остановить · нажми карточку, чтобы открыть</p>
       </div>
       {openedStory && (
-        <div className="story-modal-backdrop" role="presentation" onClick={() => setOpenedStory(null)}>
-          <article className="story-modal" role="dialog" aria-modal="true" aria-label={openedStory.name} onClick={(event) => event.stopPropagation()}>
-            <button className="story-modal-close" type="button" onClick={() => setOpenedStory(null)} aria-label="Закрыть историю">×</button>
-            <div className="story-image-container story-modal-image">
-              <img
-                src={Api.normalizeURL(openedStory.image)}
-                alt={openedStory.name}
-                className="story-image"
-                width="640"
-                height="640"
-                decoding="async"
-              />
-            </div>
-            <h2>{openedStory.name}</h2>
-            <p className="story-faculty">{openedStory.faculty}</p>
-            <p className="story-modal-description">{openedStory.description}</p>
-            <p className="story-date">{openedStory.date}</p>
-          </article>
-        </div>
+        <ModalPortal>
+          <div className="story-modal-backdrop" role="presentation" onClick={() => setOpenedStory(null)}>
+            <article className="story-modal" role="dialog" aria-modal="true" aria-label={openedStory.name} onClick={(event) => event.stopPropagation()}>
+              <button className="story-modal-close" type="button" onClick={() => setOpenedStory(null)} aria-label="Закрыть историю">×</button>
+              <div className="story-image-container story-modal-image">
+                <img
+                  src={Api.normalizeURL(openedStory.image)}
+                  alt={openedStory.name}
+                  className="story-image"
+                  width="640"
+                  height="640"
+                  decoding="async"
+                />
+              </div>
+              <h2>{openedStory.name}</h2>
+              <p className="story-faculty">{openedStory.faculty}</p>
+              <p className="story-modal-description">{openedStory.description}</p>
+              <p className="story-date">{openedStory.date}</p>
+            </article>
+          </div>
+        </ModalPortal>
       )}
     </>
   );

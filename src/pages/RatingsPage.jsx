@@ -8,6 +8,7 @@ import AuthPanel from "../components/AuthPanel";
 import NfcTagsPanel from "../components/NfcTagsPanel";
 import ProfileEditor from "../components/ProfileEditor";
 import SocialBioCard from "../components/SocialBioCard";
+import ModalPortal from "../components/ModalPortal";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
 import "../styles/page-info.css";
@@ -67,23 +68,27 @@ export default function RatingsPage() {
       {isAuthenticated && canAdmin && <AdminCabinetPanel />}
 
       {activeModal && (
-        <div className="profile-modal-backdrop" role="presentation">
-          <section
-            className={`profile-modal profile-modal--${activeModal}`}
-            role="dialog"
-            aria-modal="true"
-            aria-label={activeModal === "edit" ? "Редактирование профиля" : "Предпросмотр визитки"}
-          >
-            <button className="profile-modal-close" type="button" onClick={closeModal}>
-              ×
-            </button>
-            {activeModal === "edit" ? (
-              <ProfileEditor />
-            ) : (
-              <SocialBioCard profile={profile} qrOnSocials />
-            )}
-          </section>
-        </div>
+        <ModalPortal>
+          <div className="profile-modal-backdrop" role="presentation" onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeModal();
+          }}>
+            <section
+              className={`profile-modal profile-modal--${activeModal}`}
+              role="dialog"
+              aria-modal="true"
+              aria-label={activeModal === "edit" ? "Редактирование профиля" : "Предпросмотр визитки"}
+            >
+              <button className="profile-modal-close" type="button" onClick={closeModal}>
+                ×
+              </button>
+              {activeModal === "edit" ? (
+                <ProfileEditor />
+              ) : (
+                <SocialBioCard profile={profile} qrOnSocials />
+              )}
+            </section>
+          </div>
+        </ModalPortal>
       )}
     </main>
   );

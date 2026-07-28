@@ -69,10 +69,74 @@ const roles = [
   ["Шутник", "joke"],
 ];
 
-const shiftsX = [-26, 18, 34, -14, 8, -36, 25, 5, -20, 30, -8, 16];
-const shiftsY = [18, -22, 32, 4, -34, 22, -8, 38, -16, 10, 26, -28];
-const rotations = [-7, 4, 9, -3, 6, -9, 2, 8, -5, 3];
-const scales = [0.9, 1.08, 0.98, 1.16, 0.86, 1.02, 0.94, 1.12];
+const roleCopy = {
+  coordination: "Связывает направления, людей и сроки в одну работающую систему.",
+  director: "Собирает идею, драматургию и людей в цельное сценическое высказывание.",
+  assistant: "Держит план репетиций, правки и коммуникацию команды в порядке.",
+  producer: "Превращает замысел в реальный проект: от ресурсов до финального показа.",
+  schedule: "Следит за производственным графиком и помогает команде успевать главное.",
+  partnership: "Находит точки соприкосновения проекта с партнёрами и новыми возможностями.",
+  award: "Работает с жюри, номинациями, дипломами и главным моментом награждения.",
+  admin: "Управляет пространством, потоками людей и десятками деталей мероприятия.",
+  volunteer: "Помогает там, где особенно нужны скорость, внимание и человеческое участие.",
+  stage: "Отвечает за то, чтобы сцена жила точно по таймингу и без лишних пауз.",
+  backstage: "Управляет невидимой зрителю жизнью номера за кулисами.",
+  props: "Создаёт и хранит предметный мир номера — от маленькой детали до декорации.",
+  broadcast: "Собирает происходящее на сцене в живую экранную историю.",
+  sound: "Делает так, чтобы голос, музыка и атмосфера прозвучали именно как задумано.",
+  technical: "Проектирует техническую сторону шоу и отвечает за её надёжность.",
+  connection: "Соединяет площадку, оборудование и технические команды в одну сеть.",
+  tools: "Настраивает, чинит и запускает оборудование в нужный момент.",
+  lighting: "Рисует сцену светом, направляет внимание и меняет настроение пространства.",
+  screen: "Управляет визуальным контентом на экранах и синхронизирует его со сценой.",
+  code: "Создаёт цифровые инструменты, которые помогают проекту работать и расти.",
+  script: "Превращает идею в историю, реплики, сцены и точный ход номера.",
+  costume: "Собирает образ героя через форму, ткань, цвет и детали.",
+  art: "Создаёт визуальный мир номера и следит за его цельностью.",
+  blocking: "Выстраивает движение людей и объектов в сценическом пространстве.",
+  actor: "Передаёт историю зрителю через действие, характер и живое присутствие.",
+  ensemble: "Создаёт масштаб сцены и помогает главным героям быть убедительнее.",
+  vocal: "Работает с голосом как с главным музыкальным инструментом сцены.",
+  choreo: "Придумывает язык движения и собирает танец в выразительную композицию.",
+  dance: "Рассказывает историю телом, ритмом и точностью движения.",
+  writing: "Находит слова, которые быстро объясняют идею и остаются в памяти.",
+  makeup: "Меняет внешность героя и доводит образ до сценической выразительности.",
+  idea: "Придумывает неожиданный ход, из которого может вырасти целый проект.",
+  design: "Переводит смысл в форму, композицию, типографику и визуальную систему.",
+  copy: "Пишет понятные и живые тексты для аудитории проекта.",
+  content: "Создаёт материалы, через которые проект видят до и после события.",
+  photo: "Ловит моменты, из которых потом складывается визуальная память сезона.",
+  video: "Снимает движение, эмоции и масштаб проекта в живом кадре.",
+  brand: "Следит за характером проекта и тем, как он звучит во всех точках контакта.",
+  edit: "Собирает отснятый материал в ритм, историю и законченное видео.",
+  social: "Придумывает, как проект будет разговаривать с аудиторией в соцсетях.",
+  motion: "Оживляет графику и добавляет визуалу время, темп и движение.",
+  radio: "Держит связь между факультетом и общей системой проекта.",
+  fashion: "Придумывает одежду как самостоятельное художественное высказывание.",
+  sewing: "Превращает эскиз и ткань в вещь, готовую выйти на подиум или сцену.",
+  shoe: "Создаёт и адаптирует обувь под образ, движение и сценическую нагрузку.",
+  jewelry: "Делает акцентные детали, которые завершают образ.",
+  hair: "Строит силуэт и характер образа через причёску.",
+  "fashion-director": "Собирает коллекцию, моделей, музыку и движение в единый показ.",
+  volleyball: "Играет за команду и факультет на волейбольной площадке.",
+  football: "Работает с командой, мячом и тактикой на футбольном поле.",
+  basketball: "Создаёт темп игры и результат баскетбольной команды.",
+  joke: "Находит смешное в знакомом и превращает его в точный сценический момент.",
+};
+
+const roleItems = roles.map(([name, type], index) => ({
+  id: `${type}-${index}`,
+  name,
+  type,
+  description: roleCopy[type] || "Важная роль внутри большой команды Megabattle.",
+}));
+
+const scatterPattern = [
+  [2, 2, -3, -8], [1, 2, 2, 8], [1, 1, -1, -4], [2, 2, 3, 5],
+  [1, 2, -2, 10], [1, 1, 1, -7], [2, 2, -1, 3], [1, 2, 3, -2],
+  [1, 1, -3, 8], [2, 2, 2, -6], [1, 2, -1, 5], [1, 1, 2, -9],
+  [2, 2, -2, 6], [1, 2, 1, -5], [1, 1, -3, 9], [2, 2, 3, -3],
+];
 
 function Art({ type }) {
   const common = {
@@ -157,7 +221,7 @@ function Art({ type }) {
     case "motion":
       return <svg {...common}><rect className="role-art-fill" x="25" y="31" width="130" height="78" rx="5"/><path className="role-art-accent" d="m43 51 24 15-24 15zm47 0 24 15-24 15z"/><path className="role-art-line" d="M39 95h102M61 88v14m55-14v14"/><path className="role-art-soft" d="m126 18 12 12-51 51-18 4 4-18z"/></svg>;
     case "sewing":
-      return <svg {...common}><circle className="role-art-fill" cx="69" cy="73" r="42"/><path className="role-art-accent" d="M69 31a42 42 0 0 1 0 84c-18-19-18-65 0-84Z"/><path className="role-art-line" d="M69 31c-17 18-17 65 0 84m-37-42h74"/><path className="role-art-soft" d="m119 22 8 3-31 99-8-3z"/><path className="role-art-line" d="M122 25c18 15 25 35 21 60"/></svg>;
+      return <svg {...common}><path className="role-art-fill" d="M30 35h120v72H30z"/><path className="role-art-line role-art-line--wide" d="M43 35v88m94-88v88M25 123h31m68 0h31M43 48h94M43 95h94"/><path className="role-art-soft" d="M55 48h70v47H55z"/><path className="role-art-line" d="M59 53v37m10-37v37m10-37v37m10-37v37m10-37v37m10-37v37m10-37v37M55 60h70M55 72h70M55 84h70"/><path className="role-art-accent" d="m55 58 70 27v10H55z"/><circle className="role-art-fill" cx="90" cy="24" r="13"/><path className="role-art-line" d="M90 37v11"/></svg>;
     case "shoe":
       return <svg {...common}><path className="role-art-accent" d="M29 82c27 0 43-11 50-43l19 5c1 23 17 37 48 40l9 23H35z"/><path className="role-art-line" d="M75 61h27m-31 13h39M38 107h117"/><path className="role-art-soft" d="m117 28 16 5-10 31-16-5z"/></svg>;
     case "jewelry":
@@ -181,31 +245,65 @@ function Art({ type }) {
 
 export default function RolesPage() {
   return (
-    <main className="roles-attributes" aria-label="Роли проекта">
-      {roles.map(([name, type], index) => (
-        <figure
-          className={`role-attribute role-attribute--${type}`}
-          key={`${name}-${index}`}
-          style={{
-            "--x": `${shiftsX[index % shiftsX.length]}px`,
-            "--y": `${shiftsY[(index * 5) % shiftsY.length]}px`,
-            "--xm": `${shiftsX[index % shiftsX.length] * 0.35}px`,
-            "--ym": `${shiftsY[(index * 5) % shiftsY.length] * 0.42}px`,
-            "--r": `${rotations[(index * 3) % rotations.length]}deg`,
-            "--rm": `${rotations[(index * 3) % rotations.length] * 0.65}deg`,
-            "--caption-r": `${rotations[(index * 3) % rotations.length] * -0.35}deg`,
-            "--s": scales[(index * 7) % scales.length],
-            "--sh": scales[(index * 7) % scales.length] * 1.06,
-            "--sm": scales[(index * 7) % scales.length] * 0.88,
-            "--smh": scales[(index * 7) % scales.length] * 0.92,
-          }}
-        >
-          <div className="role-attribute__art" aria-hidden="true">
-            <Art type={type} />
-          </div>
-          <figcaption>{name}</figcaption>
-        </figure>
-      ))}
+    <main className="roles-page main-width" aria-labelledby="roles-title">
+      <header className="roles-hero">
+        <p className="roles-eyebrow">В MEGABATTLE НЕТ ЛИШНИХ ЛЮДЕЙ</p>
+        <h1 id="roles-title">РОЛИ</h1>
+        <p className="roles-intro">
+          Один проект — десятки способов быть внутри. Наводи на предметы,
+          исследуй их и находи своё место в большой команде.
+        </p>
+      </header>
+
+      <section className="roles-universe" aria-label="Роли в проекте">
+        <div className="roles-universe__count" aria-hidden="true">
+          <strong>{roleItems.length}</strong>
+          <span>точки входа</span>
+        </div>
+        <p className="roles-universe__whisper roles-universe__whisper--one" aria-hidden="true">
+          СЦЕНА / МЕДИА / ТЕХНИКА / МОДА / СПОРТ
+        </p>
+        <p className="roles-universe__whisper roles-universe__whisper--two" aria-hidden="true">
+          ВЫБИРАЙ НЕ ДОЛЖНОСТЬ — ВЫБИРАЙ, ЧТО ХОЧЕТСЯ СОЗДАТЬ
+        </p>
+
+        <div className="roles-scatter">
+          {roleItems.map((role, index) => {
+            const [span, row, rotation, shift] = scatterPattern[index % scatterPattern.length];
+            return (
+            <button
+              className={`role-object role-object--${role.type}`}
+              type="button"
+              key={role.id}
+              aria-label={`${role.name}. ${role.description}`}
+              style={{
+                "--span": span,
+                "--row": row,
+                "--r": `${rotation}deg`,
+                "--shift": `${shift}%`,
+                "--delay": `${(index % 9) * -0.37}s`,
+              }}
+            >
+              <span className="role-object__index">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="role-object__art" aria-hidden="true">
+                <Art type={role.type} />
+              </span>
+              <span className="role-object__label">
+                <strong>{role.name}</strong>
+                <small>{role.description}</small>
+              </span>
+            </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <aside className="roles-note">
+        <span>Не нашёл точное название?</span>
+        <p>В Megabattle роли появляются вместе с идеями. Можно прийти со своим навыком и придумать новую.</p>
+      </aside>
     </main>
   );
 }
