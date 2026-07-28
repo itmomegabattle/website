@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import "../styles/roles.css";
 
 const roles = [
@@ -164,7 +165,9 @@ function Art({ type }) {
     case "producer":
       return <svg {...common}><path className="role-art-accent" d="M29 56h39l69-30v82L68 79H29z"/><path className="role-art-fill" d="M42 79h25l11 47H52z"/><path className="role-art-line role-art-line--wide" d="M137 48c15 7 15 31 0 38M151 35c29 19 29 47 0 66"/><path className="role-art-cut" d="M68 56v23"/></svg>;
     case "partnership":
-return <svg {...common}><circle className="role-art-soft" cx="50" cy="44" r="15"/><circle className="role-art-soft" cx="130" cy="44" r="15"/><path className="role-art-fill" d="M25 108c1-22 10-34 25-34s24 12 25 34zm80 0c1-22 10-34 25-34s24 12 25 34z"/><path className="role-art-line role-art-line--wide" d="M68 72h44"/><circle className="role-art-accent" cx="90" cy="72" r="14"/><path className="role-art-cut" d="m82 72 5 5 11-11"/></svg>;      return <svg {...common}><path className="role-art-accent" d="m90 19 13 28 31 4-23 21 6 31-27-15-27 15 6-31-23-21 31-4z"/><path className="role-art-fill" d="M70 93h40v19H70zM60 112h60v12H60z"/><path className="role-art-line" d="M80 96v16m20-16v16"/></svg>;
+      return <svg {...common}><circle className="role-art-soft" cx="50" cy="44" r="15"/><circle className="role-art-soft" cx="130" cy="44" r="15"/><path className="role-art-fill" d="M25 108c1-22 10-34 25-34s24 12 25 34zm80 0c1-22 10-34 25-34s24 12 25 34z"/><path className="role-art-line role-art-line--wide" d="M68 72h44"/><circle className="role-art-accent" cx="90" cy="72" r="14"/><path className="role-art-cut" d="m82 72 5 5 11-11"/></svg>;
+    case "award":
+      return <svg {...common}><path className="role-art-accent" d="m90 19 13 28 31 4-23 21 6 31-27-15-27 15 6-31-23-21 31-4z"/><path className="role-art-fill" d="M70 93h40v19H70zM60 112h60v12H60z"/><path className="role-art-line" d="M80 96v16m20-16v16"/></svg>;
     case "admin":
       return <svg {...common}><rect className="role-art-fill" x="30" y="34" width="120" height="76" rx="8"/><path className="role-art-accent" d="M30 34h120v20H30z"/><circle className="role-art-cut-fill" cx="43" cy="44" r="4"/><circle className="role-art-cut-fill" cx="56" cy="44" r="4"/><path className="role-art-line" d="M45 72h37M45 88h59M113 69h20v25h-20z"/></svg>;
     case "volunteer":
@@ -278,7 +281,7 @@ return <svg {...common}><circle className="role-art-soft" cx="50" cy="44" r="15"
     case "jewelry":
       return <svg {...common}><path className="role-art-accent" d="m90 20 31 27-31 73-31-73z"/><path className="role-art-cut" d="M59 47h62M75 47l15 73 15-73M75 47l15-27 15 27"/><path className="role-art-soft" d="M39 108h20m62 0h20"/></svg>;
     case "hair":
-      return <svg {...common}><path className="role-art-fill" d="m31 106 80-80 18 18-80 80z"/><path className="role-art-accent" d="m111 26 31-13-13 31z"/><path className="role-art-soft" d="M32 27h22v95H32z"/><path className="role-art-line" d="M54 35h28M54 52h18M54 69h28M54 86h18"/></svg>;
+      return <svg {...common}><path className="role-art-fill" d="M60 92c-15-23-8-61 30-65 39 4 45 43 30 65-8-13-18-21-30-21S68 79 60 92Z"/><path className="role-art-soft" d="M60 82c-7 6-12 17-13 34h30l4-33zm60 0c7 6 12 17 13 34h-30l-4-33z"/><path className="role-art-accent" d="m31 32 14-8 23 41-14 8zm118 0-14-8-23 41 14 8z"/><path className="role-art-cut" d="m38 28 19 34m85-34-19 34"/></svg>;
     case "fashion-director":
       return <svg {...common}><path className="role-art-accent" d="M74 22h32l8 22 24 16-17 20-13-8 8 51H64l8-51-13 8-17-20 24-16z"/><path className="role-art-soft" d="M24 99h35v20H24zm97 0h35v20h-35z"/><path className="role-art-line" d="M41 99V75m98 24V75M31 75h20m78 0h20"/></svg>;
     case "volleyball":
@@ -292,6 +295,78 @@ return <svg {...common}><circle className="role-art-soft" cx="50" cy="44" r="15"
     default:
       return <svg {...common}><circle className="role-art-accent" cx="90" cy="70" r="42"/><path className="role-art-cut" d="M90 43v35m0 18v2"/></svg>;
   }
+}
+
+function PixelArt({ type }) {
+  const sourceRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const sourceSvg = sourceRef.current?.querySelector("svg");
+    const canvas = canvasRef.current;
+    if (!sourceSvg || !canvas) return undefined;
+
+    const clone = sourceSvg.cloneNode(true);
+    const sourceNodes = [sourceSvg, ...sourceSvg.querySelectorAll("*")];
+    const cloneNodes = [clone, ...clone.querySelectorAll("*")];
+
+    sourceNodes.forEach((node, index) => {
+      const target = cloneNodes[index];
+      const styles = window.getComputedStyle(node);
+      [
+        "fill",
+        "stroke",
+        "strokeWidth",
+        "strokeLinecap",
+        "strokeLinejoin",
+        "opacity",
+      ].forEach((property) => {
+        target.style[property] = styles[property];
+      });
+    });
+
+    clone.removeAttribute("class");
+    clone.setAttribute("width", "180");
+    clone.setAttribute("height", "140");
+    clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+    const blob = new Blob([new XMLSerializer().serializeToString(clone)], {
+      type: "image/svg+xml;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const image = new Image();
+
+    image.onload = () => {
+      const context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.imageSmoothingEnabled = false;
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      setIsReady(true);
+      URL.revokeObjectURL(url);
+    };
+    image.onerror = () => URL.revokeObjectURL(url);
+    image.src = url;
+
+    return () => URL.revokeObjectURL(url);
+  }, [type]);
+
+  return (
+    <>
+      <span
+        ref={sourceRef}
+        className={`role-pixel-source${isReady ? " role-pixel-source--ready" : ""}`}
+      >
+        <Art type={type} />
+      </span>
+      <canvas
+        ref={canvasRef}
+        className={`role-pixel-canvas${isReady ? " role-pixel-canvas--ready" : ""}`}
+        width="60"
+        height="47"
+      />
+    </>
+  );
 }
 
 export default function RolesPage() {
@@ -339,7 +414,7 @@ export default function RolesPage() {
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className="role-object__art" aria-hidden="true">
-                <Art type={role.type} />
+                <PixelArt type={role.type} />
               </span>
               <span className="role-object__label">
                 <strong>{role.name}</strong>

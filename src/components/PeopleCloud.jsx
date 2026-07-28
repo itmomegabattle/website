@@ -49,7 +49,7 @@ export default function PeopleCloud() {
   if (!bubbles.length) return null;
 
   return (
-    <section className="people-cloud-section main-width" aria-labelledby="people-cloud-title">
+    <section className="people-cloud-section" aria-labelledby="people-cloud-title">
       <header className="people-section-heading people-cloud-heading">
         <div>
           <h2 id="people-cloud-title">КТО НАД ЭТИМ<br />ТРУДИЛСЯ</h2>

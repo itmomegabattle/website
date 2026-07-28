@@ -53,6 +53,8 @@ export default function StoriesCarousel({ stories }) {
                   </div>
                   <h3 className="story-name">{story.name}</h3>
                   <p className="story-faculty">{story.faculty}</p>
+                  {story.description && <p className="story-description">{story.description}</p>}
+                  {story.date && <p className="story-date">{story.date}</p>}
                 </button>
               ))}
             </div>
