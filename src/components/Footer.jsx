@@ -1,86 +1,109 @@
 import { Link } from "react-router-dom";
 import "../styles/footer.css";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faVk,
   faTelegram,
-  faGithub,
+  faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
 import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="footer">
       <div className="main-width">
         <div className="footer-content">
-          <Link to="/">
-            <img className="footer-logo" src="logo.svg" width="130" height="88" alt="ITMO Megabattle" decoding="async" />
+          <Link
+            to="/"
+            className="footer-brand"
+            aria-label="На главную"
+          >
+            <img
+              className="footer-logo"
+              src="/logo.svg"
+              width="130"
+              height="88"
+              alt="ITMO Megabattle"
+              decoding="async"
+            />
           </Link>
-          <div>
+
+          <div className="footer-info">
             <p>
-              <a href="https://itmo.ru/" target="_blank">
+              <a
+                href="https://itmo.ru/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Университет ИТМО
-                <br />© 1993-{new Date().getFullYear()}
+                <br />
+                © 1993–{currentYear}
               </a>
             </p>
+
             <p>
               г. Санкт-Петербург
               <br />
-              ул. Ломоносова, д.9
+              ул. Ломоносова, д. 9
             </p>
           </div>
-          <div className="footer-socials">
-            <p>
-              <a
-                href="https://vk.com/itmomegabattle"
-                target="_blank"
-                title="Группа в ВК"
-              >
-                <FontAwesomeIcon icon={faVk} />
-                ВКонтакте
-              </a>
-            </p>
-            <p>
-              <a
-                href="https://t.me/itmomegabattle"
-                target="_blank"
-                title="Группа в Telegram"
-              >
-                <FontAwesomeIcon icon={faTelegram} />
-                Telegram
-              </a>
-            </p>
-            <p>
-              <a
-                href="https://github.com/tuningt231/Megabattle-website"
-                target="_blank"
-                title="GitHub"
-              >
-                <FontAwesomeIcon icon={faGithub} />
-                GitHub
-              </a>
-            </p>
-            <p>
-              <a
-                href="https://rutube.ru/channel/78402593/videos/"
-                target="_blank"
-                title="Rutube"
-              >
-                <FontAwesomeIcon icon={faCirclePlay} />
-                Rutube
-              </a>
-            </p>
-          </div>
+
+          <nav
+            className="footer-socials"
+            aria-label="Социальные сети"
+          >
+            <a
+              href="https://vk.com/itmomegabattle"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="ВКонтакте"
+              aria-label="ВКонтакте"
+            >
+              <FontAwesomeIcon icon={faVk} />
+            </a>
+
+            <a
+              href="https://t.me/itmomegabattle"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Telegram"
+              aria-label="Telegram"
+            >
+              <FontAwesomeIcon icon={faTelegram} />
+            </a>
+
+            <a
+              href="https://www.tiktok.com/@itmo_megabattle"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="TikTok"
+              aria-label="TikTok"
+            >
+              <FontAwesomeIcon icon={faTiktok} />
+            </a>
+
+            <a
+              href="https://rutube.ru/channel/78402593/videos/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Rutube"
+              aria-label="Rutube"
+            >
+              <FontAwesomeIcon icon={faCirclePlay} />
+            </a>
+          </nav>
+
           <div className="footer-policy">
-            <p>
-              <a
-                href="https://www.youtube.com/watch?v=0H_69KHDcP0"
-                target="_blank"
-              >
-                Политика <br />
-                конфиденциальности
-              </a>
-            </p>
+            <a
+              href="https://www.youtube.com/watch?v=0H_69KHDcP0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Политика конфиденциальности
+            </a>
           </div>
         </div>
       </div>

@@ -300,23 +300,53 @@
 
 .stories-admin-toggle {
     display: block;
-    margin: 0 auto;
+    margin: 20px auto 0;
     background: var(--control-background);
     color: var(--control-color);
 }
 
 .story-submit {
     width: min(94vw, 1320px);
-    margin: 0 auto 1.75rem;
+
+    /* Реальный отступ между большим заголовком и кнопкой */
+    margin: clamp(28px, 4vw, 0px) auto 1.75rem;
 }
 
 .story-submit-toggle {
     display: block;
     width: fit-content;
+    min-height: 2.6rem;
     margin: 0 auto;
-    text-decoration: none;
-    background: var(--control-background);
+    padding: 0.55rem 2rem;
+
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+
+    /* Без заливки */
+    background: transparent;
     color: var(--control-color);
+
+    font: inherit;
+    font-weight: 900;
+    line-height: 1.15;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.story-submit-toggle:hover {
+    border-color: var(--control-border-hover);
+    background: color-mix(
+        in srgb,
+        var(--accent-color) 8%,
+        transparent
+    );
+    transform: translateY(-2px);
 }
 
 .story-submit-panel {

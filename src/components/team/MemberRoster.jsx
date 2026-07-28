@@ -80,7 +80,6 @@ export default function MemberRoster({ members }) {
                 decoding="async"
               />
             </span>
-            <span className="people-person-card__index">{String(index + 1).padStart(2, "0")}</span>
             <span className="people-person-card__copy">
               <small>{member.activity || "Команда Megabattle"}</small>
               <strong>{member.name}</strong>

@@ -27,10 +27,6 @@ export default function PeoplePage() {
           <div>
             <h2>ГРАФ<br />ЗНАКОМСТВ</h2>
           </div>
-          <p>
-            Карта знакомств участников откроется 29 августа. До запуска тяжёлый
-            граф не загружается и не расходует трафик устройства.
-          </p>
         </header>
         <FriendshipGraphLaunch />
       </section>

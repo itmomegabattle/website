@@ -41,6 +41,7 @@ const RatingsPage = lazy(routeModuleLoaders["/ratings"]);
 const AuthPage = lazy(routeModuleLoaders["/auth"]);
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const NfcPage = lazy(() => import("./pages/NfcPage"));
+const RolesPage = lazy(() => import("./pages/RolesPage"));
 
 function App() {
   const matches = useMatches();
@@ -83,6 +84,7 @@ const router = createBrowserRouter(
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<RatingsPage />} />
+      <Route path="/roles" element={<RolesPage />} />
       <Route path="/admin" element={<Navigate to="/ratings" replace />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/register" element={<AuthPage mode="signup" />} />
