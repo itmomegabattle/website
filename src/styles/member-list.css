@@ -303,7 +303,8 @@
 
 .team-admin-toggle {
   display: block;
-  margin: 0;
+  width: fit-content;
+  margin: 0 auto;
   background: var(--control-background);
   color: var(--control-color);
   text-align: center;
