@@ -282,33 +282,33 @@
   to { opacity: 1; }
 }
 
-.team-admin {
-  width: 100%;
-  margin: 0 auto 1.5rem;
-  gap: 1rem;
+.team-filters {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 0.75rem;
 }
 
-.team-admin-toggle,
-.team-admin-head button,
-.team-admin-row button {
-  min-height: 2.1rem;
-  padding: 0 0.7rem;
-  border: 1px solid var(--control-border);
-  border-radius: var(--control-radius);
-  background: var(--control-background);
-  color: var(--control-color);
-  font: inherit;
-  font-weight: 900;
-  cursor: pointer;
+.team-admin {
+  width: 100%;
+  margin: 0 auto 0.75rem;
 }
 
 .team-admin-toggle {
   display: block;
   width: fit-content;
-  margin: 1rem auto;
+
+  min-height: 2.1rem;
+  padding: 0.25rem 0.75rem;
+  margin: 0 auto;
+
   background: var(--control-background);
   color: var(--control-color);
+  line-height: 1.1;
   text-align: center;
+}
+
+.people-roster {
+  padding-block: 0 1.5rem;
 }
 
 .team-admin-panel {
