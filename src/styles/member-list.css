@@ -306,6 +306,7 @@
   margin: 0;
   background: var(--control-background);
   color: var(--control-color);
+  text-align: center;
 }
 
 .team-admin-panel {
