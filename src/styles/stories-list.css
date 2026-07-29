@@ -563,6 +563,15 @@
         -webkit-line-clamp: 3;
     }
 
+    .story-card .story-description,
+    .story-card .story-date {
+        display: none;
+    }
+
+    .story-card .story-faculty {
+        margin-bottom: 0;
+    }
+
     .stories-progress-track {
         width: min(62vw, 320px);
     }

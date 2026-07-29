@@ -4,7 +4,7 @@
 .team-filters {
   display: flex;
   justify-content: center;
-  margin: 0 0 clamp(0.45rem, 0.8vw, 0.7rem);
+  margin: 0 0 clamp(0.85rem, 1.25vw, 1.15rem);
 }
 
 .team-toggle {
@@ -191,7 +191,7 @@
 .people-member-modal {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(15rem, 0.82fr) minmax(19rem, 1.18fr);
+  grid-template-columns: minmax(18rem, 0.9fr) minmax(19rem, 1.1fr);
   width: min(92vw, 59rem);
   max-height: min(84svh, 42rem);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -204,7 +204,10 @@
 }
 
 .people-member-modal__image {
-  min-height: min(72svh, 39rem);
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 1;
+  align-self: center;
   overflow: hidden;
 }
 
@@ -284,7 +287,7 @@
 
 .team-admin {
   width: 100%;
-  margin: 0 auto clamp(0.45rem, 0.8vw, 0.7rem);
+  margin: 0 auto clamp(0.85rem, 1.25vw, 1.15rem);
 }
 
 .team-admin-toggle,
@@ -409,6 +412,11 @@
 @media (max-width: 720px) {
   .team-filters {
     justify-content: stretch;
+    margin-bottom: 0.85rem;
+  }
+
+  .team-admin {
+    margin-bottom: 0.85rem;
   }
 
   .team-toggle {
@@ -465,7 +473,7 @@
 
   .people-member-modal {
     grid-template-columns: 1fr;
-    grid-template-rows: clamp(8.5rem, 27svh, 12.5rem) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
     width: min(calc(100vw - 1.25rem), 29rem);
     height: auto;
     max-height: calc(100svh - 1rem);
@@ -474,9 +482,13 @@
   }
 
   .people-member-modal__image {
+    justify-self: center;
+    width: min(100%, 14rem);
     min-height: 0;
-    height: 100%;
-    aspect-ratio: auto;
+    height: auto;
+    margin-top: 0.8rem;
+    aspect-ratio: 1;
+    border-radius: 1rem;
   }
 
   .people-member-modal__image img {
@@ -556,7 +568,11 @@
 
 @media (max-width: 720px) and (max-height: 660px) {
   .people-member-modal {
-    grid-template-rows: clamp(6.5rem, 22svh, 8.5rem) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .people-member-modal__image {
+    width: min(100%, 10rem);
   }
 
   .people-member-modal__copy {
