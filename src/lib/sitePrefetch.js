@@ -1,5 +1,5 @@
 import { Api } from "../api";
-import { preloadAllPageModules, preloadPageModule } from "../routes/pageModules";
+import { preloadPageModule } from "../routes/pageModules";
 
 const routeQueries = {
   "/people": [
@@ -15,6 +15,7 @@ const routeQueries = {
 };
 
 const warmedImages = new Set();
+const routePrefetches = new Map();
 
 function isLocalOptimizedPersonImage(url, variant) {
   if (!url) return "";
@@ -59,60 +60,83 @@ function preloadImage(url) {
   image.src = normalized;
 }
 
-export async function prefetchRoute(pathname, queryClient, { images = true } = {}) {
-  preloadPageModule(pathname);
-  const queries = routeQueries[pathname] || [];
-  const values = await Promise.all(
-    queries.map(async ([queryKey, queryFn]) => {
-      await queryClient.prefetchQuery({
-        queryKey: [queryKey],
-        queryFn,
-        staleTime: 5 * 60 * 1000,
-      });
-      return queryClient.getQueryData([queryKey]);
-    }),
-  );
+export function prefetchRoute(
+  pathname,
+  queryClient,
+  { data = true, images = false } = {},
+) {
+  const key = `${pathname}:${data ? 1 : 0}:${images ? 1 : 0}`;
+  if (routePrefetches.has(key)) return routePrefetches.get(key);
 
-  if (images) {
-    imageUrlsForRoute(pathname, values).forEach(preloadImage);
-  }
+  const prefetch = (async () => {
+    await preloadPageModule(pathname);
+    if (!data) return;
+
+    const queries = routeQueries[pathname] || [];
+    const values = await Promise.all(
+      queries.map(async ([queryKey, queryFn]) => {
+        await queryClient.prefetchQuery({
+          queryKey: [queryKey],
+          queryFn,
+          staleTime: 5 * 60 * 1000,
+        });
+        return queryClient.getQueryData([queryKey]);
+      }),
+    );
+
+    if (images) {
+      imageUrlsForRoute(pathname, values).forEach(preloadImage);
+    }
+  })().catch((error) => {
+    routePrefetches.delete(key);
+    throw error;
+  });
+
+  routePrefetches.set(key, prefetch);
+  return prefetch;
 }
 
-function canWarmImages() {
+function canWarmRoute() {
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  return !connection?.saveData && !["slow-2g", "2g"].includes(connection?.effectiveType);
+  const memory = navigator.deviceMemory || 4;
+  return (
+    !connection?.saveData
+    && !["slow-2g", "2g"].includes(connection?.effectiveType)
+    && memory >= 4
+    && (navigator.hardwareConcurrency || 4) >= 4
+  );
 }
 
 export function scheduleSiteWarmup(queryClient) {
+  if (!canWarmRoute()) return () => {};
+
+  let cancelled = false;
+  let idleId;
+  let timeoutId;
+
   const warm = () => {
-    preloadAllPageModules();
-    const routes = Object.keys(routeQueries);
-    routes.forEach((route, index) => {
-      window.setTimeout(
-        () => prefetchRoute(route, queryClient, { images: false }).catch(() => null),
-        index * 220,
-      );
-    });
-    if (canWarmImages()) {
-      window.setTimeout(() => {
-        routes.forEach((route, index) => {
-          window.setTimeout(
-            () => prefetchRoute(route, queryClient, { images: true }).catch(() => null),
-            index * 450,
-          );
-        });
-      }, 4200);
-    }
+    if (cancelled || document.visibilityState !== "visible") return;
+    // Подготавливаем только код ближайшего логичного раздела. Данные и
+    // изображения грузятся по намерению пользователя, а не целиком при входе.
+    const nextRoute = window.location.pathname === "/" ? "/people" : "/";
+    prefetchRoute(nextRoute, queryClient, { data: false }).catch(() => null);
   };
 
   const schedule = () => {
     if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(warm, { timeout: 2200 });
+      idleId = window.requestIdleCallback(warm, { timeout: 8000 });
     } else {
-      window.setTimeout(warm, 650);
+      timeoutId = window.setTimeout(warm, 6000);
     }
   };
 
   if (document.readyState === "complete") schedule();
   else window.addEventListener("load", schedule, { once: true });
+
+  return () => {
+    cancelled = true;
+    window.removeEventListener("load", schedule);
+    if (idleId && "cancelIdleCallback" in window) window.cancelIdleCallback(idleId);
+    if (timeoutId) window.clearTimeout(timeoutId);
+  };
 }

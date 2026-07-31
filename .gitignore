@@ -10,4 +10,4 @@
 .env.back
 .env.bot
 .env.example
-
+!.env.example

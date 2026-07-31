@@ -85,7 +85,8 @@ export default function PeopleCloud() {
                 alt=""
                 width="256"
                 height="256"
-                loading="eager"
+                loading={index < 9 ? "eager" : "lazy"}
+                fetchPriority={index < 4 ? "high" : "auto"}
                 decoding="async"
               />
               <span>

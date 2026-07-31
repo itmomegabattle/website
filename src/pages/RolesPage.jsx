@@ -143,6 +143,8 @@ const scatterPattern = [
   [2, 2, -2, 6], [1, 2, 1, -5], [1, 1, -3, 9], [2, 2, 3, -3],
 ];
 
+const scatterLift = [-8, 6, -2, 10, -5, 3, 8, -7, 2, -10, 5, -3, 9, -6, 1, 7];
+
 function Art({ type }) {
   const common = {
     className: `role-attribute__svg role-attribute__svg--${type}`,
@@ -301,8 +303,31 @@ function PixelArt({ type }) {
   const sourceRef = useRef(null);
   const canvasRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
+  const [shouldRasterize, setShouldRasterize] = useState(false);
 
   useEffect(() => {
+    const source = sourceRef.current;
+    if (!source || typeof IntersectionObserver === "undefined") {
+      setShouldRasterize(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldRasterize(true);
+        observer.disconnect();
+      },
+      { rootMargin: "320px 0px" },
+    );
+
+    observer.observe(source);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldRasterize) return undefined;
+
     const sourceSvg = sourceRef.current?.querySelector("svg");
     const canvas = canvasRef.current;
     if (!sourceSvg || !canvas) return undefined;
@@ -349,7 +374,7 @@ function PixelArt({ type }) {
     image.src = url;
 
     return () => URL.revokeObjectURL(url);
-  }, [type]);
+  }, [shouldRasterize, type]);
 
   return (
     <>
@@ -371,9 +396,8 @@ function PixelArt({ type }) {
 
 export default function RolesPage() {
   return (
-    <main className="roles-page main-width" aria-labelledby="roles-title">
+    <main className="roles-page" aria-labelledby="roles-title">
       <header className="roles-hero">
-        <p className="roles-eyebrow">В MEGABATTLE НЕТ ЛИШНИХ ЛЮДЕЙ</p>
         <h1 id="roles-title">РОЛИ</h1>
         <p className="roles-intro">
           Один проект — десятки способов быть внутри. Наводи на предметы,
@@ -396,6 +420,7 @@ export default function RolesPage() {
         <div className="roles-scatter">
           {roleItems.map((role, index) => {
             const [span, row, rotation, shift] = scatterPattern[index % scatterPattern.length];
+            const lift = scatterLift[index % scatterLift.length];
             return (
             <button
               className={`role-object role-object--${role.type}`}
@@ -407,6 +432,7 @@ export default function RolesPage() {
                 "--row": row,
                 "--r": `${rotation}deg`,
                 "--shift": `${shift}%`,
+                "--lift": `${lift}px`,
                 "--delay": `${(index % 9) * -0.37}s`,
               }}
             >

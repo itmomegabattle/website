@@ -29,7 +29,7 @@ export function InstagramProfile({ data, href }) {
         <div className="instagram-screen__stories" aria-label="Архивные истории">
           {EVENT_STORIES.map((story) => (
             <span key={story.title}>
-              <img src={story.image} alt="" loading="lazy" />
+              <img src={story.image} alt="" loading="lazy" decoding="async" />
               <small>{story.title}</small>
             </span>
           ))}
@@ -74,7 +74,7 @@ export function RutubeProfile({ data, href }) {
         <strong>RUTUBE</strong><span>Поиск</span><FontAwesomeIcon icon={faEllipsis} />
       </div>
       <div className="rutube-screen__hero">
-        <img src={cover} alt="" loading="lazy" />
+        <img src={cover} alt="" loading="lazy" decoding="async" />
         <div className="rutube-screen__profile">
           <ProjectAvatar />
           <div><strong>ITMO MEGABATTLE</strong><span>{stat(data.followers)} подписчиков</span></div>
@@ -89,7 +89,7 @@ export function RutubeProfile({ data, href }) {
           {videos.map((video, index) => (
             <a href={video.url || href} target="_blank" rel="noreferrer" key={`${video.url}-${index}`}>
               <span className="rutube-screen__thumbnail">
-                <img src={video.thumbnail} alt="" loading="lazy" />
+                <img src={video.thumbnail} alt="" loading="lazy" decoding="async" />
                 <i>▶</i>
               </span>
               <strong>{video.title}</strong>

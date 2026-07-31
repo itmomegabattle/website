@@ -227,7 +227,7 @@ export default function PartnersBento() {
                     height="640"
                     loading="lazy"
                     decoding="async"
-                    onError={(event) => { event.currentTarget.src = Api.normalizeURL("/images/about-image.png"); }}
+                    onError={(event) => { event.currentTarget.src = Api.normalizeURL("/images/about-image.webp"); }}
                   />
                 </div>
               </div>

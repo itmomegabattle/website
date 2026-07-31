@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000,
-      cacheTime: 30 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
       refetchOnWindowFocus: false,
     },
   },
@@ -52,7 +52,7 @@ function App() {
     : "app-shell";
 
   useEffect(() => {
-    scheduleSiteWarmup(queryClient);
+    return scheduleSiteWarmup(queryClient);
   }, []);
 
   return (
@@ -80,7 +80,11 @@ const router = createBrowserRouter(
       <Route path="/" element={<HomePage />} />
       <Route path="/people" element={<PeoplePage />} />
       <Route path="/faculties" element={<FacultiesPage />} />
-      <Route path="/history" element={<HistoryPage />} handle={{ hideFooter: true, hideBackground: true }} />
+      <Route
+        path="/history"
+        element={<HistoryPage />}
+        handle={{ hideFooter: true, hideBackground: true }}
+      />
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<RatingsPage />} />

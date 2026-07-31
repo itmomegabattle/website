@@ -44,12 +44,12 @@ function extensionOf(name) {
 function targetFor(bucket, objectPath) {
   const lower = `${bucket}/${objectPath}`.toLowerCase();
   if (lower.includes("avatar") || bucket === "profile-avatars") {
-    return { maxDimension: 720, maxBytes: 280_000, quality: 82 };
+    return { maxDimension: 640, maxBytes: 180_000, quality: 80 };
   }
   if (lower.includes("small") || lower.includes("thumbnail") || lower.includes("partner")) {
-    return { maxDimension: 900, maxBytes: 360_000, quality: 80 };
+    return { maxDimension: 800, maxBytes: 260_000, quality: 79 };
   }
-  return { maxDimension: 1440, maxBytes: 720_000, quality: 82 };
+  return { maxDimension: 1280, maxBytes: 520_000, quality: 80 };
 }
 
 function optimizedPath(objectPath) {

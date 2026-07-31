@@ -1,7 +1,7 @@
 const PRESETS = {
-  avatar: { maxDimension: 720, maxBytes: 280_000, quality: 0.84 },
-  thumbnail: { maxDimension: 800, maxBytes: 320_000, quality: 0.82 },
-  content: { maxDimension: 1440, maxBytes: 720_000, quality: 0.84 },
+  avatar: { maxDimension: 640, maxBytes: 180_000, quality: 0.82 },
+  thumbnail: { maxDimension: 800, maxBytes: 260_000, quality: 0.8 },
+  content: { maxDimension: 1280, maxBytes: 520_000, quality: 0.82 },
 };
 
 const PASSTHROUGH_TYPES = new Set(["image/svg+xml", "image/gif"]);
@@ -66,8 +66,8 @@ export async function optimizeImageFile(file, presetName = "content") {
   }
 
   if (PASSTHROUGH_TYPES.has(file.type)) {
-    if (file.size > 1_500_000) {
-      throw new Error("SVG/GIF должен весить не больше 1,5 МБ");
+    if (file.size > 1_000_000) {
+      throw new Error("SVG/GIF должен весить не больше 1 МБ");
     }
     return file;
   }

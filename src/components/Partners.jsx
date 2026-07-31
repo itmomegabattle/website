@@ -23,9 +23,8 @@ export default function Partners() {
   const wallPartners = visiblePartners.length ? visiblePartners : partners;
   const rows = [0, 1, 2].map((rowIndex) => {
     const shifted = wallPartners.slice(rowIndex).concat(wallPartners.slice(0, rowIndex));
-    const base = Array.from({ length: 2 }, () => shifted).flat();
-    const filled = [...base, ...base];
-    return filled;
+    const repeatCount = Math.max(2, Math.ceil(8 / Math.max(shifted.length, 1)));
+    return Array.from({ length: repeatCount }, () => shifted).flat();
   });
 
   useEffect(() => {

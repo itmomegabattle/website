@@ -33,7 +33,6 @@
     opacity: 0.58;
     transform: translate3d(0, -3%, 0) rotate(-1deg) scale(1.08);
     animation: brandSkyBreathe 34s ease-in-out infinite alternate;
-    will-change: transform, opacity;
 }
 
 .brand-background::after {
@@ -57,7 +56,6 @@
     opacity: 0.52;
     transform: rotate(-5deg) scale(1.06);
     animation: brandAuroraRibbon 42s ease-in-out infinite alternate;
-    will-change: transform, opacity;
 }
 
 .brand-background__aurora--right {
@@ -81,7 +79,6 @@
     opacity: 0.34;
     transform: rotate(4deg) scale(1.04);
     animation: brandAuroraSlowDrift 48s ease-in-out infinite alternate;
-    will-change: transform, opacity;
 }
 
 .brand-background__beam--two {
@@ -111,7 +108,6 @@
         radial-gradient(circle at 76% 64%, rgba(0, 105, 224, 0.035), transparent 22rem),
         repeating-linear-gradient(95deg, transparent 0 9%, rgba(255, 255, 255, 0.028) 10.2%, transparent 12.2%);
     animation: brandLightWash 38s ease-in-out infinite alternate;
-    will-change: transform, opacity;
 }
 
 @keyframes brandSkyBreathe {
@@ -178,34 +174,30 @@ html.light .brand-background::after {
 
 @media (max-width: 760px) {
     .brand-background::before {
-        opacity: 0.62;
+        opacity: 0.48;
+        animation: none;
     }
 
     .brand-background__aurora {
-        width: 168vw;
-        height: 54vh;
-        opacity: 0.72;
+        width: 138vw;
+        height: 48vh;
+        opacity: 0.48;
+        animation: none;
     }
 
-    .brand-background__aurora--right {
-        width: 150vw;
-        height: 54vh;
-        opacity: 0.46;
-    }
-
-    .brand-background__beam {
-        width: 150vw;
-        height: 46vh;
-        opacity: 0.42;
+    .brand-background__aurora--right,
+    .brand-background__beam,
+    .brand-background__grain {
+        display: none;
     }
 
     .brand-background__grid {
         background-size: 78px 78px;
-        opacity: 0.14;
+        opacity: 0.08;
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (update: slow) {
     .brand-background::before,
     .brand-background__aurora,
     .brand-background__beam,

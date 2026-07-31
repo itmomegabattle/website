@@ -27,6 +27,7 @@ export default function Footer() {
               width="130"
               height="88"
               alt="ITMO Megabattle"
+              loading="lazy"
               decoding="async"
             />
           </Link>

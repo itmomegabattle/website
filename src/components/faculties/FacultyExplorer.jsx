@@ -4,6 +4,17 @@ import { useSearchParams } from "react-router-dom";
 import { Api } from "../../api";
 
 function FacultyLogo({ faculty, className = "" }) {
+  if (faculty.id === "ftmf") {
+    return (
+      <span
+        className={`faculty-explorer-wordmark faculty-explorer-wordmark--ftmf ${className}`.trim()}
+        aria-label={`Логотип ${faculty.name}`}
+      >
+        ФТМФ
+      </span>
+    );
+  }
+
   if (faculty.logo) {
     return (
       <img
@@ -638,6 +649,8 @@ export default function FacultyExplorer() {
                     <img
                       src={Api.normalizeURL(retrospectiveSections[0].image)}
                       alt=""
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <p>{retrospectiveSections[0].text}</p>
@@ -652,7 +665,12 @@ export default function FacultyExplorer() {
 
               <article className="faculty-retro-cell is-photo-story">
                 <div className="faculty-retrospective-image">
-                  <img src={Api.normalizeURL(retrospectivePeople.image)} alt="" />
+                  <img
+                    src={Api.normalizeURL(retrospectivePeople.image)}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <small>{retroPresentation.labels.people}</small>
                 <h3>{retrospectivePeople.title}</h3>
@@ -681,7 +699,12 @@ export default function FacultyExplorer() {
 
               <article className="faculty-retro-cell is-small-photo">
                 <div className="faculty-retrospective-image">
-                  <img src={Api.normalizeURL(retrospectiveSeason.image)} alt="" />
+                  <img
+                    src={Api.normalizeURL(retrospectiveSeason.image)}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <p>Архивный кадр · {activeFaculty.name}</p>
               </article>

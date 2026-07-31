@@ -208,14 +208,12 @@ a:focus-visible {
 
 @keyframes page-stage-enter {
   from {
-    opacity: 0.55;
+    opacity: 0.72;
     transform: translateY(0.35rem);
-    filter: blur(2px);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 

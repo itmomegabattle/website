@@ -20,6 +20,8 @@ export default function FacultyHistory() {
             <img
               src={Api.normalizeURL(faculty.history.image)}
               alt={faculty.history.title}
+              loading="lazy"
+              decoding="async"
             />
           </div>
           <div className="faculty-history-content">

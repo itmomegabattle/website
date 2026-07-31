@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/header.css";
 import { Theme } from "../theme";
@@ -130,6 +130,7 @@ export default function Header() {
   const queryClient = useQueryClient();
   const [theme, setTheme] = useState(Theme.get());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const warmTimerRef = useRef(null);
   const isDarkTheme = theme === "dark";
   const navItems = [
     { to: "/", label: "Главная" },
@@ -147,12 +148,23 @@ export default function Header() {
     return () => Theme.removeListener(setTheme);
   }, []);
 
+  useEffect(() => () => window.clearTimeout(warmTimerRef.current), []);
+
   const handleThemeToggle = () => {
     Theme.set(isDarkTheme ? "light" : "dark");
   };
 
-  const warmRoute = (to) => {
-    prefetchRoute(to, queryClient).catch(() => null);
+  const warmRoute = (to, immediate = false) => {
+    window.clearTimeout(warmTimerRef.current);
+    const run = () => {
+      prefetchRoute(to, queryClient, { data: true, images: false }).catch(() => null);
+    };
+    if (immediate) run();
+    else warmTimerRef.current = window.setTimeout(run, 120);
+  };
+
+  const cancelWarmRoute = () => {
+    window.clearTimeout(warmTimerRef.current);
   };
 
   const handleNavigation = (event, to) => {
@@ -197,8 +209,9 @@ export default function Header() {
             to={item.to}
             key={item.to}
             onPointerEnter={() => warmRoute(item.to)}
-            onFocus={() => warmRoute(item.to)}
-            onTouchStart={() => warmRoute(item.to)}
+            onPointerLeave={cancelWarmRoute}
+            onFocus={() => warmRoute(item.to, true)}
+            onTouchStart={() => prefetchRoute(item.to, queryClient, { data: false }).catch(() => null)}
             onClick={(event) => handleNavigation(event, item.to)}
           >
             {item.label}
@@ -222,7 +235,8 @@ export default function Header() {
           to={item.to}
           key={item.to}
           onPointerEnter={() => warmRoute(item.to)}
-          onFocus={() => warmRoute(item.to)}
+          onPointerLeave={cancelWarmRoute}
+          onFocus={() => warmRoute(item.to, true)}
           onClick={(event) => handleNavigation(event, item.to)}
         >
           {item.label}

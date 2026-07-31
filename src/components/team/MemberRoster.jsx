@@ -6,39 +6,8 @@ import { getMemberCardImage, getMemberDetailImage } from "./memberImages";
 
 export default function MemberRoster({ members }) {
   const [activeMember, setActiveMember] = useState(null);
-  const [isRosterReady, setIsRosterReady] = useState(false);
 
   useEffect(() => setActiveMember(null), [members]);
-  useEffect(() => {
-    let cancelled = false;
-    setIsRosterReady(false);
-    const sources = [...new Set(
-      members
-        .map((member) => Api.normalizeURL(getMemberCardImage(member)))
-        .filter(Boolean),
-    )];
-    if (!sources.length) {
-      setIsRosterReady(true);
-      return undefined;
-    }
-
-    Promise.allSettled(
-      sources.map((src) => new Promise((resolve) => {
-        const image = new Image();
-        image.decoding = "async";
-        image.onload = resolve;
-        image.onerror = resolve;
-        image.src = src;
-        if (image.complete) resolve();
-      })),
-    ).then(() => {
-      if (!cancelled) setIsRosterReady(true);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [members]);
   useEffect(() => {
     if (!activeMember) return undefined;
     const onKeyDown = (event) => {
@@ -52,10 +21,7 @@ export default function MemberRoster({ members }) {
 
   return (
     <>
-      <div
-        className={`people-roster${isRosterReady ? " is-ready" : " is-preparing"}`}
-        aria-busy={!isRosterReady}
-      >
+      <div className="people-roster is-ready">
         {members.map((member, index) => (
           <button
             key={member.key ?? `${member.name}-${member.activity}`}
@@ -74,7 +40,8 @@ export default function MemberRoster({ members }) {
                 alt={member.name}
                 width="480"
                 height="640"
-                loading="eager"
+                loading={index < 4 ? "eager" : "lazy"}
+                fetchPriority={index < 2 ? "high" : "auto"}
                 decoding="async"
               />
             </span>

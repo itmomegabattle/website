@@ -24,8 +24,4 @@ export function preloadPageModule(pathname) {
   return loadPageModule(pathname).catch(() => null);
 }
 
-export function preloadAllPageModules() {
-  return Promise.allSettled(Object.values(pageLoaders).map((loader) => loader()));
-}
-
 export const routeModuleLoaders = pageLoaders;
