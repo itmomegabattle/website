@@ -10,7 +10,6 @@ import HistorySeasonRail from "./HistorySeasonRail";
 import HistoryVideo from "./HistoryVideo";
 import { seasonNumber } from "./historyUtils";
 import useHistoryArchive from "./useHistoryArchive";
-import useSeasonRail from "./useSeasonRail";
 
 export default function HistoryExperience({ data }) {
   const [activeVideo, setActiveVideo] = useState(null);
@@ -24,13 +23,6 @@ export default function HistoryExperience({ data }) {
     galleryVideos,
     featured,
   } = useHistoryArchive(data);
-  const {
-    railRef,
-    startSwipe,
-    finishSwipe,
-    handleWheel,
-  } = useSeasonRail(seasons);
-
   const navigateTo = (event, id) => {
     event.preventDefault();
     const target = document.getElementById(id);
@@ -65,11 +57,7 @@ export default function HistoryExperience({ data }) {
 
         <HistorySeasonRail
           seasons={seasons}
-          railRef={railRef}
           onOpen={setActiveSeason}
-          onWheel={handleWheel}
-          onSwipeStart={startSwipe}
-          onSwipeEnd={finishSwipe}
         />
 
         <section className="history-oath">

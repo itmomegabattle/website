@@ -1,7 +1,10 @@
 export const eventGroups = [
-  { id: "megabattle", title: "MEGABATTLE" },
-  { id: "partners", title: "ПАРТНЁРЫ" },
+  { id: "megabattle", title: "Наши меро" },
+  { id: "partners", title: "Партнёры" },
+  { id: "outings", title: "Выезды" },
 ];
+
+const TELEGRAM_DETAIL_PREFIX = "__telegram__:";
 
 export const emptyEvent = {
   slug: "",
@@ -18,9 +21,33 @@ export const emptyEvent = {
   registration_status: "soon",
   registration_label: "Регистрация скоро",
   registration_link: "",
+  telegram_label: "Telegram",
+  telegram_link: "",
   itmo_events_id: "",
   sort_order: 100,
 };
+
+export function splitEventDetails(value) {
+  const source = Array.isArray(value) ? value : [];
+  const telegramItem = source.find((item) => String(item).startsWith(TELEGRAM_DETAIL_PREFIX));
+  const [label = "Telegram", link = ""] = telegramItem
+    ? String(telegramItem).slice(TELEGRAM_DETAIL_PREFIX.length).split("|")
+    : [];
+
+  return {
+    details: source.filter((item) => !String(item).startsWith(TELEGRAM_DETAIL_PREFIX)),
+    telegram: link ? { label: label || "Telegram", link } : null,
+  };
+}
+
+export function mergeEventDetails(details, label, link) {
+  const cleanDetails = splitEventDetails(details).details;
+  if (!String(link || "").trim()) return cleanDetails;
+  return [
+    ...cleanDetails,
+    `${TELEGRAM_DETAIL_PREFIX}${String(label || "Telegram").trim()}|${String(link).trim()}`,
+  ];
+}
 
 export function toSlug(value) {
   return String(value || "").trim().toLowerCase().replace(/[^a-z0-9а-яё]+/gi, "-").replace(/^-+|-+$/g, "");
@@ -44,6 +71,8 @@ export function getEventSortTime(event) {
 
 export function mapEventToForm(event, groupId) {
   const dbId = event.dbId || event.uuid || (isUuid(event.id) ? event.id : "");
+  const parsedDetails = splitEventDetails(event.details);
+  const telegram = event.telegram || parsedDetails.telegram;
   return {
     ...emptyEvent,
     ...(dbId ? { id: dbId } : {}),
@@ -57,10 +86,12 @@ export function mapEventToForm(event, groupId) {
     event_time_label: event.event_time_label || event.time || "",
     location: event.location || "",
     image_url: event.image_url || event.image || "",
-    details: event.details || [],
+    details: parsedDetails.details,
     registration_status: event.registration_status || event.registration?.status || "soon",
     registration_label: event.registration_label || event.registration?.label || "Регистрация скоро",
     registration_link: event.registration_link || event.registration?.link || "",
+    telegram_label: telegram?.label || "Telegram",
+    telegram_link: telegram?.link || "",
     itmo_events_id: event.itmo_events_id || "",
     sort_order: event.sort_order || 100,
   };

@@ -1,13 +1,13 @@
 .event-showcase-card {
+    --event-showcase-panel-color: var(--brand-gray-900);
+    --event-showcase-seam-overlap: clamp(56px, 5vw, 96px);
     display: grid;
     grid-template-columns: minmax(340px, 0.92fr) minmax(0, 1.08fr);
     min-height: 0;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--accent-color) 22%, var(--border-color));
     border-radius: var(--corner-radius);
-    background:
-        radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent-color) 20%, transparent), transparent 52%),
-        color-mix(in srgb, var(--surface-color-special) 88%, transparent);
+    background: var(--event-showcase-panel-color);
     color: var(--text-color-special);
     box-shadow: var(--card-shadow);
 }
@@ -25,10 +25,49 @@
     min-width: 0;
     min-height: 0;
     aspect-ratio: 1 / 1;
-    overflow: hidden;
+    overflow: visible;
     background:
         linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 34%, transparent), transparent),
         var(--surface-color);
+}
+
+.event-showcase-media::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    inset: 0 calc(-1 * var(--event-showcase-seam-overlap)) 0 auto;
+    width: calc(62% + var(--event-showcase-seam-overlap));
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.06) 28%, rgba(0, 0, 0, 0.4) 56%, black 82%);
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.06) 28%, rgba(0, 0, 0, 0.4) 56%, black 82%);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.04) 28%,
+        rgba(0, 0, 0, 0.18) 50%,
+        rgba(0, 0, 0, 0.46) 68%,
+        rgba(0, 0, 0, 0.82) 84%,
+        #000 95%,
+        #000 100%
+    );
+}
+
+.event-showcase-card:nth-child(even) .event-showcase-media::after {
+    inset: 0 auto 0 calc(-1 * var(--event-showcase-seam-overlap));
+    -webkit-mask-image: linear-gradient(270deg, transparent 0%, rgba(0, 0, 0, 0.06) 28%, rgba(0, 0, 0, 0.4) 56%, black 82%);
+    mask-image: linear-gradient(270deg, transparent 0%, rgba(0, 0, 0, 0.06) 28%, rgba(0, 0, 0, 0.4) 56%, black 82%);
+    background: linear-gradient(
+        270deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.04) 28%,
+        rgba(0, 0, 0, 0.18) 50%,
+        rgba(0, 0, 0, 0.46) 68%,
+        rgba(0, 0, 0, 0.82) 84%,
+        #000 95%,
+        #000 100%
+    );
 }
 
 .event-showcase-media img {
@@ -40,11 +79,30 @@
 }
 
 .event-showcase-info {
+    position: relative;
+    z-index: 3;
     display: flex;
     min-width: 0;
     flex-direction: column;
     gap: 1rem;
     padding: clamp(1.6rem, 3vw, 3rem);
+    background: linear-gradient(
+        90deg,
+        #000 0%,
+        color-mix(in srgb, var(--event-showcase-panel-color) 35%, #000) 9%,
+        var(--event-showcase-panel-color) 26%,
+        var(--event-showcase-panel-color) 100%
+    );
+}
+
+.event-showcase-card:nth-child(even) .event-showcase-info {
+    background: linear-gradient(
+        270deg,
+        #000 0%,
+        color-mix(in srgb, var(--event-showcase-panel-color) 35%, #000) 9%,
+        var(--event-showcase-panel-color) 26%,
+        var(--event-showcase-panel-color) 100%
+    );
 }
 
 .event-showcase-info .card-kicker {
@@ -99,27 +157,29 @@
     margin: 0.4rem 0;
 }
 
-.event-meta-grid div {
+.event-meta-grid > span {
+    display: flex;
+    align-items: center;
     min-width: 0;
-    padding: 0.85rem;
+    min-height: 3.4rem;
+    padding: 0.85rem 1rem;
     border: 1px solid color-mix(in srgb, var(--border-color) 55%, transparent);
     border-radius: 1rem;
     background: rgba(255, 255, 255, 0.06);
-}
-
-.event-meta-grid dt {
-    margin-bottom: 0.35rem;
-    color: color-mix(in srgb, var(--text-color) 68%, transparent);
-    font-size: 0.72rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-
-.event-meta-grid dd {
-    margin: 0;
     font-weight: 800;
     overflow-wrap: anywhere;
+}
+
+.event-showcase-actions-zone {
+    display: grid;
+    gap: 0.65rem;
+    margin-top: 0.15rem;
+}
+
+.event-action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
 }
 
 .event-registration-button {
@@ -128,7 +188,7 @@
     justify-self: start;
     width: fit-content;
     min-height: var(--control-height);
-    margin-top: auto;
+    margin-top: 0;
     padding: var(--control-padding);
     border: 1px solid var(--control-border);
     border-radius: var(--control-radius);
@@ -139,6 +199,50 @@
     box-shadow: var(--control-shadow);
 }
 
+.event-registration-button--secondary {
+    background: color-mix(in srgb, var(--surface-color-special) 78%, transparent);
+    color: var(--text-color-special);
+    box-shadow: none;
+}
+
+.event-group-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.45rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: -1.25rem auto 2.5rem;
+    padding: 0.35rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-color-special) 78%, transparent);
+    box-shadow: var(--card-shadow);
+}
+
+.event-group-tabs button {
+    min-height: 2.65rem;
+    padding: 0 1rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: color-mix(in srgb, var(--text-color-special) 68%, transparent);
+    font: inherit;
+    font-weight: 850;
+    cursor: pointer;
+}
+
+.event-group-tabs button.is-active {
+    border-color: color-mix(in srgb, var(--accent-color) 62%, white 16%);
+    background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+    color: var(--brand-white);
+}
+
+.event-group-empty {
+    padding: 4rem 1rem;
+    text-align: center;
+    color: color-mix(in srgb, var(--text-color-special) 62%, transparent);
+}
+
 .event-registration-button--disabled {
     border: 1px solid color-mix(in srgb, var(--border-color) 55%, transparent);
     color: color-mix(in srgb, var(--text-color-special) 62%, transparent);
@@ -147,6 +251,7 @@
 @media (max-width: 960px) {
     .event-showcase-card,
     .event-showcase-card:nth-child(even) {
+        --event-showcase-seam-overlap: 64px;
         grid-template-columns: 1fr;
     }
 
@@ -154,9 +259,35 @@
         order: 0;
     }
 
+    .event-showcase-media::after,
+    .event-showcase-card:nth-child(even) .event-showcase-media::after {
+        inset: auto 0 calc(-1 * var(--event-showcase-seam-overlap));
+        width: 100%;
+        height: calc(48% + var(--event-showcase-seam-overlap));
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.06) 28%, rgba(0, 0, 0, 0.4) 56%, black 82%);
+        mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.06) 28%, rgba(0, 0, 0, 0.4) 56%, black 82%);
+        background: linear-gradient(
+            180deg,
+            transparent 0%,
+            rgba(0, 0, 0, 0.04) 28%,
+            rgba(0, 0, 0, 0.18) 50%,
+            rgba(0, 0, 0, 0.46) 68%,
+            rgba(0, 0, 0, 0.82) 84%,
+            #000 95%,
+            #000 100%
+        );
+    }
+
     .event-showcase-info {
         gap: 0.8rem;
         padding: 1.05rem;
+        background: linear-gradient(
+            180deg,
+            #000 0%,
+            color-mix(in srgb, var(--event-showcase-panel-color) 35%, #000) 1.75rem,
+            var(--event-showcase-panel-color) 4.75rem,
+            var(--event-showcase-panel-color) 100%
+        );
     }
 
     .event-showcase-info h2 {
@@ -215,7 +346,8 @@
         padding: 0 0.8rem 0.8rem;
     }
 
-    .event-meta-grid div {
+    .event-meta-grid > span {
+        min-height: 0;
         padding: 0.65rem;
     }
 
@@ -225,6 +357,18 @@
 
     .event-registration-button {
         justify-content: center;
-        width: 100%;
+        flex: 1 1 10rem;
+        width: auto;
+    }
+
+    .event-group-tabs {
+        width: calc(100% - 1rem);
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+    }
+
+    .event-group-tabs button {
+        flex: 1 0 auto;
+        padding-inline: 0.8rem;
     }
 }

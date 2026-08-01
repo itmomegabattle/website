@@ -1,7 +1,9 @@
 import { Api } from "../api";
+import { splitEventDetails } from "../components/events/eventConfig";
 import { backendApi } from "../lib/backendApi";
 
 function mapDbEvent(event) {
+  const parsedDetails = splitEventDetails(event.details);
   return {
     id: event.slug,
     dbId: event.id,
@@ -28,7 +30,8 @@ function mapDbEvent(event) {
       label: event.registration_label || "Регистрация скоро",
       link: event.registration_link || "",
     },
-    details: Array.isArray(event.details) ? event.details : [],
+    details: parsedDetails.details,
+    telegram: parsedDetails.telegram,
     image: event.image_url || "/images/events/event1.jpg",
   };
 }

@@ -1,88 +1,59 @@
 [
   {
-    "id": "quiz",
+    "id": "megaquest",
     "group": "megabattle",
-    "name": "Квиз",
-    "type": "интеллектуальная битва",
-    "date": "дата уточняется",
-    "time": "вечер",
-    "location": "Университет ИТМО",
-    "description": "Командная игра для факультетов: быстрые вопросы, музыкальные и визуальные раунды, мемы, логика и немного хаоса. Хорошая точка входа для тех, кто хочет почувствовать сезон без сцены и репетиций.",
-    "registration": {
-      "status": "soon",
-      "label": "Регистрация скоро",
-      "link": ""
-    },
-    "details": ["команды от факультетов", "баллы в общий зачёт", "формат для новичков"],
-    "image": "/images/events/event1.jpg"
-  },
-  {
-    "id": "quest",
-    "group": "megabattle",
-    "name": "Квест",
-    "type": "маршрут · задания · город",
-    "date": "дата уточняется",
-    "time": "день",
-    "location": "кампус и городские точки",
-    "description": "Большой маршрут с заданиями, шифрами и точками взаимодействия. Команды двигаются по локациям, собирают подсказки, выполняют челленджи и забирают очки за скорость, смекалку и командность.",
-    "registration": {
-      "status": "soon",
-      "label": "Регистрация скоро",
-      "link": ""
-    },
-    "details": ["несколько локаций", "факультетские команды", "фото- и видео-задания"],
+    "name": "МекаКвест",
+    "type": "рабочее название",
+    "date": "27.09.2026",
+    "time": "время уточняется",
+    "location": "Корпуса ИТМО",
+    "description": "Большой маршрут по корпусам ИТМО с заданиями, шифрами и командными испытаниями. Финальное название и подробная механика появятся ближе к старту регистрации.",
+    "registration": { "status": "soon", "label": "Регистрация скоро", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["командный формат", "несколько корпусов", "задания и шифры"],
     "image": "/images/events/event2.jpg"
   },
   {
-    "id": "gala",
+    "id": "megaquiz",
+    "group": "megabattle",
+    "name": "МегаКвиз",
+    "type": "рабочее название",
+    "date": "17–18.10.2026",
+    "time": "время уточняется",
+    "location": "Корпус на Гривцова",
+    "description": "Командная интеллектуальная битва факультетов: быстрые вопросы, музыкальные и визуальные раунды, мемы, логика и немного хаоса.",
+    "registration": { "status": "soon", "label": "Регистрация скоро", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["команды факультетов", "два игровых дня", "баллы в общий зачёт"],
+    "image": "/images/events/event1.jpg"
+  },
+  {
+    "id": "tour-de-gala",
+    "group": "megabattle",
+    "name": "Тур де Гала",
+    "type": "вручение тем",
+    "date": "26.10.2026",
+    "time": "время уточняется",
+    "location": "Ломоносова, 9",
+    "description": "Старт сценической части сезона: факультеты получают темы первого раунда и начинают собирать будущие номера гала-концерта.",
+    "registration": { "status": "closed", "label": "Вход по анонсу", "link": "" },
+    "telegram": { "label": "Следить за анонсами", "link": "https://t.me/itmomegabattle" },
+    "details": ["вручение тем", "старт подготовки", "9 сезон"],
+    "image": "/images/about-image.png"
+  },
+  {
+    "id": "gala-round-1-season-9",
     "group": "megabattle",
     "name": "Гала-концерт",
-    "type": "главная сцена сезона",
-    "date": "дата уточняется",
-    "time": "вечер",
-    "location": "площадка будет объявлена позже",
-    "description": "Финальная большая сцена Megabattle: номера факультетов, награды, лучшие участники, общий рейтинг и тот самый момент, когда весь сезон превращается в одну большую историю.",
-    "registration": {
-      "status": "closed",
-      "label": "Регистрация пока закрыта",
-      "link": ""
-    },
-    "details": ["главное событие", "номера факультетов", "награждение"],
+    "type": "1 раунд · 9 сезон",
+    "date": "27.11.2026",
+    "time": "время уточняется",
+    "location": "Ломоносова, 9",
+    "description": "Первый большой финал девятого сезона ITMO Megabattle: номера факультетов, общая сцена, результаты раунда и моменты, ради которых команды готовятся весь семестр.",
+    "registration": { "status": "soon", "label": "Регистрация скоро", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["первый раунд", "главная сцена", "9 сезон"],
     "image": "/images/events/event1.jpg"
-  },
-  {
-    "id": "game",
-    "group": "megabattle",
-    "name": "Game",
-    "type": "игровой формат",
-    "date": "дата уточняется",
-    "time": "вечер",
-    "location": "Университет ИТМО",
-    "description": "Соревновательный игровой вечер: настолки, консоли, быстрые турниры и командные механики. Формат для тех, кто хочет принести факультету очки без микрофона, но с азартом.",
-    "registration": {
-      "status": "soon",
-      "label": "Регистрация скоро",
-      "link": ""
-    },
-    "details": ["турнирные сетки", "командные очки", "несколько игровых зон"],
-    "image": "/images/events/event2.jpg"
-  },
-  {
-    "id": "special-event",
-    "group": "megabattle",
-    "name": "Special Event",
-    "type": "секретный формат",
-    "date": "дата уточняется",
-    "time": "следите за анонсами",
-    "location": "будет объявлено в каналах проекта",
-    "description": "Отдельный специвент сезона, который лучше не спойлерить заранее. Здесь можно будет быстро заменить описание на финальный анонс из админки или базы.",
-    "registration": {
-      "status": "closed",
-      "label": "Анонс скоро",
-      "link": ""
-    },
-    "details": ["секретный формат", "ограниченное число мест", "анонс в соцсетях"],
-    "image": "/images/about-image.png"
   },
   {
     "id": "chto",
@@ -91,13 +62,9 @@
     "type": "театр · перформанс · творческая лаборатория",
     "date": "по расписанию объединения",
     "time": "анонсы в Telegram",
-    "location": "площадки ИТМО и партнёров",
+    "location": "Площадки ИТМО и партнёров",
     "description": "Партнёрское творческое объединение для тех, кто хочет пробовать театр, перформанс, актёрские практики и сценические эксперименты вне основной сетки Megabattle.",
-    "registration": {
-      "status": "open",
-      "label": "Перейти в Telegram",
-      "link": "https://t.me/chtotheatre"
-    },
+    "registration": { "status": "open", "label": "Перейти в Telegram", "link": "https://t.me/chtotheatre" },
     "details": ["театр", "сценическая практика", "@chtotheatre"],
     "image": "/images/events/event1.jpg"
   },
@@ -108,13 +75,9 @@
     "type": "мода · стиль · показ",
     "date": "по расписанию команды",
     "time": "анонсы в Telegram",
-    "location": "площадки ИТМО",
+    "location": "Площадки ИТМО",
     "description": "Партнёрский fashion-формат про стиль, показы, визуальные образы и командную работу вокруг моды. Отличная точка для тех, кто хочет в костюм, продакшен, подиум или backstage.",
-    "registration": {
-      "status": "open",
-      "label": "Перейти в Telegram",
-      "link": "https://t.me/itmo_fashion"
-    },
+    "registration": { "status": "open", "label": "Перейти в Telegram", "link": "https://t.me/itmo_fashion" },
     "details": ["показы", "стиль", "@itmo_fashion"],
     "image": "/images/events/event2.jpg"
   },
@@ -125,13 +88,9 @@
     "type": "футбол · баскетбол · волейбол",
     "date": "по спортивному календарю",
     "time": "тренировки и игры",
-    "location": "спортивные площадки ИТМО",
+    "location": "Спортивные площадки ИТМО",
     "description": "Спортивное направление для тех, кто хочет играть за свою команду и собирать вокруг факультета отдельный соревновательный вайб: футбол, баскетбол, волейбол и командные активности.",
-    "registration": {
-      "status": "closed",
-      "label": "Контакты появятся позже",
-      "link": ""
-    },
+    "registration": { "status": "closed", "label": "Контакты появятся позже", "link": "" },
     "details": ["футбол", "баскетбол", "волейбол"],
     "image": "/images/about-image.png"
   },
@@ -142,14 +101,80 @@
     "type": "стендап · юмор · открытый микрофон",
     "date": "по расписанию клуба",
     "time": "анонсы в Telegram",
-    "location": "площадки ИТМО",
+    "location": "Площадки ИТМО",
     "description": "Партнёрский юмористический формат: стендап, открытые микрофоны, авторские тексты и сцена для тех, кто хочет проверять шутки на живой аудитории.",
-    "registration": {
-      "status": "open",
-      "label": "Перейти в Telegram",
-      "link": "https://t.me/itmopunchline"
-    },
+    "registration": { "status": "open", "label": "Перейти в Telegram", "link": "https://t.me/itmopunchline" },
     "details": ["стендап", "открытый микрофон", "@itmopunchline"],
+    "image": "/images/events/event1.jpg"
+  },
+  {
+    "id": "outing-nozh",
+    "group": "outings",
+    "name": "Выезд МФ НоЖ",
+    "type": "выезд актива",
+    "date": "11–12.09.2026",
+    "time": "по программе выезда",
+    "location": "Выездная площадка",
+    "description": "Два дня для знакомства с активом, командой мегафака и будущим сезоном Megabattle.",
+    "registration": { "status": "closed", "label": "Информация у мегаответственных", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["МФ НоЖ", "актив", "старт сезона"],
+    "image": "/images/events/event2.jpg"
+  },
+  {
+    "id": "outing-ftmi",
+    "group": "outings",
+    "name": "Выезд ФТМИ",
+    "type": "выезд актива",
+    "date": "12–13.09.2026",
+    "time": "по программе выезда",
+    "location": "Выездная площадка",
+    "description": "Выезд факультета для знакомства, распределения ролей и подготовки команды к новому сезону.",
+    "registration": { "status": "closed", "label": "Информация у мегаответственных", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["ФТМИ", "команда", "новый сезон"],
+    "image": "/images/events/event1.jpg"
+  },
+  {
+    "id": "outing-tint",
+    "group": "outings",
+    "name": "Выезд МФ ТИнТ",
+    "type": "выезд актива",
+    "date": "18–19.09.2026",
+    "time": "по программе выезда",
+    "location": "Выездная площадка",
+    "description": "Командный выезд ТИнТ: знакомство с активом, формирование команды и первые задачи сезона.",
+    "registration": { "status": "closed", "label": "Информация у мегаответственных", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["МФ ТИнТ", "знакомство", "командная работа"],
+    "image": "/images/about-image.png"
+  },
+  {
+    "id": "outing-ktu",
+    "group": "outings",
+    "name": "Выезд МФ КТиУ",
+    "type": "выезд актива",
+    "date": "19–20.09.2026",
+    "time": "по программе выезда",
+    "location": "Выездная площадка",
+    "description": "Выезд КТиУ, где будущие участники знакомятся с командой, проектом и направлениями работы внутри сезона.",
+    "registration": { "status": "closed", "label": "Информация у мегаответственных", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["МФ КТиУ", "актив", "роли проекта"],
+    "image": "/images/events/event2.jpg"
+  },
+  {
+    "id": "outing-ftmf",
+    "group": "outings",
+    "name": "Выезд ФТМФ",
+    "type": "выезд актива",
+    "date": "02–03.10.2026",
+    "time": "по программе выезда",
+    "location": "Выездная площадка",
+    "description": "Два дня ФТМФ для знакомства с активом и подготовки общей команды к событиям девятого сезона.",
+    "registration": { "status": "closed", "label": "Информация у мегаответственных", "link": "" },
+    "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
+    "details": ["ФТМФ", "команда", "9 сезон"],
     "image": "/images/events/event1.jpg"
   }
 ]

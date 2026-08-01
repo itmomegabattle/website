@@ -3,35 +3,28 @@ import "../styles/event-showcase.css";
 
 export default function EventCard({ event }) {
   const hasRegistration = event.registration?.status === "open" && event.registration.link;
+  const hasTelegram = Boolean(event.telegram?.link);
   const details = Array.isArray(event.details) ? event.details : [];
   const eventDetails = (
     <>
       <p className="event-showcase-description">{event.description}</p>
+      <div className="event-showcase-actions-zone">
+        <div className="event-meta-grid">
+          <span aria-label="Дата">{event.date}</span>
+          <span aria-label="Время">{event.time}</span>
+          <span aria-label="Место">{event.location}</span>
+        </div>
 
-      <dl className="event-meta-grid">
-        <div>
-          <dt>Когда</dt>
-          <dd>{event.date}</dd>
-        </div>
-        <div>
-          <dt>Время</dt>
-          <dd>{event.time}</dd>
-        </div>
-        <div>
-          <dt>Где</dt>
-          <dd>{event.location}</dd>
-        </div>
-      </dl>
-
-      {details.length > 0 && (
-        <div className="pill-row">
-          {details.map((detail) => (
-            <span className="pill" key={detail}>
-              {detail}
-            </span>
-          ))}
-        </div>
-      )}
+        {details.length > 0 && (
+          <div className="pill-row">
+            {details.map((detail) => (
+              <span className="pill" key={detail}>
+                {detail}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
     </>
   );
 
@@ -57,20 +50,32 @@ export default function EventCard({ event }) {
           {eventDetails}
         </details>
 
-        {hasRegistration ? (
-          <a
-            className="text-button event-registration-button"
-            href={event.registration.link}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {event.registration.label}
-          </a>
-        ) : (
-          <span className="event-registration-button event-registration-button--disabled">
-            {event.registration?.label ?? "Регистрация появится позже"}
-          </span>
-        )}
+        <div className="event-action-row">
+          {hasRegistration ? (
+            <a
+              className="text-button event-registration-button"
+              href={event.registration.link}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {event.registration.label}
+            </a>
+          ) : (
+            <span className="event-registration-button event-registration-button--disabled">
+              {event.registration?.label ?? "Регистрация появится позже"}
+            </span>
+          )}
+          {hasTelegram && (
+            <a
+              className="text-button event-registration-button event-registration-button--secondary"
+              href={event.telegram.link}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {event.telegram.label || "Telegram"}
+            </a>
+          )}
+        </div>
       </div>
     </article>
   );

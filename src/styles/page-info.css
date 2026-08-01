@@ -201,30 +201,20 @@
     margin: 0.4rem 0;
 }
 
-.event-meta-grid div {
-    padding: 0.85rem;
+.event-meta-grid > span {
+    display: flex;
+    align-items: center;
+    min-height: 3.4rem;
+    padding: 0.85rem 1rem;
     border: 1px solid color-mix(in srgb, var(--border-color) 55%, transparent);
     border-radius: 1rem;
     background: rgba(255, 255, 255, 0.06);
-}
-
-.event-meta-grid dt {
-    margin-bottom: 0.35rem;
-    color: var(--accent-color);
-    font-size: 0.72rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-
-.event-meta-grid dd {
-    margin: 0;
     font-weight: 800;
 }
 
 .event-registration-button {
     width: fit-content;
-    margin-top: auto;
+    margin-top: 0;
 }
 
 .event-registration-button--disabled {
@@ -344,6 +334,40 @@
         radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--accent-color) 18%, transparent), transparent 36%),
         var(--surface-color);
     box-shadow: var(--card-shadow);
+}
+
+.event-editor-overlay {
+    position: fixed;
+    z-index: 10000;
+    inset: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.event-editor-overlay .event-inline-editor {
+    width: 100%;
+    min-height: 100svh;
+    max-height: none;
+    margin: 0;
+    padding: clamp(1rem, 4vw, 4rem) max(1rem, calc((100vw - 1200px) / 2));
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background:
+        radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--accent-color) 16%, transparent), transparent 34%),
+        color-mix(in srgb, var(--surface-color) 96%, black 4%);
+    box-shadow: none;
+}
+
+.event-editor-overlay .event-inline-editor-head {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    padding-block: 0.5rem 1rem;
+    background: linear-gradient(180deg, var(--surface-color) 72%, transparent);
 }
 
 .event-inline-editor-head {
@@ -2040,7 +2064,7 @@
         padding: 0 0.8rem 0.8rem;
     }
 
-    .event-meta-grid div {
+    .event-meta-grid > span {
         padding: 0.65rem;
     }
 
