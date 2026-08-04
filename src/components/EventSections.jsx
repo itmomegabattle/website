@@ -48,7 +48,13 @@ export default function EventSections() {
   return (
     <section className="main-width events-section events-hub" id="events">
       <h1>МЕРОПРИЯТИЯ</h1>
-      <div className="event-group-tabs" role="tablist" aria-label="Тип мероприятий">
+      <div
+        className="event-group-tabs"
+        data-filter={activeGroup.id}
+        role="tablist"
+        aria-label="Тип мероприятий"
+      >
+        <span className="event-group-slider" aria-hidden="true" />
         {eventGroups.map((group) => (
           <button
             type="button"

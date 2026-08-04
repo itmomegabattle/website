@@ -1,7 +1,7 @@
 export const eventGroups = [
-  { id: "megabattle", title: "Наши меро" },
-  { id: "partners", title: "Партнёры" },
+  { id: "megabattle", title: "IMB" },
   { id: "outings", title: "Выезды" },
+  { id: "partners", title: "Другое" },
 ];
 
 const TELEGRAM_DETAIL_PREFIX = "__telegram__:";
