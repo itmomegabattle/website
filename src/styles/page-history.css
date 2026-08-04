@@ -1733,11 +1733,11 @@ body:has(.history-page) .header {
   background: var(--control-background-hover);
 }
 
-/* Главы истории: свободная сетка вместо тяжёлой горизонтальной сцены. */
+/* Главы истории: компактная редакционная сетка без растянутых карточек. */
 .history-chapters {
-  width: min(94vw, 1500px);
+  width: min(92vw, 1280px);
   margin: 0 auto;
-  padding: clamp(5rem, 8vw, 8rem) 0;
+  padding: clamp(4rem, 6vw, 6rem) 0;
 }
 
 .history-chapters__header {
@@ -1760,7 +1760,7 @@ body:has(.history-page) .header {
   margin: 0;
   color: var(--history-white);
   font-family: var(--heading-font);
-  font-size: clamp(3.3rem, 7vw, 7rem);
+  font-size: clamp(3rem, 5vw, 4.8rem);
   font-weight: 500;
   line-height: .82;
   letter-spacing: -.055em;
@@ -1776,8 +1776,8 @@ body:has(.history-page) .header {
 
 .history-chapters__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .9rem;
 }
 
 .history-chapters .history-season-card,
@@ -1787,16 +1787,14 @@ body:has(.history-page) .header {
   transform: none;
 }
 
-.history-chapters .history-season-card:nth-child(3n + 1) {
-  grid-column: 1 / -1;
-}
-
 .history-chapters .history-season-card > button {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(13rem, .82fr) minmax(0, 1.18fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: clamp(10.5rem, 16vw, 13rem) 1fr;
   width: 100%;
-  min-height: clamp(24rem, 33vw, 32rem);
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--history-blue) 30%, rgba(255, 255, 255, .14));
   border-radius: var(--corner-radius);
@@ -1806,19 +1804,6 @@ body:has(.history-page) .header {
     color-mix(in srgb, var(--surface-color-special) 86%, transparent);
   box-shadow: var(--card-shadow);
   transform: none;
-}
-
-.history-chapters .history-season-card:nth-child(3n + 1) > button {
-  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .85fr);
-}
-
-.history-chapters .history-season-card:nth-child(3n + 1) .history-season-card__media {
-  grid-column: 2;
-}
-
-.history-chapters .history-season-card:nth-child(3n + 1) .history-season-card__copy {
-  grid-column: 1;
-  grid-row: 1;
 }
 
 .history-chapters .history-season-card__media {
@@ -1844,72 +1829,129 @@ body:has(.history-page) .header {
   position: relative;
   inset: auto;
   z-index: 3;
-  display: grid;
-  grid-column: 2;
-  grid-row: 1;
-  align-content: end;
-  gap: .7rem;
+  display: flex;
+  flex-direction: column;
+  grid-column: 1;
+  grid-row: 2;
+  gap: .46rem;
   min-width: 0;
-  padding: clamp(1.25rem, 3vw, 3rem);
+  min-height: 17.25rem;
+  padding: clamp(1rem, 1.35vw, 1.2rem);
   background: linear-gradient(135deg, color-mix(in srgb, var(--surface-color-special) 94%, transparent), rgba(0, 0, 0, .72));
   transform: none;
 }
 
 .history-chapters .history-season-card__copy small {
-  font-size: .7rem;
-  letter-spacing: .18em;
+  color: color-mix(in srgb, var(--history-blue) 82%, var(--history-white));
+  font-size: .64rem;
+  line-height: 1.2;
+  letter-spacing: .16em;
 }
 
 .history-chapters .history-season-card__copy strong {
-  max-width: 12ch;
-  font-size: clamp(2.2rem, 4.4vw, 4.8rem);
-  line-height: .87;
+  max-width: 17ch;
+  min-height: 2.08em;
+  font-size: clamp(1.08rem, 1.35vw, 1.38rem);
+  line-height: 1.04;
+  letter-spacing: -.025em;
 }
 
 .history-chapters .history-season-card__copy > span:not(.history-season-card__result):not(.history-season-card__highlights) {
   max-width: 42rem;
   color: color-mix(in srgb, var(--history-white) 70%, transparent);
-  font-size: clamp(.88rem, 1.18vw, 1.04rem);
-  line-height: 1.5;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: clamp(.72rem, .78vw, .8rem);
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .history-chapters .history-season-card__result {
-  font-size: .75rem;
+  display: grid;
+  gap: .14rem;
+  min-height: 1rem;
+  font-size: .7rem;
+}
+
+.history-chapters .history-season-card__result b {
+  color: var(--history-white);
+  font-size: .72rem;
+  line-height: 1.25;
+}
+
+.history-chapters .history-season-card__result em {
+  font-size: .59rem;
+  line-height: 1.3;
 }
 
 .history-chapters .history-season-card__highlights {
   display: flex;
   flex-wrap: wrap;
-  gap: .4rem;
+  gap: .32rem;
 }
 
 .history-chapters .history-season-card__highlights em {
-  padding: .35rem .55rem;
+  padding: .32rem .52rem;
   border: 1px solid color-mix(in srgb, var(--history-white) 16%, transparent);
   border-radius: 999px;
-  font-size: .58rem;
+  color: color-mix(in srgb, var(--history-white) 72%, transparent);
+  font-size: .56rem;
+  line-height: 1;
 }
 
 .history-chapters .history-season-card__copy > i {
-  margin-top: .25rem;
-  font-size: .62rem;
-  letter-spacing: .12em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.55rem;
+  margin-top: auto;
+  padding: .65rem .8rem;
+  border: 1px solid color-mix(in srgb, var(--history-white) 20%, transparent);
+  border-radius: .8rem;
+  background: color-mix(in srgb, var(--history-white) 3%, transparent);
+  color: var(--history-white);
+  font-size: .57rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .11em;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+
+.history-chapters .history-season-card > button:hover .history-season-card__copy > i,
+.history-chapters .history-season-card > button:focus-visible .history-season-card__copy > i {
+  border-color: color-mix(in srgb, var(--history-blue) 65%, var(--history-white));
+  background: color-mix(in srgb, var(--history-blue) 16%, transparent);
 }
 
 .history-chapters .history-season-card__number {
   z-index: 5;
-  top: 1rem;
-  left: 1rem;
+  top: .85rem;
+  left: .9rem;
+  font-size: .58rem;
+  opacity: .7;
 }
 
 .history-chapters .history-season-card__date {
   display: none;
 }
 
+@media (max-width: 1100px) {
+  .history-chapters__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .history-chapters .history-season-card > button {
+    grid-template-rows: clamp(11rem, 24vw, 14rem) 1fr;
+  }
+}
+
 @media (max-width: 780px) {
   .history-chapters {
     width: min(100% - 1.2rem, 46rem);
-    padding: 4.25rem 0;
+    padding: 3.5rem 0;
   }
 
   .history-chapters__header {
@@ -1922,39 +1964,153 @@ body:has(.history-page) .header {
   }
 
   .history-chapters__header h2 {
-    font-size: clamp(2.9rem, 15vw, 4.5rem);
+    font-size: clamp(2.65rem, 13vw, 3.8rem);
   }
 
   .history-chapters__grid {
     grid-template-columns: 1fr;
   }
 
-  .history-chapters .history-season-card,
-  .history-chapters .history-season-card:nth-child(3n + 1) {
-    grid-column: auto;
-  }
-
-  .history-chapters .history-season-card > button,
-  .history-chapters .history-season-card:nth-child(3n + 1) > button {
-    grid-template-columns: 1fr;
-    grid-template-rows: minmax(14rem, 60vw) auto;
+  .history-chapters .history-season-card > button {
+    grid-template-rows: clamp(11rem, 52vw, 13rem) auto;
     min-height: 0;
   }
 
-  .history-chapters .history-season-card__media,
-  .history-chapters .history-season-card:nth-child(3n + 1) .history-season-card__media {
+  .history-chapters .history-season-card__media {
     grid-column: 1;
     grid-row: 1;
   }
 
-  .history-chapters .history-season-card__copy,
-  .history-chapters .history-season-card:nth-child(3n + 1) .history-season-card__copy {
+  .history-chapters .history-season-card__copy {
     grid-column: 1;
     grid-row: 2;
-    min-height: 16rem;
+    min-height: 15.75rem;
+    gap: .45rem;
+    padding: 1rem;
   }
 
   .history-chapters .history-season-card__copy strong {
-    font-size: clamp(2.15rem, 11vw, 3.4rem);
+    max-width: 17ch;
+    min-height: 2.08em;
+    font-size: clamp(1.15rem, 5.3vw, 1.42rem);
+  }
+
+  .history-chapters .history-season-card__copy > span:not(.history-season-card__result):not(.history-season-card__highlights) {
+    font-size: .78rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .history-chapters .history-season-card__copy > i {
+    min-height: 2.7rem;
+    padding: .62rem .72rem;
+  }
+}
+
+/* Открытая глава всегда остаётся в пределах текущего окна браузера. */
+.history-chapter {
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100dvh;
+  padding: clamp(.6rem, 1.6vw, 1.25rem);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.history-chapter__panel {
+  box-sizing: border-box;
+  width: min(86rem, 100%);
+  height: min(52rem, calc(100dvh - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: hidden;
+}
+
+.history-chapter__visual {
+  min-height: 0;
+  height: 100%;
+}
+
+.history-chapter__body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 980px) {
+  .history-chapter {
+    align-items: center;
+    padding:
+      max(.35rem, env(safe-area-inset-top))
+      max(.35rem, env(safe-area-inset-right))
+      max(.35rem, env(safe-area-inset-bottom))
+      max(.35rem, env(safe-area-inset-left));
+  }
+
+  .history-chapter__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(8.5rem, 27dvh) minmax(0, 1fr);
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+
+  .history-chapter__visual {
+    grid-column: 1;
+    grid-row: 1;
+    height: auto;
+    min-height: 0;
+  }
+
+  .history-chapter__body {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 0;
+    padding: 1.05rem 1rem calc(1.3rem + env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+
+  .history-chapter__body h2 {
+    font-size: clamp(1.9rem, 9vw, 2.8rem);
+    line-height: .88;
+  }
+
+  .history-chapter__body > p {
+    font-size: .82rem;
+    line-height: 1.5;
+  }
+
+  .history-chapter__meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .history-chapter__close {
+    top: .6rem;
+    right: .6rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .history-chapter__meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 380px), (max-height: 700px) {
+  .history-chapter__panel {
+    grid-template-rows: minmax(7rem, 22dvh) minmax(0, 1fr);
+  }
+
+  .history-chapter__body {
+    padding: .85rem .8rem calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .history-chapter__body h2 {
+    font-size: clamp(1.65rem, 8vw, 2.2rem);
   }
 }
