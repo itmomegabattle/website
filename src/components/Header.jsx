@@ -140,7 +140,7 @@ export default function Header() {
     { to: "/roles", label: "Роли"},
     { to: "/partners", label: "Партнёры" },
     { to: "/events", label: "Мероприятия" },
-    { to: "/ratings", label: "Участникам" },
+    { to: "/profile", label: "Кабинет" },
   ];
 
   useEffect(() => {

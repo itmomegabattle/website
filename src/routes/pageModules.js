@@ -6,12 +6,14 @@ const pageLoaders = {
   "/partners": () => import("../pages/PartnersPage"),
   "/events": () => import("../pages/EventsPage"),
   "/ratings": () => import("../pages/RatingsPage"),
+  "/profile": () => import("../pages/ProfilePage"),
   "/auth": () => import("../pages/AuthPage"),
 };
 
 function normalizeRoute(pathname) {
   if (pathname.startsWith("/u/")) return "/ratings";
   if (pathname.startsWith("/nfc/")) return "/ratings";
+  if (pathname.startsWith("/admin")) return "/profile";
   if (pathname.startsWith("/auth/")) return "/auth";
   return pathname in pageLoaders ? pathname : "/";
 }

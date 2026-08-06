@@ -7,6 +7,7 @@ export default function ProfilesPanel() {
   const { profile } = useAuth();
   const queryClient = useQueryClient();
   const [roleDrafts, setRoleDrafts] = useState({});
+  const [megaballDrafts, setMegaballDrafts] = useState({});
   const [search, setSearch] = useState("");
   const [showAll, setShowAll] = useState(false);
   const { data: profileResult = { items: [], total: 0 }, error } = useQuery({
@@ -15,7 +16,10 @@ export default function ProfilesPanel() {
   });
   const updateMutation = useMutation({
     mutationFn: ({ profileId, values }) => updateAdminProfile(profileId, values, profile),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-profiles"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-profiles"] });
+      queryClient.invalidateQueries({ queryKey: ["ratings"] });
+    },
   });
   const deleteMutation = useMutation({
     mutationFn: (profileId) => deleteAdminProfile(profileId, profile),
@@ -27,6 +31,16 @@ export default function ProfilesPanel() {
     [profileResult.items],
   );
   const getRoleValue = (item) => roleDrafts[item.id] ?? item.role_badge ?? "";
+  const getMegaballValue = (item) => megaballDrafts[item.id] ?? item.megaballs ?? 0;
+  const saveProfileScore = (item) => {
+    updateMutation.mutate({
+      profileId: item.id,
+      values: {
+        role_badge: getRoleValue(item).trim() || null,
+        megaballs: Math.max(0, Number(getMegaballValue(item)) || 0),
+      },
+    });
+  };
   const requestProfileDelete = (item) => {
     if (!window.confirm(`Удалить профиль «${item.nickname || "без имени"}» и связанные с ним данные?`)) return;
     deleteMutation.mutate(item.id);
@@ -61,9 +75,20 @@ export default function ProfilesPanel() {
                 onChange={(event) => setRoleDrafts((current) => ({ ...current, [item.id]: event.target.value }))}
               />
             </label>
+            <label className="admin-role-field admin-megaballs-field">
+              <span>Мегабаллы</span>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                inputMode="numeric"
+                value={getMegaballValue(item)}
+                onChange={(event) => setMegaballDrafts((current) => ({ ...current, [item.id]: event.target.value }))}
+              />
+            </label>
             <div className="admin-row-actions">
               <a className="admin-row-link" href={`/u/${item.id}`} target="_blank" rel="noreferrer">Профиль</a>
-              <button type="button" onClick={() => updateMutation.mutate({ profileId: item.id, values: { role_badge: getRoleValue(item).trim() || null } })}>Сохранить</button>
+              <button type="button" onClick={() => saveProfileScore(item)}>Сохранить</button>
               <button type="button" onClick={() => updateMutation.mutate({ profileId: item.id, values: { is_admin: !item.is_admin } })}>
                 {item.is_admin ? "Убрать админа" : "Сделать админом"}
               </button>

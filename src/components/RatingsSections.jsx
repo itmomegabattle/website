@@ -35,22 +35,8 @@ export function RatingsOverview() {
   }).data;
 
   return (
-    <div className="ratings-overview">
+    <div className="ratings-overview ratings-overview--megaballs">
       <Leaderboard title="Рейтинг факультетов по мегабаллам" rows={ratings.facultyLeaderboard} />
-      <Leaderboard
-        title="Рейтинг участников"
-        rows={ratings.participantLeaderboard}
-        nameKey="nickname"
-      />
-
-      {ratings.lastSeasonWinner && (
-        <article className="info-card winner-card">
-          <p className="card-kicker">{ratings.lastSeasonWinner.title}</p>
-          <h2>{ratings.lastSeasonWinner.name}</h2>
-          <strong>{ratings.lastSeasonWinner.score} мегабаллов</strong>
-          <p>{ratings.lastSeasonWinner.text}</p>
-        </article>
-      )}
     </div>
   );
 }
