@@ -1,7 +1,11 @@
 import { Api } from "../api";
 import "../styles/partners.css";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import ModalPortal from "./ModalPortal";
+import { PartnerEditor } from "./PartnersBento";
+import { useAuth } from "../context/AuthContext";
+import { isAdminProfile } from "../services/adminService";
 
 function uniquePartners(partners) {
   return Array.from(
@@ -11,6 +15,9 @@ function uniquePartners(partners) {
 
 export default function Partners() {
   const wallRef = useRef(null);
+  const { profile } = useAuth();
+  const canEdit = isAdminProfile(profile);
+  const [activePartner, setActivePartner] = useState(null);
 
   // получить данные с API (или из кэша)
   const partners = useQuery({
@@ -21,6 +28,8 @@ export default function Partners() {
 
   const visiblePartners = useMemo(() => uniquePartners(partners), [partners]);
   const wallPartners = visiblePartners.length ? visiblePartners : partners;
+  const getPartnerGroup = (partner) =>
+    partner.partnerGroup || (String(partner.sourceKey || partner.source_key || "").startsWith("general:") ? "general" : "regular");
   const rows = [0, 1, 2].map((rowIndex) => {
     const shifted = wallPartners.slice(rowIndex).concat(wallPartners.slice(0, rowIndex));
     const repeatCount = Math.max(2, Math.ceil(8 / Math.max(shifted.length, 1)));
@@ -77,15 +86,25 @@ export default function Partners() {
     };
   }, [rows.length]);
 
+  useEffect(() => {
+    if (!activePartner) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setActivePartner(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activePartner]);
+
   const renderCard = (p, uniqueKey, index) => {
     return (
-      <a
+      <button
         key={uniqueKey}
+        type="button"
         className={`partner-wall-card partner-wall-card--${index % 7}`}
-        href={p.link || undefined}
-        target={p.link ? "_blank" : undefined}
-        rel={p.link ? "noreferrer" : undefined}
         aria-label={p.name}
+        onClick={() => setActivePartner(p)}
       >
         <div className="partner-wall-card__media">
           <img
@@ -101,12 +120,13 @@ export default function Partners() {
           <span>Партнёр</span>
           <strong>{p.name}</strong>
         </div>
-      </a>
+      </button>
     );
   };
 
   return (
     <div className="partners-section">
+      {canEdit && <PartnerEditor fallbackPartners={partners} />}
       <div className="partners-wall" aria-label="Витрина партнёров" ref={wallRef}>
         <div className="partners-wall__shade partners-wall__shade--top" />
         <div className="partners-wall__shade partners-wall__shade--bottom" />
@@ -130,6 +150,60 @@ export default function Partners() {
           </div>
         </div>
       </div>
+      {activePartner && (
+        <ModalPortal>
+          <div
+            className="partner-detail-backdrop"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) setActivePartner(null);
+            }}
+          >
+            <article
+              className="partner-detail-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-label={`Партнёр: ${activePartner.name}`}
+            >
+              <button
+                className="partner-detail-close"
+                type="button"
+                onClick={() => setActivePartner(null)}
+                aria-label="Закрыть"
+              >
+                ×
+              </button>
+              <div className="partner-detail-logo">
+                <img
+                  src={Api.normalizeURL(activePartner.logo)}
+                  alt={activePartner.name}
+                  width="720"
+                  height="420"
+                  decoding="async"
+                />
+              </div>
+              <div className="partner-detail-content">
+                <p className="card-kicker">
+                  {getPartnerGroup(activePartner) === "general"
+                    ? "Генеральный партнёр"
+                    : "Партнёр"}
+                </p>
+                <h2>{activePartner.name}</h2>
+                <p>
+                  {activePartner.description ||
+                    "Подробная информация о партнёре появится здесь после заполнения описания в редакторе."}
+                </p>
+                {activePartner.link && (
+                  <a className="partner-detail-link" href={activePartner.link} target="_blank" rel="noreferrer">
+                    Открыть сайт
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+              </div>
+            </article>
+          </div>
+        </ModalPortal>
+      )}
     </div>
   );
 }

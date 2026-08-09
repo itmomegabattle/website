@@ -6,6 +6,7 @@ import { deleteAdminEvent, getAdminEvents, isAdminProfile } from "../services/ad
 import EventCard from "./EventCard";
 import { eventGroups, getEventSortTime } from "./events/eventConfig";
 import InlineEventEditor from "./events/InlineEventEditor";
+import "../styles/member-list.css";
 
 export default function EventSections() {
   const { profile } = useAuth();
@@ -48,29 +49,31 @@ export default function EventSections() {
   return (
     <section className="main-width events-section events-hub" id="events">
       <h1>МЕРОПРИЯТИЯ</h1>
-      <div
-        className="event-group-tabs"
-        data-filter={activeGroup.id}
-        role="tablist"
-        aria-label="Тип мероприятий"
-      >
-        <span className="event-group-slider" aria-hidden="true" />
-        {eventGroups.map((group) => (
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeGroup.id === group.id}
-            className={activeGroup.id === group.id ? "is-active" : ""}
-            key={group.id}
-            onClick={() => {
-              setActiveGroupId(group.id);
-              setEditor(null);
-              setAdminStatus("");
-            }}
-          >
-            {group.title}
-          </button>
-        ))}
+      <div className="team-filters event-team-filters">
+        <div
+          className="team-toggle event-group-tabs"
+          data-filter={activeGroup.id}
+          role="tablist"
+          aria-label="Тип мероприятий"
+        >
+          <span className="toggle-slider event-group-slider" aria-hidden="true" />
+          {eventGroups.map((group) => (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeGroup.id === group.id}
+              className={`toggle-btn${activeGroup.id === group.id ? " active is-active" : ""}`}
+              key={group.id}
+              onClick={() => {
+                setActiveGroupId(group.id);
+                setEditor(null);
+                setAdminStatus("");
+              }}
+            >
+              {group.title}
+            </button>
+          ))}
+        </div>
       </div>
 
       {canEdit && (

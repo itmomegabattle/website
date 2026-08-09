@@ -1,37 +1,35 @@
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Api } from "../api";
 import "../styles/event-showcase.css";
-
-const OUTING_FACULTIES = [
-  { aliases: ["фтмф"], label: "ФТМФ", icons: ["/images/faculties/ftmf.svg"] },
-  {
-    aliases: ["фтми"],
-    label: "ФТМИ",
-    icons: [
-      "/images/faculties/ftmi-f.svg",
-      "/images/faculties/ftmi-t.svg",
-      "/images/faculties/ftmi-m.svg",
-      "/images/faculties/ftmi-i.svg",
-    ],
-  },
-  { aliases: ["нож"], label: "НоЖ", icons: ["/images/faculties/nozh.svg"] },
-  { aliases: ["тинт"], label: "ТИнТ", icons: ["/images/faculties/tint.svg"] },
-  { aliases: ["ктиу", "кту"], label: "КТУ", icons: ["/images/faculties/ktu.svg"] },
-];
-
-function getOutingFaculty(event) {
-  if (event.group !== "outings") return null;
-
-  const haystack = `${event.name || ""} ${event.type || ""}`.toLocaleLowerCase("ru");
-  return OUTING_FACULTIES.find(({ aliases }) =>
-    aliases.some((alias) => haystack.includes(alias)),
-  );
-}
 
 export default function EventCard({ event }) {
   const hasRegistration = event.registration?.status === "open" && event.registration.link;
   const hasTelegram = Boolean(event.telegram?.link);
   const details = Array.isArray(event.details) ? event.details : [];
-  const outingFaculty = getOutingFaculty(event);
+  const mediaRef = useRef(null);
+  const [mediaHeight, setMediaHeight] = useState(null);
+  const titleSizeClass = useMemo(() => {
+    const compactName = String(event.name || "").replace(/\s+/g, "");
+    return compactName.length > 20 ? " event-showcase-title--long" : "";
+  }, [event.name]);
+
+  useEffect(() => {
+    const media = mediaRef.current;
+    if (!media) return undefined;
+
+    const syncHeight = () => setMediaHeight(Math.round(media.getBoundingClientRect().height));
+    syncHeight();
+
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(media);
+    window.addEventListener("resize", syncHeight);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", syncHeight);
+    };
+  }, []);
+
   const eventDetails = (
     <>
       <p className="event-showcase-description">{event.description}</p>
@@ -56,8 +54,11 @@ export default function EventCard({ event }) {
   );
 
   return (
-    <article className="event-showcase-card">
-      <div className="event-showcase-media">
+    <article
+      className="event-showcase-card"
+      style={mediaHeight ? { "--event-media-height": `${mediaHeight}px` } : undefined}
+    >
+      <div className="event-showcase-media" ref={mediaRef}>
         <img
           src={Api.normalizeURL(event.image)}
           alt={event.name}
@@ -72,18 +73,8 @@ export default function EventCard({ event }) {
         <div className="event-showcase-heading">
           <div className="event-showcase-heading-copy">
             <p className="card-kicker">{event.type}</p>
-            <h2>{event.name}</h2>
+            <h2 className={`event-showcase-title${titleSizeClass}`}>{event.name}</h2>
           </div>
-          {outingFaculty && (
-            <div
-              className={`event-faculty-avatar${outingFaculty.icons.length > 1 ? " is-composite" : ""}`}
-              aria-label={`Мегафакультет ${outingFaculty.label}`}
-            >
-              {outingFaculty.icons.map((src) => (
-                <img src={src} alt="" aria-hidden="true" key={src} />
-              ))}
-            </div>
-          )}
         </div>
         <div className="event-showcase-desktop-details">{eventDetails}</div>
         <details className="event-mobile-details">
@@ -94,7 +85,7 @@ export default function EventCard({ event }) {
         <div className="event-action-row">
           {hasRegistration ? (
             <a
-              className="text-button event-registration-button"
+              className="event-registration-button"
               href={event.registration.link}
               target="_blank"
               rel="noreferrer"
@@ -108,7 +99,7 @@ export default function EventCard({ event }) {
           )}
           {hasTelegram && (
             <a
-              className="text-button event-registration-button event-registration-button--secondary"
+              className="event-registration-button event-registration-button--secondary"
               href={event.telegram.link}
               target="_blank"
               rel="noreferrer"

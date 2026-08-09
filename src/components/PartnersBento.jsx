@@ -29,7 +29,7 @@ function uniquePartners(partners) {
   );
 }
 
-function PartnerEditor({ fallbackPartners }) {
+export function PartnerEditor({ fallbackPartners }) {
   const { profile } = useAuth();
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
