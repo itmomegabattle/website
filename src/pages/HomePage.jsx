@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import EventList from "../components/EventList";
 import heroVideo from "/hero-video.mp4";
 import heroVideoMobile from "/hero-video-mobile.mp4";
-import heroVideoAv1 from "/hero-video-av1.webm";
-import heroVideoMobileAv1 from "/hero-video-mobile-av1.webm";
 import heroPoster from "/hero-poster.webp";
 import heroPosterMobile from "/hero-poster-mobile.webp";
 import "../styles/page-home.css";
@@ -114,8 +112,6 @@ export default function HomePage() {
             >
               {allowHeroVideo && (
                 <>
-                  <source src={heroVideoMobileAv1} media="(max-width: 768px)" type='video/webm; codecs="av01.0.08M.08"' />
-                  <source src={heroVideoAv1} type='video/webm; codecs="av01.0.08M.08"' />
                   <source src={heroVideoMobile} media="(max-width: 768px)" type="video/mp4" />
                   <source src={heroVideo} type="video/mp4" />
                 </>
