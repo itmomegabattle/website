@@ -1,60 +1,32 @@
 .brand-background {
   position: fixed;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   overflow: hidden;
-
   pointer-events: none;
-
   z-index: -1;
-
-  /*
-   * Р’РѕР·РІСЂР°С‰С‘РЅ РЅРµР№С‚СЂР°Р»СЊРЅС‹Р№ РїРѕС‡С‚Рё С‡С‘СЂРЅС‹Р№ С„РѕРЅ.
-   * Р¤РёСЂРјРµРЅРЅС‹Р№ СЃРёРЅРёР№ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІ СЃР°РјРёС… РІРѕР»РЅР°С….
-   */
-  background: #010204;
-
   contain: strict;
+  background:
+    radial-gradient(circle at 52% 42%, rgba(0, 48, 112, 0.08), transparent 55%),
+    linear-gradient(145deg, #01040b, #000103);
 }
-
 
 .brand-background__canvas {
   position: absolute;
   inset: 0;
-
   display: block;
-
   width: 100%;
   height: 100%;
-
   pointer-events: none;
-
   transform: translateZ(0);
-
   backface-visibility: hidden;
 }
 
-.brand-background__canvas--base {
-  z-index: 0;
-}
-
-.brand-background__canvas--motion {
-  z-index: 1;
-}
-
-
-/* LIGHT THEME */
-
 html[data-theme="light"] .brand-background,
 html.light .brand-background {
-  background: #f3f6fa;
+  background: linear-gradient(145deg, #edf2f9, #dbe5f4);
 }
-
-
-/* REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
   .brand-background__canvas {
