@@ -12,7 +12,6 @@ const routeQueries = {
   "/partners": [["partners", Api.getPartners]],
   "/events": [["events", Api.getEvents]],
   "/ratings": [["ratings", Api.getRatings]],
-  "/profile": [["ratings", Api.getRatings]],
 };
 
 const warmedImages = new Set();

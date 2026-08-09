@@ -38,7 +38,6 @@ const HistoryPage = lazy(routeModuleLoaders["/history"]);
 const PartnersPage = lazy(routeModuleLoaders["/partners"]);
 const EventsPage = lazy(routeModuleLoaders["/events"]);
 const RatingsPage = lazy(routeModuleLoaders["/ratings"]);
-const ProfilePage = lazy(routeModuleLoaders["/profile"]);
 const AuthPage = lazy(routeModuleLoaders["/auth"]);
 const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
 const NfcPage = lazy(() => import("./pages/NfcPage"));
@@ -90,10 +89,10 @@ const router = createBrowserRouter(
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<RatingsPage />} />
       <Route path="/roles" element={<RolesPage />} />
-      <Route path="/admin" element={<ProfilePage />} />
+      <Route path="/admin" element={<Navigate to="/ratings" replace />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/register" element={<AuthPage mode="signup" />} />
-      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/profile" element={<Navigate to="/ratings" replace />} />
       <Route path="/u/:profileId" element={<PublicProfilePage />} />
       <Route
         path="/nfc/:tagCode"

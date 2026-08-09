@@ -39,7 +39,7 @@ export async function getAdminProfiles({ search="", all=false }={}) {
 }
 export async function updateAdminProfile(profileId, values) {
   if (Object.hasOwn(values,"is_admin")) await backendApi(`/api/v1/admin/profiles/${profileId}/roles/admin`,{method:values.is_admin?"PUT":"DELETE"});
-  const moderation={}; for(const key of ["is_banned","ban_reason","role_badge","is_best_actor","megaballs"]) if(Object.hasOwn(values,key)) moderation[key]=values[key];
+  const moderation={}; for(const key of ["is_banned","ban_reason","role_badge","is_best_actor"]) if(Object.hasOwn(values,key)) moderation[key]=values[key];
   if(Object.keys(moderation).length) return backendApi(`/api/v1/admin/profiles/${profileId}/moderation`,{method:"PATCH",body:JSON.stringify(moderation)});
   return {ok:true};
 }

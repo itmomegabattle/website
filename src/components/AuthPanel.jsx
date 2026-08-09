@@ -88,7 +88,7 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
     sessionStorage.removeItem(LEGACY_PENDING_LOGIN_KEY);
     try {
       const pkce = await createPkce();
-      const nextAttempt = await beginTelegramOidcLogin(pkce.challenge, `${window.location.origin}${redirectTo}`);
+      const nextAttempt = await beginTelegramOidcLogin(pkce.challenge, `${window.location.origin}/ratings`);
       const stored = {
         state: nextAttempt.state,
         nonce: nextAttempt.nonce,
