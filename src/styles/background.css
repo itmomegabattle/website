@@ -22,6 +22,9 @@
 
 
 .brand-background__canvas {
+  position: absolute;
+  inset: 0;
+
   display: block;
 
   width: 100%;
@@ -32,6 +35,14 @@
   transform: translateZ(0);
 
   backface-visibility: hidden;
+}
+
+.brand-background__canvas--base {
+  z-index: 0;
+}
+
+.brand-background__canvas--motion {
+  z-index: 1;
 }
 
 

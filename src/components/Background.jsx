@@ -5,8 +5,8 @@ import "../styles/background.css";
    SETTINGS
    ========================================================= */
 
-const MAX_FPS = 60;
-const FRAME_INTERVAL = 1000 / MAX_FPS;
+const IDLE_FPS = 24;
+const INTERACTION_FPS = 30;
 
 const AUTONOMOUS_SPEED = 0.13;
 const HOVER_SPEED = AUTONOMOUS_SPEED;
@@ -64,6 +64,22 @@ function clamp(value, min, max) {
 function smoothstep(value) {
   const x = clamp(value, 0, 1);
   return x * x * (3 - 2 * x);
+}
+
+function createBackgroundGradient(context, width, height, isLight) {
+  const gradient = context.createLinearGradient(0, 0, width, height);
+
+  if (isLight) {
+    gradient.addColorStop(0, "#e9edf3");
+    gradient.addColorStop(0.55, "#f6f8fb");
+    gradient.addColorStop(1, "#e4eaf2");
+  } else {
+    gradient.addColorStop(0, "#010204");
+    gradient.addColorStop(0.52, "#02050a");
+    gradient.addColorStop(1, "#000103");
+  }
+
+  return gradient;
 }
 
 function seededRandom(seed) {
@@ -262,6 +278,10 @@ function getRenderedPoints(
   height,
   time,
 ) {
+  if (pointer.touch < 0.001) {
+    return path.points;
+  }
+
   const cursorX = pointer.visualX * width;
   const cursorY = pointer.visualY * height;
 
@@ -482,7 +502,7 @@ function makePulsePath(
 ) {
   const result = new Path2D();
 
-  const samples = 26;
+  const samples = 18;
 
   for (
     let index = 0;
@@ -638,17 +658,13 @@ function drawPulse(
   context.lineCap = "round";
   context.lineJoin = "round";
 
-  context.globalCompositeOperation = (
-    isLight
-      ? "source-over"
-      : "screen"
-  );
+  context.globalCompositeOperation = "source-over";
 
   /*
    * Свет — это именно более светлая часть самой линии,
    * без отдельного светящегося шарика.
    */
-  context.lineWidth = 10;
+  context.lineWidth = 6.5;
 
   context.strokeStyle = createPulseGradient(
     context,
@@ -850,13 +866,9 @@ function drawJunctionPulse(
   context.lineCap = "round";
   context.lineJoin = "round";
 
-  context.globalCompositeOperation = (
-    isLight
-      ? "source-over"
-      : "screen"
-  );
+  context.globalCompositeOperation = "source-over";
 
-  context.lineWidth = 10;
+  context.lineWidth = 6.5;
 
   context.strokeStyle = (
     createPulseGradient(
@@ -946,7 +958,7 @@ function nearestProgress(
   const cursorX = pointer.rawX * width;
   const cursorY = pointer.rawY * height;
 
-  const samples = 64;
+  const samples = 32;
 
   let nearest = {
     distance: Infinity,
@@ -1586,7 +1598,7 @@ function advancePulseGroup(
    */
   return next.slice(
     0,
-    12,
+    8,
   );
 }
 
@@ -1596,21 +1608,30 @@ function advancePulseGroup(
    ========================================================= */
 
 export default function Background() {
+  const baseCanvasRef = useRef(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    const baseCanvas = baseCanvasRef.current;
     const canvas = canvasRef.current;
+
+    const baseContext = baseCanvas?.getContext(
+      "2d",
+      { alpha: false },
+    );
 
     const context = canvas?.getContext(
       "2d",
       {
-        alpha: false,
+        alpha: true,
         desynchronized: true,
       },
     );
 
     if (
-      !canvas
+      !baseCanvas
+      || !baseContext
+      || !canvas
       || !context
     ) {
       return undefined;
@@ -1647,10 +1668,17 @@ export default function Background() {
 
     let paths = [];
     let pathMap = new Map();
+    let staticFramePaths = [];
+    let staticFrameMap = new Map();
+    let staticNetworkPath = new Path2D();
+    let backgroundGradient = null;
+    let cachedThemeIsLight = null;
+    let baseHidden = false;
 
     let frameId = 0;
     let lastFrame = 0;
     let lastPaintTime = 0;
+    let pendingPointerPosition = null;
 
     let animationTime = 0;
 
@@ -1892,6 +1920,33 @@ export default function Background() {
       }
     };
 
+    const paintStaticBase = (isLight) => {
+      baseContext.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0,
+      );
+
+      baseContext.fillStyle = createBackgroundGradient(
+        baseContext,
+        width,
+        height,
+        isLight,
+      );
+
+      baseContext.fillRect(0, 0, width, height);
+      baseContext.lineCap = "round";
+      baseContext.lineJoin = "round";
+      baseContext.lineWidth = 6.15;
+      baseContext.strokeStyle = isLight
+        ? "rgba(0,91,194,.62)"
+        : "rgba(0,105,224,.72)";
+      baseContext.stroke(staticNetworkPath);
+    };
+
 
     /* =====================================================
        RESIZE
@@ -1908,10 +1963,9 @@ export default function Background() {
         window.innerHeight,
       );
 
-      dpr = Math.min(
-        window.devicePixelRatio || 1,
-        1.75,
-      );
+      // Фон находится под blur: повышенный Retina-DPR почти не улучшает
+      // картинку, но кратно увеличивает число обрабатываемых пикселей.
+      dpr = 1;
 
       canvas.width = Math.round(
         width * dpr,
@@ -1928,6 +1982,17 @@ export default function Background() {
       canvas.style.height = (
         `${height}px`
       );
+
+      baseCanvas.width = Math.round(
+        width * dpr,
+      );
+
+      baseCanvas.height = Math.round(
+        height * dpr,
+      );
+
+      baseCanvas.style.width = `${width}px`;
+      baseCanvas.style.height = `${height}px`;
 
       context.setTransform(
         dpr,
@@ -1952,6 +2017,40 @@ export default function Background() {
         ),
       );
 
+      staticFramePaths = paths.map(
+        (path) => ({
+          path,
+          points: path.points,
+        }),
+      );
+
+      staticFrameMap = new Map(
+        staticFramePaths.map(
+          (item) => [item.path.id, item],
+        ),
+      );
+
+      staticNetworkPath = new Path2D();
+
+      staticFramePaths.forEach(
+        (item) => {
+          traceSpline(
+            staticNetworkPath,
+            item.points,
+          );
+        },
+      );
+
+      backgroundGradient = null;
+      cachedThemeIsLight = null;
+
+      const isLight = (
+        document.documentElement.dataset.theme === "light"
+        || document.documentElement.classList.contains("light")
+      );
+
+      paintStaticBase(isLight);
+
       autonomousTracks = (
         createTracks()
       );
@@ -1973,6 +2072,14 @@ export default function Background() {
     const paint = (
       time = 0,
     ) => {
+      if (pendingPointerPosition) {
+        updatePointerPosition(
+          pendingPointerPosition.x,
+          pendingPointerPosition.y,
+        );
+        pendingPointerPosition = null;
+      }
+
       const delta = (
         lastPaintTime
           ? Math.min(
@@ -1998,15 +2105,9 @@ export default function Background() {
       );
 
 
-      /*
-       * Гарантированно обновляем hit-test каждый кадр.
-       *
-       * Даже если мышка перестала двигаться,
-       * hover остаётся активным.
-       */
-      if (pointer.inside) {
-        updateHoverHit();
-      } else {
+      // Геометрия сети не перемещается сама по себе, поэтому повторный
+      // 32-точечный hit-test нужен только после pointermove/resize.
+      if (!pointer.inside) {
         hoverHit = null;
       }
 
@@ -2099,62 +2200,53 @@ export default function Background() {
         - pointer.touch
       ) * touchEase;
 
-
-      /* ===================================================
-         BACKGROUND
-         =================================================== */
-
-      const background = (
-        context.createLinearGradient(
-          0,
-          0,
-          width,
-          height,
-        )
+      const hasDynamicGeometry = (
+        pointer.touch >= 0.001
       );
 
-      if (isLight) {
-        background.addColorStop(
-          0,
-          "#e9edf3",
-        );
-
-        background.addColorStop(
-          0.55,
-          "#f6f8fb",
-        );
-
-        background.addColorStop(
-          1,
-          "#e4eaf2",
-        );
-      } else {
-        background.addColorStop(
-          0,
-          "#010204",
-        );
-
-        background.addColorStop(
-          0.52,
-          "#02050a",
-        );
-
-        background.addColorStop(
-          1,
-          "#000103",
-        );
+      if (baseHidden !== hasDynamicGeometry) {
+        baseHidden = hasDynamicGeometry;
+        baseCanvas.style.opacity = hasDynamicGeometry ? "0" : "1";
       }
 
-      context.fillStyle = (
-        background
-      );
-
-      context.fillRect(
+      context.clearRect(
         0,
         0,
         width,
         height,
       );
+
+
+      /* ===================================================
+         BACKGROUND
+         =================================================== */
+
+      if (hasDynamicGeometry) {
+        if (
+          !backgroundGradient
+          || cachedThemeIsLight !== isLight
+        ) {
+          backgroundGradient = createBackgroundGradient(
+            context,
+            width,
+            height,
+            isLight,
+          );
+
+          cachedThemeIsLight = isLight;
+        }
+
+        context.fillStyle = (
+          backgroundGradient
+        );
+
+        context.fillRect(
+          0,
+          0,
+          width,
+          height,
+        );
+      }
 
       context.lineCap = "round";
       context.lineJoin = "round";
@@ -2164,30 +2256,31 @@ export default function Background() {
          GEOMETRY ONCE PER FRAME
          =================================================== */
 
-      const framePaths = (
-        paths.map(
-          (path) => ({
-            path,
-
-            points: getRenderedPoints(
+      const framePaths = hasDynamicGeometry
+        ? paths.map(
+            (path) => ({
               path,
-              pointer,
-              width,
-              height,
-              animationTime,
-            ),
-          }),
-        )
-      );
+              points: getRenderedPoints(
+                path,
+                pointer,
+                width,
+                height,
+                animationTime,
+              ),
+            }),
+          )
+        : staticFramePaths;
 
-      const frameMap = new Map(
-        framePaths.map(
-          (item) => [
-            item.path.id,
-            item,
-          ],
-        ),
-      );
+      const frameMap = hasDynamicGeometry
+        ? new Map(
+            framePaths.map(
+              (item) => [
+                item.path.id,
+                item,
+              ],
+            ),
+          )
+        : staticFrameMap;
 
 
       /*
@@ -2197,7 +2290,7 @@ export default function Background() {
        * получить немного разные координаты одного junction.
        * Теперь начало ветки всегда совпадает с parent.
        */
-      framePaths.forEach(
+      if (hasDynamicGeometry) framePaths.forEach(
         (item) => {
           const path = item.path;
 
@@ -2294,17 +2387,6 @@ export default function Background() {
          Поэтому визуально это один цельный цвет.
          =================================================== */
 
-      context.beginPath();
-
-      framePaths.forEach(
-        (item) => {
-          traceSpline(
-            context,
-            item.points,
-          );
-        },
-      );
-
       context.lineWidth = 6.15;
 
       context.strokeStyle = (
@@ -2313,7 +2395,20 @@ export default function Background() {
           : "rgba(0,105,224,.72)"
       );
 
-      context.stroke();
+      if (hasDynamicGeometry) {
+        context.beginPath();
+
+        framePaths.forEach(
+          (item) => {
+            traceSpline(
+              context,
+              item.points,
+            );
+          },
+        );
+
+        context.stroke();
+      }
 
 
       /* ===================================================
@@ -2431,7 +2526,11 @@ export default function Background() {
 
       if (
         time - lastFrame
-        >= FRAME_INTERVAL
+        >= 1000 / (
+          hoverHit?.path
+            ? INTERACTION_FPS
+            : IDLE_FPS
+        )
       ) {
         paint(time);
         lastFrame = time;
@@ -2586,31 +2685,18 @@ export default function Background() {
         return;
       }
 
-      updatePointerPosition(
-        event.clientX,
-        event.clientY,
-      );
-    };
-
-
-    /*
-     * mousemove оставлен как дополнительный fallback.
-     * На обычной мыши оба события могут приходить,
-     * но это безопасно: здесь ничего не создаётся,
-     * только обновляются координаты.
-     */
-    const handleMouseMove = (
-      event,
-    ) => {
-      updatePointerPosition(
-        event.clientX,
-        event.clientY,
-      );
+      // События мыши на современных устройствах могут приходить сотни раз в
+      // секунду. Обрабатываем только последнюю позицию в следующем paint.
+      pendingPointerPosition = {
+        x: event.clientX,
+        y: event.clientY,
+      };
     };
 
 
     const handlePointerLeave = () => {
       pointer.inside = false;
+      pendingPointerPosition = null;
       hoverHit = null;
       hoverWasOverLine = false;
     };
@@ -2628,6 +2714,14 @@ export default function Background() {
     const themeObserver = (
       new MutationObserver(
         () => {
+          const isLight = (
+            document.documentElement.dataset.theme === "light"
+            || document.documentElement.classList.contains("light")
+          );
+
+          paintStaticBase(isLight);
+          backgroundGradient = null;
+
           paint(
             performance.now(),
           );
@@ -2651,19 +2745,6 @@ export default function Background() {
     window.addEventListener(
       "pointermove",
       handlePointerMove,
-      {
-        passive: true,
-        capture: true,
-      },
-    );
-
-    /*
-     * Fallback для браузеров/окружений,
-     * где pointermove ведёт себя нестабильно.
-     */
-    window.addEventListener(
-      "mousemove",
-      handleMouseMove,
       {
         passive: true,
         capture: true,
@@ -2725,14 +2806,6 @@ export default function Background() {
       );
 
       window.removeEventListener(
-        "mousemove",
-        handleMouseMove,
-        {
-          capture: true,
-        },
-      );
-
-      window.removeEventListener(
         "pointerleave",
         handlePointerLeave,
       );
@@ -2768,8 +2841,12 @@ export default function Background() {
       aria-hidden="true"
     >
       <canvas
+        ref={baseCanvasRef}
+        className="brand-background__canvas brand-background__canvas--base"
+      />
+      <canvas
         ref={canvasRef}
-        className="brand-background__canvas"
+        className="brand-background__canvas brand-background__canvas--motion"
       />
     </div>
   );
