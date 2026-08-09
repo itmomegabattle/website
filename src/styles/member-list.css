@@ -15,7 +15,9 @@
   padding: 0.28rem;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface-color-special) 76%, transparent);
+  background: var(--ui-glass-background);
+  backdrop-filter: blur(var(--content-glass-blur));
+  -webkit-backdrop-filter: blur(var(--content-glass-blur));
   box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, 0.28);
   overflow: hidden;
 }
@@ -69,9 +71,9 @@
 
 .people-person-card {
   position: relative;
-  flex: 0 1 calc((100% - 4 * var(--roster-gap)) / 5);
+  flex: 0 1 calc((100% - 5 * var(--roster-gap)) / 6);
   min-width: 0;
-  aspect-ratio: 0.72;
+  aspect-ratio: 0.76;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: clamp(1.25rem, 2vw, 2rem);
@@ -133,7 +135,7 @@
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 50%;
   background: rgba(2, 8, 18, 0.42);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
   color: rgba(255, 255, 255, 0.88);
   font-size: 0.68rem;
   font-weight: 900;
@@ -144,8 +146,8 @@
   inset: auto 0 0;
   z-index: 2;
   display: grid;
-  gap: 0.45rem;
-  padding: clamp(1.15rem, 2vw, 1.8rem);
+  gap: 0.32rem;
+  padding: clamp(0.85rem, 1.35vw, 1.3rem);
 }
 
 .people-person-card__copy small {
@@ -158,7 +160,7 @@
 
 .people-person-card__copy strong {
   max-width: 100%;
-  font: 500 clamp(1.15rem, 1.6vw, 1.9rem)/0.94 var(--heading-font);
+  font: 500 clamp(1rem, 1.3vw, 1.55rem)/0.96 var(--heading-font);
   letter-spacing: -0.045em;
   text-wrap: balance;
   overflow-wrap: normal;
@@ -183,32 +185,54 @@
   display: grid;
   place-items: center;
   padding: clamp(0.75rem, 3vw, 2rem);
-  background: rgba(0, 2, 7, 0.78);
-  backdrop-filter: blur(18px);
+  background: rgba(0, 2, 7, 0.82);
+  backdrop-filter: blur(8px);
   animation: people-modal-in 0.25s ease both;
 }
 
 .people-member-modal {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(18rem, 0.9fr) minmax(19rem, 1.1fr);
-  width: min(92vw, 59rem);
-  max-height: min(84svh, 42rem);
+  grid-template-columns: minmax(17rem, 0.88fr) minmax(24rem, 1.12fr);
+  gap: clamp(0.55rem, 1vw, 0.85rem);
+  width: min(94vw, 68rem);
+  height: min(88svh, 46rem);
+  padding: clamp(0.5rem, 0.8vw, 0.7rem);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: clamp(1.4rem, 2.4vw, 2.4rem);
-  background:
-    radial-gradient(circle at 90% 0%, rgba(0, 105, 224, 0.1), transparent 38%),
-    rgba(0, 0, 0, 0.96);
+  border-radius: clamp(1.5rem, 2.6vw, 2.75rem);
+  background: #000;
   box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.65);
   overflow: hidden;
 }
 
+.people-member-modal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
 .people-member-modal__image {
+  position: relative;
   width: 100%;
+  height: 100%;
   min-height: 0;
-  aspect-ratio: 1;
-  align-self: center;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: calc(clamp(1.5rem, 2.6vw, 2.75rem) - 0.5rem);
+  background: #000;
+}
+
+.people-member-modal__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 68%, rgba(2, 7, 15, 0.58) 100%),
+    linear-gradient(180deg, transparent 58%, rgba(2, 7, 15, 0.74) 100%);
+  pointer-events: none;
 }
 
 .people-member-modal__image img {
@@ -217,13 +241,33 @@
   object-fit: cover;
 }
 
+.people-member-modal__image-label {
+  position: absolute;
+  z-index: 2;
+  bottom: 1.35rem;
+  left: 1.5rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 .people-member-modal__copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-content: stretch;
+  gap: clamp(0.75rem, 1.4vw, 1.15rem);
   min-width: 0;
-  padding: clamp(1.5rem, 3.5vw, 3.2rem);
-  overflow: auto;
+  min-height: 0;
+  padding: clamp(1.25rem, 2.2vw, 2rem);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: calc(clamp(1.5rem, 2.6vw, 2.75rem) - 0.5rem);
+  background: #050505;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
 .people-member-modal__kicker {
@@ -237,9 +281,10 @@
 
 .people-member-modal__copy h3 {
   margin: 0;
-  font: 500 clamp(2.25rem, 4.2vw, 4.25rem)/0.9 var(--heading-font);
+  font: 500 clamp(1.52rem, calc(3.7vw - 5px), 3.52rem)/0.94 var(--heading-font);
   letter-spacing: -0.045em;
   overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .people-member-modal__role {
@@ -248,12 +293,26 @@
   font-size: 1.05rem;
 }
 
+.people-member-modal__about {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
 .people-member-modal__description {
   max-width: 42rem;
-  margin: 0.9rem 0 0;
+  margin: 0;
   color: rgba(255, 255, 255, 0.74);
   font-size: clamp(0.92rem, 1.25vw, 1.08rem);
   line-height: 1.52;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 .people-member-modal__links {
@@ -265,8 +324,8 @@
 
 .people-member-modal__close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.4rem;
+  right: 1.4rem;
   z-index: 5;
   display: grid;
   place-items: center;
@@ -274,10 +333,20 @@
   aspect-ratio: 1;
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(2, 7, 15, 0.78);
+  backdrop-filter: blur(6px);
   color: #fff;
   font: 400 1.55rem/1 var(--body-font);
   cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.people-member-modal__close:hover,
+.people-member-modal__close:focus-visible {
+  border-color: rgba(255, 255, 255, 0.62);
+  background: rgba(0, 105, 224, 0.8);
+  outline: none;
+  transform: rotate(6deg);
 }
 
 @keyframes people-modal-in {
@@ -405,7 +474,7 @@
 
 @media (max-width: 1100px) {
   .people-person-card {
-    flex-basis: calc((100% - 3 * var(--roster-gap)) / 4);
+    flex-basis: calc((100% - 4 * var(--roster-gap)) / 5);
   }
 }
 
@@ -435,8 +504,8 @@
   }
 
   .people-person-card {
-    flex-basis: calc((100% - 0.65rem) / 2);
-    aspect-ratio: 0.72;
+    flex-basis: calc((100% - 1.3rem) / 3);
+    aspect-ratio: 0.76;
     border-radius: 1.15rem;
     transform: translateY(0) rotate(var(--person-tilt));
   }
@@ -452,42 +521,42 @@
   }
 
   .people-person-card__copy {
-    padding: 0.85rem;
+    padding: 0.65rem;
   }
 
   .people-person-card__copy strong {
-    font-size: clamp(0.86rem, 4.2vw, 1.12rem);
+    font-size: clamp(0.72rem, 3.3vw, 0.98rem);
   }
 
   .people-person-card__copy small,
   .people-person-card__copy em {
-    font-size: 0.52rem;
+    font-size: 0.46rem;
   }
 
   .people-person-card__index {
-    top: 0.7rem;
-    left: 0.7rem;
-    width: 2.1rem;
-    font-size: 0.56rem;
+    top: 0.55rem;
+    left: 0.55rem;
+    width: 1.8rem;
+    font-size: 0.5rem;
   }
 
   .people-member-modal {
     grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: minmax(9rem, 34svh) minmax(0, 1fr);
     width: min(calc(100vw - 1.25rem), 29rem);
-    height: auto;
+    height: min(calc(100svh - 1rem), 48rem);
     max-height: calc(100svh - 1rem);
+    gap: 0.36rem;
+    padding: 0.36rem;
     border-radius: 1.35rem;
     overflow: hidden;
   }
 
   .people-member-modal__image {
-    justify-self: center;
-    width: min(100%, 14rem);
+    width: 100%;
     min-height: 0;
-    height: auto;
-    margin-top: 0.8rem;
-    aspect-ratio: 1;
+    height: 100%;
+    margin: 0;
     border-radius: 1rem;
   }
 
@@ -495,15 +564,27 @@
     object-position: center 28%;
   }
 
+  .people-member-modal__image::after {
+    background: linear-gradient(180deg, transparent 54%, rgba(2, 7, 15, 0.88) 100%);
+  }
+
+  .people-member-modal__image-label {
+    bottom: 0.8rem;
+    left: 1rem;
+    font-size: 0.54rem;
+  }
+
   .people-member-modal__copy {
-    justify-content: flex-start;
+    align-content: start;
+    justify-content: stretch;
     min-height: 0;
-    padding: 0.95rem 1.05rem 1.1rem;
-    overflow-x: hidden;
-    overflow-y: auto;
+    gap: 0.65rem;
+    padding: 0.8rem 0.85rem 0.9rem;
+    overflow: hidden;
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    border-radius: 1rem;
   }
 
   .people-member-modal__kicker {
@@ -515,7 +596,7 @@
 
   .people-member-modal__copy h3 {
     padding-right: 2.4rem;
-    font-size: clamp(1.7rem, 8.5vw, 2.5rem);
+    font-size: clamp(1.1rem, calc(7vw - 5px), 1.87rem);
     line-height: 0.94;
     letter-spacing: -0.035em;
   }
@@ -527,7 +608,6 @@
   }
 
   .people-member-modal__description {
-    margin-top: 0.65rem;
     font-size: 0.82rem;
     line-height: 1.42;
   }
@@ -544,8 +624,8 @@
   }
 
   .people-member-modal__close {
-    top: 0.6rem;
-    right: 0.6rem;
+    top: 0.85rem;
+    right: 0.85rem;
     width: 2.35rem;
     background: rgba(0, 0, 0, 0.84);
   }
@@ -568,11 +648,7 @@
 
 @media (max-width: 720px) and (max-height: 660px) {
   .people-member-modal {
-    grid-template-rows: auto minmax(0, 1fr);
-  }
-
-  .people-member-modal__image {
-    width: min(100%, 10rem);
+    grid-template-rows: 8rem minmax(0, 1fr);
   }
 
   .people-member-modal__copy {
@@ -582,6 +658,20 @@
   .people-member-modal__description {
     font-size: 0.78rem;
     line-height: 1.35;
+  }
+}
+
+@media (max-width: 480px) {
+  .people-person-card {
+    flex-basis: calc((100% - 0.65rem) / 2);
+  }
+
+  .people-person-card__copy {
+    padding: 0.75rem;
+  }
+
+  .people-person-card__copy strong {
+    font-size: clamp(0.82rem, 4vw, 1rem);
   }
 }
 

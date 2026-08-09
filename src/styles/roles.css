@@ -253,7 +253,7 @@
   align-content: center;
   overflow: hidden;
   opacity: 0;
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(10px);
   transform: translate(-50%, 0.65rem);
   transition: opacity 0.2s ease, transform 0.2s ease;
   pointer-events: none;

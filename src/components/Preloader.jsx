@@ -5,6 +5,7 @@ const PreloaderCapture = lazy(() => import("./PreloaderCapture"));
 
 export const PRELOADER_STORAGE_KEY = "mb:preloader:version";
 export const PRELOADER_STORAGE_VERSION = "2026-07-25-optimized";
+export const PRELOADER_FINISHED_EVENT = "mb:preloader-finished";
 
 const PRELOADER_VIDEO_DURATION_MS = 3800;
 const PRELOADER_MAX_VISIBLE_MS = PRELOADER_VIDEO_DURATION_MS + 3000;
@@ -15,7 +16,7 @@ function isCaptureMode() {
   return new URLSearchParams(window.location.search).get("capturePreloader") === "1";
 }
 
-function hasSeenPreloader() {
+export function hasSeenPreloader() {
   if (isCaptureMode()) return false;
   try {
     return window.localStorage.getItem(PRELOADER_STORAGE_KEY) === PRELOADER_STORAGE_VERSION;
@@ -100,6 +101,7 @@ export default function Preloader() {
           performance.mark?.("mb-preloader-end");
           performance.measure?.("mb-preloader-visible", "mb-preloader-start", "mb-preloader-end");
           setIsHidden(true);
+          window.dispatchEvent(new Event(PRELOADER_FINISHED_EVENT));
         }, PRELOADER_FADE_MS);
       }, delay);
     };

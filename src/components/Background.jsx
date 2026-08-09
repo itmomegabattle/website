@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
 import "../styles/background.css";
 
-const DESKTOP_FPS = 30;
-const MOBILE_FPS = 24;
+const DESKTOP_ACTIVE_FPS = 30;
+const DESKTOP_IDLE_FPS = 20;
+const MOBILE_ACTIVE_FPS = 22;
+const MOBILE_IDLE_FPS = 16;
+const POINTER_BOOST_MS = 1500;
 const CURSOR_RESPONSE = 2.15;
 
 const VERTEX_SHADER = `#version 300 es
@@ -46,6 +49,11 @@ float easeInOut(float value) {
 float wrappedDistance(float a, float b) {
   float direct = abs(a - b);
   return min(direct, 1.0 - direct);
+}
+
+float fastRadialFalloff(float x, float y) {
+  float value = saturate(1.0 - (x * x + y * y) * 0.36);
+  return value * value * value;
 }
 
 float rootY(float index, float x, float time) {
@@ -93,7 +101,7 @@ float rootY(float index, float x, float time) {
 
   float dx = (x - uMouse.x) / 0.3;
   float dy = (y - uMouse.y) / 0.27;
-  float influence = exp(-(dx * dx + dy * dy));
+  float influence = fastRadialFalloff(dx, dy);
   float curl = sin((x - uMouse.x) * 5.2 + index * 0.5) * 0.22;
   float pull = (uMouse.y - y) * 0.38;
   float smoothSide = smoothstep(-0.075, 0.075, y - uMouse.y) * 2.0 - 1.0;
@@ -113,8 +121,7 @@ float mergePoint(float index) {
   return index < 0.5 ? 0.23 : 0.38;
 }
 
-float incomingY(float index, float x, float time, float mergeAt) {
-  float parent = rootY(1.0, x, time);
+float incomingY(float index, float x, float time, float mergeAt, float parent) {
   float progress = easeInOut(x / max(mergeAt, 0.001));
   float direction = index < 0.5 ? -1.0 : 1.0;
   float openingSize = index < 0.5 ? 0.52 : 0.74;
@@ -122,11 +129,6 @@ float incomingY(float index, float x, float time, float mergeAt) {
   float approachArc = direction * sin(progress * 3.14159265) * 0.017;
   float fineWave = sin(x * 3.8 + index * 2.4 + time * 0.07) * 0.004 * (1.0 - progress);
   return parent + opening + approachArc + fineWave;
-}
-
-float branchRoot(float index) {
-  if (index < 0.5) return 0.0;
-  return 2.0;
 }
 
 float branchDirection(float index) {
@@ -149,14 +151,13 @@ float branchProfile(float index, float progress) {
   return shaped + sin(shaped * 6.2831853) * 0.04;
 }
 
-float branchY(float index, float x, float time, float start) {
-  float parent = rootY(branchRoot(index), x, time);
+float branchY(float index, float x, float time, float start, float parent) {
   float progress = branchProfile(index, (x - start) / max(0.001, 1.0 - start));
   float direction = branchDirection(index);
 
   float mouseDx = (x - uMouse.x) / 0.27;
   float mouseDy = (parent - uMouse.y) / 0.3;
-  float mouseInfluence = exp(-(mouseDx * mouseDx + mouseDy * mouseDy)) * uMouseActive;
+  float mouseInfluence = fastRadialFalloff(mouseDx, mouseDy) * uMouseActive;
 
   float baseSeparation = index > 1.5 ? 0.5 : (index < 0.5 ? 0.3 : 0.116);
   float separation = baseSeparation * (1.0 + mouseInfluence * 0.22);
@@ -166,18 +167,16 @@ float branchY(float index, float x, float time, float start) {
   return parent + direction * (separation * progress + sculptedBend) + independentWave;
 }
 
-float returningBranchY(float x, float time, float start, float mergeAt) {
-  float source = rootY(2.0, x, time);
-  float destination = rootY(1.0, x, time);
+float returningBranchY(float x, float start, float mergeAt, float source, float destination) {
   float progress = easeInOut((x - start) / max(mergeAt - start, 0.001));
   float approach = sin(progress * 3.14159265) * 0.024;
   return mix(source, destination, progress) - approach;
 }
 
-float topLeftBranchY(float x, float time, float start) {
-  float parent = rootY(3.0, x, time);
+float topLeftBranchY(float x, float time, float start, float parent) {
   float rawProgress = saturate((x - start) / max(1.0 - start, 0.001));
-  float progress = easeInOut(pow(rawProgress, 0.72));
+  float acceleratedProgress = mix(rawProgress, sqrt(rawProgress), 0.56);
+  float progress = easeInOut(acceleratedProgress);
   float longArc = sin(progress * 3.14159265) * 0.014;
   float fineWave = sin(x * 3.45 + time * 0.065) * 0.004 * progress;
   return parent - 0.132 * progress - longArc + fineWave;
@@ -188,13 +187,15 @@ float lineCore(float distanceToLine, float width) {
 }
 
 float lineHalo(float distanceToLine, float width) {
-  return exp(-distanceToLine / max(width * 3.8, 0.0001));
+  float halo = smoothstep(width * 12.0, width * 0.35, distanceToLine);
+  return halo * halo;
 }
 
 float pulseAt(float x, float time, float phase, float speed) {
   float position = fract(phase + time * speed);
   float distanceToPulse = wrappedDistance(x, position);
-  return exp(-pow(distanceToPulse / 0.064, 2.0));
+  float spot = saturate(1.0 - (distanceToPulse * distanceToPulse) / (0.11 * 0.11));
+  return spot * spot;
 }
 
 void accumulateThread(
@@ -212,7 +213,7 @@ void accumulateThread(
   float quietLight = 0.72 + 0.08 * sin(uTime * 0.24 + variation);
   float hoverX = (uv.x - uMouse.x) / 0.105;
   float hoverY = (y - uMouse.y) / 0.115;
-  float hoverSegment = exp(-(hoverX * hoverX + hoverY * hoverY)) * uMouseActive;
+  float hoverSegment = fastRadialFalloff(hoverX, hoverY) * uMouseActive;
 
   color += uLineColor * (core * quietLight + halo * 0.075);
   color += mix(uLineColor, uPulseColor, 0.84) * core * pulse * 1.55;
@@ -230,18 +231,23 @@ void main() {
   float edge = distance(uv, vec2(0.5));
   color *= 1.0 - smoothstep(0.38, 0.82, edge) * 0.13;
 
+  float roots[ROOT_COUNT];
+  for (int root = 0; root < ROOT_COUNT; root++) {
+    roots[root] = rootY(float(root), uv.x, uTime);
+  }
+
   for (int merge = 0; merge < MERGE_COUNT; merge++) {
     float index = float(merge);
     float mergeAt = mergePoint(index);
     float visibility = 1.0 - smoothstep(mergeAt - 0.008, mergeAt + 0.024, uv.x);
-    float y = incomingY(index, uv.x, uTime, mergeAt);
+    float y = incomingY(index, uv.x, uTime, mergeAt, roots[1]);
     float pulse = pulseAt(uv.x, uTime, 1.0 * 0.233 + 0.08, 0.027 + 0.0017);
     accumulateThread(color, uv, y, width, pulse, visibility, 9.6 + index);
   }
 
   for (int root = 0; root < ROOT_COUNT; root++) {
     float index = float(root);
-    float y = rootY(index, uv.x, uTime);
+    float y = roots[root];
     float pulse = pulseAt(uv.x, uTime, index * 0.233 + 0.08, 0.027 + index * 0.0017);
     accumulateThread(color, uv, y, width, pulse, 1.0, index * 1.37);
   }
@@ -249,7 +255,7 @@ void main() {
   for (int topBranch = 0; topBranch < TOP_LEFT_BRANCH_COUNT; topBranch++) {
     float start = 0.035;
     float visibility = smoothstep(start - 0.006, start + 0.022, uv.x);
-    float y = topLeftBranchY(uv.x, uTime, start);
+    float y = topLeftBranchY(uv.x, uTime, start, roots[3]);
     float pulse = pulseAt(uv.x, uTime, 3.0 * 0.233 + 0.08, 0.027 + 3.0 * 0.0017);
     accumulateThread(color, uv, y, width, pulse, visibility, 11.8);
   }
@@ -265,10 +271,11 @@ void main() {
       visibility *= 1.0 - smoothstep(mergeAt - 0.008, mergeAt + 0.024, uv.x);
     }
 
+    int parentRoot = branch < 1 ? 0 : 2;
     float y = returnsToNetwork
-      ? returningBranchY(uv.x, uTime, start, mergeAt)
-      : branchY(index, uv.x, uTime, start);
-    float parentIndex = branchRoot(index);
+      ? returningBranchY(uv.x, start, mergeAt, roots[2], roots[1])
+      : branchY(index, uv.x, uTime, start, roots[parentRoot]);
+    float parentIndex = float(parentRoot);
     float pulse = pulseAt(uv.x, uTime, parentIndex * 0.233 + 0.08, 0.027 + parentIndex * 0.0017);
     accumulateThread(color, uv, y, width, pulse, visibility, 4.8 + index);
   }
@@ -366,8 +373,10 @@ export default function Background() {
       let pendingPointer = null;
       let frameId = 0;
       let lastRenderTime = 0;
+      let lastPointerTime = Number.NEGATIVE_INFINITY;
       let visible = true;
       let pageVisible = !document.hidden;
+      let covered = false;
 
       const mobileQuery = window.matchMedia("(max-width: 768px)");
       const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -389,11 +398,25 @@ export default function Background() {
         const bounds = container.getBoundingClientRect();
         const width = Math.max(1, Math.round(bounds.width));
         const height = Math.max(1, Math.round(bounds.height));
-        renderer.setSize(width, height);
+        const pixelCount = width * height;
+        const renderScale = mobileQuery.matches
+          ? 0.86
+          : pixelCount > 2_000_000
+            ? 0.82
+            : pixelCount > 1_100_000
+              ? 0.9
+              : 1;
+
+        renderer.setSize(
+          Math.max(1, Math.round(width * renderScale)),
+          Math.max(1, Math.round(height * renderScale)),
+        );
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
         program.uniforms.uResolution.value[0] = gl.drawingBufferWidth;
         program.uniforms.uResolution.value[1] = gl.drawingBufferHeight;
-        program.uniforms.uThickness.value = mobileQuery.matches ? 2.7 : 3.2;
-        render(performance.now());
+        program.uniforms.uThickness.value = (mobileQuery.matches ? 2.7 : 3.2) * renderScale;
+        if (!covered) render(performance.now());
       };
 
       const stop = () => {
@@ -403,9 +426,12 @@ export default function Background() {
 
       const loop = (time) => {
         frameId = 0;
-        if (!visible || !pageVisible || reducedMotionQuery.matches) return;
+        if (!visible || !pageVisible || covered || reducedMotionQuery.matches) return;
 
-        const fps = mobileQuery.matches ? MOBILE_FPS : DESKTOP_FPS;
+        const pointerBoosted = time - lastPointerTime <= POINTER_BOOST_MS;
+        const fps = mobileQuery.matches
+          ? pointerBoosted ? MOBILE_ACTIVE_FPS : MOBILE_IDLE_FPS
+          : pointerBoosted ? DESKTOP_ACTIVE_FPS : DESKTOP_IDLE_FPS;
         const frameDuration = 1000 / fps;
 
         if (time - lastRenderTime >= frameDuration) {
@@ -436,16 +462,17 @@ export default function Background() {
 
       const start = () => {
         stop();
-        if (visible && pageVisible && !reducedMotionQuery.matches) {
+        if (visible && pageVisible && !covered && !reducedMotionQuery.matches) {
           lastRenderTime = 0;
           frameId = requestAnimationFrame(loop);
-        } else {
+        } else if (!covered) {
           render(performance.now());
         }
       };
 
       const onPointerMove = (event) => {
         if (event.pointerType === "touch") return;
+        lastPointerTime = performance.now();
         pendingPointer = {
           x: Math.min(1, Math.max(0, event.clientX / window.innerWidth)),
           y: 1 - Math.min(1, Math.max(0, event.clientY / window.innerHeight)),
@@ -464,6 +491,11 @@ export default function Background() {
 
       const onMotionChange = () => start();
       const onMobileChange = () => resize();
+      const onCoverChange = () => {
+        covered = document.body.classList.contains("preloader-lock")
+          || document.body.dataset.heroCoverActive === "true";
+        start();
+      };
 
       const resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(container);
@@ -476,11 +508,17 @@ export default function Background() {
 
       const themeObserver = new MutationObserver(() => {
         applyTheme();
-        render(performance.now());
+        if (!covered) render(performance.now());
       });
       themeObserver.observe(document.documentElement, {
         attributes: true,
         attributeFilter: ["class", "data-theme"],
+      });
+
+      const coverObserver = new MutationObserver(onCoverChange);
+      coverObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ["class", "data-hero-cover-active"],
       });
 
       window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -490,6 +528,7 @@ export default function Background() {
       mobileQuery.addEventListener?.("change", onMobileChange);
       reducedMotionQuery.addEventListener?.("change", onMotionChange);
 
+      onCoverChange();
       applyTheme();
       resize();
       start();
@@ -500,6 +539,7 @@ export default function Background() {
         resizeObserver.disconnect();
         intersectionObserver.disconnect();
         themeObserver.disconnect();
+        coverObserver.disconnect();
         window.removeEventListener("pointermove", onPointerMove);
         window.removeEventListener("pointerleave", onPointerLeave);
         window.removeEventListener("blur", onPointerLeave);

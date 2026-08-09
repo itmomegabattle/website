@@ -9,6 +9,7 @@ import NfcTagsPanel from "../components/NfcTagsPanel";
 import ProfileEditor from "../components/ProfileEditor";
 import SocialBioCard from "../components/SocialBioCard";
 import ModalPortal from "../components/ModalPortal";
+import RolesDomeSection from "../components/RolesDomeSection";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
 import "../styles/page-info.css";
@@ -17,6 +18,7 @@ export default function RatingsPage() {
   const { isAuthenticated, profile, signOut } = useAuth();
   const canAdmin = isAdminProfile(profile);
   const [activeModal, setActiveModal] = useState(null);
+  const [activeView, setActiveView] = useState("profile");
   const closeModal = () => setActiveModal(null);
 
   useEffect(() => {
@@ -37,35 +39,66 @@ export default function RatingsPage() {
         <h1>Участникам</h1>
       </section>
 
-      <section className="main-width participants-bento">
-        {isAuthenticated && profile ? (
-          <>
-            <AuthenticatedRatingPanel
-              profile={profile}
-              onEditProfile={() => setActiveModal("edit")}
-              onPreviewCard={() => setActiveModal("preview")}
-              onSignOut={signOut}
-            />
-            <NfcTagsPanel profileId={profile.id} compact />
-          </>
-        ) : (
-          <div className="participants-auth-bento">
-            <article className="info-card participants-auth-copy">
-              <p className="card-kicker">Вход</p>
-              <h2>Авторизуйся, чтобы открыть профиль</h2>
-              <p>
-                После входа здесь появится личное место в рейтинге, визитка,
-                соцсети, NFC-метки и связи в графе знакомств.
-              </p>
-            </article>
-            <AuthPanel redirectTo="/ratings" />
-          </div>
-        )}
+      {isAuthenticated && canAdmin && (
+        <nav className="main-width participants-view-switch" aria-label="Режим страницы">
+          <span className={`participants-view-switch__slider participants-view-switch__slider--${activeView}`} aria-hidden="true" />
+          <button
+            type="button"
+            className={activeView === "profile" ? "is-active" : ""}
+            aria-pressed={activeView === "profile"}
+            onClick={() => setActiveView("profile")}
+          >
+            Профиль
+          </button>
+          <button
+            type="button"
+            className={activeView === "admin" ? "is-active" : ""}
+            aria-pressed={activeView === "admin"}
+            onClick={() => {
+              closeModal();
+              setActiveView("admin");
+            }}
+          >
+            Админка
+          </button>
+        </nav>
+      )}
 
-        <RatingsOverview />
-      </section>
+      {activeView === "profile" ? (
+        <>
+          <section className="main-width participants-bento">
+            {isAuthenticated && profile ? (
+              <>
+                <AuthenticatedRatingPanel
+                  profile={profile}
+                  onEditProfile={() => setActiveModal("edit")}
+                  onPreviewCard={() => setActiveModal("preview")}
+                  onSignOut={signOut}
+                />
+                <NfcTagsPanel profileId={profile.id} compact />
+              </>
+            ) : (
+              <div className="participants-auth-bento">
+                <article className="info-card participants-auth-copy">
+                  <p className="card-kicker">Вход</p>
+                  <h2>Авторизуйся, чтобы открыть профиль</h2>
+                  <p>
+                    После входа здесь появятся визитка, личный прогресс,
+                    соцсети, NFC-метки и связи в графе знакомств.
+                  </p>
+                </article>
+                <AuthPanel redirectTo="/ratings" />
+              </div>
+            )}
 
-      {isAuthenticated && canAdmin && <AdminCabinetPanel />}
+            <RatingsOverview />
+          </section>
+
+          <RolesDomeSection />
+        </>
+      ) : (
+        isAuthenticated && canAdmin && <AdminCabinetPanel />
+      )}
 
       {activeModal && (
         <ModalPortal>

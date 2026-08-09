@@ -86,11 +86,13 @@
     border: 1px solid color-mix(in srgb, var(--accent-color) 22%, var(--border-color));
     border-radius: var(--corner-radius);
     background:
-        radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent-color) 12%, transparent), transparent 55%),
-        color-mix(in srgb, var(--surface-color) 88%, transparent);
+        radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.055), transparent 55%),
+        var(--content-glass-background);
     box-shadow:
         var(--card-shadow),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(var(--content-glass-blur));
+    -webkit-backdrop-filter: blur(var(--content-glass-blur));
 }
 
 .info-card h2 {
@@ -364,8 +366,8 @@
     overflow-y: auto;
     overscroll-behavior: contain;
     background: rgba(0, 0, 0, 0.78);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .event-editor-overlay .event-inline-editor {
@@ -745,7 +747,7 @@
     font-weight: 800;
     text-decoration: none;
     box-shadow: var(--control-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(9px);
     transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -818,6 +820,25 @@
 
 .participants-page {
     gap: 2.5rem;
+    --surface-color: rgba(4, 4, 4, 0.9);
+    --surface-color-special: rgba(2, 2, 2, 0.94);
+    --text-color: #fff;
+    --text-color-special: #fff;
+    --border-color: rgba(255, 255, 255, 0.15);
+    --control-background: rgba(255, 255, 255, 0.045);
+    --control-background-hover: rgba(255, 255, 255, 0.09);
+    --control-border: rgba(255, 255, 255, 0.18);
+    --control-border-hover: rgba(255, 255, 255, 0.42);
+    --control-color: #fff;
+}
+
+.participants-page .info-card {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: linear-gradient(145deg, rgba(12, 12, 12, 0.96), rgba(0, 0, 0, 0.98));
+    color: #fff;
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.36),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
 .participants-page .main-width {
@@ -832,6 +853,139 @@
 
 .participants-hero h1 {
     margin-bottom: 0;
+}
+
+.participants-view-switch {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(94vw, 36rem) !important;
+    padding: 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.88);
+    box-shadow: 0 18px 54px rgba(0, 0, 0, 0.28);
+}
+
+.participants-view-switch__slider {
+    position: absolute;
+    z-index: 0;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    left: 0.35rem;
+    width: calc(50% - 0.35rem);
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.26);
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.participants-view-switch__slider--admin {
+    transform: translateX(100%);
+}
+
+.participants-view-switch button {
+    position: relative;
+    z-index: 1;
+    min-height: 3.1rem;
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    transition: color 220ms ease;
+}
+
+.participants-view-switch button.is-active {
+    color: #000;
+}
+
+.participants-roles {
+    display: grid;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    width: min(calc(100% - 2rem), 110rem);
+    min-width: 0;
+    margin-inline: auto;
+}
+
+.participants-roles__heading {
+    display: grid;
+    justify-items: center;
+    gap: 0.65rem;
+    text-align: center;
+}
+
+.participants-roles__heading h2 {
+    margin: 0;
+    font: 500 clamp(2.25rem, 5vw, 4.25rem)/0.92 var(--heading-font);
+    letter-spacing: -0.035em;
+}
+
+.participants-roles__heading > p:last-child {
+    max-width: 43rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: clamp(0.88rem, 1.1vw, 1.02rem);
+    line-height: 1.55;
+}
+
+.roles-dome {
+    width: 100%;
+    height: clamp(34rem, 52vw, 48rem);
+}
+
+.roles-dome.sphere-root {
+    background: linear-gradient(145deg, rgba(10, 10, 10, 0.98), rgba(0, 0, 0, 0.99));
+}
+
+.roles-dome .sphere-item__image {
+    inset: clamp(9px, 0.8vw, 14px);
+    background: linear-gradient(145deg, rgba(16, 16, 16, 0.98), rgba(1, 1, 1, 0.99));
+}
+
+.roles-dome__tile {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 0.35rem;
+    width: 100%;
+    height: 100%;
+    padding: clamp(0.55rem, 1.2vw, 1rem);
+    color: #fff;
+    pointer-events: none;
+}
+
+.roles-dome__icon {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+}
+
+.roles-dome__icon .role-icon {
+    width: min(100%, 8rem);
+    height: min(100%, 8rem);
+    padding: 6%;
+    filter:
+        drop-shadow(2px 2px 0 rgba(0, 105, 224, 0.88))
+        drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.64));
+}
+
+.roles-dome__tile > strong {
+    min-height: 2.2em;
+    font-size: clamp(0.58rem, 0.78vw, 0.76rem);
+    line-height: 1.08;
+    text-align: left;
+    text-wrap: balance;
+}
+
+.roles-dome .sphere-item__image:hover .role-icon,
+.roles-dome .sphere-item__image:focus-visible .role-icon {
+    color: #fff;
+    filter:
+        drop-shadow(2px 2px 0 rgba(0, 105, 224, 1))
+        drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.72));
 }
 
 .participants-bento {
@@ -860,10 +1014,7 @@
     align-content: end;
     min-height: 420px;
     overflow: hidden;
-    background:
-        radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--accent-color) 24%, transparent), transparent 34%),
-        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 52%),
-        var(--surface-color-special);
+    background: linear-gradient(135deg, rgba(16, 16, 16, 0.98), rgba(0, 0, 0, 0.99));
 }
 
 .participants-auth-copy h2 {
@@ -1051,8 +1202,14 @@
 
 .ratings-overview {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
+}
+
+.leaderboard-empty {
+    margin: 0;
+    padding: 1rem 0;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .winner-card,
@@ -1079,22 +1236,11 @@
     gap: clamp(1rem, 2.4vw, 2rem);
     min-height: 420px;
     overflow: hidden;
-    background:
-        radial-gradient(circle at 10% 5%, color-mix(in srgb, var(--accent-color) 24%, transparent), transparent 36%),
-        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.08), transparent 28%),
-        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 54%),
-        var(--surface-color-special);
+    background: linear-gradient(135deg, rgba(15, 15, 15, 0.98), rgba(0, 0, 0, 0.99));
 }
 
 .participant-profile-card::before {
-    content: "";
-    position: absolute;
-    inset: auto -8% -22% 28%;
-    height: 46%;
-    border-radius: 50%;
-    background:
-        radial-gradient(ellipse at center, color-mix(in srgb, var(--accent-color) 18%, transparent), transparent 70%);
-    pointer-events: none;
+    display: none;
 }
 
 .participant-profile-avatar {
@@ -1770,6 +1916,12 @@
         var(--surface-color);
 }
 
+.participants-page .admin-panel,
+.participants-page .admin-list-row,
+.participants-page .admin-form--nested {
+    background: linear-gradient(145deg, rgba(13, 13, 13, 0.98), rgba(1, 1, 1, 0.99));
+}
+
 .admin-panel--form {
     position: sticky;
     top: 6rem;
@@ -1978,6 +2130,82 @@
     background: var(--surface-color);
     color: var(--text-color);
     font: inherit;
+}
+
+.faculty-ratings-panel__hint {
+    max-width: 54rem;
+    margin: -0.25rem 0 0.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+}
+
+.faculty-rating-editors {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.faculty-rating-editor {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(10rem, 1fr) minmax(8rem, 0.34fr) minmax(12rem, 0.8fr) auto;
+    gap: 0.65rem;
+    align-items: end;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 1.15rem;
+    background: #050505;
+}
+
+.faculty-rating-editor__place {
+    align-self: center;
+    color: var(--accent-color);
+    font-weight: 900;
+}
+
+.faculty-rating-editor label {
+    display: grid;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
+.faculty-rating-editor label > span {
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.faculty-rating-editor input {
+    width: 100%;
+    min-height: 2.6rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 0.8rem;
+    background: #0b0b0b;
+    color: #fff;
+    font: inherit;
+}
+
+.faculty-rating-create {
+    display: grid;
+    grid-template-columns: minmax(11rem, 0.75fr) minmax(10rem, 1fr) minmax(8rem, 0.45fr) minmax(12rem, 0.8fr) auto;
+    gap: 0.7rem;
+    align-items: end;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.faculty-rating-create > div {
+    display: grid;
+    gap: 0.2rem;
+    align-self: center;
+}
+
+.faculty-rating-create h3 {
+    margin: 0;
+    font-family: var(--heading-font);
+    font-size: 1.25rem;
 }
 
 .team-admin-form .auth-submit,
@@ -2279,6 +2507,48 @@
         font-size: clamp(1.35rem, 7.4vw, 2rem);
         letter-spacing: 0.01em;
         text-align: center;
+    }
+
+    .participants-roles {
+        gap: 1rem;
+        width: calc(100vw - 1rem);
+    }
+
+    .participants-roles__heading {
+        padding-inline: 0.6rem;
+    }
+
+    .participants-roles__heading h2 {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .participants-roles__heading > p:last-child {
+        font-size: 0.8rem;
+    }
+
+    .roles-dome {
+        height: min(132vw, 34rem);
+        min-height: 29rem;
+    }
+
+    .roles-dome__tile {
+        gap: 0.2rem;
+        padding: 0.45rem;
+    }
+
+    .roles-dome .sphere-item__image {
+        inset: 6px;
+    }
+
+    .roles-dome__icon .role-icon {
+        width: min(100%, 6rem);
+        height: min(100%, 6rem);
+        padding: 5%;
+    }
+
+    .roles-dome__tile > strong {
+        min-height: 2em;
+        font-size: 0.5rem;
     }
 
     .participants-auth-bento {
@@ -2641,8 +2911,25 @@
     .admin-grid,
     .admin-form-grid,
     .admin-list-row,
-    .admin-list-row--profile {
+    .admin-list-row--profile,
+    .admin-profile-row,
+    .faculty-rating-editor,
+    .faculty-rating-create {
         grid-template-columns: 1fr;
+    }
+
+    .faculty-rating-editor__place {
+        justify-self: start;
+    }
+
+    .faculty-rating-editor .admin-row-actions,
+    .faculty-rating-create .auth-submit {
+        width: 100%;
+    }
+
+    .faculty-rating-editor .admin-row-actions button,
+    .faculty-rating-create .auth-submit {
+        flex: 1;
     }
 
     .admin-panel--form {

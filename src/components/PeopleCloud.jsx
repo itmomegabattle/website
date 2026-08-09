@@ -1,20 +1,26 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../api";
-import { getPublishedTeamMembers } from "../services/teamService";
 import { getMemberCardImage } from "./team/memberImages";
 
 const fallbackAvatar = "/images/people/member-full.jpg";
+const INITIAL_PEOPLE_COUNT = 24;
+const PEOPLE_BATCH_SIZE = 24;
 
 function cleanPeople(organizers, responsible, contributors) {
   const currentPeople = [
-    ...organizers.map((person) => ({ ...person, teamLabel: "Организатор" })),
-    ...responsible.map((person) => ({ ...person, teamLabel: "Ответственный" })),
+    ...organizers,
+    ...responsible,
   ];
-  const allPeople = [
-    ...currentPeople,
-    ...contributors.map((person) => ({ ...person, teamLabel: person.activity || "Команда Megabattle" })),
-  ].filter((person) => person.name && person.name.trim().toLowerCase() !== "имя фамилия");
+  const currentNames = new Set(
+    currentPeople
+      .filter((person) => person.name)
+      .map((person) => person.name.trim().toLocaleLowerCase("ru")),
+  );
+  const allPeople = contributors.filter((person) => {
+    if (!person.name || person.name.trim().toLowerCase() === "имя фамилия") return false;
+    return !currentNames.has(person.name.trim().toLocaleLowerCase("ru"));
+  });
 
   return Array.from(
     new Map(allPeople.map((person) => [person.name.trim().toLocaleLowerCase("ru"), person])).values(),
@@ -22,6 +28,7 @@ function cleanPeople(organizers, responsible, contributors) {
 }
 
 export default function PeopleCloud() {
+  const [visibleCount, setVisibleCount] = useState(INITIAL_PEOPLE_COUNT);
   const organizers = useQuery({
     queryKey: ["organizers"],
     queryFn: Api.getOrganizers,
@@ -34,7 +41,7 @@ export default function PeopleCloud() {
   }).data;
   const contributors = useQuery({
     queryKey: ["contributors"],
-    queryFn: () => getPublishedTeamMembers("contributors", []),
+    queryFn: Api.getContributors,
     placeholderData: [],
   }).data;
 
@@ -52,51 +59,43 @@ export default function PeopleCloud() {
     <section className="people-cloud-section" aria-labelledby="people-cloud-title">
       <header className="people-section-heading people-cloud-heading">
         <div>
-          <h2 id="people-cloud-title">КТО НАД ЭТИМ<br />ТРУДИЛСЯ</h2>
+          <p className="people-kicker">Люди проекта</p>
+          <h2 id="people-cloud-title">ПЛЕЯДА</h2>
         </div>
         <p>
-          Организаторы и ответственные разных сезонов. Наведи на человека,
-          чтобы увидеть имя и роль в проекте.
+          Люди разных сезонов, чьи идеи, энергия и работа складываются
+          в одну большую историю Megabattle.
         </p>
       </header>
 
-      <div className="people-cloud">
-        {bubbles.map((person, index) => {
-          const row = Math.floor(index / 9);
-          return (
-            <article
-              className="people-cloud-person"
-              key={person.bubbleKey}
-              tabIndex="0"
-              style={{
-                "--cloud-column": index % 9,
-                "--cloud-row": row,
-                "--cloud-offset": row % 2,
-                "--cloud-mobile-column": index % 5,
-                "--cloud-mobile-row": Math.floor(index / 5),
-                "--cloud-mobile-offset": Math.floor(index / 5) % 2,
-                "--cloud-shift-x": `${(((index * 17) % 5) - 2) * 0.18}rem`,
-                "--cloud-shift-y": `${(((index * 23) % 5) - 2) * 0.24}rem`,
-                "--cloud-tilt": `${(((index * 13) % 7) - 3) * 0.85}deg`,
-              }}
-            >
-              <img
-                src={Api.normalizeURL(getMemberCardImage(person) || fallbackAvatar)}
-                alt=""
-                width="256"
-                height="256"
-                loading={index < 9 ? "eager" : "lazy"}
-                fetchPriority={index < 4 ? "high" : "auto"}
-                decoding="async"
-              />
-              <span>
-                <strong>{person.name}</strong>
-                <small>{person.role || person.activity || person.teamLabel}</small>
-              </span>
-            </article>
-          );
-        })}
+      <div className="people-cloud" aria-label="Люди проекта">
+        {bubbles.slice(0, visibleCount).map((person, index) => (
+          <article className="people-cloud-person" key={person.bubbleKey} tabIndex="0">
+            <img
+              src={Api.normalizeURL(getMemberCardImage(person) || fallbackAvatar)}
+              alt=""
+              width="256"
+              height="256"
+              loading={index < 8 ? "eager" : "lazy"}
+              decoding="async"
+            />
+            <span>
+              <strong>{person.name}</strong>
+            </span>
+          </article>
+        ))}
       </div>
+      {visibleCount < bubbles.length && (
+        <div className="people-cloud-more">
+          <button
+            type="button"
+            onClick={() => setVisibleCount((count) => Math.min(count + PEOPLE_BATCH_SIZE, bubbles.length))}
+          >
+            Показать ещё
+            <span>+{Math.min(PEOPLE_BATCH_SIZE, bubbles.length - visibleCount)}</span>
+          </button>
+        </div>
+      )}
     </section>
   );
 }

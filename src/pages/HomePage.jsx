@@ -9,6 +9,10 @@ import "../styles/page-home.css";
 import Megabattle from "../components/Megabattle";
 import Partners from "../components/Partners";
 import ContactShowcase from "../components/ContactShowcase";
+import {
+  hasSeenPreloader,
+  PRELOADER_FINISHED_EVENT,
+} from "../components/Preloader";
 import { Theme } from "../theme";
 
 export default function HomePage() {
@@ -20,9 +24,11 @@ export default function HomePage() {
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     return !connection?.saveData && !window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   });
+  const [preloaderFinished, setPreloaderFinished] = useState(() => hasSeenPreloader());
   const heroVideoRef = useRef(null);
   const [activeProjectTab, setActiveProjectTab] = useState(0);
   const isDarkTheme = theme === "dark";
+  const shouldPlayHeroVideo = allowHeroVideo && preloaderFinished;
   const projectTabs = [
     {
       number: "01",
@@ -64,25 +70,52 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    const video = heroVideoRef.current;
-    if (!video || !allowHeroVideo) return undefined;
+    if (preloaderFinished) return undefined;
+    const handlePreloaderFinished = () => setPreloaderFinished(true);
+    window.addEventListener(PRELOADER_FINISHED_EVENT, handlePreloaderFinished, { once: true });
+    return () => window.removeEventListener(PRELOADER_FINISHED_EVENT, handlePreloaderFinished);
+  }, [preloaderFinished]);
 
-    const updatePlayback = (isVisible = true) => {
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    const clearHeroCover = () => {
+      delete document.body.dataset.heroCoverActive;
+    };
+
+    if (!video || !shouldPlayHeroVideo) {
+      video?.pause();
+      clearHeroCover();
+      return clearHeroCover;
+    }
+
+    let intersectionRatio = 1;
+
+    const updatePlayback = () => {
+      const isVisible = intersectionRatio > 0.08;
+      const coversViewport = !document.hidden && intersectionRatio >= 0.55;
+      document.body.dataset.heroCoverActive = coversViewport ? "true" : "false";
+
       if (document.hidden || !isVisible) video.pause();
       else video.play().catch(() => null);
     };
     const observer = new IntersectionObserver(
-      ([entry]) => updatePlayback(entry.isIntersecting),
-      { threshold: 0.08 },
+      ([entry]) => {
+        intersectionRatio = entry.isIntersecting ? entry.intersectionRatio : 0;
+        updatePlayback();
+      },
+      { threshold: [0, 0.08, 0.55, 0.8] },
     );
-    const handleVisibility = () => updatePlayback(video.getBoundingClientRect().bottom > 0);
+    const handleVisibility = () => updatePlayback();
     observer.observe(video);
     document.addEventListener("visibilitychange", handleVisibility);
+    updatePlayback();
+
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", handleVisibility);
+      clearHeroCover();
     };
-  }, [allowHeroVideo]);
+  }, [shouldPlayHeroVideo]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
@@ -103,14 +136,14 @@ export default function HomePage() {
           <div className="video-background">
             <video
               ref={heroVideoRef}
-              autoPlay={allowHeroVideo}
+              autoPlay={shouldPlayHeroVideo}
               muted
               loop
               playsInline
-              preload={allowHeroVideo ? "metadata" : "none"}
+              preload={shouldPlayHeroVideo ? "metadata" : "none"}
               poster={isMobileHero ? heroPosterMobile : heroPoster}
             >
-              {allowHeroVideo && (
+              {shouldPlayHeroVideo && (
                 <>
                   <source src={heroVideoMobile} media="(max-width: 768px)" type="video/mp4" />
                   <source src={heroVideo} type="video/mp4" />

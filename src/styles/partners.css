@@ -122,7 +122,7 @@
   cursor: pointer;
   background:
     radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.14), transparent 30%),
-    linear-gradient(135deg, rgba(0, 105, 224, 0.1), rgba(255, 255, 255, 0.045) 48%, rgba(0, 0, 0, 0.42)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025) 48%, rgba(0, 0, 0, 0.42)),
     rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
@@ -252,7 +252,7 @@
   place-items: center;
   padding: clamp(1rem, 3vw, 2rem);
   background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(10px);
 }
 
 .partner-detail-modal {

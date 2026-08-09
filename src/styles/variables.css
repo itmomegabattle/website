@@ -18,7 +18,7 @@
     --accent-color: var(--brand-blue);
     --text-color: #000000;
     --text-color-inverted: #FFFFFF;
-    --surface-color: rgba(255, 255, 255, 0.78);
+    --surface-color: rgba(255, 255, 255, 0.18);
     --text-color-special: #FFFFFF; /* special color - инвертирован в light mode, обычный в dark mode */
     --surface-color-special: #000000;
     --border-color: rgba(0, 0, 0, 0.16);
@@ -27,8 +27,11 @@
     --control-height: 2.75rem;
     --control-radius: 999px;
     --control-padding: 0.72rem 1.15rem;
-    --control-background: rgba(0, 0, 0, 0.035);
-    --control-background-hover: rgba(0, 0, 0, 0.08);
+    --ui-glass-background: rgba(255, 255, 255, 0.82);
+    --ui-glass-background-hover: rgba(255, 255, 255, 0.92);
+    --ui-glass-background-strong: rgba(255, 255, 255, 0.94);
+    --control-background: var(--ui-glass-background);
+    --control-background-hover: var(--ui-glass-background-hover);
     --control-background-active: rgba(0, 105, 224, 0.12);
     --control-border: rgba(0, 0, 0, 0.22);
     --control-border-hover: rgba(0, 0, 0, 0.48);
@@ -36,9 +39,18 @@
     --control-shadow: 0 0.8rem 2.4rem rgba(0, 0, 0, 0.08);
 
     /* ЕДИНОЕ СТЕКЛО */
-    --glass-background: rgba(255, 255, 255, 0.68);
-    --glass-background-strong: rgba(255, 255, 255, 0.82);
+    --glass-background: var(--ui-glass-background);
+    --glass-background-strong: var(--ui-glass-background-strong);
     --glass-border: rgba(0, 0, 0, 0.14);
+    --content-glass-background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.14)),
+        rgba(255, 255, 255, 0.18);
+    --content-glass-background-subtle: rgba(255, 255, 255, 0.12);
+    --content-glass-inverted-background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.034), rgba(255, 255, 255, 0.01)),
+        rgba(2, 2, 4, 0.42);
+    --content-glass-border: rgba(0, 0, 0, 0.08);
+    --content-glass-blur: 9px;
 
     /* ШРИФТЫ */
     --heading-font: 'Druk Text Wide Cyr', 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
@@ -68,20 +80,30 @@
     --text-color: var(--brand-white);
     --text-color-inverted: var(--brand-black);
     --text-color-special: var(--text-color);
-    --surface-color: rgba(12, 12, 12, 0.72);
+    --surface-color: rgba(2, 2, 4, 0.42);
     --surface-color-special: rgba(8, 8, 8, 0.88);
     --card-shadow: 0px 24px 70px rgba(0, 0, 0, 0.38);
     --border-color: rgba(255, 255, 255, 0.16);
-    --control-background: rgba(255, 255, 255, 0.035);
-    --control-background-hover: rgba(255, 255, 255, 0.085);
+    --ui-glass-background: rgba(4, 4, 6, 0.82);
+    --ui-glass-background-hover: rgba(12, 12, 15, 0.92);
+    --ui-glass-background-strong: rgba(4, 4, 6, 0.94);
+    --control-background: var(--ui-glass-background);
+    --control-background-hover: var(--ui-glass-background-hover);
     --control-background-active: rgba(0, 105, 224, 0.18);
     --control-border: rgba(255, 255, 255, 0.22);
     --control-border-hover: rgba(255, 255, 255, 0.48);
     --control-color: var(--brand-white);
     --control-shadow: 0 0.9rem 2.8rem rgba(0, 0, 0, 0.3);
-    --glass-background: rgba(10, 10, 10, 0.68);
-    --glass-background-strong: rgba(8, 8, 8, 0.88);
+    --glass-background: var(--ui-glass-background);
+    --glass-background-strong: var(--ui-glass-background-strong);
     --glass-border: rgba(255, 255, 255, 0.16);
+    --content-glass-background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.034), rgba(255, 255, 255, 0.01)),
+        rgba(2, 2, 4, 0.42);
+    --content-glass-background-subtle: rgba(255, 255, 255, 0.04);
+    --content-glass-inverted-background: var(--content-glass-background);
+    --content-glass-border: rgba(255, 255, 255, 0.105);
+    --content-glass-blur: 10px;
     --text-blue-shadow: 2px 2px 0px rgba(0, 105, 224, 0.62);
     --svg-blue-shadow: drop-shadow(3px 3px 0px rgba(0, 105, 224, 0.62));
 }

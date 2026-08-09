@@ -21,8 +21,8 @@
   padding: 0.3rem;
   border: 1px solid color-mix(in srgb, var(--border-color) 78%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface-color-special) 78%, transparent);
-  backdrop-filter: blur(14px);
+  background: var(--ui-glass-background);
+  backdrop-filter: blur(9px);
 }
 
 .partners-group-tabs button {
@@ -59,13 +59,14 @@
   border: 1px solid color-mix(in srgb, var(--accent-color) 20%, rgba(255, 255, 255, 0.12));
   border-radius: var(--corner-radius);
   background:
-    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent-color) 13%, transparent), transparent 48%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
-    color-mix(in srgb, var(--surface-color-special) 94%, transparent);
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.05), transparent 48%),
+    var(--content-glass-inverted-background);
   color: var(--text-color-special);
   box-shadow: var(--card-shadow);
   text-decoration: none;
   isolation: isolate;
+  backdrop-filter: blur(var(--content-glass-blur));
+  -webkit-backdrop-filter: blur(var(--content-glass-blur));
   transition:
     transform 0.3s cubic-bezier(.2, .75, .2, 1),
     border-color 0.3s ease,
@@ -192,7 +193,7 @@
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.055);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
   color: #fff;
   font-size: 0.79rem;
   font-weight: 850;
@@ -237,9 +238,9 @@
   border-left: 1px solid color-mix(in srgb, var(--accent-color) 20%, rgba(255, 255, 255, 0.12));
   border-radius: var(--corner-radius);
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent-color) 10%, transparent), transparent 48%),
-    color-mix(in srgb, var(--surface-color-special) 88%, transparent);
+  background: var(--content-glass-inverted-background);
+  backdrop-filter: blur(var(--content-glass-blur));
+  -webkit-backdrop-filter: blur(var(--content-glass-blur));
   box-shadow: var(--card-shadow);
 }
 
@@ -257,9 +258,7 @@
 }
 
 .partnership-format-card:hover {
-  background:
-    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent-color) 13%, transparent), transparent 50%),
-    rgba(255, 255, 255, 0.035);
+  background: rgba(255, 255, 255, 0.055);
 }
 
 .partnership-format-index {
@@ -306,9 +305,10 @@
   border: 1px solid color-mix(in srgb, var(--accent-color) 24%, rgba(255, 255, 255, 0.13));
   border-radius: var(--corner-radius);
   background:
-    radial-gradient(circle at 86% 25%, color-mix(in srgb, var(--accent-color) 25%, transparent), transparent 28%),
     linear-gradient(138deg, rgba(255, 255, 255, 0.06), transparent 48%),
-    color-mix(in srgb, var(--surface-color-special) 94%, transparent);
+    var(--content-glass-inverted-background);
+  backdrop-filter: blur(var(--content-glass-blur));
+  -webkit-backdrop-filter: blur(var(--content-glass-blur));
   box-shadow: var(--card-shadow);
 }
 
@@ -371,7 +371,7 @@
   color: var(--text-color-special);
   font-weight: 800;
   text-decoration: none;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
   transition: border-color 0.25s ease, background 0.25s ease;
 }
 

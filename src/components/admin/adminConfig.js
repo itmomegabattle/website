@@ -1,4 +1,5 @@
 export const ADMIN_TABS = [
+  { id: "ratings", label: "Мегабаллы" },
   { id: "profiles", label: "Участники" },
   { id: "tags", label: "Метки" },
   { id: "passwords", label: "Пароли" },

@@ -1,0 +1,65 @@
+[
+  {
+    "key": "pleiad-majinhka-mjk",
+    "name": "MAJINHKA MJK",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/majinhka-mjk.jpg",
+    "bigImage": "/images/people/pleiad/majinhka-mjk.jpg"
+  },
+  {
+    "key": "pleiad-varvara-egorova",
+    "name": "Варвара Егорова",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/varvara-egorova.jpg",
+    "bigImage": "/images/people/pleiad/varvara-egorova.jpg"
+  },
+  {
+    "key": "pleiad-ilya-lesin",
+    "name": "Илья Лёсин",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/ilya-lesin.jpg",
+    "bigImage": "/images/people/pleiad/ilya-lesin.jpg"
+  },
+  {
+    "key": "pleiad-milana-vagapova",
+    "name": "Милана Вагапова",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/milana-vagapova.jpg",
+    "bigImage": "/images/people/pleiad/milana-vagapova.jpg"
+  },
+  {
+    "key": "pleiad-andrey-kalashnikov",
+    "name": "Andrey Kalashnikov",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/andrey-kalashnikov.jpg",
+    "bigImage": "/images/people/pleiad/andrey-kalashnikov.jpg"
+  },
+  {
+    "key": "pleiad-viktoria-plotnikova",
+    "name": "Виктория Плотникова",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/viktoria-plotnikova.jpg",
+    "bigImage": "/images/people/pleiad/viktoria-plotnikova.jpg"
+  },
+  {
+    "key": "pleiad-dasha-rudkina",
+    "name": "Даша Рудкина",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/dasha-rudkina.jpg",
+    "bigImage": "/images/people/pleiad/dasha-rudkina.jpg"
+  },
+  {
+    "key": "pleiad-aleksandra-tvankova",
+    "name": "Aleksandra Tvankova",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/aleksandra-tvankova.jpg",
+    "bigImage": "/images/people/pleiad/aleksandra-tvankova.jpg"
+  },
+  {
+    "key": "pleiad-anastasia-soldatova",
+    "name": "Анастасия Солдатова",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/anastasia-soldatova.jpg",
+    "bigImage": "/images/people/pleiad/anastasia-soldatova.jpg"
+  }
+]

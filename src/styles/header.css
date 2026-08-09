@@ -141,8 +141,8 @@
         padding: 0;
         border: 0;
         background: rgba(0, 5, 14, 0.34);
-        backdrop-filter: blur(14px) saturate(0.8);
-        -webkit-backdrop-filter: blur(14px) saturate(0.8);
+        backdrop-filter: blur(9px) saturate(0.85);
+        -webkit-backdrop-filter: blur(9px) saturate(0.85);
         cursor: default;
         animation: mobile-menu-backdrop-in 0.2s ease both;
     }

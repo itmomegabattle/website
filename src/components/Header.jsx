@@ -137,7 +137,6 @@ export default function Header() {
     { to: "/people", label: "Люди" },
     { to: "/faculties", label: "Факультеты" },
     { to: "/history", label: "История" },
-    { to: "/roles", label: "Роли"},
     { to: "/events", label: "Мероприятия" },
     { to: "/ratings", label: "Участникам" },
   ];

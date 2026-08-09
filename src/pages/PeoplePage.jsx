@@ -12,6 +12,15 @@ export default function PeoplePage() {
         <MemberList />
       </section>
 
+      <section id="connections" className="people-connections main-width">
+        <header className="people-section-heading">
+          <div>
+            <h2>ГРАФ<br />ЗНАКОМСТВ</h2>
+          </div>
+        </header>
+        <FriendshipGraphLaunch />
+      </section>
+
       <PeopleCloud />
 
       <section id="stories" className="stories">
@@ -20,15 +29,6 @@ export default function PeoplePage() {
           <span>УЧАСТНИКОВ</span>
         </h2>
         <StoriesList />
-      </section>
-
-      <section id="connections" className="people-connections main-width">
-        <header className="people-section-heading">
-          <div>
-            <h2>ГРАФ<br />ЗНАКОМСТВ</h2>
-          </div>
-        </header>
-        <FriendshipGraphLaunch />
       </section>
     </main>
   );

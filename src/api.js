@@ -52,6 +52,18 @@ export const Api = {
     });
   },
 
+  getContributors() {
+    return fetchJson('data/contributors.json').then(async (fallback) => {
+      const { getPublishedTeamMembers } = await import("./services/teamService");
+      const published = await getPublishedTeamMembers("contributors", []);
+      return Array.from(
+        new Map(
+          [...published, ...fallback].map((person) => [person.name.trim().toLocaleLowerCase("ru"), person]),
+        ).values(),
+      );
+    });
+  },
+
   getStories() {
     return fetchJson('data/stories.json').then(async (fallback) => {
       const { getPublishedStories } = await import("./services/contentService");
@@ -80,15 +92,25 @@ export const Api = {
 
   async getRatings() {
     const fallback = await fetchJson('data/ratings.json');
+    let facultyLeaderboard = fallback.facultyLeaderboard || [];
     try {
       const response = await fetch(`${BACKEND_API}/api/v1/game/leaderboard?limit=100`, { credentials: "include" });
-      if (!response.ok) return fallback;
-      const data = await response.json();
-      return {
-        ...fallback,
-        facultyLeaderboard: (data.faculties || []).map((item) => ({ place: item.place, faculty: item.faculty, name: item.faculty, score: item.balance })),
-        participantLeaderboard: (data.participants || []).map((item) => ({ place: Number(item.place), nickname: item.nickname, score: Number(item.xp), badge: item.full_name || "" })),
-      };
-    } catch { return fallback; }
+      if (response.ok) {
+        const data = await response.json();
+        facultyLeaderboard = (data.faculties || []).map((item) => ({
+          place: Number(item.place),
+          faculty: item.faculty,
+          name: item.faculty,
+          score: Number(item.balance),
+        }));
+      }
+    } catch { /* The static table remains available when the game API is offline. */ }
+
+    try {
+      const { getPublishedFacultyRatings } = await import("./services/ratingsService");
+      facultyLeaderboard = await getPublishedFacultyRatings(facultyLeaderboard);
+    } catch { /* An empty content store falls back to the game leaderboard. */ }
+
+    return { ...fallback, facultyLeaderboard };
   }
 };

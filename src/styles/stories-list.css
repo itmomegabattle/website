@@ -66,7 +66,9 @@
     background:
         radial-gradient(ellipse 80% 25% at 0% 0%, var(--tag-color) 0%, transparent 100%),
         radial-gradient(ellipse 100% 35% at 100% 100%, var(--tag-color) 0%, transparent 100%),
-        color-mix(in srgb, var(--surface-color-special) 88%, transparent);
+        var(--content-glass-inverted-background);
+    backdrop-filter: blur(var(--content-glass-blur));
+    -webkit-backdrop-filter: blur(var(--content-glass-blur));
 }
 
 /* Анимации при наведении на карточку */

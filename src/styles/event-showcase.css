@@ -45,7 +45,6 @@
   border: 1px solid color-mix(in srgb, var(--accent-color) 22%, var(--border-color));
   border-radius: var(--corner-radius);
   background:
-    radial-gradient(circle at 92% 4%, rgba(0, 105, 224, 0.09), transparent 36%),
     linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.14)),
     var(--brand-gray-900);
   color: var(--text-color-special);
@@ -115,10 +114,10 @@
   border: 1px solid rgba(255, 255, 255, 0.055);
   border-radius: calc(var(--corner-radius) - 0.45rem);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(0, 105, 224, 0.045)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
     rgba(1, 7, 15, 0.24);
-  backdrop-filter: blur(16px) saturate(1.08);
-  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .event-showcase-info::after {
@@ -148,7 +147,7 @@
 .event-showcase-card .card-kicker {
   margin: 0 0 0.55rem;
   color: var(--text-color-muted);
-  font: 700 clamp(0.72rem, 1vw, 0.84rem)/1 var(--font-family-heading);
+  font: 500 clamp(0.72rem, 1vw, 0.84rem)/1 var(--heading-font);
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -157,7 +156,7 @@
   max-width: 14ch;
   margin: 0;
   color: var(--brand-white);
-  font: 700 clamp(1.75rem, 3.7vw, 4.1rem)/0.92 var(--font-family-heading);
+  font: 500 clamp(1.75rem, 3.7vw, 4.1rem)/0.92 var(--heading-font);
   letter-spacing: -0.035em;
   overflow-wrap: anywhere;
 }
@@ -244,7 +243,7 @@
   border-radius: calc(var(--corner-radius) * 0.55);
   background: rgba(255, 255, 255, 0.045);
   color: var(--brand-white);
-  font: 700 clamp(0.86rem, 1.2vw, 1rem)/1.3 var(--font-family-heading);
+  font: 500 clamp(0.86rem, 1.2vw, 1rem)/1.3 var(--heading-font);
 }
 
 .pill-row {
@@ -259,7 +258,7 @@
   border-radius: 999px;
   background: rgba(0, 105, 224, 0.045);
   color: var(--brand-white);
-  font: 700 0.76rem/1 var(--font-family-heading);
+  font: 500 0.76rem/1 var(--heading-font);
 }
 
 .event-action-row {
@@ -276,9 +275,9 @@
   padding: 0.72rem 1.1rem;
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.075);
+  background: var(--ui-glass-background);
   color: var(--brand-white);
-  font: 700 0.9rem/1 var(--font-family-heading);
+  font: 500 0.9rem/1 var(--heading-font);
   text-decoration: none;
   cursor: pointer;
   transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
@@ -296,7 +295,7 @@
 }
 
 .event-registration-button--secondary {
-  background: transparent;
+  background: var(--ui-glass-background);
 }
 
 .event-registration-button--disabled {
@@ -318,8 +317,8 @@ html[data-theme="dark"] .events-page .event-showcase-card {
   box-shadow:
     0 1.35rem 4rem rgba(0, 0, 0, 0.42),
     inset 0 1px 0 rgba(255, 255, 255, 0.045);
-  backdrop-filter: blur(18px) saturate(1.08);
-  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 html[data-theme="dark"] .events-page .event-showcase-card::before {
@@ -342,8 +341,8 @@ html[data-theme="dark"] .events-page .event-showcase-info {
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.034), rgba(255, 255, 255, 0.01)),
     rgba(2, 2, 4, 0.42);
-  backdrop-filter: blur(18px) saturate(1.08);
-  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 html[data-theme="dark"] .events-page .event-showcase-info::after {
@@ -376,11 +375,11 @@ html[data-theme="dark"] .events-page .pill {
 
 html[data-theme="dark"] .events-page .event-registration-button {
   border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--ui-glass-background);
   color: rgba(255, 255, 255, 0.9);
   box-shadow: none;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 html[data-theme="dark"] .events-page .event-registration-button:is(:hover, :focus-visible) {
@@ -399,7 +398,7 @@ html[data-theme="light"] .events-page .event-group-empty {
 
 html[data-theme="light"] .events-page .team-toggle.event-group-tabs {
   border-color: rgba(0, 0, 0, 0.14);
-  background: rgba(255, 255, 255, 0.78);
+  background: var(--ui-glass-background);
   box-shadow: 0 1rem 3rem rgba(0, 32, 72, 0.1);
 }
 
@@ -407,7 +406,7 @@ html[data-theme="light"] .events-page .team-toggle.event-group-tabs .toggle-slid
   border-color: color-mix(in srgb, var(--accent-color) 42%, rgba(0, 0, 0, 0.12));
   background:
     linear-gradient(135deg, rgba(0, 105, 224, 0.18), rgba(0, 105, 224, 0.06)),
-    rgba(255, 255, 255, 0.88);
+    var(--ui-glass-background-strong);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 0.65rem 1.8rem rgba(0, 32, 72, 0.12);
 }
 
@@ -422,13 +421,12 @@ html[data-theme="light"] .events-page .team-toggle.event-group-tabs .toggle-btn.
 html[data-theme="light"] .events-page .event-showcase-card {
   border-color: color-mix(in srgb, var(--accent-color) 18%, rgba(0, 0, 0, 0.16));
   background:
-    radial-gradient(circle at 92% 4%, rgba(0, 105, 224, 0.08), transparent 34%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(236, 243, 255, 0.22)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.16)),
     rgba(255, 255, 255, 0.22);
   color: var(--text-color);
   box-shadow: 0 1.2rem 3.4rem rgba(0, 32, 72, 0.12);
-  backdrop-filter: blur(18px) saturate(1.1);
-  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 html[data-theme="light"] .events-page .event-showcase-card::before {
@@ -449,10 +447,10 @@ html[data-theme="light"] .events-page .event-showcase-media::after {
 html[data-theme="light"] .events-page .event-showcase-info {
   border-color: rgba(0, 0, 0, 0.08);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.32), rgba(232, 241, 255, 0.18)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.14)),
     rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(14px) saturate(1.08);
-  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
 }
 
 html[data-theme="light"] .events-page .event-showcase-info::after {
@@ -485,11 +483,11 @@ html[data-theme="light"] .events-page .pill {
 
 html[data-theme="light"] .events-page .event-registration-button {
   border-color: rgba(0, 0, 0, 0.18);
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--ui-glass-background);
   color: var(--text-color);
   box-shadow: 0 0.8rem 2.2rem rgba(0, 32, 72, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 html[data-theme="light"] .events-page .event-registration-button:is(:hover, :focus-visible) {
@@ -498,7 +496,7 @@ html[data-theme="light"] .events-page .event-registration-button:is(:hover, :foc
 }
 
 html[data-theme="light"] .events-page .event-registration-button--secondary {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--ui-glass-background);
 }
 
 html[data-theme="light"] .events-page .event-registration-button--disabled {
@@ -555,7 +553,7 @@ html[data-theme="light"] .events-page .event-registration-button--disabled {
     border-radius: 999px;
     background: color-mix(in srgb, var(--brand-gray-900) 94%, black);
     color: var(--brand-white);
-    font: 700 0.85rem/1 var(--font-family-heading);
+    font: 500 0.85rem/1 var(--heading-font);
     list-style: none;
     cursor: pointer;
   }
@@ -589,8 +587,8 @@ html[data-theme="light"] .events-page .event-registration-button--disabled {
       rgba(2, 2, 4, 0.48);
     color: rgba(255, 255, 255, 0.9);
     box-shadow: none;
-    backdrop-filter: blur(12px) saturate(1.05);
-    -webkit-backdrop-filter: blur(12px) saturate(1.05);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
   }
 
   html[data-theme="dark"] .events-page .event-mobile-details summary::after {
@@ -602,8 +600,8 @@ html[data-theme="light"] .events-page .event-registration-button--disabled {
     background: rgba(255, 255, 255, 0.38);
     color: var(--accent-color);
     box-shadow: 0 0.6rem 1.6rem rgba(0, 32, 72, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
   }
 
   html[data-theme="light"] .events-page .event-mobile-details summary::after {
@@ -710,8 +708,8 @@ html[data-theme="light"] .events-page .event-registration-button--disabled {
     background:
       linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
       rgba(2, 2, 4, 0.44);
-    backdrop-filter: blur(12px) saturate(1.05);
-    -webkit-backdrop-filter: blur(12px) saturate(1.05);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
   }
 
   html[data-theme="light"] .events-page .event-registration-button {

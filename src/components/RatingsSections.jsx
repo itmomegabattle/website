@@ -4,19 +4,20 @@ import { getProfileSocialLinks, getSocialLinkStyle } from "../utils/socialLinks"
 import GamificationWidget from "./GamificationWidget";
 import { backendApi } from "../lib/backendApi";
 
-function Leaderboard({ title, rows, nameKey = "name" }) {
+export function Leaderboard({ title, rows }) {
   return (
-    <div className="info-card">
+    <div className="info-card faculty-leaderboard-card">
       <h2>{title}</h2>
       <div className="leaderboard">
         {rows.map((item) => (
-          <div className="leaderboard-row" key={`${item.place}-${item[nameKey]}`}>
+          <div className="leaderboard-row" key={`${item.place}-${item.name}`}>
             <span>#{item.place}</span>
-            <strong>{item[nameKey]}</strong>
+            <strong>{item.name}</strong>
             <em>{item.badge || item.faculty}</em>
-            <b>{item.score}</b>
+            <b>{item.score} МБ</b>
           </div>
         ))}
+        {!rows.length && <p className="leaderboard-empty">Таблица пока не заполнена.</p>}
       </div>
     </div>
   );
@@ -28,54 +29,20 @@ export function RatingsOverview() {
     queryFn: Api.getRatings,
     placeholderData: {
       facultyLeaderboard: [],
-      participantLeaderboard: [],
-      lastSeasonWinner: null,
-      features: [],
     },
   }).data;
 
   return (
     <div className="ratings-overview">
       <Leaderboard title="Рейтинг факультетов по мегабаллам" rows={ratings.facultyLeaderboard} />
-      <Leaderboard
-        title="Рейтинг участников"
-        rows={ratings.participantLeaderboard}
-        nameKey="nickname"
-      />
-
-      {ratings.lastSeasonWinner && (
-        <article className="info-card winner-card">
-          <p className="card-kicker">{ratings.lastSeasonWinner.title}</p>
-          <h2>{ratings.lastSeasonWinner.name}</h2>
-          <strong>{ratings.lastSeasonWinner.score} мегабаллов</strong>
-          <p>{ratings.lastSeasonWinner.text}</p>
-        </article>
-      )}
     </div>
   );
 }
 
 export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard, onSignOut }) {
-  const ratings = useQuery({
-    queryKey: ["ratings"],
-    queryFn: Api.getRatings,
-    placeholderData: {
-      facultyLeaderboard: [],
-      participantLeaderboard: [],
-      lastSeasonWinner: null,
-      features: [],
-    },
-  }).data;
   const game = useQuery({ queryKey: ["game-dashboard", profile?.id], queryFn: () => backendApi("/api/v1/game/dashboard"), enabled: Boolean(profile?.id) }).data;
 
-  const participantPlace =
-    ratings.participantLeaderboard.find((item) => item.nickname === profile?.nickname)?.place ??
-    "вне топ-5";
-  const participantScore =
-    ratings.participantLeaderboard.find((item) => item.nickname === profile?.nickname)?.score ??
-    game?.level?.xp ??
-    profile?.megaballs ??
-    0;
+  const participantScore = game?.level?.xp ?? profile?.megaballs ?? 0;
   const avatar = profile?.avatar_url || Api.normalizeURL("/images/people/member.jpg");
   const links = getProfileSocialLinks(profile).slice(0, 4);
 
@@ -123,7 +90,6 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
 
       <GamificationWidget
         profile={{ ...profile, megaballs: game?.balances?.find((item) => item.code === "credits")?.amount ?? profile?.megaballs, achievements: game?.achievements }}
-        place={game?.rank ?? participantPlace}
         score={game?.level?.xp ?? participantScore}
         socialCount={links.length}
       />

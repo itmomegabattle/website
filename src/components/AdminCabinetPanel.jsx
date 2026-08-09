@@ -3,10 +3,11 @@ import LogsPanel from "./admin/LogsPanel";
 import PasswordsPanel from "./admin/PasswordsPanel";
 import ProfilesPanel from "./admin/ProfilesPanel";
 import TagsPanel from "./admin/TagsPanel";
+import FacultyRatingsPanel from "./admin/FacultyRatingsPanel";
 import { ADMIN_TABS } from "./admin/adminConfig";
 
 export default function AdminCabinetPanel() {
-  const [activeTab, setActiveTab] = useState("profiles");
+  const [activeTab, setActiveTab] = useState("ratings");
   const activeTitle = useMemo(
     () => ADMIN_TABS.find((tab) => tab.id === activeTab)?.label,
     [activeTab],
@@ -30,6 +31,7 @@ export default function AdminCabinetPanel() {
           </button>
         ))}
       </nav>
+      {activeTab === "ratings" && <FacultyRatingsPanel />}
       {activeTab === "profiles" && <ProfilesPanel />}
       {activeTab === "tags" && <TagsPanel />}
       {activeTab === "passwords" && <PasswordsPanel />}
