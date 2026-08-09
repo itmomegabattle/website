@@ -16,7 +16,6 @@ export default function AdminCabinetPanel() {
   return (
     <section className="main-width admin-cabinet admin-shell">
       <div className="admin-section-title">
-        <p className="card-kicker">Админ-кабинет</p>
         <h2>{activeTitle}</h2>
       </div>
       <nav className="admin-tabs" aria-label="Разделы админки">

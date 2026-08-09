@@ -33,7 +33,7 @@ export default function TagsPanel() {
   return (
     <article className="info-card admin-panel">
       <div className="admin-panel-head">
-        <div><p className="card-kicker">NFC</p><h2>Метки</h2></div>
+        <div><h2>Метки</h2></div>
         <label className="admin-search"><span>Поиск</span><input value={search} placeholder="Код, никнейм, ИСУ" onChange={(event) => setSearch(event.target.value)} /></label>
       </div>
       {error && <p className="form-error">{error.message}</p>}

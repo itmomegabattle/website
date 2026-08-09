@@ -54,11 +54,11 @@ export const Api = {
 
   getContributors() {
     return fetchJson('data/contributors.json').then(async (fallback) => {
-      const { getPublishedTeamMembers } = await import("./services/teamService");
+      const { getPublishedTeamMembers, getLocallyPreservedContributors } = await import("./services/teamService");
       const published = await getPublishedTeamMembers("contributors", []);
       return Array.from(
         new Map(
-          [...published, ...fallback].map((person) => [person.name.trim().toLocaleLowerCase("ru"), person]),
+          [...getLocallyPreservedContributors(), ...published, ...fallback].map((person) => [person.name.trim().toLocaleLowerCase("ru"), person]),
         ).values(),
       );
     });

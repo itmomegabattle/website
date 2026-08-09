@@ -15,13 +15,19 @@ export const EMPTY_PASSWORD = {
 };
 
 export const ACTION_LABELS = {
-  "profile.update": "Профиль обновлён",
-  "profile.delete": "Профиль удалён",
-  "password.create": "Пароль добавлен",
-  "password.update": "Пароль обновлён",
-  "password.delete": "Пароль удалён",
-  "event.create": "Мероприятие добавлено",
-  "event.update": "Мероприятие обновлено",
-  "event.delete": "Мероприятие удалено",
-  "tag.update": "Метка обновлена",
+  "profile.update": "обновил профиль участника",
+  "profile.delete": "удалил профиль участника",
+  "profile.role.grant": "выдал права администратора",
+  "profile.role.revoke": "отозвал права администратора",
+  "password.create": "добавил доступ",
+  "password.update": "обновил доступ",
+  "password.delete": "удалил доступ",
+  "event.create": "добавил мероприятие",
+  "event.update": "обновил мероприятие",
+  "event.delete": "удалил мероприятие",
+  "tag.create": "создал NFC-метки",
+  "tag.update": "обновил NFC-метку",
+  "team_member.create": "добавил человека в команду",
+  "team_member.update": "обновил карточку человека",
+  "team_member.delete": "удалил человека из команды",
 };

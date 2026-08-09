@@ -10,8 +10,8 @@ export function Leaderboard({ title, rows }) {
       <h2>{title}</h2>
       <div className="leaderboard">
         {rows.map((item) => (
-          <div className="leaderboard-row" key={`${item.place}-${item.name}`}>
-            <span>#{item.place}</span>
+          <div className={`leaderboard-row leaderboard-row--place-${item.place}`} key={`${item.place}-${item.name}`}>
+            <span className="leaderboard-place">{item.place}</span>
             <strong>{item.name}</strong>
             <em>{item.badge || item.faculty}</em>
             <b>{item.score} МБ</b>
@@ -53,9 +53,7 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
           <img src={avatar} alt={profile?.nickname} />
         </div>
         <div className="participant-profile-content">
-          <p className="card-kicker">{profile?.faculty || "Megabattle"}</p>
           <h2>{profile?.nickname}</h2>
-          {profile?.role_badge && <p className="profile-real-name">{profile.role_badge}</p>}
           {profile?.full_name && <p className="profile-real-name">{profile.full_name}</p>}
           {profile?.bio && <p className="profile-bio">{profile.bio}</p>}
 

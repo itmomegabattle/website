@@ -3,6 +3,19 @@ import { backendApi } from "../lib/backendApi";
 import { uploadOptimizedImage } from "../utils/uploadOptimizedImage";
 
 const mapDbMember = (member) => ({ key: member.source_key || member.id, id: member.id, name: member.name, activity: member.activity || "", role: member.role || "", description: member.description || "", links: Array.isArray(member.links) ? member.links : [], smallImage: member.small_image_url || "/images/people/member-full.jpg", bigImage: member.big_image_url || member.small_image_url || "/images/people/member.jpg" });
+const LOCAL_CONTRIBUTORS_KEY = "megabattle:removed-team-contributors";
+
+export function getLocallyPreservedContributors() {
+  if (typeof localStorage === "undefined") return [];
+  try { return JSON.parse(localStorage.getItem(LOCAL_CONTRIBUTORS_KEY) || "[]"); } catch { return []; }
+}
+
+function preserveContributorLocally(member) {
+  if (typeof localStorage === "undefined") return;
+  const mapped = mapDbMember({ ...member, source_key: `removed:${member.source_key || member.id}` });
+  const current = getLocallyPreservedContributors().filter((item) => item.name !== mapped.name);
+  localStorage.setItem(LOCAL_CONTRIBUTORS_KEY, JSON.stringify([...current, mapped]));
+}
 export async function getPublishedTeamMembers(section, fallback = []) {
   try {
     const data = await backendApi("/api/v1/content/people?limit=200");
@@ -37,7 +50,7 @@ async function preserveContributor(member) {
     (item) => item.section === "contributors" && item.source_key === contributorKey,
   );
 
-  await rawUpsertTeamMember({
+  const contributor = {
     ...(existing?.id ? { id: existing.id } : {}),
     source_key: contributorKey,
     section: "contributors",
@@ -50,13 +63,17 @@ async function preserveContributor(member) {
     small_image_url: member.small_image_url || member.smallImage || "",
     big_image_url: member.big_image_url || member.bigImage || member.small_image_url || member.smallImage || "",
     sort_order: existing?.sort_order ?? member.sort_order ?? 100,
-  });
+  };
+  try {
+    await rawUpsertTeamMember(contributor);
+  } catch (error) {
+    if (!String(error?.message || error).includes("team_members_section_check")) throw error;
+    preserveContributorLocally(contributor);
+  }
 }
 
 export async function upsertTeamMember(member) {
-  const saved = await rawUpsertTeamMember(member);
-  await preserveContributor({ ...member, ...saved });
-  return saved;
+  return rawUpsertTeamMember(member);
 }
 
 export async function deleteTeamMember(memberId) {

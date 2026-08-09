@@ -35,13 +35,11 @@ export default function RatingsPage() {
   return (
     <main className="info-page structured-page participants-page">
       <section className="main-width participants-hero">
-        <p className="eyebrow">Megabattle ID</p>
         <h1>Участникам</h1>
       </section>
 
       {isAuthenticated && canAdmin && (
         <nav className="main-width participants-view-switch" aria-label="Режим страницы">
-          <span className={`participants-view-switch__slider participants-view-switch__slider--${activeView}`} aria-hidden="true" />
           <button
             type="button"
             className={activeView === "profile" ? "is-active" : ""}
@@ -80,7 +78,6 @@ export default function RatingsPage() {
             ) : (
               <div className="participants-auth-bento">
                 <article className="info-card participants-auth-copy">
-                  <p className="card-kicker">Вход</p>
                   <h2>Авторизуйся, чтобы открыть профиль</h2>
                   <p>
                     После входа здесь появятся визитка, личный прогресс,

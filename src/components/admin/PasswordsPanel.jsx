@@ -9,6 +9,21 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { EMPTY_PASSWORD } from "./adminConfig";
 import { decryptSecret, encryptSecret } from "./vaultCrypto";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFigma, faGithub, faGoogle, faInstagram, faTiktok, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faBuilding, faEnvelope, faGlobe } from "@fortawesome/free-solid-svg-icons";
+
+const serviceIcons = [
+  [/instagram|инста/i, faInstagram], [/tiktok|тикток/i, faTiktok], [/google|гугл/i, faGoogle],
+  [/github|гитхаб/i, faGithub], [/youtube|ютуб/i, faYoutube], [/figma|фигма/i, faFigma],
+  [/mail|почт/i, faEnvelope], [/building|билдин/i, faBuilding],
+];
+
+function PasswordServiceIcon({ title = "" }) {
+  const icon = serviceIcons.find(([pattern]) => pattern.test(title))?.[1] || faGlobe;
+  const custom = /vercel|версель/i.test(title) ? "▲" : /supabase|супабейз/i.test(title) ? "⚡" : /rutube|рутуб/i.test(title) ? "R" : /юджайл|ugile/i.test(title) ? "U" : null;
+  return <span className="password-service-icon" aria-hidden="true">{custom || <FontAwesomeIcon icon={icon} />}</span>;
+}
 
 export default function PasswordsPanel() {
   const { profile } = useAuth();
@@ -91,7 +106,6 @@ export default function PasswordsPanel() {
   return (
     <div className="admin-grid">
       <article className="info-card admin-panel">
-        <p className="card-kicker">Vault</p>
         <h2>Пароли</h2>
         <div className="admin-pin-box">
           <label className="form-field">
@@ -123,7 +137,6 @@ export default function PasswordsPanel() {
         )}
       </article>
       <article className="info-card admin-panel">
-        <p className="card-kicker">Список</p>
         <h2>Доступы</h2>
         {error && <p className="form-error">{error.message}</p>}
         <div className="admin-list">
@@ -131,6 +144,7 @@ export default function PasswordsPanel() {
             const secret = opened[item.id];
             return (
               <div className="admin-list-row" key={item.id}>
+                <PasswordServiceIcon title={item.title} />
                 <div>
                   <strong>{item.title}</strong>
                   <span>{secret ? `${secret.login || "без логина"} · ${secret.url || "без ссылки"}` : "зашифровано"}</span>
