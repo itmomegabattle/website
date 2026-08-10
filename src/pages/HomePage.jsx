@@ -37,12 +37,13 @@ export default function HomePage() {
       tags: ["творческий сезон", "5 мегафакультетов", "история проекта"],
       links: [
         { to: "/history", label: "История" },
+        { to: "/faculties", label: "Ретро факультетов" },
         { to: "/events", label: "Мероприятия" },
       ],
     },
     {
       number: "02",
-      title: "Что можно делать?",
+      title: "Что я буду делать?",
       text: "Выходить на сцену, снимать и монтировать, придумывать костюмы и декорации, работать со светом, звуком, дизайном, SMM или организацией. А ближайшие точки входа всегда появляются в афише.",
       tags: ["сцена", "медиа", "техника и организация"],
       links: [{ to: "/roles", label: "Посмотреть роли" }],
@@ -53,9 +54,15 @@ export default function HomePage() {
       text: "Найди свой мегафакультет, открой раздел участника и следи за ближайшими наборами. Можно прийти в команду факультета, откликнуться на роль или начать со знакомства на открытом событии.",
       tags: ["найти факультет", "выбрать роль", "прийти на событие"],
       links: [
-        { to: "/people", label: "Люди проекта" },
+        { to: "/people?team=responsible#team", label: "Ответственные в команде" },
         { to: "/faculties", label: "Найти факультет" },
       ],
+    },
+    {
+      number: "04",
+      title: "Что-то ещё?",
+      text: "Личный кабинет участника собирает рейтинг, прогресс, игровые достижения, профиль и твои метки в одном месте.",
+      links: [{ to: "/ratings", label: "Перейти участникам" }],
     },
   ];
 
@@ -171,13 +178,7 @@ export default function HomePage() {
               ))}
             </div>
             <div className="project-menu__panel" id="project-panel" role="tabpanel" aria-live="polite">
-              <span className="project-menu__eyebrow">Коротко о Megabattle</span>
               <h2>{projectTabs[activeProjectTab].title}</h2>
-              <div className="project-menu__tags">
-                {projectTabs[activeProjectTab].tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
               <p className="project-menu__text">{projectTabs[activeProjectTab].text}</p>
               <div className="project-menu__actions">
                 {projectTabs[activeProjectTab].links.map((link) => (

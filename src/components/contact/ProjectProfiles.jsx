@@ -27,13 +27,10 @@ export function BusinessCard() {
         <ProjectAvatar />
       </div>
       <div className="employee-card__profile">
-        <span className="employee-card__label">Официальная визитка</span>
         <h2>ITMO<br />Megabattle</h2>
-        <p>Команда студенческого проекта, которая собирает людей, факультеты и большую сцену в один сезон.</p>
         <div className="employee-card__contacts">
           <a href="mailto:megabattle@itmo.ru"><FontAwesomeIcon icon={faEnvelope} /><span>megabattle@itmo.ru</span></a>
           <span><FontAwesomeIcon icon={faLocationDot} /><span>Санкт-Петербург<br />Ломоносова, 9</span></span>
-          <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faAt} /><span>@itmomegabattle</span></a>
         </div>
         <a className="employee-card__message" href="https://t.me/Arshinovoleg" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faPaperPlane} />

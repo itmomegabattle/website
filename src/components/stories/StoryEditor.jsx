@@ -109,7 +109,7 @@ export default function StoryEditor({ fallbackStories }) {
             >
               <div className="stories-admin-form-grid">
                 <label className="form-field"><span>Имя</span><input name="name" value={form.name} onChange={updateField} required /></label>
-                <label className="form-field"><span>Статус</span><select name="status" value={form.status} onChange={updateField}><option value="draft">Черновик</option><option value="pending">На одобрении</option><option value="published">Опубликовано</option><option value="archived">Архив</option><option value="rejected">Отклонено</option></select></label>
+                <label className="form-field"><span>Статус</span><select name="status" value={form.status} onChange={updateField}><option value="draft">Черновик</option><option value="pending">На одобрении</option><option value="published">Опубликовано</option><option value="archived">Архив</option></select></label>
                 <label className="form-field"><span>Факультет</span><input name="faculty" value={form.faculty || ""} onChange={updateField} /></label>
                 <label className="form-field"><span>Дата</span><input name="story_date_label" value={form.story_date_label || ""} onChange={updateField} /></label>
               </div>
@@ -141,7 +141,6 @@ export default function StoryEditor({ fallbackStories }) {
                       </div>
                       <div className="stories-admin-actions">
                         <button type="button" onClick={() => reviewStory(story, "published")}>Одобрить</button>
-                        <button type="button" onClick={() => reviewStory(story, "rejected")}>Отклонить</button>
                         <button type="button" onClick={() => openPreview(story)}>Предпросмотр</button>
                         <button type="button" onClick={() => setSelectedStory(story)}>Изменить</button>
                         <button type="button" onClick={() => requestDelete(story)} disabled={deleteMutation.isPending}>

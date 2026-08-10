@@ -2076,7 +2076,9 @@
 .participants-page .admin-panel,
 .participants-page .admin-list-row,
 .participants-page .admin-form--nested {
-    background: linear-gradient(145deg, rgba(13, 13, 13, 0.98), rgba(1, 1, 1, 0.99));
+    background:
+        linear-gradient(145deg, color-mix(in srgb, var(--surface-color-special) 96%, var(--text-color) 4%), var(--surface-color-special));
+    color: var(--text-color-special);
 }
 
 .admin-panel--form {
@@ -2292,7 +2294,7 @@
 .faculty-ratings-panel__hint {
     max-width: 54rem;
     margin: -0.25rem 0 0.5rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: color-mix(in srgb, var(--text-color) 60%, transparent);
     line-height: 1.5;
 }
 
@@ -2307,9 +2309,10 @@
     gap: 0.65rem;
     align-items: end;
     padding: 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.13);
+    border: 1px solid var(--border-color);
     border-radius: 1.15rem;
-    background: #050505;
+    background: var(--surface-color-special);
+    color: var(--text-color-special);
 }
 
 .faculty-rating-editor__place {
@@ -2325,7 +2328,7 @@
 }
 
 .faculty-rating-editor label > span {
-    color: rgba(255, 255, 255, 0.58);
+    color: color-mix(in srgb, currentColor 58%, transparent);
     font-size: 0.65rem;
     font-weight: 900;
     letter-spacing: 0.08em;
@@ -2336,10 +2339,10 @@
     width: 100%;
     min-height: 2.6rem;
     padding: 0.6rem 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid var(--border-color);
     border-radius: 0.8rem;
-    background: #0b0b0b;
-    color: #fff;
+    background: var(--surface-color);
+    color: var(--text-color);
     font: inherit;
 }
 
@@ -2350,7 +2353,7 @@
     align-items: end;
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid var(--border-color);
 }
 
 .faculty-rating-create > div {
@@ -3156,4 +3159,58 @@
     .admin-tag-create { width:100%; margin-left:0; border-radius:1rem; }
     .admin-panel .admin-list-row:has(.password-service-icon) { grid-template-columns:2.7rem minmax(0,1fr); }
     .admin-panel .admin-list-row:has(.password-service-icon) .admin-row-actions { grid-column:1/-1; }
+}
+
+/* Participant dashboard hierarchy and game-card treatment. */
+.participants-page .ratings-overview { order: -3; }
+.participants-page .authenticated-rating-grid { order: -2; }
+.participants-page .nfc-tags-panel--compact {
+    order: -1;
+    width: min(100%, 760px);
+    min-height: 0;
+    margin-inline: auto;
+    padding: 1rem 1.15rem;
+}
+.participants-page .admin-tabs { margin-inline: auto; }
+.admin-vault-entry:not(.is-unlocked) {
+    grid-column: 1 / -1;
+    width: min(100%, 34rem);
+    margin: clamp(2rem, 8vh, 6rem) auto;
+    text-align: center;
+}
+.admin-vault-entry:not(.is-unlocked) .admin-pin-box { grid-template-columns: minmax(0, 15rem) auto; justify-content: center; }
+.admin-password-accesses { grid-column: span 1; }
+
+.public-profile-card {
+    position: relative;
+    overflow: hidden;
+    border-color: color-mix(in srgb, var(--accent-color) 46%, var(--border-color));
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--accent-color) 12%, transparent) 1px, transparent 1px),
+      linear-gradient(color-mix(in srgb, var(--accent-color) 12%, transparent) 1px, transparent 1px),
+      var(--surface-color);
+    background-size: 32px 32px;
+}
+.public-profile-card::after { content:""; position:absolute; inset:.55rem; border:1px solid color-mix(in srgb,var(--accent-color) 24%,transparent); clip-path:polygon(0 0,2.2rem 0,2.2rem 1px,calc(100% - 2.2rem) 1px,calc(100% - 2.2rem) 0,100% 0,100% 2.2rem,calc(100% - 1px) 2.2rem,calc(100% - 1px) calc(100% - 2.2rem),100% calc(100% - 2.2rem),100% 100%,0 100%); pointer-events:none; }
+.public-profile-avatar { position:relative; }
+.public-profile-avatar__status,.public-profile-avatar__id { position:absolute; z-index:2; left:.7rem; padding:.35rem .5rem; background:rgba(0,0,0,.72); color:#fff; font-size:.55rem; letter-spacing:.1em; }
+.public-profile-avatar__status { top:.7rem; }
+.public-profile-avatar__status i { display:inline-block; width:.45rem; height:.45rem; margin-right:.35rem; border-radius:50%; background:#53f28c; box-shadow:0 0 .65rem #53f28c; }
+.public-profile-avatar__id { bottom:.7rem; }
+.public-profile-level { width:fit-content; padding:.4rem .6rem; border:1px solid color-mix(in srgb,var(--accent-color) 42%,transparent); color:var(--accent-color); font-size:.64rem; font-weight:900; letter-spacing:.12em; }
+
+html[data-theme="light"] .pixel-glass-widget,
+html[data-theme="light"] .pixel-glass-screen {
+    border-color: rgba(0,105,224,.28);
+    background: linear-gradient(145deg,rgba(255,255,255,.96),rgba(231,240,252,.92));
+    color:#07111f;
+    box-shadow:0 1.5rem 4rem rgba(0,48,105,.13);
+}
+html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inherit; }
+
+@media (max-width:640px) {
+  .admin-tabs { border-radius:.55rem; }
+  .admin-tab { border-radius:.4rem; }
+  .admin-panel,.admin-list-row,.admin-form--nested { border-radius:.65rem!important; }
+  .admin-vault-entry:not(.is-unlocked) .admin-pin-box { grid-template-columns:1fr; }
 }

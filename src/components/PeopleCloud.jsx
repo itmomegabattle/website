@@ -26,12 +26,15 @@ function belongsToCurrentTeam(name, currentPeople) {
 }
 
 function cleanPeople(organizers, responsible, contributors) {
+  const excludedNames = new Set(["саша тванкова", "александра тванкова", "aleksandra tvankova", "инга", "даша рудкина"]);
   const currentPeople = [
     ...organizers,
     ...responsible,
   ];
   const allPeople = contributors.filter((person) => {
     if (!person.name || person.name.trim().toLowerCase() === "имя фамилия") return false;
+    const normalizedName = person.name.trim().toLocaleLowerCase("ru");
+    if (excludedNames.has(normalizedName) || /(^|\s)инга(\s|$)/i.test(normalizedName)) return false;
     return !belongsToCurrentTeam(person.name, currentPeople);
   });
 
@@ -72,13 +75,8 @@ export default function PeopleCloud() {
     <section className="people-cloud-section" aria-labelledby="people-cloud-title">
       <header className="people-section-heading people-cloud-heading">
         <div>
-          <p className="people-kicker">Люди проекта</p>
           <h2 id="people-cloud-title">ПЛЕЯДА</h2>
         </div>
-        <p>
-          Люди разных сезонов, чьи идеи, энергия и работа складываются
-          в одну большую историю Megabattle.
-        </p>
       </header>
 
       <div className="people-cloud" aria-label="Люди проекта">

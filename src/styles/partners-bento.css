@@ -688,7 +688,12 @@
 .partner-bento-logo img { object-fit:contain; }
 .partner-bento-logo img,
 .partner-bento-card:hover .partner-bento-logo img { filter:brightness(0) invert(1) drop-shadow(0 0 1rem rgba(255,255,255,.14)); }
-.partners-admin-panel { width:min(100%,1080px); margin-inline:auto; background:#080808; }
+.partners-admin-panel {
+  width:min(100%,1080px);
+  margin-inline:auto;
+  background:var(--surface-color-special);
+  color:var(--text-color-special);
+}
 .partners-admin-grid { grid-template-columns:minmax(0,1fr) minmax(280px,.72fr); }
 .partners-admin-logo-preview {
   display:grid;
@@ -697,9 +702,11 @@
   gap:1rem;
   min-height:8rem;
   padding:.75rem 1rem;
-  border:1px solid rgba(255,255,255,.14);
+  border:1px solid var(--border-color);
   border-radius:1rem;
-  background:repeating-conic-gradient(rgba(255,255,255,.08) 0 25%,transparent 0 50%) 0 0/18px 18px,#111;
+  background:
+    repeating-conic-gradient(color-mix(in srgb, var(--text-color) 8%, transparent) 0 25%,transparent 0 50%) 0 0/18px 18px,
+    var(--surface-color-special);
 }
 .partners-admin-logo-preview span { font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
 .partners-admin-logo-preview img { display:block; width:100%; height:7rem; object-fit:contain; }

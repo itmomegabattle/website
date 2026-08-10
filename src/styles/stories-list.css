@@ -405,6 +405,12 @@
     box-shadow: var(--card-shadow);
 }
 
+.stories-admin-panel,
+.story-submit-panel {
+  background: color-mix(in srgb, var(--surface-color) 96%, #000 4%);
+  backdrop-filter: blur(28px) saturate(.72);
+}
+
 .stories-admin-head {
     display: flex;
     align-items: center;

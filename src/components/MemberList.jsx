@@ -9,7 +9,9 @@ import TeamAdminEditor from "./team/TeamAdminEditor";
 
 export default function MemberList() {
   const { profile } = useAuth();
-  const [activeFilter, setActiveFilter] = useState("organizers");
+  const [activeFilter, setActiveFilter] = useState(() => (
+    new URLSearchParams(window.location.search).get("team") === "responsible" ? "responsible" : "organizers"
+  ));
   const canEdit = isAdminProfile(profile);
   const organizers = useQuery({ queryKey: ["organizers"], queryFn: Api.getOrganizers, placeholderData: [] }).data;
   const responsible = useQuery({ queryKey: ["responsible"], queryFn: Api.getResponsible, placeholderData: [] }).data;

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import LogsPanel from "./admin/LogsPanel";
 import PasswordsPanel from "./admin/PasswordsPanel";
 import ProfilesPanel from "./admin/ProfilesPanel";
@@ -8,16 +8,9 @@ import { ADMIN_TABS } from "./admin/adminConfig";
 
 export default function AdminCabinetPanel() {
   const [activeTab, setActiveTab] = useState("ratings");
-  const activeTitle = useMemo(
-    () => ADMIN_TABS.find((tab) => tab.id === activeTab)?.label,
-    [activeTab],
-  );
 
   return (
     <section className="main-width admin-cabinet admin-shell">
-      <div className="admin-section-title">
-        <h2>{activeTitle}</h2>
-      </div>
       <nav className="admin-tabs" aria-label="Разделы админки">
         {ADMIN_TABS.map((tab) => (
           <button

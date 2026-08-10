@@ -13,6 +13,8 @@ export default function LogsPanel() {
       : data;
     return logs.slice(0, 10);
   }, [data, search]);
+  const describeAction = (item) => ACTION_LABELS[item.action]
+    || `выполнил действие «${String(item.action || item.entity_type || "системное").replaceAll(/[._-]+/g, " ")}»`;
 
   return (
     <article className="info-card admin-panel">
@@ -28,7 +30,7 @@ export default function LogsPanel() {
         {visibleLogs.map((item) => (
           <div className="admin-list-row" key={item.id}>
             <div>
-              <strong>{item.actor?.nickname || "Система"} — {ACTION_LABELS[item.action] || "выполнил действие"}</strong>
+              <strong>{item.actor?.nickname || "Система"} — {describeAction(item)}</strong>
               <span>{new Date(item.created_at).toLocaleString("ru-RU", { dateStyle: "long", timeStyle: "short" })}</span>
             </div>
             <code>{item.entity_id ? `Объект: ${item.entity_id}` : "Системное действие"}</code>

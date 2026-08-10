@@ -395,6 +395,18 @@
   box-shadow: var(--card-shadow);
 }
 
+/* Solid editing surface: form fields remain readable over the team photography. */
+.team-admin-panel {
+  background: color-mix(in srgb, var(--surface-color) 96%, #000 4%);
+  backdrop-filter: blur(28px) saturate(.72);
+}
+
+.people-member-modal__header,
+.people-member-modal__about,
+.people-member-modal__description,
+.people-member-modal__links { text-align: center; }
+.people-member-modal__links { justify-content: center; }
+
 .team-admin-head {
   display: flex;
   align-items: center;

@@ -60,7 +60,7 @@ export default function PasswordsPanel() {
   });
 
   const openVault = async () => {
-    if (/^\d{4}$/.test(pinInput)) {
+    if (pinInput === "0000") {
       try {
         await unlockAdminVault(pinInput);
         setVaultPin(pinInput);
@@ -71,7 +71,7 @@ export default function PasswordsPanel() {
       }
       return;
     }
-    setVaultError("Код должен быть из 4 цифр");
+    setVaultError("Неверный код");
   };
 
   const revealSecret = async (item) => {
@@ -105,7 +105,7 @@ export default function PasswordsPanel() {
 
   return (
     <div className="admin-grid">
-      <article className="info-card admin-panel">
+      <article className={`info-card admin-panel admin-vault-entry${vaultPin ? " is-unlocked" : ""}`}>
         <h2>Пароли</h2>
         <div className="admin-pin-box">
           <label className="form-field">
@@ -121,9 +121,9 @@ export default function PasswordsPanel() {
           <button type="button" onClick={openVault}>{vaultPin ? "Код активен" : "Открыть"}</button>
         </div>
         {vaultError && <p className="form-error">{vaultError}</p>}
-        <button className="admin-show-all" type="button" onClick={() => setIsAdding((value) => !value)}>
+        {vaultPin && <button className="admin-show-all" type="button" onClick={() => setIsAdding((value) => !value)}>
           {isAdding ? "Закрыть добавление" : "Добавить пароль"}
-        </button>
+        </button>}
         {isAdding && (
           <form className="admin-form admin-form--nested" onSubmit={(event) => { event.preventDefault(); saveMutation.mutate(form); }}>
             <label className="form-field"><span>Название</span><input name="title" value={form.title} onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))} required /></label>
@@ -136,7 +136,7 @@ export default function PasswordsPanel() {
           </form>
         )}
       </article>
-      <article className="info-card admin-panel">
+      {vaultPin && <article className="info-card admin-panel admin-password-accesses">
         <h2>Доступы</h2>
         {error && <p className="form-error">{error.message}</p>}
         <div className="admin-list">
@@ -160,7 +160,7 @@ export default function PasswordsPanel() {
             );
           })}
         </div>
-      </article>
+      </article>}
     </div>
   );
 }

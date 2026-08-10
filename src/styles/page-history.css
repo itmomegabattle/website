@@ -1770,6 +1770,43 @@ body:has(.history-page) .header {
   transform: translateY(-2px);
 }
 
+/* One continuous archive surface with the same blueprint lines in every chapter. */
+.history-page,
+.history-world,
+.history-hero,
+.history-plot,
+.history-origin,
+.history-seasons,
+.history-facts,
+.history-gallery,
+.history-final {
+  background-color: transparent;
+  background-image:
+    linear-gradient(rgba(112,150,197,.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(112,150,197,.11) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.history-chapter__body h2 { font-size: clamp(2.65rem, 4.35vw, 5rem); }
+.history-chapter__meta span:first-child { font-size: clamp(.78rem, 1vw, .96rem); font-weight: 850; color:#fff; }
+.history-chapter__close { top: 1.35rem; right: 1.35rem; }
+.history-gallery__feature,
+.history-gallery__rail .history-gallery__item { border:1px solid rgba(255,255,255,.22); }
+.history-gallery__feature img { object-position:center; }
+.history-video iframe { min-height: min(68vh, 720px); }
+html[data-theme="light"] .history-gallery__feature,
+html[data-theme="light"] .history-gallery__rail .history-gallery__item,
+html[data-theme="light"] .history-chapter__visual,
+html[data-theme="light"] .history-chapter__body { border-color:rgba(0,0,0,.22); }
+
+@media (max-width:980px) {
+  .history-chapter__body h2 { font-size: clamp(1.9rem, 7.8vw, 2.8rem); }
+  .history-chapter__close { top: 1rem; right: 1rem; }
+  .history-gallery__feature > span { bottom: 1rem; }
+  .history-gallery__rail { position:relative; inset:auto; width:100%; margin-top:.75rem; }
+  .history-gallery { height:auto; min-height:100svh; }
+  .history-video iframe { min-height:0; }
+}
+
 .history-plot__copy button i,
 .history-chapter__play i {
   background: var(--control-background-active);

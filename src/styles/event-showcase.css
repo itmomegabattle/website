@@ -461,6 +461,17 @@ html[data-theme="light"] .events-page .event-showcase-card .card-kicker {
   color: color-mix(in srgb, var(--text-color) 58%, transparent);
 }
 
+.events-page .event-admin-strip { margin-top: 0; }
+
+@media (max-width: 640px) {
+  .events-section > h1 { margin-bottom: 2.2rem; }
+  .event-team-filters { margin-top: 0; }
+  .events-page .event-admin-strip,
+  .events-page .event-admin-chip,
+  .events-page .event-admin-strip button,
+  .events-page .event-inline-editor { border-radius: .55rem; }
+}
+
 html[data-theme="light"] .events-page .event-showcase-card h2 {
   color: var(--text-color);
 }

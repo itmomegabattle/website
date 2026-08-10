@@ -27,9 +27,10 @@ export default function HistoryVideo({ video, onClose }) {
         <div className="history-video__panel">
           <button type="button" className="history-video__close" onClick={onClose} aria-label="Закрыть">×</button>
           <iframe
-            src={`${video.embedUrl}?skinColor=006dff`}
+            src={`${video.embedUrl}?skinColor=006dff&autoplay=1`}
             title={video.title}
-            allow="clipboard-write; autoplay; encrypted-media; picture-in-picture"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           />
           <footer>
