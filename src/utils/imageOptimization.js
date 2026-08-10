@@ -60,20 +60,52 @@ function closeDecodedImage(image) {
   if (image?.dataset?.objectUrl) URL.revokeObjectURL(image.dataset.objectUrl);
 }
 
+async function prepareSvgFile(file) {
+  const markup = await file.text();
+  const documentNode = new DOMParser().parseFromString(markup, "image/svg+xml");
+  const svg = documentNode.documentElement;
+  if (!svg || svg.nodeName.toLowerCase() !== "svg" || documentNode.querySelector("parsererror")) {
+    throw new Error("Не удалось прочитать SVG");
+  }
+
+  const viewBox = String(svg.getAttribute("viewBox") || "")
+    .trim()
+    .split(/[\s,]+/)
+    .map(Number);
+  const viewBoxWidth = viewBox.length === 4 && Number.isFinite(viewBox[2]) ? Math.abs(viewBox[2]) : 0;
+  const viewBoxHeight = viewBox.length === 4 && Number.isFinite(viewBox[3]) ? Math.abs(viewBox[3]) : 0;
+  const width = Number.parseFloat(svg.getAttribute("width")) || viewBoxWidth || 1200;
+  const height = Number.parseFloat(svg.getAttribute("height")) || viewBoxHeight || Math.round(width / 2);
+
+  // Percentage-sized SVGs otherwise decode as 0×0 in Safari/Chromium canvas.
+  svg.setAttribute("width", String(width));
+  svg.setAttribute("height", String(height));
+  if (!svg.getAttribute("viewBox")) svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+  const normalizedMarkup = new XMLSerializer().serializeToString(svg);
+  return new File([normalizedMarkup], renameFile(file.name, "image/svg+xml"), {
+    type: "image/svg+xml",
+    lastModified: file.lastModified || Date.now(),
+  });
+}
+
 export async function optimizeImageFile(file, presetName = "content", { preservePng = false } = {}) {
-  if (!(file instanceof File) || !file.type.startsWith("image/")) {
+  const isSvg = file instanceof File && (file.type === "image/svg+xml" || /\.svg$/i.test(file.name));
+  if (!(file instanceof File) || (!file.type.startsWith("image/") && !isSvg)) {
     throw new Error("Выберите файл изображения");
   }
 
-  if (PASSTHROUGH_TYPES.has(file.type)) {
-    if (file.size > 1_000_000) {
+  const sourceFile = isSvg ? await prepareSvgFile(file) : file;
+
+  if (PASSTHROUGH_TYPES.has(sourceFile.type)) {
+    if (sourceFile.size > 1_000_000) {
       throw new Error("GIF должен весить не больше 1 МБ");
     }
-    return file;
+    return sourceFile;
   }
 
   const preset = PRESETS[presetName] || PRESETS.content;
-  const image = await decodeImage(file);
+  const image = await decodeImage(sourceFile);
   const sourceWidth = image.naturalWidth || image.width;
   const sourceHeight = image.naturalHeight || image.height;
 
@@ -87,7 +119,7 @@ export async function optimizeImageFile(file, presetName = "content", { preserve
   let blob = null;
   // Media storage intentionally does not receive raw SVG. Partner SVG files
   // are rasterized by the canvas into a transparent PNG before upload.
-  let outputType = preservePng && ["image/png", "image/svg+xml"].includes(file.type)
+  let outputType = preservePng && ["image/png", "image/svg+xml"].includes(sourceFile.type)
     ? "image/png"
     : "image/webp";
 
@@ -106,7 +138,7 @@ export async function optimizeImageFile(file, presetName = "content", { preserve
       try {
         blob = await canvasToBlob(canvas, outputType, quality);
       } catch {
-        outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
+        outputType = ["image/png", "image/svg+xml"].includes(sourceFile.type) ? "image/png" : "image/jpeg";
         blob = await canvasToBlob(canvas, outputType, quality);
       }
 
@@ -123,7 +155,7 @@ export async function optimizeImageFile(file, presetName = "content", { preserve
 
   if (!blob) throw new Error("Не удалось подготовить изображение");
 
-  return new File([blob], renameFile(file.name, outputType), {
+  return new File([blob], renameFile(sourceFile.name, outputType), {
     type: outputType,
     lastModified: Date.now(),
   });

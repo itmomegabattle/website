@@ -686,6 +686,8 @@
 .partner-bento-media { background:#090909; }
 .partner-bento-logo { inset:clamp(1rem,2vw,1.75rem); }
 .partner-bento-logo img { object-fit:contain; }
+.partner-bento-logo img,
+.partner-bento-card:hover .partner-bento-logo img { filter:brightness(0) invert(1) drop-shadow(0 0 1rem rgba(255,255,255,.14)); }
 .partners-admin-panel { width:min(100%,1080px); margin-inline:auto; background:#080808; }
 .partners-admin-grid { grid-template-columns:minmax(0,1fr) minmax(280px,.72fr); }
 .partners-admin-logo-preview {

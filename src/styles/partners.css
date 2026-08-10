@@ -316,11 +316,7 @@
   width: min(100%, 430px);
   max-height: 350px;
   object-fit: contain;
-  filter:
-    grayscale(1)
-    contrast(1.08)
-    brightness(1.12)
-    drop-shadow(0 0 1.2rem rgba(255, 255, 255, 0.15));
+  filter:brightness(0) invert(1) drop-shadow(0 0 1.2rem rgba(255,255,255,.15));
 }
 
 .partner-detail-content {
