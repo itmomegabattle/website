@@ -4,7 +4,7 @@ const PRESETS = {
   content: { maxDimension: 1280, maxBytes: 520_000, quality: 0.82 },
 };
 
-const PASSTHROUGH_TYPES = new Set(["image/svg+xml", "image/gif"]);
+const PASSTHROUGH_TYPES = new Set(["image/gif"]);
 
 function extensionFor(type) {
   if (type === "image/webp") return "webp";
@@ -67,7 +67,7 @@ export async function optimizeImageFile(file, presetName = "content", { preserve
 
   if (PASSTHROUGH_TYPES.has(file.type)) {
     if (file.size > 1_000_000) {
-      throw new Error("SVG/GIF должен весить не больше 1 МБ");
+      throw new Error("GIF должен весить не больше 1 МБ");
     }
     return file;
   }
@@ -85,7 +85,11 @@ export async function optimizeImageFile(file, presetName = "content", { preserve
   let scale = Math.min(1, preset.maxDimension / Math.max(sourceWidth, sourceHeight));
   let quality = preset.quality;
   let blob = null;
-  let outputType = preservePng && file.type === "image/png" ? "image/png" : "image/webp";
+  // Media storage intentionally does not receive raw SVG. Partner SVG files
+  // are rasterized by the canvas into a transparent PNG before upload.
+  let outputType = preservePng && ["image/png", "image/svg+xml"].includes(file.type)
+    ? "image/png"
+    : "image/webp";
 
   try {
     for (let attempt = 0; attempt < 7; attempt += 1) {

@@ -220,7 +220,10 @@ html[data-theme="light"] .partners-wall::before { background-image:linear-gradie
 html[data-theme="light"] .partner-wall-card { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.86); color:#080808; box-shadow:0 16px 38px rgba(24,45,72,.16); }
 html[data-theme="light"] .partner-wall-card::before { background:linear-gradient(180deg,transparent 44%,rgba(255,255,255,.9)); }
 html[data-theme="light"] .partner-wall-card::after { border-color:rgba(0,0,0,.07); }
-html[data-theme="light"] .partner-wall-card__media img { filter:none; opacity:1; }
+html[data-theme="light"] .partner-wall-card__media img {
+  filter:brightness(0) drop-shadow(0 0 1rem rgba(0,0,0,.08));
+  opacity:1;
+}
 html[data-theme="light"] .partner-wall-card__caption span { color:rgba(0,0,0,.58); }
 html[data-theme="light"] .partner-wall-card__caption strong { color:#080808; text-shadow:none; }
 html[data-theme="light"] .partner-detail-modal { border-color:rgba(0,0,0,.14); background:rgba(250,251,253,.96); color:#080808; }
