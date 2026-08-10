@@ -180,22 +180,31 @@
   inset: 0.55rem;
   border-radius: inherit;
   border: 1px solid rgba(255, 255, 255, 0.055);
-  z-index: 2;
+  z-index: 4;
   pointer-events: none;
 }
 
 .partner-wall-card__media {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding: clamp(1.3rem, 2.6vw, 2.4rem);
+  display: block;
+  padding: 0;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .partner-wall-card__media img {
-  width: min(74%, 260px);
-  max-height: 62%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 68%;
+  height: 56%;
+  max-width: 280px;
+  max-height: 145px;
   object-fit: contain;
+  object-position: center;
+  transform: translate(-50%, -50%);
   filter:
     grayscale(1)
     contrast(1.14)

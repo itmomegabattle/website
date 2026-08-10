@@ -60,7 +60,7 @@ function closeDecodedImage(image) {
   if (image?.dataset?.objectUrl) URL.revokeObjectURL(image.dataset.objectUrl);
 }
 
-export async function optimizeImageFile(file, presetName = "content") {
+export async function optimizeImageFile(file, presetName = "content", { preservePng = false } = {}) {
   if (!(file instanceof File) || !file.type.startsWith("image/")) {
     throw new Error("Выберите файл изображения");
   }
@@ -85,7 +85,7 @@ export async function optimizeImageFile(file, presetName = "content") {
   let scale = Math.min(1, preset.maxDimension / Math.max(sourceWidth, sourceHeight));
   let quality = preset.quality;
   let blob = null;
-  let outputType = "image/webp";
+  let outputType = preservePng && file.type === "image/png" ? "image/png" : "image/webp";
 
   try {
     for (let attempt = 0; attempt < 7; attempt += 1) {

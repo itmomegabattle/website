@@ -89,6 +89,7 @@ export async function uploadContentImage(file, folder = "content") {
   return uploadOptimizedImage(file, {
     preset: folder === "partners" ? "thumbnail" : "content",
     purpose: folder === "story-submissions" ? "story" : "content",
+    preservePng: folder === "partners",
     requestUpload: (payload) => backendApi("/api/v1/media/upload", {
       method: "POST",
       body: JSON.stringify(payload),

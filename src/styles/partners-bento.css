@@ -688,4 +688,17 @@
 .partner-bento-logo img { object-fit:contain; }
 .partners-admin-panel { width:min(100%,1080px); margin-inline:auto; background:#080808; }
 .partners-admin-grid { grid-template-columns:minmax(0,1fr) minmax(280px,.72fr); }
+.partners-admin-logo-preview {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(7rem,10rem);
+  align-items:center;
+  gap:1rem;
+  min-height:8rem;
+  padding:.75rem 1rem;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:1rem;
+  background:repeating-conic-gradient(rgba(255,255,255,.08) 0 25%,transparent 0 50%) 0 0/18px 18px,#111;
+}
+.partners-admin-logo-preview span { font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.partners-admin-logo-preview img { display:block; width:100%; height:7rem; object-fit:contain; }
 @media (max-width:900px) { .partners-admin-grid { grid-template-columns:1fr; } }

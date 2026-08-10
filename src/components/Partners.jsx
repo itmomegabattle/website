@@ -121,10 +121,6 @@ export default function Partners() {
             decoding="async"
           />
         </div>
-        <div className="partner-wall-card__caption">
-          <span>Партнёр</span>
-          <strong>{p.name}</strong>
-        </div>
       </button>
     );
   };

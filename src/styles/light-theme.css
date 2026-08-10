@@ -225,6 +225,11 @@ html[data-theme="light"] .partner-wall-card__caption span { color:rgba(0,0,0,.58
 html[data-theme="light"] .partner-wall-card__caption strong { color:#080808; text-shadow:none; }
 html[data-theme="light"] .partner-detail-modal { border-color:rgba(0,0,0,.14); background:rgba(250,251,253,.96); color:#080808; }
 html[data-theme="light"] .partner-detail-content :is(h2,p) { color:#080808; }
+html[data-theme="light"] .partners-admin-logo-preview {
+  border-color:rgba(0,0,0,.14);
+  background:repeating-conic-gradient(rgba(0,0,0,.07) 0 25%,transparent 0 50%) 0 0/18px 18px,rgba(255,255,255,.84);
+  color:#080808;
+}
 
 /* Contact showcase shell and neutral business card. */
 html[data-theme="light"] .contact-showcase.contact-info,

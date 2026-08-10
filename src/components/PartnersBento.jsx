@@ -89,10 +89,14 @@ export function PartnerEditor({ fallbackPartners }) {
   const handleImage = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    setStatus("Загружаем логотип…");
-    const imageUrl = await uploadContentImage(file, "partners");
-    setForm((current) => ({ ...current, logo_url: imageUrl }));
-    setStatus("Логотип загружен");
+    try {
+      setStatus("Загружаем логотип…");
+      const imageUrl = await uploadContentImage(file, "partners");
+      setForm((current) => ({ ...current, logo_url: imageUrl }));
+      setStatus("Логотип загружен — проверьте предпросмотр и сохраните партнёра");
+    } catch (uploadError) {
+      setStatus(uploadError?.message || "Не удалось загрузить логотип");
+    }
   };
 
   const handleSubmit = (event) => {
@@ -139,6 +143,12 @@ export function PartnerEditor({ fallbackPartners }) {
               <div className="partners-admin-form-grid">
                 <label className="form-field"><span>Логотип (SVG, PNG, WebP)</span><input type="file" accept="image/svg+xml,image/png,image/webp,image/jpeg" onChange={handleImage} /></label>
               </div>
+              {form.logo_url && (
+                <div className="partners-admin-logo-preview">
+                  <span>Предпросмотр логотипа</span>
+                  <img src={Api.normalizeURL(form.logo_url)} alt="" />
+                </div>
+              )}
               {error && <p className="form-error">{error.message}</p>}
               {saveMutation.error && <p className="form-error">{saveMutation.error.message}</p>}
               {deleteMutation.error && <p className="form-error">{deleteMutation.error.message}</p>}
