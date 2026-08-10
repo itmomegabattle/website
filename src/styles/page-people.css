@@ -483,3 +483,19 @@
     font-size: 0.82rem;
   }
 }
+
+.people-page,.people-cloud-section { background:none; }
+.people-page::before,.people-cloud-section::before { display:none; }
+.people-connections .friendship-graph-card { background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 50%),rgba(3,3,3,.95); border-color:rgba(255,255,255,.13); }
+.friendship-graph-card__preview { background:linear-gradient(115deg,transparent 5%,rgba(255,255,255,.055) 45%,transparent 78%); }
+.friendship-graph-card__launch-copy time { font-size:clamp(2.8rem,7vw,6rem); letter-spacing:-.045em; }
+.people-cloud-person img,
+.people-cloud-person:nth-child(9n + 1) img { border-color:transparent; box-shadow:0 1.4rem 3.5rem rgba(0,0,0,.32); }
+.people-cloud-person:hover img,.people-cloud-person:focus-visible img { border-color:rgba(255,255,255,.28); }
+.people-cloud-person > span {
+  border:0;
+  background:transparent;
+  border-radius:0;
+  color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,.95),0 1px 2px rgba(0,0,0,.95);
+}

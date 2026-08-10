@@ -24,8 +24,8 @@
     "key": "pleiad-milana-vagapova",
     "name": "Милана Вагапова",
     "activity": "Плеяда Megabattle",
-    "smallImage": "/images/people/pleiad/milana-vagapova.jpg",
-    "bigImage": "/images/people/pleiad/milana-vagapova.jpg"
+    "smallImage": "/images/people/pleiad/milana-vagapova.webp",
+    "bigImage": "/images/people/pleiad/milana-vagapova.webp"
   },
   {
     "key": "pleiad-andrey-kalashnikov",
@@ -59,7 +59,35 @@
     "key": "pleiad-anastasia-soldatova",
     "name": "Анастасия Солдатова",
     "activity": "Плеяда Megabattle",
-    "smallImage": "/images/people/pleiad/anastasia-soldatova.jpg",
-    "bigImage": "/images/people/pleiad/anastasia-soldatova.jpg"
+    "smallImage": "/images/people/pleiad/anastasia-soldatova.webp",
+    "bigImage": "/images/people/pleiad/anastasia-soldatova.webp"
+  },
+  {
+    "key": "pleiad-snezhana-zhukova",
+    "name": "Снежана Жукова",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/snezhana-zhukova.webp",
+    "bigImage": "/images/people/pleiad/snezhana-zhukova.webp"
+  },
+  {
+    "key": "pleiad-alina-krapivnaya",
+    "name": "Алина Крапивная",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/alina-krapivnaya.webp",
+    "bigImage": "/images/people/pleiad/alina-krapivnaya.webp"
+  },
+  {
+    "key": "pleiad-pavel-gavrilov",
+    "name": "Павел Гаврилов",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/pavel-gavrilov.webp",
+    "bigImage": "/images/people/pleiad/pavel-gavrilov.webp"
+  },
+  {
+    "key": "pleiad-olya-khramova",
+    "name": "Оля Храмова",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/olya-khramova.webp",
+    "bigImage": "/images/people/pleiad/olya-khramova.webp"
   }
 ]

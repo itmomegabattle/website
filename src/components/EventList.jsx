@@ -16,6 +16,8 @@ function getEventSortTime(event) {
   return Number.MAX_SAFE_INTEGER - Number(event.sort_order || 0);
 }
 
+const DAY = 24 * 60 * 60 * 1000;
+
 export default function EventList() {
   // получить данные с API (или из кэша)
   const events = useQuery({
@@ -24,10 +26,15 @@ export default function EventList() {
     placeholderData: [],
   }).data;
 
-  // На главной выводим первое мероприятие из общей секции мероприятий.
   const visibleEvents = useMemo(() => {
-    const firstEvent = [...events].sort((a, b) => getEventSortTime(a) - getEventSortTime(b))[0];
-    return firstEvent ? [firstEvent] : [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const upcoming = events
+      .map((event) => ({ event, timestamp: getEventSortTime(event) }))
+      .filter(({ timestamp }) => Number.isFinite(timestamp) && timestamp < Number.MAX_SAFE_INTEGER && timestamp >= today.getTime())
+      .sort((a, b) => a.timestamp - b.timestamp);
+    const soon = upcoming.filter(({ timestamp }) => timestamp <= today.getTime() + 14 * DAY);
+    return (soon.length ? soon : upcoming.slice(0, 1)).map(({ event }) => event);
   }, [events]);
 
   return (

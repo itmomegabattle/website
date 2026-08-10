@@ -1,0 +1,323 @@
+/* Site-wide light theme corrections. Keep page-specific composition intact. */
+html[data-theme="light"] {
+  --text-color-special: #0a0a0b;
+  --surface-color: rgba(255,255,255,.72);
+  --surface-color-special: rgba(255,255,255,.88);
+  --content-glass-inverted-background:
+    linear-gradient(145deg,rgba(255,255,255,.52),rgba(255,255,255,.24)),
+    rgba(255,255,255,.68);
+  --content-glass-border: rgba(0,0,0,.12);
+}
+
+html[data-theme="light"] .info-card,
+html[data-theme="light"] .auth-card,
+html[data-theme="light"] .public-profile-card,
+html[data-theme="light"] .nfc-tags-panel,
+html[data-theme="light"] .admin-panel,
+html[data-theme="light"] .admin-list-row,
+html[data-theme="light"] .admin-form--nested {
+  border-color:rgba(0,0,0,.13);
+  background:linear-gradient(145deg,rgba(255,255,255,.58),rgba(255,255,255,.28)),rgba(255,255,255,.72);
+  color:#0a0a0b;
+  box-shadow:0 18px 56px rgba(24,45,72,.13);
+}
+
+html[data-theme="light"] :is(.info-card,.auth-card,.admin-panel,.public-profile-card) :is(h2,h3,h4,strong) { color:#0a0a0b; }
+html[data-theme="light"] :is(.info-card,.auth-card,.admin-panel,.public-profile-card) :is(p,span,label) { color:rgba(10,10,11,.72); }
+
+/* People */
+html[data-theme="light"] .people-page { color:#080808; }
+html[data-theme="light"] .team-toggle,
+html[data-theme="light"] .people-cloud-more button,
+html[data-theme="light"] .stories-carousel-controls button {
+  border-color:rgba(0,0,0,.16);
+  background:rgba(255,255,255,.82);
+  color:#080808;
+  box-shadow:0 12px 34px rgba(24,45,72,.1);
+}
+html[data-theme="light"] .toggle-btn { color:rgba(0,0,0,.55); }
+html[data-theme="light"] .toggle-btn.active { color:#080808; }
+html[data-theme="light"] .toggle-slider { border-color:rgba(0,0,0,.18); background:rgba(0,0,0,.065); box-shadow:none; }
+html[data-theme="light"] .people-connections .friendship-graph-card {
+  border-color:rgba(0,0,0,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.5),rgba(255,255,255,.2)),rgba(255,255,255,.76);
+  box-shadow:0 24px 70px rgba(24,45,72,.13);
+}
+html[data-theme="light"] .friendship-graph-card__preview { filter:blur(16px); opacity:.25; }
+html[data-theme="light"] .friendship-graph-card__preview span { border-color:rgba(0,0,0,.16); }
+html[data-theme="light"] .friendship-graph-card__launch-copy time { color:#080808; }
+html[data-theme="light"] .story-card {
+  border-color:rgba(0,0,0,.13);
+  background:linear-gradient(145deg,rgba(255,255,255,.6),rgba(255,255,255,.26)),rgba(255,255,255,.78);
+  color:#080808;
+  box-shadow:0 18px 48px rgba(24,45,72,.12);
+}
+html[data-theme="light"] .story-modal { border-color:rgba(0,0,0,.14); background:rgba(250,251,253,.96); color:#080808; }
+html[data-theme="light"] .story-modal :is(h2,p) { color:#080808; }
+html[data-theme="light"] .story-modal-close { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
+
+/* Participants and admin */
+html[data-theme="light"] .participants-page {
+  --surface-color:rgba(255,255,255,.72);
+  --surface-color-special:rgba(255,255,255,.9);
+  --text-color:#080808;
+  --text-color-special:#080808;
+  --border-color:rgba(0,0,0,.14);
+  --control-background:rgba(255,255,255,.82);
+  --control-background-hover:rgba(255,255,255,.94);
+  --control-border:rgba(0,0,0,.18);
+  --control-border-hover:rgba(0,0,0,.42);
+  --control-color:#080808;
+}
+html[data-theme="light"] .participants-page .info-card,
+html[data-theme="light"] .participants-page .admin-panel,
+html[data-theme="light"] .participants-page .admin-list-row,
+html[data-theme="light"] .participant-profile-card,
+html[data-theme="light"] .participants-auth-copy {
+  border-color:rgba(0,0,0,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.58),rgba(255,255,255,.22)),rgba(255,255,255,.78);
+  color:#080808;
+}
+html[data-theme="light"] .participants-page :is(h1,h2,h3,strong,p,span) { color:inherit; }
+html[data-theme="light"] .participants-view-switch { border-color:rgba(0,0,0,.16); background:rgba(255,255,255,.84); }
+html[data-theme="light"] .participants-view-switch button { color:rgba(0,0,0,.56); }
+html[data-theme="light"] .participants-view-switch button.is-active { color:#080808; background:rgba(0,105,224,.11); }
+html[data-theme="light"] .admin-search input,
+html[data-theme="light"] .admin-role-field input,
+html[data-theme="light"] .admin-pin-box input { background:rgba(255,255,255,.84); color:#080808; border-color:rgba(0,0,0,.14); }
+html[data-theme="light"] .password-service-icon { background:rgba(0,0,0,.055); border-color:rgba(0,0,0,.12); color:#080808; }
+
+/* Partners */
+html[data-theme="light"] .partner-bento-card,
+html[data-theme="light"] .partnership-formats,
+html[data-theme="light"] .partnership-contact,
+html[data-theme="light"] .partners-admin-panel {
+  border-color:rgba(0,0,0,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.58),rgba(255,255,255,.24)),rgba(255,255,255,.8);
+  color:#080808;
+  box-shadow:0 18px 56px rgba(24,45,72,.13);
+}
+html[data-theme="light"] .partner-bento-media { background:rgba(255,255,255,.58); }
+html[data-theme="light"] .partner-bento-info,
+html[data-theme="light"] .partner-bento-info h3,
+html[data-theme="light"] .partner-bento-description,
+html[data-theme="light"] .partnership-format-card,
+html[data-theme="light"] .partnership-contact-copy { color:#080808; }
+html[data-theme="light"] .partner-bento-link,
+html[data-theme="light"] .partnership-contact-links a { border-color:rgba(0,0,0,.18); background:rgba(255,255,255,.7); color:#080808; }
+html[data-theme="light"] .partners-group-tabs { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.82); }
+html[data-theme="light"] .partners-group-tabs button { color:rgba(0,0,0,.58); }
+html[data-theme="light"] .partners-group-tabs button.is-active { color:#080808; background:rgba(0,105,224,.1); }
+
+/* Faculty retro and generic dialogs */
+html[data-theme="light"] .faculty-retro-section {
+  --faculty-retro-background:rgba(255,255,255,.8);
+  --faculty-retro-cell-background:rgba(255,255,255,.64);
+  --faculty-retro-text-background:rgba(255,255,255,.58);
+}
+html[data-theme="light"] .faculty-retro-newspaper { color:#080808; border-color:rgba(0,0,0,.16); }
+html[data-theme="light"] .faculty-retro-newspaper :is(h2,h3,strong,p,small,span,blockquote,li) { color:#080808; }
+html[data-theme="light"] :is(.profile-modal,.qr-popover) { color:#080808; }
+html[data-theme="light"] :is(.profile-modal-close,.qr-popover-close) { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
+
+/* Footer */
+html[data-theme="light"] footer { color:#080808; }
+html[data-theme="light"] footer a { color:inherit; }
+
+/* History keeps its cinematic layout, but follows the selected palette. */
+html[data-theme="light"] .history-page {
+  --history-black:#eef2f7;
+  --history-white:#090a0c;
+  --background-color:#eef2f7;
+  --text-color:#090a0c;
+  color:#090a0c;
+  background:#eef2f7;
+}
+html[data-theme="light"] :is(.history-world,.history-hero,.history-plot,.history-origin,.history-seasons,.history-credits,.history-facts,.history-gallery,.history-final) {
+  background-color:#eef2f7;
+  color:#090a0c;
+}
+html[data-theme="light"] .history-hero__logo { filter:invert(1) drop-shadow(0 1.2rem 3.5rem rgba(24,45,72,.16)); }
+html[data-theme="light"] :is(.history-hero__title>span,.history-hero__title p,.history-scroll-cue,.history-section-tag,.history-plot__copy small,.history-plot__copy p,.history-origin__copy>p,.history-origin__copy blockquote,.history-seasons__heading p,.history-final>span) { color:rgba(9,10,12,.64); }
+html[data-theme="light"] .history-local-nav { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.78); }
+html[data-theme="light"] .history-local-nav a { color:rgba(0,0,0,.62); }
+html[data-theme="light"] .history-local-nav a:hover { background:#090a0c; color:#fff; }
+html[data-theme="light"] .history-plot { background:radial-gradient(circle at 50% 55%,rgba(0,105,224,.08),transparent 25%),#eef2f7; }
+html[data-theme="light"] .history-plot__orbit { border-color:rgba(0,0,0,.14); }
+html[data-theme="light"] .history-plot__orbit i { background:#090a0c; }
+html[data-theme="light"] .history-plot__copy button { border-color:rgba(0,0,0,.28); color:#090a0c; }
+html[data-theme="light"] .history-plot__copy button i { background:#090a0c; color:#fff; }
+html[data-theme="light"] .history-origin { background:radial-gradient(circle at 78% 23%,rgba(0,105,224,.08),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.45),rgba(238,242,247,.86)); color:#090a0c; }
+html[data-theme="light"] .history-origin__copy .history-origin__lead { color:#090a0c; }
+html[data-theme="light"] .history-origin__founding,
+html[data-theme="light"] .history-fact,
+html[data-theme="light"] .history-credits__grid article { border-color:rgba(0,0,0,.13); background:rgba(255,255,255,.72); color:#090a0c; box-shadow:0 18px 56px rgba(24,45,72,.12); }
+html[data-theme="light"] :is(.history-origin__founding p,.history-fact p,.history-credits__grid p,.history-credits__details b) { color:rgba(9,10,12,.62); }
+html[data-theme="light"] .history-seasons { background:radial-gradient(circle at 78% 38%,rgba(0,105,224,.07),transparent 32%),#eef2f7; }
+html[data-theme="light"] .history-seasons__sticky::before { background:linear-gradient(90deg,#eef2f7 0 31%,rgba(238,242,247,.94) 36%,transparent 47% 86%,#eef2f7); }
+html[data-theme="light"] .history-season-card__date strong { color:#090a0c; }
+html[data-theme="light"] .history-season-card__date span { color:rgba(9,10,12,.45); }
+html[data-theme="light"] .history-season-card__date>i { border-color:#eef2f7; }
+html[data-theme="light"] .history-facts { background:radial-gradient(circle at 73% 20%,rgba(0,105,224,.08),transparent 30%),#eef2f7; }
+html[data-theme="light"] .history-gallery { background:#eef2f7; }
+html[data-theme="light"] .history-final { background:radial-gradient(circle at 50% 50%,rgba(0,105,224,.08),transparent 28%),#eef2f7; }
+html[data-theme="light"] .history-final a { border-color:rgba(0,0,0,.28); color:#090a0c; }
+html[data-theme="light"] .history-final a:hover { background:#090a0c; color:#fff; }
+
+html[data-theme="light"] body:has(.history-page) .header {
+  --background-color:#eef2f7;
+  --text-color:#090a0c;
+  --border-color:rgba(0,0,0,.14);
+}
+
+/* Forms, account pages and compact NFC route. */
+html[data-theme="light"] :is(.form-field input,.form-field select,.form-field textarea,.social-link-row input,.social-link-row select) {
+  border-color:rgba(0,0,0,.14);
+  background:rgba(255,255,255,.82);
+  color:#080808;
+}
+html[data-theme="light"] :is(.profile-editor,.social-bio-card,.nfc-page-card,.nfc-claim-card) {
+  border-color:rgba(0,0,0,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.58),rgba(255,255,255,.25)),rgba(255,255,255,.86);
+  color:#080808;
+  box-shadow:0 18px 56px rgba(24,45,72,.14);
+}
+html[data-theme="light"] :is(.profile-editor,.social-bio-card,.nfc-page-card,.nfc-claim-card) :is(h1,h2,h3,p,strong,span) { color:inherit; }
+html[data-theme="light"] .social-link-button { border-color:rgba(0,0,0,.16); }
+html[data-theme="light"] .profile-modal-backdrop,
+html[data-theme="light"] .story-modal-backdrop { background:rgba(222,229,239,.62); }
+
+/* Admin controls use the same light glass rather than dark local variables. */
+html[data-theme="light"] :is(.admin-row-actions button,.admin-row-link,.admin-show-all,.admin-pin-box button,.partners-admin-toggle,.partners-admin-head button,.partners-admin-row button) {
+  border-color:rgba(0,0,0,.18);
+  background:rgba(255,255,255,.78);
+  color:#080808;
+}
+html[data-theme="light"] :is(.admin-row-actions button,.admin-row-link,.admin-show-all,.admin-pin-box button):hover {
+  border-color:rgba(0,0,0,.4);
+  background:#fff;
+}
+
+/* Event cards on both the events page and the home page. */
+html[data-theme="light"] .event-showcase-card {
+  border-color:rgba(0,0,0,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.5),rgba(255,255,255,.2)),rgba(255,255,255,.72);
+  color:#080808;
+  box-shadow:0 18px 56px rgba(24,45,72,.13);
+}
+html[data-theme="light"] .event-showcase-info { border-color:rgba(0,0,0,.09); background:rgba(255,255,255,.52); }
+html[data-theme="light"] .event-showcase-card :is(h2,p,span) { color:#080808; }
+html[data-theme="light"] .event-showcase-card .card-kicker { color:rgba(0,0,0,.54); }
+html[data-theme="light"] .event-registration-button { border-color:rgba(0,0,0,.18); background:rgba(255,255,255,.8); color:#080808; }
+
+/* Home partner wall */
+html[data-theme="light"] .partners-wall {
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.5) 18%,rgba(255,255,255,.78) 52%,rgba(255,255,255,.5) 84%,transparent);
+}
+html[data-theme="light"] .partners-wall__shade--top { background:linear-gradient(180deg,rgba(238,242,247,.84),rgba(255,255,255,.36) 48%,transparent); }
+html[data-theme="light"] .partners-wall__shade--bottom { background:linear-gradient(0deg,rgba(238,242,247,.84),rgba(255,255,255,.36) 48%,transparent); }
+html[data-theme="light"] .partners-wall::before { background-image:linear-gradient(rgba(0,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px); }
+html[data-theme="light"] .partner-wall-card { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.86); color:#080808; box-shadow:0 16px 38px rgba(24,45,72,.16); }
+html[data-theme="light"] .partner-wall-card::before { background:linear-gradient(180deg,transparent 44%,rgba(255,255,255,.9)); }
+html[data-theme="light"] .partner-wall-card::after { border-color:rgba(0,0,0,.07); }
+html[data-theme="light"] .partner-wall-card__media img { filter:none; opacity:1; }
+html[data-theme="light"] .partner-wall-card__caption span { color:rgba(0,0,0,.58); }
+html[data-theme="light"] .partner-wall-card__caption strong { color:#080808; text-shadow:none; }
+html[data-theme="light"] .partner-detail-modal { border-color:rgba(0,0,0,.14); background:rgba(250,251,253,.96); color:#080808; }
+html[data-theme="light"] .partner-detail-content :is(h2,p) { color:#080808; }
+
+/* Contact showcase shell and neutral business card. */
+html[data-theme="light"] .contact-showcase.contact-info,
+html[data-theme="light"] .contact-showcase__screen { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.78); color:#080808; }
+html[data-theme="light"] .employee-card { border-color:rgba(0,0,0,.14); background:linear-gradient(145deg,rgba(255,255,255,.65),rgba(255,255,255,.25)),rgba(255,255,255,.88); color:#080808; box-shadow:0 18px 48px rgba(24,45,72,.14); }
+html[data-theme="light"] .employee-card :is(h2,h3,p,strong,span,a) { color:inherit; }
+html[data-theme="light"] .employee-card__contacts svg {
+  display:block;
+  width:1.18rem;
+  height:1.18rem;
+  color:#080808;
+  opacity:1;
+  visibility:visible;
+}
+html[data-theme="light"] .employee-card__contacts > * {
+  grid-template-columns:1.55rem minmax(0,1fr);
+  gap:.65rem;
+}
+html[data-theme="light"] .contact-tabs { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.82); }
+html[data-theme="light"] .contact-tab { color:rgba(0,0,0,.58); }
+html[data-theme="light"] .contact-tab :is(svg,span:first-child) { opacity:1; visibility:visible; filter:none; }
+html[data-theme="light"] .contact-tab--telegram { color:#168ac0; }
+html[data-theme="light"] .contact-tab--vk { color:#146dd6; }
+html[data-theme="light"] .contact-tab--instagram { color:#b92c67; }
+html[data-theme="light"] .contact-tab--tiktok,
+html[data-theme="light"] .contact-tab--rutube { color:#080808; }
+
+/* Pleiad portraits should retain their real exposure in light mode. */
+html[data-theme="light"] .people-cloud-person img { filter:grayscale(.18) brightness(.96) contrast(1.02); }
+html[data-theme="light"] .people-cloud-person:hover img,
+html[data-theme="light"] .people-cloud-person:focus-visible img { filter:none; }
+html[data-theme="light"] .people-cloud-person > span { background:transparent; color:#fff; }
+
+/* Retro uses visible editorial cells. */
+html[data-theme="light"] .faculty-retro-newspaper .faculty-retro-cell,
+html[data-theme="light"] .faculty-retro-newspaper .faculty-retrospective,
+html[data-theme="light"] .faculty-retro-newspaper .faculty-retrospective-copy,
+html[data-theme="light"] .faculty-retro-newspaper .faculty-retrospective-feature-media {
+  border:1px solid rgba(0,0,0,.18)!important;
+}
+
+/* History chapters, the oath and concert gallery. */
+html[data-theme="light"] .history-season-card>button { border-color:rgba(0,0,0,.15); background:rgba(255,255,255,.86); color:#080808; box-shadow:0 18px 48px rgba(24,45,72,.13); }
+html[data-theme="light"] .history-season-card__copy { background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(238,242,247,.96)); color:#080808; }
+html[data-theme="light"] .history-season-card__copy :is(strong,b,small,span,em,i) { color:#080808; }
+html[data-theme="light"] .history-oath :is(p,h2,span) { color:#080808; }
+html[data-theme="light"] .history-oath h2 em { color:transparent; -webkit-text-stroke-color:#080808; }
+html[data-theme="light"] .history-gallery__feature img,
+html[data-theme="light"] .history-gallery__item img { filter:none; }
+
+/* Roles */
+html[data-theme="light"] .roles-dome.sphere-root { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.74); box-shadow:0 18px 56px rgba(24,45,72,.13); }
+html[data-theme="light"] .roles-dome .sphere-item__image { border-color:rgba(0,0,0,.13); background:rgba(255,255,255,.9); }
+html[data-theme="light"] .roles-dome__tile { color:#080808; }
+html[data-theme="light"] .roles-dome__icon .role-icon { filter:drop-shadow(2px 2px 0 rgba(0,105,224,.28)); }
+html[data-theme="light"] .roles-dome .sphere-overlay { display:none; }
+html[data-theme="light"] .roles-dome .sphere-overlay--blur { backdrop-filter:none; }
+html[data-theme="light"] .roles-dome .sphere-edge-fade {
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.84));
+}
+html[data-theme="light"] .roles-dome .sphere-gallery-footer { color:#080808; }
+html[data-theme="light"] .roles-dome .sphere-gallery-footer :is(p,strong,span) { color:#080808; }
+html[data-theme="light"] .roles-dome .sphere-gallery-footer > p span { border-color:rgba(0,0,0,.18); }
+html[data-theme="light"] .roles-dome .sphere-gallery-footer > div {
+  border-color:rgba(0,0,0,.12);
+  background:rgba(255,255,255,.86);
+  color:#080808;
+  box-shadow:0 8px 24px rgba(24,45,72,.1);
+}
+html[data-theme="light"] .roles-dome .sphere-item__image:hover .role-icon,
+html[data-theme="light"] .roles-dome .sphere-item__image:focus-visible .role-icon {
+  color:inherit;
+  filter:drop-shadow(2px 2px 0 rgba(0,0,0,.2));
+  transform:none;
+}
+
+/* Open cards keep two clean surfaces in the light theme. */
+html[data-theme="light"] :is(.people-member-modal,.partner-detail-modal,.history-chapter__panel) {
+  border-color:rgba(0,0,0,.14);
+  background:rgba(236,240,246,.96);
+  color:#080808;
+}
+html[data-theme="light"] :is(.people-member-modal__image,.people-member-modal__copy,.partner-detail-logo,.partner-detail-content,.history-chapter__visual,.history-chapter__body) {
+  border-color:rgba(0,0,0,.13);
+  background:rgba(255,255,255,.9);
+  color:#080808;
+}
+html[data-theme="light"] :is(.people-member-modal__copy,.partner-detail-content,.history-chapter__body) :is(h2,h3,p,span,b) { color:inherit; }
+
+/* Let the shared line field remain visible through selected history sections. */
+html[data-theme="light"] :is(.history-page,.history-world) { background:transparent; }
+html[data-theme="light"] .history-hero { background:rgba(238,242,247,.52); }
+html[data-theme="light"] .history-plot { background:radial-gradient(circle at 50% 55%,rgba(0,105,224,.06),transparent 25%),rgba(238,242,247,.58); }
+html[data-theme="light"] .history-facts { background:radial-gradient(circle at 73% 20%,rgba(0,105,224,.05),transparent 30%),rgba(238,242,247,.52); }
+html[data-theme="light"] .history-gallery { background:rgba(238,242,247,.58); }
+html[data-theme="light"] .history-final { background:radial-gradient(circle at 50% 50%,rgba(0,105,224,.05),transparent 28%),rgba(238,242,247,.52); }

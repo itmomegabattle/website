@@ -32,35 +32,30 @@ export default function HomePage() {
   const projectTabs = [
     {
       number: "01",
-      title: "История",
-      text: "Megabattle объединяет факультеты ИТМО в одном большом сезоне: от первых встреч и отборов до финального гала-концерта. В истории собраны ключевые этапы проекта, архив событий и ретроспектива прошлых сезонов.",
-      tags: ["о проекте", "ретроспектива", "архив сезонов"],
-      to: "/history",
-      cta: "Перейти к истории",
+      title: "Что это?",
+      text: "Megabattle — большой творческий сезон ИТМО, в котором мегафакультеты знакомятся, соревнуются, делают события и собирают сценические номера. Посмотри, как проект рос от первого сезона до сегодняшнего дня.",
+      tags: ["творческий сезон", "5 мегафакультетов", "история проекта"],
+      links: [
+        { to: "/history", label: "История" },
+        { to: "/events", label: "Мероприятия" },
+      ],
     },
     {
       number: "02",
-      title: "Команда",
-      text: "За сезоном стоят организаторы, ответственные направлений и большая команда участников. Здесь можно познакомиться с теми, кто собирает мероприятия, отвечает за сцену, медиа, партнёров и внутреннюю жизнь проекта.",
-      tags: ["организаторы", "ответственные", "команда"],
-      to: "/people",
-      cta: "Смотреть команду",
+      title: "Что можно делать?",
+      text: "Выходить на сцену, снимать и монтировать, придумывать костюмы и декорации, работать со светом, звуком, дизайном, SMM или организацией. А ближайшие точки входа всегда появляются в афише.",
+      tags: ["сцена", "медиа", "техника и организация"],
+      links: [{ to: "/roles", label: "Посмотреть роли" }],
     },
     {
       number: "03",
-      title: "Роли",
-      text: "В проекте можно найти место на сцене или за ней: заниматься постановкой, техникой, реквизитом, дизайном, SMM и организацией. Раздел поможет понять направления работы и выбрать свою точку входа.",
-      tags: ["сцена", "медиа", "организация"],
-      to: "/ratings",
-      cta: "К участникам",
-    },
-    {
-      number: "04",
-      title: "Факультеты",
-      text: "Пять мегафакультетов собирают студентов разных образовательных программ в команды. На интерактивной карте можно увидеть их структуру, направления и понять, к какой команде относится твой факультет.",
-      tags: ["5 мегафакультетов", "направления", "карта"],
-      to: "/faculties",
-      cta: "Открыть карту",
+      title: "Как попасть?",
+      text: "Найди свой мегафакультет, открой раздел участника и следи за ближайшими наборами. Можно прийти в команду факультета, откликнуться на роль или начать со знакомства на открытом событии.",
+      tags: ["найти факультет", "выбрать роль", "прийти на событие"],
+      links: [
+        { to: "/people", label: "Люди проекта" },
+        { to: "/faculties", label: "Найти факультет" },
+      ],
     },
   ];
 
@@ -176,7 +171,7 @@ export default function HomePage() {
               ))}
             </div>
             <div className="project-menu__panel" id="project-panel" role="tabpanel" aria-live="polite">
-              <span className="project-menu__eyebrow">{projectTabs[activeProjectTab].number} / О проекте</span>
+              <span className="project-menu__eyebrow">Коротко о Megabattle</span>
               <h2>{projectTabs[activeProjectTab].title}</h2>
               <div className="project-menu__tags">
                 {projectTabs[activeProjectTab].tags.map((tag) => (
@@ -184,14 +179,18 @@ export default function HomePage() {
                 ))}
               </div>
               <p className="project-menu__text">{projectTabs[activeProjectTab].text}</p>
-              <Link className="project-menu__cta" to={projectTabs[activeProjectTab].to}>
-                {projectTabs[activeProjectTab].cta}
-              </Link>
+              <div className="project-menu__actions">
+                {projectTabs[activeProjectTab].links.map((link) => (
+                  <Link className="project-menu__cta" to={link.to} key={link.to}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        <section id="events" className="events main-width">
+        <section id="events" className="events events-page main-width">
           <h1>СОБЫТИЯ</h1>
           <EventList />
         </section>

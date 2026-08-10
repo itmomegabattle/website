@@ -12,9 +12,14 @@ export default function HistoryChapter({
   const swipeStart = useRef(null);
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
     const onKeyDown = (event) => event.key === "Escape" && onClose();
+    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [onClose]);
 
   const startSwipe = (event) => {

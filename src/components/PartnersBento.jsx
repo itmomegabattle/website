@@ -137,7 +137,7 @@ export function PartnerEditor({ fallbackPartners }) {
               <label className="form-field"><span>Описание</span><textarea name="description" value={form.description || ""} onChange={updateField} rows="3" /></label>
               <label className="form-field"><span>Ссылка</span><input name="link" value={form.link || ""} onChange={updateField} /></label>
               <div className="partners-admin-form-grid">
-                <label className="form-field"><span>Логотип</span><input type="file" accept="image/*" onChange={handleImage} /></label>
+                <label className="form-field"><span>Логотип (SVG, PNG, WebP)</span><input type="file" accept="image/svg+xml,image/png,image/webp,image/jpeg" onChange={handleImage} /></label>
               </div>
               {error && <p className="form-error">{error.message}</p>}
               {saveMutation.error && <p className="form-error">{saveMutation.error.message}</p>}

@@ -82,7 +82,7 @@ const router = createBrowserRouter(
       <Route
         path="/history"
         element={<HistoryPage />}
-        handle={{ hideFooter: true, hideBackground: true }}
+        handle={{ hideFooter: true }}
       />
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />

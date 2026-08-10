@@ -1,4 +1,5 @@
 @import "./variables.css";
+@import "./light-theme.css";
 
 /* Подключение шрифтов */
 @font-face {

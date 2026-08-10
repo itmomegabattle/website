@@ -682,3 +682,7 @@
     transition: none;
   }
 }
+
+.people-person-card { border-color:transparent; border-radius:1rem; }
+.people-person-card__media::after { background:linear-gradient(180deg,rgba(0,0,0,.02) 26%,rgba(0,0,0,.16) 54%,rgba(0,0,0,.94) 100%); }
+.toggle-slider { background:rgba(255,255,255,.1); }

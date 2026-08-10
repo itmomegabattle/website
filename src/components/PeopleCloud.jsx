@@ -7,19 +7,32 @@ const fallbackAvatar = "/images/people/member-full.jpg";
 const INITIAL_PEOPLE_COUNT = 24;
 const PEOPLE_BATCH_SIZE = 24;
 
+function nameTokens(name) {
+  return String(name || "")
+    .toLocaleLowerCase("ru")
+    .replaceAll("ё", "е")
+    .replace(/[^a-zа-я\s-]/gi, " ")
+    .split(/[\s-]+/)
+    .filter(Boolean);
+}
+
+function belongsToCurrentTeam(name, currentPeople) {
+  const candidate = nameTokens(name);
+  if (candidate.length < 2) return false;
+  return currentPeople.some((person) => {
+    const current = new Set(nameTokens(person.name));
+    return candidate.every((token) => current.has(token));
+  });
+}
+
 function cleanPeople(organizers, responsible, contributors) {
   const currentPeople = [
     ...organizers,
     ...responsible,
   ];
-  const currentNames = new Set(
-    currentPeople
-      .filter((person) => person.name)
-      .map((person) => person.name.trim().toLocaleLowerCase("ru")),
-  );
   const allPeople = contributors.filter((person) => {
     if (!person.name || person.name.trim().toLowerCase() === "имя фамилия") return false;
-    return !currentNames.has(person.name.trim().toLocaleLowerCase("ru"));
+    return !belongsToCurrentTeam(person.name, currentPeople);
   });
 
   return Array.from(

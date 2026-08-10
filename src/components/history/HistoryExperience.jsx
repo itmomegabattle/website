@@ -32,13 +32,6 @@ export default function HistoryExperience({ data }) {
     window.history.replaceState(null, "", `#${id}`);
   };
 
-  const moveGallery = (direction) => {
-    if (!galleryVideos.length) return;
-    setActiveGalleryIndex((current) => (
-      (current + direction + galleryVideos.length) % galleryVideos.length
-    ));
-  };
-
   const activeSeasonIndex = activeSeason ? seasons.indexOf(activeSeason) : -1;
   const activeSeasonVideo = activeSeason
     ? seasonVideos.find((video) => seasonNumber(video) === activeSeason.number)
@@ -61,10 +54,6 @@ export default function HistoryExperience({ data }) {
         />
 
         <section className="history-oath">
-          <div
-            className="history-oath__image"
-            style={featured ? { backgroundImage: `url("${featured.thumbnail}")` } : undefined}
-          />
           <p1>MEGABATTLE</p1>
           <h2>ЭТО НЕ ТОЛЬКО<br /><em>СЦЕНА</em></h2>
         </section>
@@ -74,7 +63,6 @@ export default function HistoryExperience({ data }) {
           videos={galleryVideos}
           activeIndex={activeGalleryIndex}
           onSelect={setActiveGalleryIndex}
-          onMove={moveGallery}
           onPlay={setActiveVideo}
         />
         <HistoryFinal onNavigate={navigateTo} />

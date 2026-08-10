@@ -1905,3 +1905,11 @@ html[data-theme="dark"] .faculty-explorer {
         animation: none;
     }
 }
+
+.faculty-retro-newspaper--lab .faculty-retrospective-copy small,
+.faculty-retro-newspaper--strategy .faculty-retrospective-copy small {
+    max-width:100%;
+    overflow-wrap:anywhere;
+    font-size:clamp(.46rem,.52vw,.54rem);
+    line-height:1.2;
+}

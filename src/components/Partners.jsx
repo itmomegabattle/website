@@ -88,13 +88,18 @@ export default function Partners() {
 
   useEffect(() => {
     if (!activePartner) return undefined;
+    const previousOverflow = document.body.style.overflow;
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         setActivePartner(null);
       }
     };
+    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [activePartner]);
 
   const renderCard = (p, uniqueKey, index) => {

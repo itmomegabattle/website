@@ -1267,6 +1267,63 @@ body:has(.history-page) .header {
   touch-action: pan-y;
 }
 
+/* Final history layout: sparse background lines and event-like split modals. */
+.history-page,
+.history-world { background:transparent; }
+.history-hero { background:rgba(2,4,7,.58); }
+.history-plot,
+.history-facts,
+.history-gallery,
+.history-final {
+  background:rgba(2,4,7,.5);
+}
+.history-origin,
+.history-seasons { background-color:rgba(2,4,7,.97); }
+
+.history-oath {
+  background:transparent!important;
+}
+.history-oath::after,
+.history-oath__image { display:none!important; }
+
+.history-facts > header { justify-content:flex-end; }
+.history-facts h2 {
+  margin-left:auto;
+  max-width:8ch;
+  font-size:clamp(2.8rem,6.2vw,6.3rem);
+  text-align:right;
+}
+
+.history-gallery__controls { display:none!important; }
+.history-gallery__rail {
+  width:min(92%,78rem);
+  margin-left:auto;
+  justify-content:flex-end;
+}
+
+.history-chapter { backdrop-filter:blur(18px) saturate(.72); }
+.history-chapter__panel {
+  grid-template-columns:minmax(18rem,.82fr) minmax(0,1.18fr);
+  gap:clamp(.55rem,1vw,.85rem);
+  padding:clamp(.5rem,.8vw,.7rem);
+  background:#000;
+}
+.history-chapter__visual,
+.history-chapter__body {
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:calc(1.5rem - .5rem);
+  background:#050505;
+}
+.history-chapter__visual { min-height:0; }
+.history-chapter__body { padding:clamp(1.5rem,3.2vw,3.2rem); }
+
+@media (max-width:980px) {
+  .history-chapter__panel { gap:.4rem; padding:.4rem; }
+  .history-chapter__visual,
+  .history-chapter__body { border-radius:.75rem; }
+  .history-gallery__rail { width:calc(100% - 1rem); }
+}
+
 .history-seasons__controls,
 .history-chapter__navigation {
   display: none !important;
