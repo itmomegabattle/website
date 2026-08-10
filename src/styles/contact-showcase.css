@@ -1,16 +1,27 @@
 .contact-showcase.contact-info {
-  height: clamp(500px, 53vw, 580px);
-  min-height: 500px;
+  width: min(1040px, calc(100% - 48px));
+  max-width: none;
+
+  margin-inline: auto;
+
+  justify-self: center;
+  align-self: start;
+
+  height: clamp(540px, 56vw, 630px);
+  min-height: 540px;
+
   padding: 0;
   gap: 0;
+
   grid-template-rows: minmax(0, 1fr) auto;
+
   background: #080a0f;
 }
 
 .contact-showcase__screen {
   display: grid;
   min-height: 0;
-  padding: clamp(0.8rem, 1.5vw, 1.2rem);
+  padding: clamp(0.95rem, 1.7vw, 1.35rem);
 }
 
 .contact-showcase .contact-tabs {
@@ -22,7 +33,7 @@
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  width: clamp(5rem, 8vw, 7.2rem);
+  width: clamp(5.25rem, 8.4vw, 7.5rem);
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 50%;
@@ -43,8 +54,8 @@
   display: grid;
   grid-template-columns: minmax(13rem, 0.9fr) minmax(0, 1.1fr);
   grid-template-rows: 1fr auto;
-  width: min(100%, 620px);
-  height: min(100%, 360px);
+  width: min(100%, 660px);
+  height: min(100%, 390px);
   min-height: 0;
   overflow: hidden;
   padding: 0;
@@ -109,7 +120,7 @@
   display: grid;
   align-content: center;
   min-width: 0;
-  padding: clamp(1.2rem, 2.2vw, 2rem);
+  padding: clamp(1.35rem, 2.4vw, 2.15rem);
 }
 
 .employee-card__label {
@@ -123,7 +134,7 @@
 .employee-card h2 {
   margin: 0.45rem 0 0.25rem;
   font-family: var(--heading-font);
-  font-size: clamp(1.45rem, 2.4vw, 2.35rem);
+  font-size: clamp(1.55rem, 2.55vw, 2.5rem);
   line-height: 0.82;
   text-transform: uppercase;
 }
@@ -131,7 +142,7 @@
 .employee-card__profile > p {
   margin: 0;
   color: rgba(255, 255, 255, 0.58);
-  font-size: clamp(0.72rem, 0.92vw, 0.86rem);
+  font-size: clamp(0.76rem, 0.98vw, 0.9rem);
   line-height: 1.35;
 }
 
@@ -164,9 +175,9 @@
   gap: 0.5rem;
   width: fit-content;
   max-width: 100%;
-  min-height: 2.35rem;
-  margin-top: 0.95rem;
-  padding: 0.6rem 0.95rem;
+  min-height: 2.5rem;
+  margin-top: 1rem;
+  padding: 0.65rem 1.05rem;
   border-radius: 999px;
   color: #05080f;
   background: #fff;
@@ -220,8 +231,8 @@
 .telegram-screen {
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
-  gap: 0.75rem;
-  padding: clamp(0.9rem, 1.7vw, 1.35rem);
+  gap: 0.85rem;
+  padding: clamp(1rem, 1.9vw, 1.5rem);
   color: #fff;
   background: #0e1924;
   border: 1px solid rgba(255, 255, 255, 0.09);
@@ -234,7 +245,7 @@
 }
 
 .telegram-screen__hero .contact-project-avatar {
-  width: clamp(4.2rem, 6.5vw, 5.6rem);
+  width: clamp(4.6rem, 6.9vw, 6rem);
   color: transparent;
   border: 0;
   background: radial-gradient(circle, #102a50, #061124 74%);
@@ -242,7 +253,7 @@
 
 .telegram-screen__hero strong {
   margin-top: 0.3rem;
-  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  font-size: clamp(1.08rem, 1.75vw, 1.45rem);
 }
 
 .telegram-screen__hero > span {
@@ -260,7 +271,7 @@
   display: grid;
   justify-items: center;
   gap: 0.28rem;
-  padding: 0.6rem 0.35rem;
+  padding: 0.68rem 0.4rem;
   border-radius: 0.95rem;
   color: #2aabee;
   background: #172534;
@@ -282,7 +293,7 @@
   gap: 0.4rem;
   min-width: 0;
   min-height: 0;
-  padding: 0.8rem 1rem;
+  padding: 0.9rem 1.05rem;
   border-radius: 1rem;
   color: #fff;
   background: #172534;
@@ -364,12 +375,12 @@
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.8rem;
-  min-height: 128px;
-  padding: 0 1rem 0.8rem;
+  min-height: 140px;
+  padding: 0 1.1rem 0.95rem;
 }
 
 .vk-screen__profile .contact-project-avatar {
-  width: clamp(4.7rem, 6.6vw, 5.9rem);
+  width: clamp(5rem, 7vw, 6.2rem);
   margin-top: -1.7rem;
   color: #2688eb;
   border: 4px solid #191b20;
@@ -389,7 +400,7 @@
 
 .vk-screen__name strong {
   overflow: hidden;
-  font-size: clamp(1rem, 1.7vw, 1.45rem);
+  font-size: clamp(1.08rem, 1.8vw, 1.55rem);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -430,8 +441,8 @@
 
 .vk-screen__profile > a,
 .vk-screen__profile > button {
-  min-height: 40px;
-  padding: 0.6rem 0.9rem;
+  min-height: 44px;
+  padding: 0.66rem 1rem;
   border: 0;
   border-radius: 0.7rem;
   color: #15171c;
@@ -449,7 +460,7 @@
 .instagram-screen {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  padding: 0.75rem 1rem 1rem;
+  padding: 0.85rem 1.1rem 1.1rem;
   color: #111;
   background: #fff;
   border: 1px solid #d6d6d6;
@@ -470,7 +481,7 @@
   align-content: center;
   gap: 0.8rem;
   min-height: 0;
-  width: min(100%, 520px);
+  width: min(100%, 560px);
   margin-inline: auto;
 }
 
@@ -481,10 +492,10 @@
 
 .instagram-screen__profile {
   display: grid;
-  grid-template-columns: clamp(5rem, 8vw, 7rem) 1fr;
+  grid-template-columns: clamp(5.3rem, 8.4vw, 7.3rem) 1fr;
   align-items: center;
-  gap: 1.4rem;
-  padding: 0.5rem 0;
+  gap: 1.5rem;
+  padding: 0.6rem 0;
 }
 
 .instagram-screen__profile .contact-project-avatar {
@@ -531,8 +542,8 @@
 }
 
 .instagram-screen__actions > * {
-  min-height: 38px;
-  padding: 0.55rem 0.8rem;
+  min-height: 42px;
+  padding: 0.6rem 0.9rem;
   border: 0;
   border-radius: 0.65rem;
   color: #111;
@@ -571,7 +582,7 @@
 }
 
 .instagram-screen__stories img {
-  width: clamp(2.9rem, 4.6vw, 3.6rem);
+  width: clamp(3.1rem, 4.9vw, 3.85rem);
   aspect-ratio: 1;
   border-radius: 50%;
   object-fit: cover;
@@ -589,7 +600,7 @@
 /* TikTok profile */
 .tiktok-screen {
   display: grid;
-  grid-template-columns: minmax(8rem, 0.42fr) minmax(0, 1fr);
+  grid-template-columns: minmax(8.5rem, 0.44fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(1rem, 2vw, 1.7rem);
   padding: clamp(1.1rem, 2.4vw, 2rem);
@@ -601,7 +612,7 @@
 
 .tiktok-screen > .contact-project-avatar {
   justify-self: center;
-  width: clamp(7rem, 14vw, 11rem);
+  width: clamp(7.5rem, 14.5vw, 11.6rem);
   color: #000;
   border: 0;
   border-radius: 0;
@@ -629,7 +640,7 @@
 }
 
 .tiktok-screen__title strong {
-  font-size: clamp(1.05rem, 2vw, 1.55rem);
+  font-size: clamp(1.12rem, 2.1vw, 1.65rem);
 }
 
 .tiktok-screen__title span {
@@ -666,8 +677,8 @@
   display: grid;
   place-items: center;
   min-width: 0;
-  min-height: 2.15rem;
-  padding: 0.45rem 0.58rem;
+  min-height: 2.35rem;
+  padding: 0.5rem 0.62rem;
   border: 0;
   border-radius: 0.8rem;
   color: #fff;
@@ -697,7 +708,7 @@
 /* Rutube channel */
 .rutube-screen {
   display: grid;
-  grid-template-rows: auto minmax(8.5rem, 1.25fr) auto minmax(7.5rem, 1fr);
+  grid-template-rows: auto minmax(9.2rem, 1.3fr) auto minmax(8rem, 1fr);
   color: #fff;
   background: #090a0c;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -708,8 +719,8 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.8rem;
-  min-height: 48px;
-  padding: 0.6rem 1rem;
+  min-height: 52px;
+  padding: 0.65rem 1.05rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -768,7 +779,7 @@
 }
 
 .rutube-screen__profile .contact-project-avatar {
-  width: clamp(3.25rem, 5vw, 4rem);
+  width: clamp(3.5rem, 5.3vw, 4.25rem);
   color: #fff;
   border-width: 2px;
   background: #020306;
@@ -795,8 +806,8 @@
   display: flex;
   align-items: center;
   gap: clamp(0.8rem, 2vw, 1.5rem);
-  min-height: 36px;
-  padding: 0 1rem;
+  min-height: 40px;
+  padding: 0 1.05rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.62);
   font-size: 0.67rem;
@@ -908,19 +919,19 @@
 
 @media (max-width: 900px) {
   .contact-showcase.contact-info {
-    height: min(540px, 75svh);
-    min-height: 470px;
+    height: min(570px, 78svh);
+    min-height: 500px;
   }
 }
 
 @media (max-width: 560px) {
   .contact-showcase.contact-info {
-    height: 320px;
-    min-height: 320px;
+    height: 344px;
+    min-height: 344px;
   }
 
   .contact-showcase__screen {
-    padding: 0.65rem;
+    padding: 0.72rem;
   }
 
   .employee-card {
@@ -1326,5 +1337,1030 @@
 
   .rutube-screen__profile span {
     font-size: 0.46rem;
+  }
+}
+
+/* =========================================================
+   CLEAN CONTACT TUNING вЂ” V7
+   Built from the clean source, not from accumulated overrides.
+   ========================================================= */
+
+/* ---------- shared typography ---------- */
+
+.contact-showcase,
+.contact-showcase button,
+.contact-showcase a {
+  font-family: var(--body-font);
+}
+
+
+/* =========================================================
+   BUSINESS CARD вЂ” DESKTOP
+   ========================================================= */
+
+.contact-showcase--card .contact-showcase__screen {
+  padding: clamp(0.75rem, 1.15vw, 1rem);
+}
+
+.employee-card {
+  width: 100%;
+  max-width: none;
+
+  height: 100%;
+  max-height: none;
+
+  align-self: stretch;
+  justify-self: stretch;
+
+  grid-template-columns:
+    minmax(17rem, 0.92fr)
+    minmax(0, 1.08fr);
+}
+
+.employee-card__profile {
+  padding: clamp(1.45rem, 2.35vw, 2.15rem);
+}
+
+.employee-card h2 {
+  font-size: clamp(1.85rem, 2.85vw, 2.85rem);
+}
+
+
+/* =========================================================
+   TELEGRAM вЂ” DESKTOP
+   Original centered composition, black theme.
+   ========================================================= */
+
+.telegram-screen {
+  grid-template-rows: auto auto auto;
+  align-content: center;
+
+  gap: clamp(0.62rem, 1vw, 0.82rem);
+
+  color: #fff;
+  background: #050608;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.telegram-screen__hero {
+  justify-items: center;
+  text-align: center;
+}
+
+.telegram-screen__hero .contact-project-avatar {
+  width: clamp(5rem, 7vw, 6.2rem);
+
+  background:
+    radial-gradient(circle at 42% 35%, rgba(42, 171, 238, 0.1), transparent 38%),
+    #07090d;
+}
+
+.telegram-screen__hero strong {
+  font-size: clamp(1.18rem, 1.9vw, 1.55rem);
+}
+
+.telegram-screen__hero > span {
+  color: rgba(255, 255, 255, 0.74);
+
+  font-size: clamp(0.88rem, 1.06vw, 1rem);
+  font-weight: 650;
+}
+
+.telegram-screen__actions {
+  gap: 0.55rem;
+}
+
+.telegram-screen__actions a {
+  min-height: 3.4rem;
+
+  color: #2aabee;
+  background: #101217;
+
+  border: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.telegram-screen__actions svg {
+  font-size: 1.15rem;
+}
+
+.telegram-screen__actions span {
+  font-size: 0.74rem;
+  font-weight: 650;
+}
+
+/* Compact information block. */
+.telegram-screen__info {
+  align-self: auto;
+
+  min-height: 0;
+
+  gap: 0.28rem;
+
+  padding:
+    clamp(0.58rem, 0.86vw, 0.74rem)
+    clamp(0.82rem, 1.18vw, 0.98rem);
+
+  color: #fff;
+  background: #0d0f13;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.telegram-screen__info > span,
+.telegram-screen__info strong {
+  color: #2aabee;
+}
+
+.telegram-screen__info p {
+  font-size: clamp(0.7rem, 0.82vw, 0.8rem);
+  line-height: 1.25;
+
+  -webkit-line-clamp: 1;
+}
+
+.telegram-screen__info div {
+  padding-top: 0.3rem;
+}
+
+
+/* =========================================================
+   VK вЂ” STABLE ORIGINAL STRUCTURE
+   Slightly larger useful info, no verification check.
+   ========================================================= */
+
+.vk-screen {
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.vk-screen__profile {
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto
+    auto;
+
+  gap: 0.75rem;
+
+  min-height: 150px;
+
+  padding:
+    0
+    1.1rem
+    0.95rem;
+}
+
+.vk-screen__profile .contact-project-avatar {
+  width: clamp(5.2rem, 7vw, 6.3rem);
+}
+
+/* Remove the blue verification circle completely. */
+.vk-screen__name strong span {
+  display: none !important;
+}
+
+.vk-screen__name strong {
+  overflow: visible;
+
+  font-size: clamp(1.25rem, 1.9vw, 1.65rem);
+  font-weight: 780;
+
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.vk-screen__name small {
+  font-size: 0.72rem;
+}
+
+.vk-screen__stats {
+  gap: clamp(0.9rem, 1.8vw, 1.5rem);
+
+  margin-top: 0.4rem;
+}
+
+.vk-screen__stat strong {
+  font-size: 0.96rem;
+}
+
+.vk-screen__stat small {
+  font-size: 0.62rem;
+}
+
+.vk-screen__profile > a,
+.vk-screen__profile > button {
+  min-height: 44px;
+
+  padding:
+    0.64rem
+    0.9rem;
+
+  font-size: 0.74rem;
+}
+
+
+/* =========================================================
+   INSTAGRAM
+   Profile remains centered; stories themselves start left.
+   ========================================================= */
+
+.instagram-screen__center {
+  width: min(100%, 560px);
+  margin-inline: auto;
+}
+
+.instagram-screen__stories {
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  width: 100%;
+
+  gap: clamp(0.85rem, 1.25vw, 1.05rem);
+
+  padding:
+    0.4rem
+    0.42rem
+    0.55rem;
+
+  overflow: visible;
+}
+
+.instagram-screen__stories span {
+  flex: 0 0 auto;
+
+  min-width: 4rem;
+
+  font-size: 0.64rem;
+}
+
+.instagram-screen__stories img {
+  width: clamp(3.55rem, 4.7vw, 4.25rem);
+}
+
+.instagram-screen__stories small {
+  max-width: none;
+
+  overflow: visible;
+
+  font-size: 0.64rem;
+
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+
+  /* -------------------------------------------------------
+     BUSINESS CARD
+     Photo column is removed completely on mobile.
+     ------------------------------------------------------- */
+
+  .contact-showcase--card .contact-showcase__screen {
+    padding: 0.58rem;
+  }
+
+  .employee-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+
+    width: 100%;
+    height: 100%;
+
+    aspect-ratio: auto;
+  }
+
+  .employee-card::before {
+    background:
+      linear-gradient(
+        rgba(255, 255, 255, 0.035) 1px,
+        transparent 1px
+      );
+
+    background-size: 100% 3.6rem;
+  }
+
+  .employee-card__media {
+    display: none;
+  }
+
+  .employee-card__profile {
+    grid-column: 1;
+    grid-row: 1;
+
+    align-content: center;
+
+    padding:
+      0.72rem
+      0.82rem
+      0.6rem;
+  }
+
+  .employee-card__footer {
+    grid-column: 1;
+    grid-row: 2;
+
+    min-height: 1.7rem;
+
+    padding:
+      0
+      0.75rem;
+
+    font-size: 0.44rem;
+  }
+
+  .employee-card__label {
+    font-size: 0.54rem;
+  }
+
+  .employee-card h2 {
+    margin-top: 0.28rem;
+
+    font-size: clamp(1.35rem, 7vw, 1.8rem);
+  }
+
+  .employee-card__profile > p {
+    display: block;
+
+    margin-top: 0.3rem;
+
+    font-size: 0.58rem;
+    line-height: 1.25;
+
+    -webkit-line-clamp: 2;
+  }
+
+  .employee-card__contacts {
+    gap: 0.3rem;
+
+    margin-top: 0.55rem;
+  }
+
+  .employee-card__contacts > * {
+    grid-template-columns:
+      0.9rem
+      minmax(0, 1fr);
+
+    gap: 0.38rem;
+
+    font-size: 0.6rem;
+  }
+
+  .employee-card__message {
+    min-height: 1.95rem;
+
+    margin-top: 0.55rem;
+
+    padding:
+      0.4rem
+      0.65rem;
+
+    font-size: 0.62rem;
+  }
+
+
+  /* -------------------------------------------------------
+     TELEGRAM MOBILE
+     Avatar centered, info compact, everything else larger.
+     ------------------------------------------------------- */
+
+  .telegram-screen {
+    grid-template-rows: auto auto auto;
+    align-content: center;
+
+    gap: 0.42rem;
+
+    padding:
+      0.48rem
+      0.58rem;
+
+    background: #050608;
+  }
+
+  .telegram-screen__hero {
+    display: grid;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+
+    justify-items: center;
+    align-items: center;
+
+    gap: 0.08rem;
+
+    text-align: center;
+  }
+
+  .telegram-screen__hero .contact-project-avatar {
+    grid-row: auto;
+
+    width: 3.6rem;
+  }
+
+  .telegram-screen__hero strong {
+    margin-top: 0.12rem;
+
+    font-size: 0.94rem;
+  }
+
+  .telegram-screen__hero > span {
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .telegram-screen__actions {
+    grid-template-columns:
+      repeat(4, 1fr);
+
+    gap: 0.32rem;
+  }
+
+  .telegram-screen__actions a {
+    min-height: 2.25rem;
+
+    gap: 0;
+
+    padding: 0.34rem;
+
+    border-radius: 0.68rem;
+
+    background: #101217;
+  }
+
+  .telegram-screen__actions svg {
+    font-size: 1rem;
+  }
+
+  /* No labels on mobile, but icons/buttons are larger. */
+  .telegram-screen__actions span {
+    display: none;
+  }
+
+  .telegram-screen__info {
+    align-self: auto;
+
+    min-height: 0;
+
+    gap: 0.15rem;
+
+    padding:
+      0.3rem
+      0.48rem;
+
+    border-radius: 0.62rem;
+
+    background: #0d0f13;
+  }
+
+  .telegram-screen__info > span {
+    font-size: 0.56rem;
+  }
+
+  .telegram-screen__info p {
+    font-size: 0.54rem;
+    line-height: 1.15;
+
+    -webkit-line-clamp: 1;
+  }
+
+  .telegram-screen__info div {
+    grid-template-columns:
+      auto
+      minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 0.32rem;
+
+    padding-top: 0.16rem;
+  }
+
+  .telegram-screen__info small {
+    font-size: 0.42rem;
+  }
+
+  .telegram-screen__info strong {
+    overflow: hidden;
+
+    font-size: 0.55rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+
+  /* VK mobile: keep original compact layout and no check. */
+  .vk-screen__name strong span {
+    display: none !important;
+  }
+
+
+  /* Instagram: keep only the story row left-aligned. */
+  .instagram-screen__center {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .instagram-screen__stories {
+    justify-content: flex-start;
+
+    gap: 0.55rem;
+
+    padding:
+      0.28rem
+      0.28rem
+      0.38rem;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scrollbar-width: none;
+  }
+
+  .instagram-screen__stories::-webkit-scrollbar {
+    display: none;
+  }
+
+  .instagram-screen__stories span {
+    min-width: 3rem;
+
+    font-size: 0.46rem;
+  }
+
+  .instagram-screen__stories img {
+    width: 2.45rem;
+
+    box-shadow:
+      0 0 0 1px #fff,
+      0 0 0 2px #f1c40f;
+  }
+
+  .instagram-screen__stories small {
+    max-width: none;
+
+    font-size: 0.46rem;
+  }
+}
+
+/* =========================================================
+   V8 вЂ” MOBILE WIDTH MATCHES FOOTER
+   ========================================================= */
+
+@media (max-width: 640px) {
+  /*
+   * Footer switches to width: 100% on mobile.
+   * ContactShowcase should use the same horizontal footprint
+   * instead of subtracting 48px from an already narrow parent.
+   */
+  .contact-showcase.contact-info {
+    width: 100%;
+    max-width: none;
+
+    margin-inline: 0;
+
+    justify-self: stretch;
+  }
+}
+
+/* =========================================================
+   V10 вЂ” VK BALANCE + RUTUBE COVER HEIGHT
+   ========================================================= */
+
+
+/* =========================================================
+   VK вЂ” DESKTOP
+   Real DOM:
+   avatar | .vk-screen__name (contains handle + stats) | actions
+   ========================================================= */
+
+@media (min-width: 761px) {
+
+  .vk-screen {
+    grid-template-rows:
+      minmax(0, 1fr)
+      minmax(188px, auto);
+  }
+
+  .vk-screen__profile {
+    display: grid;
+
+    grid-template-columns:
+      auto
+      minmax(0, 1fr)
+      minmax(9.2rem, 0.24fr);
+
+    grid-template-rows:
+      1fr
+      1fr;
+
+    align-items: stretch;
+
+    column-gap: clamp(1rem, 1.8vw, 1.45rem);
+    row-gap: 0.55rem;
+
+    min-height: 188px;
+
+    padding:
+      0.95rem
+      clamp(1.2rem, 2vw, 1.55rem)
+      1rem;
+
+    background:
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(38, 136, 235, 0.07),
+        transparent 30%
+      ),
+      #191b20;
+  }
+
+  .vk-screen__profile .contact-project-avatar {
+    grid-column: 1;
+    grid-row: 1 / 3;
+
+    align-self: center;
+
+    width: clamp(6.3rem, 8vw, 7.15rem);
+
+    margin-top: -2.05rem;
+
+    border: 5px solid #191b20;
+
+    box-shadow:
+      0 0 0 2px #2688eb,
+      0 0.9rem 2rem rgba(0, 0, 0, 0.3);
+  }
+
+  .vk-screen__profile .contact-project-avatar img {
+    width: 80%;
+  }
+
+  /*
+   * Identity block carries both the heading and its statistics.
+   * This gives the lower section a deliberate hierarchy.
+   */
+  .vk-screen__name {
+    grid-column: 2;
+    grid-row: 1 / 3;
+
+    align-self: center;
+
+    display: grid;
+    align-content: center;
+
+    gap: 0.38rem;
+
+    min-width: 0;
+  }
+
+  .vk-screen__name strong {
+    overflow: visible;
+
+    max-width: 100%;
+
+    font-size: clamp(1.55rem, 2.15vw, 1.95rem);
+    font-weight: 790;
+
+    line-height: 1.04;
+    letter-spacing: -0.032em;
+
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .vk-screen__name strong span {
+    display: none !important;
+  }
+
+  .vk-screen__name small {
+    color: rgba(255, 255, 255, 0.53);
+
+    font-size: clamp(0.76rem, 0.92vw, 0.86rem);
+  }
+
+  .vk-screen__stats {
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: clamp(0.45rem, 0.8vw, 0.65rem);
+
+    width: min(100%, 31rem);
+
+    margin-top: 0.55rem;
+  }
+
+  .vk-screen__stat {
+    display: grid;
+    align-content: center;
+
+    min-width: 0;
+    min-height: 62px;
+
+    padding:
+      0.68rem
+      0.8rem;
+
+    border:
+      1px solid
+      rgba(255, 255, 255, 0.065);
+
+    border-radius: 0.82rem;
+
+    background:
+      rgba(255, 255, 255, 0.038);
+
+    line-height: 1.04;
+  }
+
+  .vk-screen__stat:first-child {
+    border-color:
+      rgba(38, 136, 235, 0.2);
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(38, 136, 235, 0.13),
+        rgba(38, 136, 235, 0.055)
+      );
+  }
+
+  .vk-screen__stat strong {
+    font-size: clamp(1.05rem, 1.35vw, 1.23rem);
+    font-weight: 820;
+  }
+
+  .vk-screen__stat small {
+    margin-top: 0.24rem;
+
+    color: rgba(255, 255, 255, 0.48);
+
+    font-size: 0.62rem;
+    font-weight: 600;
+  }
+
+  /* Primary action */
+  .vk-screen__profile > a:not(.vk-screen__more) {
+    grid-column: 3;
+    grid-row: 1;
+
+    align-self: end;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 48px;
+
+    padding: 0.7rem 1rem;
+
+    border-radius: 0.78rem;
+
+    color: #fff;
+    background: #2688eb;
+
+    font-size: 0.8rem;
+    font-weight: 760;
+
+    box-shadow:
+      0 0.55rem 1.3rem
+      rgba(38, 136, 235, 0.12);
+  }
+
+  .vk-screen__profile > a:not(.vk-screen__more):hover {
+    background: #3292ef;
+  }
+
+  /* Secondary action */
+  .vk-screen__profile > .vk-screen__more {
+    grid-column: 3;
+    grid-row: 2;
+
+    align-self: start;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 44px;
+
+    padding: 0.65rem 1rem;
+
+    border:
+      1px solid
+      rgba(255, 255, 255, 0.065);
+
+    border-radius: 0.78rem;
+
+    color: rgba(255, 255, 255, 0.83);
+    background: rgba(255, 255, 255, 0.07);
+
+    font-size: 0.76rem;
+    font-weight: 700;
+  }
+
+  .vk-screen__profile > .vk-screen__more:hover {
+    background: rgba(255, 255, 255, 0.11);
+  }
+}
+
+
+/* =========================================================
+   VK вЂ” MOBILE
+   Keep the current composition, only center and balance it.
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .vk-screen__profile {
+    display: grid;
+
+    grid-template-columns:
+      clamp(4.7rem, 20vw, 5.8rem)
+      minmax(0, 1fr)
+      auto;
+
+    grid-template-rows:
+      auto
+      auto;
+
+    align-items: center;
+
+    column-gap: 0.7rem;
+    row-gap: 0.6rem;
+
+    padding:
+      0.7rem
+      0.85rem
+      0.8rem;
+  }
+
+  .vk-screen__profile .contact-project-avatar {
+    grid-column: 1;
+    grid-row: 1 / 3;
+
+    align-self: center;
+    justify-self: center;
+
+    width: clamp(4.6rem, 19vw, 5.6rem);
+
+    margin-top: -0.9rem;
+  }
+
+  .vk-screen__name {
+    grid-column: 2 / 4;
+    grid-row: 1;
+
+    align-self: center;
+
+    display: grid;
+    justify-items: start;
+
+    gap: 0.2rem;
+  }
+
+  .vk-screen__name strong {
+    width: 100%;
+
+    font-size: clamp(1.05rem, 4.8vw, 1.35rem);
+    line-height: 1.05;
+
+    text-align: left;
+  }
+
+  .vk-screen__name strong span {
+    display: none !important;
+  }
+
+  .vk-screen__name small {
+    width: 100%;
+
+    font-size: clamp(0.58rem, 2.6vw, 0.72rem);
+
+    text-align: left;
+  }
+
+  .vk-screen__stats {
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    align-items: stretch;
+
+    gap: 0.34rem;
+
+    width: 100%;
+
+    margin-top: 0.35rem;
+
+    text-align: center;
+  }
+
+  .vk-screen__stat {
+    justify-items: center;
+
+    min-width: 0;
+
+    padding:
+      0.34rem
+      0.2rem;
+
+    border-radius: 0.55rem;
+
+    background:
+      rgba(255, 255, 255, 0.035);
+  }
+
+  .vk-screen__stat:first-child {
+    background:
+      rgba(38, 136, 235, 0.08);
+  }
+
+  .vk-screen__stat strong {
+    font-size: clamp(0.78rem, 3.4vw, 0.95rem);
+  }
+
+  .vk-screen__stat small {
+    margin-top: 0.12rem;
+
+    font-size: clamp(0.42rem, 1.85vw, 0.52rem);
+  }
+
+  .vk-screen__profile > a:not(.vk-screen__more) {
+    grid-column: 2;
+    grid-row: 2;
+
+    width: 100%;
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+      0.55rem
+      0.7rem;
+
+    border-radius: 0.68rem;
+
+    font-size: 0.68rem;
+  }
+
+  .vk-screen__profile > .vk-screen__more {
+    grid-column: 3;
+    grid-row: 2;
+
+    min-width: 3.4rem;
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+      0.55rem
+      0.65rem;
+
+    border-radius: 0.68rem;
+
+    font-size: 0.66rem;
+  }
+}
+
+
+/* =========================================================
+   RUTUBE вЂ” TALLER CHANNEL COVER
+   ========================================================= */
+
+@media (min-width: 561px) {
+
+  .rutube-screen {
+    grid-template-rows:
+      auto
+      minmax(10.8rem, 1.5fr)
+      auto
+      minmax(7rem, 0.9fr);
+  }
+}
+
+@media (max-width: 560px) {
+
+  .rutube-screen {
+    grid-template-rows:
+      28px
+      68px
+      24px
+      minmax(0, 1fr);
+  }
+
+  .rutube-screen__profile {
+    bottom: 0.38rem;
   }
 }

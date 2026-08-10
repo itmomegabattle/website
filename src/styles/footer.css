@@ -263,51 +263,93 @@
     padding: 0.75rem 0;
   }
 
+  /*
+   * Mobile composition:
+   *
+   * в”Њв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”¬в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”ђ
+   * в”‚   logo   в”‚ ITMO / year              в”‚
+   * в”‚          в”‚ city / address           в”‚
+   * в”њв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”ґв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”¤
+   * в”‚              socials               в”‚
+   * в”њв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”¤
+   * в”‚       documents | support          в”‚
+   * в””в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”
+   */
   .footer-content {
     width: 100%;
+
     padding: 0.55rem;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto;
+
+    grid-template-columns:
+      minmax(92px, 0.68fr)
+      minmax(0, 1.72fr);
+
+    grid-template-rows:
+      auto
+      auto
+      auto;
+
     gap: 0.55rem;
+
     border-radius: 1.2rem;
   }
 
-  .footer-brand,
-  .footer-info,
-  .footer-socials,
-  .footer-actions {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
+  /* Logo and university info now share the first row. */
   .footer-brand {
-    min-height: 86px;
-    padding: 0.8rem 1rem;
-    justify-content: flex-start;
+    grid-column: 1;
+    grid-row: 1;
+
+    min-height: 118px;
+
+    padding: 0.7rem;
+
+    align-items: center;
+    justify-content: center;
   }
 
   .footer-logo {
-    width: 88px;
+    width: min(100%, 96px);
   }
 
   .footer-info {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-    padding: 0.9rem;
+    grid-column: 2;
+    grid-row: 1;
+
+    /*
+     * On a phone the two info groups are more readable
+     * stacked vertically than squeezed into two columns.
+     */
+    grid-template-columns: minmax(0, 1fr);
+
+    align-content: center;
+
+    gap: 0.42rem;
+
+    min-height: 118px;
+
+    padding:
+      0.72rem
+      0.85rem;
   }
 
   .footer-info p {
-    font-size: 0.7rem;
-    line-height: 1.45;
+    font-size: clamp(0.62rem, 2.75vw, 0.72rem);
+    line-height: 1.35;
   }
 
+  /* Socials occupy one full-width row below the header. */
   .footer-socials {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
     gap: 0.4rem;
+
     padding: 0.45rem;
   }
 
   .footer-socials a {
     min-height: 52px;
+
     border-radius: 0.7rem;
   }
 
@@ -316,20 +358,31 @@
     height: 25px;
   }
 
+  /* Documents + support remain together as the final row. */
   .footer-actions {
-    grid-template-columns: minmax(0, 1fr) minmax(145px, 0.9fr);
+    grid-column: 1 / -1;
+    grid-row: 3;
+
+    grid-template-columns:
+      minmax(0, 1.12fr)
+      minmax(125px, 0.88fr);
+
     gap: 0.4rem;
+
     padding: 0.45rem;
   }
 
   .footer-policy,
   .footer-support {
     min-height: 58px;
+
     border-radius: 0.7rem;
   }
 
   .footer-policy {
-    padding: 0.65rem 0.75rem;
+    padding:
+      0.65rem
+      0.75rem;
   }
 
   .footer-section-label {
@@ -341,15 +394,62 @@
     font-size: 0.64rem;
   }
 
+  .footer-support {
+    padding:
+      0.65rem
+      0.7rem;
+
+    text-align: center;
+  }
+
   .footer-support-status {
     display: none;
   }
 }
 
 @media (max-width: 380px) {
-  .footer-info,
+  .footer-content {
+    grid-template-columns:
+      minmax(78px, 0.58fr)
+      minmax(0, 1.42fr);
+
+    gap: 0.45rem;
+    padding: 0.45rem;
+  }
+
+  .footer-brand,
+  .footer-info {
+    min-height: 108px;
+  }
+
+  .footer-brand {
+    padding: 0.55rem;
+  }
+
+  .footer-logo {
+    width: min(100%, 76px);
+  }
+
+  .footer-info {
+    gap: 0.32rem;
+
+    padding:
+      0.6rem
+      0.68rem;
+  }
+
+  .footer-info p {
+    font-size: 0.6rem;
+    line-height: 1.3;
+  }
+
   .footer-actions {
     grid-template-columns: 1fr;
+  }
+
+  .footer-policy,
+  .footer-support {
+    min-height: 52px;
   }
 }
 
@@ -358,5 +458,81 @@
   .footer-socials a,
   .footer-support {
     transition: none;
+  }
+}
+
+/* =========================================================
+   MOBILE FOOTER V2 вЂ” EQUAL TOP CARDS
+   Logo and admin information use equal 50/50 columns.
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .footer-content {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-brand,
+  .footer-info {
+    min-height: 124px;
+  }
+
+  .footer-brand {
+    padding: 0.8rem;
+  }
+
+  .footer-logo {
+    width: min(78%, 104px);
+  }
+
+  .footer-info {
+    padding:
+      0.75rem
+      0.8rem;
+
+    gap: 0.42rem;
+  }
+
+  .footer-info p {
+    font-size: clamp(0.62rem, 2.55vw, 0.7rem);
+    line-height: 1.35;
+  }
+
+  .footer-socials,
+  .footer-actions {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 380px) {
+  .footer-content {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-brand,
+  .footer-info {
+    min-height: 112px;
+  }
+
+  .footer-brand {
+    padding: 0.6rem;
+  }
+
+  .footer-logo {
+    width: min(82%, 78px);
+  }
+
+  .footer-info {
+    padding:
+      0.58rem
+      0.62rem;
+
+    gap: 0.3rem;
+  }
+
+  .footer-info p {
+    font-size: 0.57rem;
+    line-height: 1.28;
   }
 }

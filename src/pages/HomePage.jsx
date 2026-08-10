@@ -204,9 +204,6 @@ export default function HomePage() {
         <section id="contacts" className="contacts main-width">
           <h1>КОНТАКТЫ</h1>
           <div className="contacts-container">
-            <iframe className="yandex-map" title="Карта ИТМО" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade">
-              Карта ИТМО
-            </iframe>
             <ContactShowcase />
           </div>
         </section>

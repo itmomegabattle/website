@@ -4,6 +4,7 @@ import { BusinessCard, TelegramProfile, VkProfile } from "./contact/ProjectProfi
 import { InstagramProfile, RutubeProfile, TiktokProfile } from "./contact/SocialProfiles";
 import { FALLBACK_STATS, SOCIALS } from "./contact/contactData";
 import "../styles/contact-showcase.css";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 export default function ContactShowcase() {
   const [activeTab, setActiveTab] = useState("card");
@@ -56,8 +57,13 @@ export default function ContactShowcase() {
             title={item.label}
             onClick={() => setActiveTab(item.id)}
           >
-            {item.icon ? <FontAwesomeIcon icon={item.icon} /> : <span>{item.short}</span>}
-            <span className="contact-tab__label">{item.label}</span>
+            {item.id === "instagram" ? (
+              <FontAwesomeIcon icon={faCamera} />
+            ) : item.icon ? (
+              <FontAwesomeIcon icon={item.icon} />
+            ) : (
+              <span>{item.short}</span>
+            )}
           </button>
         ))}
       </div>

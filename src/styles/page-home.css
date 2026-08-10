@@ -722,3 +722,161 @@
         display: none;
     }
 }
+
+/* =========================================================
+   CONTACTS вЂ” FINAL LAYOUT / BOTTOM SOCIAL NAV
+   ========================================================= */
+
+/* The old map column is gone; keep one centered contact showcase. */
+.contacts-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    width: 100%;
+    min-width: 0;
+
+    justify-items: center;
+
+    gap: 0;
+    margin-top: 2rem;
+}
+
+/* Common project font for the contact navigation. */
+.contact-tabs,
+.contact-tab {
+    font-family: var(--body-font);
+}
+
+/* Larger icons, but without making the whole footer oversized. */
+.contact-tabs {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+
+    gap: 0.35rem;
+    padding: 0.5rem 0.55rem;
+}
+
+.contact-tab {
+    min-width: 0;
+    min-height: 58px;
+
+    gap: 0;
+    padding: 0.4rem;
+
+    border-radius: 0.78rem;
+}
+
+.contact-tab svg {
+    width: 1em;
+    height: 1em;
+
+    font-size: clamp(1.28rem, 1.55vw, 1.5rem);
+}
+
+/* Text fallbacks such as MB / RU stay visually balanced with the icons. */
+.contact-tab > span:first-child {
+    font-family: var(--body-font);
+    font-size: clamp(1rem, 1.2vw, 1.18rem);
+    font-weight: 850;
+    line-height: 1;
+}
+
+/* Names are still available through aria-label/title in JSX. */
+.contact-tab__label {
+    display: none;
+}
+
+.contact-tab:hover {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+    .contacts-container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .contact-tab {
+        min-height: 54px;
+    }
+
+    .contact-tab svg {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .contact-tabs {
+        gap: 0.2rem;
+        padding: 0.38rem;
+    }
+
+    .contact-tab {
+        min-height: 48px;
+        padding: 0.32rem;
+        border-radius: 0.68rem;
+    }
+
+    .contact-tab svg {
+        font-size: 1.08rem;
+    }
+
+    .contact-tab > span:first-child {
+        font-size: 0.9rem;
+    }
+}
+
+/* =========================================================
+   V3 вЂ” SOCIAL TAB SELECTION WITHOUT RECTANGLE
+   ========================================================= */
+
+/* No rectangular background/border around active or hovered items. */
+.contact-tab:hover,
+.contact-tab.is-active {
+    background: transparent;
+    border-color: transparent;
+}
+
+/* Remove browser / custom focus rectangle for these icon tabs. */
+.contact-tab:focus,
+.contact-tab:focus-visible,
+.contact-tab:active {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Active state is communicated by icon color/brightness only. */
+.contact-tab.is-active {
+    transform: none;
+}
+
+.contact-tab.is-active svg,
+.contact-tab.is-active > span:first-child {
+    filter: brightness(1.18);
+}
+
+/* Keep hover subtle without creating a box. */
+.contact-tab:hover svg,
+.contact-tab:hover > span:first-child {
+    transform: translateY(-1px) scale(1.05);
+}
+
+.contact-tab svg,
+.contact-tab > span:first-child {
+    transition:
+        color 0.18s ease,
+        transform 0.18s ease,
+        filter 0.18s ease;
+}
+
+/* =========================================================
+   V9 вЂ” MOBILE CONTACT WIDTH
+   Keep the section in the shared main-width; only its child fills it.
+   ========================================================= */
+
+@media (max-width: 640px) {
+    .contacts-container {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+}
