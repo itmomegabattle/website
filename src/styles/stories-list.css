@@ -407,8 +407,8 @@
 
 .stories-admin-panel,
 .story-submit-panel {
-  background: color-mix(in srgb, var(--surface-color) 96%, #000 4%);
-  backdrop-filter: blur(28px) saturate(.72);
+  background: color-mix(in srgb, var(--background-color) 98%, var(--surface-color-special) 2%);
+  backdrop-filter: blur(36px) saturate(.62);
 }
 
 .stories-admin-head {

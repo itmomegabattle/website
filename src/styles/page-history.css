@@ -1770,7 +1770,7 @@ body:has(.history-page) .header {
   transform: translateY(-2px);
 }
 
-/* One continuous archive surface with the same blueprint lines in every chapter. */
+/* One continuous archive surface without the temporary grid overlay. */
 .history-page,
 .history-world,
 .history-hero,
@@ -1781,11 +1781,13 @@ body:has(.history-page) .header {
 .history-gallery,
 .history-final {
   background-color: transparent;
-  background-image:
-    linear-gradient(rgba(112,150,197,.11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(112,150,197,.11) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-image: none;
 }
+.history-facts { background: transparent; }
+.history-fact { background: rgba(3,5,8,.9); backdrop-filter: blur(24px); }
+html[data-theme="light"] :is(.history-hero,.history-plot,.history-gallery,.history-final) { background:transparent; }
+html[data-theme="light"] :is(.history-origin,.history-seasons,.history-facts) { background:#fff; }
+html[data-theme="light"] :is(.history-origin__founding,.history-fact,.history-credits__grid article) { background:#fff; }
 .history-chapter__body h2 { font-size: clamp(2.65rem, 4.35vw, 5rem); }
 .history-chapter__meta span:first-child { font-size: clamp(.78rem, 1vw, .96rem); font-weight: 850; color:#fff; }
 .history-chapter__close { top: 1.35rem; right: 1.35rem; }
@@ -1798,11 +1800,18 @@ html[data-theme="light"] .history-gallery__rail .history-gallery__item,
 html[data-theme="light"] .history-chapter__visual,
 html[data-theme="light"] .history-chapter__body { border-color:rgba(0,0,0,.22); }
 
+/* Gallery keeps the full featured frame visible; thumbnails no longer cover it. */
+.history-gallery { height:auto; min-height:100svh; overflow:visible; }
+.history-gallery__stage { display:grid; grid-template-rows:minmax(0,1fr) auto; gap:.8rem; height:auto; min-height:0; }
+.history-gallery__feature { position:relative; inset:auto; aspect-ratio:16 / 9; height:auto; max-height:calc(100svh - 13rem); }
+.history-gallery__feature > span { bottom:1.25rem; }
+.history-gallery__rail { position:relative; inset:auto; width:100%; margin:0; padding:.1rem; justify-content:flex-start; overflow-x:auto; }
+
 @media (max-width:980px) {
   .history-chapter__body h2 { font-size: clamp(1.9rem, 7.8vw, 2.8rem); }
   .history-chapter__close { top: 1rem; right: 1rem; }
   .history-gallery__feature > span { bottom: 1rem; }
-  .history-gallery__rail { position:relative; inset:auto; width:100%; margin-top:.75rem; }
+  .history-gallery__rail { width:100%; }
   .history-gallery { height:auto; min-height:100svh; }
   .history-video iframe { min-height:0; }
 }

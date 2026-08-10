@@ -1067,6 +1067,7 @@
     min-width: 0;
     margin-inline: auto;
 }
+.participants-roles-deferred { min-height:min(82svh,52rem); width:100%; contain:layout paint style; }
 
 .participants-roles__heading {
     display: grid;

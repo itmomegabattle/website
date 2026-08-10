@@ -242,17 +242,7 @@
 }
 
 @media (max-width: 640px) {
-  .header--menu-open { background: var(--background-color); border-radius: 0 .85rem .85rem 0; }
-  .header-nav {
-    min-width: min(19rem, calc(100vw - 1rem));
-    padding: .7rem;
-    border-radius: 0 1rem 1rem 0;
-    background:
-      linear-gradient(90deg, color-mix(in srgb,var(--accent-color) 11%,transparent) 1px, transparent 1px),
-      var(--background-color);
-    background-size: 28px 100%;
-    border-color: color-mix(in srgb,var(--accent-color) 28%,var(--border-color));
-  }
-  .header-nav .header-item { min-height: 2.8rem; border-radius: .45rem; color: var(--text-color); font-weight: 800; letter-spacing: .02em; }
-  .header-nav .header-item:hover { background: color-mix(in srgb,var(--accent-color) 14%,transparent); }
+  html[data-theme="light"] .header--menu-open,
+  html[data-theme="light"] .header-nav { background: var(--background-color); }
+  html[data-theme="light"] .header-nav .header-item { color: var(--text-color); }
 }

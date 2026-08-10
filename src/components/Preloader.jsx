@@ -25,6 +25,34 @@ export function hasSeenPreloader() {
   }
 }
 
+export function showPreloaderAfterReload() {
+  try {
+    window.localStorage.removeItem(PRELOADER_STORAGE_KEY);
+  } catch {
+    // Reload still applies the theme if storage is restricted.
+  }
+}
+
+export function startThemeChangePreloader() {
+  return new Promise((resolve) => {
+    const isMobile = window.matchMedia?.(MOBILE_PRELOADER_QUERY)?.matches ?? false;
+    const variant = isMobile ? "mobile" : "desktop";
+    const overlay = document.createElement("div");
+    overlay.className = "site-preloader site-preloader--theme-change";
+    overlay.setAttribute("aria-label", "Смена темы ITMO MEGABATTLE");
+    overlay.innerHTML = `
+      <video class="site-preloader__video" autoplay muted playsinline preload="auto" poster="/videos/preloader-${variant}-poster.jpg">
+        <source src="/videos/preloader-${variant}.webm" type="video/webm" />
+        <source src="/videos/preloader-${variant}.mp4" type="video/mp4" />
+      </video>`;
+    document.body.classList.add("preloader-lock");
+    document.body.appendChild(overlay);
+    const video = overlay.querySelector("video");
+    video?.play?.().catch?.(() => null);
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
+}
+
 function rememberPreloader() {
   try {
     window.localStorage.setItem(PRELOADER_STORAGE_KEY, PRELOADER_STORAGE_VERSION);

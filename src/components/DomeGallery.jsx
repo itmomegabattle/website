@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useGesture } from "@use-gesture/react";
 import "../styles/dome-gallery.css";
 
@@ -7,6 +7,33 @@ const wrapAngleSigned = (degrees) => {
   const angle = (((degrees + 180) % 360) + 360) % 360;
   return angle - 180;
 };
+
+const DomeItem = memo(function DomeItem({ item, renderItem, onOpen, onActivate }) {
+  return (
+    <div
+      className="sphere-item"
+      style={{
+        "--offset-x": item.x,
+        "--offset-y": item.y,
+        "--item-size-x": item.sizeX,
+        "--item-size-y": item.sizeY,
+      }}
+    >
+      <button
+        className="sphere-item__image"
+        type="button"
+        aria-label={item.alt || "Открыть фотографию"}
+        onClick={() => onOpen(item)}
+        onFocus={() => onActivate(item)}
+        onPointerEnter={() => onActivate(item)}
+      >
+        {renderItem ? renderItem(item) : (
+          <img src={item.src} draggable="false" alt="" loading="lazy" decoding="async" />
+        )}
+      </button>
+    </div>
+  );
+});
 
 // Геометрия и раскладка из ReactBits Dome Gallery. Изображения повторяются
 // по оболочке намеренно: так купол остаётся цельным при полном обороте.
@@ -209,7 +236,7 @@ export default function DomeGallery({
 
   useEffect(() => stopInertia, [stopInertia]);
 
-  const openImage = (image) => {
+  const openImage = useCallback((image) => {
     if (movedRef.current) return;
     if (onItemSelect) {
       onItemSelect(image);
@@ -217,7 +244,10 @@ export default function DomeGallery({
       return;
     }
     setOpenedImage(image);
-  };
+  }, [onItemSelect]);
+  const activateImage = useCallback((image) => {
+    setActiveImage((current) => current?.itemKey === image.itemKey ? current : image);
+  }, []);
 
   return (
     <div
@@ -236,31 +266,7 @@ export default function DomeGallery({
           <div className="sphere-position">
             <div ref={sphereRef} className="sphere">
               <div className="sphere-auto-rotation">
-                {items.map((item) => (
-                  <div
-                    className="sphere-item"
-                    key={item.itemKey}
-                    style={{
-                      "--offset-x": item.x,
-                      "--offset-y": item.y,
-                      "--item-size-x": item.sizeX,
-                      "--item-size-y": item.sizeY,
-                    }}
-                  >
-                    <button
-                      className="sphere-item__image"
-                      type="button"
-                      aria-label={item.alt || "Открыть фотографию"}
-                      onClick={() => openImage(item)}
-                      onFocus={() => setActiveImage(item)}
-                      onPointerEnter={() => setActiveImage(item)}
-                    >
-                      {renderItem ? renderItem(item) : (
-                        <img src={item.src} draggable="false" alt="" loading="lazy" decoding="async" />
-                      )}
-                    </button>
-                  </div>
-                ))}
+                {items.map((item) => <DomeItem key={item.itemKey} item={item} renderItem={renderItem} onOpen={openImage} onActivate={activateImage} />)}
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import "../styles/header.css";
 import { Theme } from "../theme";
 import { useQueryClient } from "@tanstack/react-query";
 import { prefetchRoute } from "../lib/sitePrefetch";
+import { showPreloaderAfterReload, startThemeChangePreloader } from "./Preloader";
 
 function SunIcon() {
   return (
@@ -148,8 +149,12 @@ export default function Header() {
 
   useEffect(() => () => window.clearTimeout(warmTimerRef.current), []);
 
-  const handleThemeToggle = () => {
-    Theme.set(isDarkTheme ? "light" : "dark");
+  const handleThemeToggle = async () => {
+    const nextTheme = isDarkTheme ? "light" : "dark";
+    showPreloaderAfterReload();
+    await startThemeChangePreloader();
+    Theme.remember(nextTheme);
+    window.location.reload();
   };
 
   const warmRoute = (to, immediate = false) => {

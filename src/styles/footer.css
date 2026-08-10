@@ -75,7 +75,12 @@
   transition: transform 0.28s ease, filter 0.28s ease;
 }
 
-html[data-theme="light"] .footer-logo { filter: brightness(0); }
+.footer-logo-wrap { position:relative; display:block; width:min(100%,132px); }
+.footer-logo-wrap .footer-logo { width:100%; }
+.footer-logo--inline { display:block; color:#fff; }
+.footer-logo--inline svg { display:block; width:100%; height:auto; }
+html[data-theme="light"] .footer-logo--inline { color:#000; filter:none; }
+html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; filter:none; }
 
 .footer-brand:hover .footer-logo {
   transform: translateY(-3px) scale(1.025);

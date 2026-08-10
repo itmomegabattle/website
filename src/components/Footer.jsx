@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/footer.css";
 
@@ -8,6 +9,24 @@ import {
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
 import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
+
+function FooterLogo() {
+  const [markup, setMarkup] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    fetch("/logo.svg")
+      .then((response) => response.text())
+      .then((svg) => {
+        if (active) setMarkup(svg.replaceAll('fill="white"', 'fill="currentColor"'));
+      })
+      .catch(() => null);
+    return () => { active = false; };
+  }, []);
+
+  if (!markup) return <img className="footer-logo" src="/logo.svg" width="130" height="88" alt="ITMO Megabattle" />;
+  return <span className="footer-logo footer-logo--inline" role="img" aria-label="ITMO Megabattle" dangerouslySetInnerHTML={{ __html: markup }} />;
+}
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -21,15 +40,9 @@ export default function Footer() {
             className="footer-brand"
             aria-label="На главную"
           >
-            <img
-              className="footer-logo"
-              src="/logo.svg"
-              width="130"
-              height="88"
-              alt="ITMO Megabattle"
-              loading="lazy"
-              decoding="async"
-            />
+            <span className="footer-logo-wrap">
+              <FooterLogo />
+            </span>
           </Link>
 
           <div className="footer-info">

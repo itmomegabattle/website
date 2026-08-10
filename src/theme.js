@@ -39,6 +39,11 @@ export const Theme = {
     }, 400);
   },
 
+  remember(theme) {
+    if (theme !== "dark" && theme !== "light") return;
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  },
+
   addListener(callback, invoke = true) {
     if (typeof callback !== "function") return;
     listeners.add(callback);

@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import {
   AuthenticatedRatingPanel,
   RatingsOverview,
 } from "../components/RatingsSections";
-import AdminCabinetPanel from "../components/AdminCabinetPanel";
 import AuthPanel from "../components/AuthPanel";
 import NfcTagsPanel from "../components/NfcTagsPanel";
-import ProfileEditor from "../components/ProfileEditor";
-import SocialBioCard from "../components/SocialBioCard";
 import ModalPortal from "../components/ModalPortal";
-import RolesDomeSection from "../components/RolesDomeSection";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
 import "../styles/page-info.css";
+
+const AdminCabinetPanel = lazy(() => import("../components/AdminCabinetPanel"));
+const ProfileEditor = lazy(() => import("../components/ProfileEditor"));
+const SocialBioCard = lazy(() => import("../components/SocialBioCard"));
+const RolesDomeSection = lazy(() => import("../components/RolesDomeSection"));
+
+function DeferredRolesSection() {
+  return <Suspense fallback={<div className="participants-roles-deferred" aria-hidden="true" />}><RolesDomeSection /></Suspense>;
+}
 
 export default function RatingsPage() {
   const { isAuthenticated, profile, signOut } = useAuth();
@@ -91,10 +96,10 @@ export default function RatingsPage() {
             <RatingsOverview />
           </section>
 
-          <RolesDomeSection />
+          <DeferredRolesSection />
         </>
       ) : (
-        isAuthenticated && canAdmin && <AdminCabinetPanel />
+        isAuthenticated && canAdmin && <Suspense fallback={null}><AdminCabinetPanel /></Suspense>
       )}
 
       {activeModal && (
@@ -112,9 +117,9 @@ export default function RatingsPage() {
                 ×
               </button>
               {activeModal === "edit" ? (
-                <ProfileEditor />
+                <Suspense fallback={null}><ProfileEditor /></Suspense>
               ) : (
-                <SocialBioCard profile={profile} qrOnSocials />
+                <Suspense fallback={null}><SocialBioCard profile={profile} qrOnSocials /></Suspense>
               )}
             </section>
           </div>
