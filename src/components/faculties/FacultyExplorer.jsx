@@ -57,13 +57,11 @@ function ArrowIcon() {
 const RETRO_PRESENTATIONS = {
   ktu: {
     layout: "systems",
-    issue: "Systems edition",
-    ribbon: ["системы", "инженерия", "код", "сцена", "архив"],
-    footer: "Технологии · команда · сезон",
+    footer: "Творчество · актив · сезон",
     labels: {
       feature: "Главная схема",
       brief: "Техническое резюме",
-      people: "Команда разработки",
+      people: "Люди актива",
       quote: "Принцип",
       list: "Контур проекта",
       season: "Журнал запуска",
@@ -71,9 +69,7 @@ const RETRO_PRESENTATIONS = {
   },
   tint: {
     layout: "signal",
-    issue: "Digital culture issue",
-    ribbon: ["медиа", "данные", "дизайн", "сигнал", "эфир"],
-    footer: "Медиа · данные · цифровая культура",
+    footer: "Творчество · актив · сезон",
     labels: {
       feature: "Сигнал номера",
       brief: "В двух строках",
@@ -85,13 +81,11 @@ const RETRO_PRESENTATIONS = {
   },
   nozh: {
     layout: "lab",
-    issue: "Living systems review",
-    ribbon: ["био", "химия", "среда", "эксперимент", "жизнь"],
-    footer: "Наука · жизнь · эксперимент",
+    footer: "Творчество · актив · сезон",
     labels: {
       feature: "Исследование выпуска",
       brief: "Аннотация",
-      people: "Исследовательская группа",
+      people: "Люди актива",
       quote: "Гипотеза",
       list: "Области опыта",
       season: "Полевой журнал",
@@ -99,9 +93,7 @@ const RETRO_PRESENTATIONS = {
   },
   ftmf: {
     layout: "spectrum",
-    issue: "Spectrum journal",
-    ribbon: ["свет", "физика", "фотоника", "сцена", "спектр"],
-    footer: "Свет · материя · движение",
+    footer: "Творчество · актив · сезон",
     labels: {
       feature: "Тема спектра",
       brief: "Фокус",
@@ -113,9 +105,7 @@ const RETRO_PRESENTATIONS = {
   },
   ftmi: {
     layout: "strategy",
-    issue: "Management review",
-    ribbon: ["бизнес", "аналитика", "идеи", "команда", "рост"],
-    footer: "Решения · люди · развитие",
+    footer: "Творчество · актив · сезон",
     labels: {
       feature: "Разбор номера",
       brief: "Executive summary",
@@ -397,9 +387,6 @@ export default function FacultyExplorer() {
       },
     ]),
   ];
-  const retrospectivePeople = retrospectiveSections[1];
-  const retrospectiveSeason = retrospectiveSections[2];
-  const retrospectiveTags = activeFaculty.megabattle ?? [];
   const retroPresentation =
     RETRO_PRESENTATIONS[activeFaculty.id] ?? RETRO_PRESENTATIONS.ktu;
 
@@ -627,99 +614,35 @@ export default function FacultyExplorer() {
             className={`faculty-retro-newspaper faculty-retro-newspaper--${retroPresentation.layout}`}
           >
             <header className="faculty-retro-masthead">
-              <span>Архив сезона</span>
               <strong>{activeFaculty.name}</strong>
-              <span>{retroPresentation.issue}</span>
             </header>
-            <div className="faculty-retro-ribbon" aria-hidden="true">
-              {retroPresentation.ribbon.map((item) => (
-                <span key={item}>{item}</span>
-              ))}
+            <div className="faculty-retro-ribbon">
+              <span>{activeFaculty.title}</span>
             </div>
-            <div className="faculty-retro-sequence">
-              <article className="faculty-retrospective is-featured">
-                <div className="faculty-retrospective-copy">
-                  <small>{retroPresentation.labels.feature}</small>
-                  <p>
-                    <strong>{retrospectiveSections[0].title}</strong>
-                  </p>
-                </div>
-                <div className="faculty-retrospective-feature-media">
-                  <div className="faculty-retrospective-image">
-                    <img
-                      src={Api.normalizeURL(retrospectiveSections[0].image)}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                    />
+            <div className="faculty-retro-facts">
+              {retrospectiveSections.map((section, index) => (
+                <article className={`faculty-retro-fact${section.image ? "" : " is-text-only"}`} key={section.title}>
+                  {section.image ? (
+                    <div className="faculty-retrospective-image">
+                      <img
+                        src={Api.normalizeURL(section.image)}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="faculty-retro-fact__copy">
+                    <small>{String(index + 1).padStart(2, "0")} · ХРОНИКА</small>
+                    <h3>{section.title}</h3>
+                    <p>{section.text}</p>
                   </div>
-                  <p>{retrospectiveSections[0].text}</p>
-                </div>
-              </article>
-
-              <article className="faculty-retro-cell is-brief">
-                <small>{retroPresentation.labels.brief}</small>
-                <h3>{activeFaculty.short}</h3>
-                <p>{activeFaculty.description}</p>
-              </article>
-
-              <article className="faculty-retro-cell is-photo-story">
-                <div className="faculty-retrospective-image">
-                  <img
-                    src={Api.normalizeURL(retrospectivePeople.image)}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <small>{retroPresentation.labels.people}</small>
-                <h3>{retrospectivePeople.title}</h3>
-              </article>
-
-              <article className="faculty-retro-cell is-pullquote">
-                <small>{retroPresentation.labels.quote}</small>
-                <blockquote>«{activeFaculty.vibe}»</blockquote>
-              </article>
-
-              <article className="faculty-retro-cell is-list">
-                <small>{retroPresentation.labels.list}</small>
-                <h3>Что создаёт {activeFaculty.name}</h3>
-                <ul>
-                  {retrospectiveTags.map((tag) => (
-                    <li key={tag}>{tag}</li>
-                  ))}
-                </ul>
-              </article>
-
-              <article className="faculty-retro-cell is-note">
-                <small>{retroPresentation.labels.season}</small>
-                <h3>{retrospectiveSeason.title}</h3>
-                <p>{retrospectiveSeason.text}</p>
-              </article>
-
-              <article className="faculty-retro-cell is-small-photo">
-                <div className="faculty-retrospective-image">
-                  <img
-                    src={Api.normalizeURL(retrospectiveSeason.image)}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <p>Архивный кадр · {activeFaculty.name}</p>
-              </article>
-
-              <article className="faculty-retro-cell is-editor-note">
-                <small>Справка редакции</small>
-                <p>
-                  {activeFaculty.structureNote ??
-                    "Структура мегафака меняется и растёт вместе с образовательными программами и людьми."}
-                </p>
-              </article>
+                </article>
+              ))}
             </div>
             <footer className="faculty-retro-footer" aria-hidden="true">
               <span>ITMO Megabattle</span>
-              <span>{retroPresentation.footer}</span>
+              <span>информация еще собирается и будет расширяться</span>
             </footer>
           </div>
         </section>
