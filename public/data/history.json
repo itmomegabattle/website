@@ -120,7 +120,7 @@
         "открытая хроника",
         "продолжение следует"
       ],
-      "image": "/images/events/event2.webp",
+      "image": "/images/history/chapter-9-cover.png",
       "source": "Хроника сезона 2026/27"
     }
   ],
@@ -135,6 +135,13 @@
     {"value": "1 500", "label": "зрителей в ДК «Выборгский»", "detail": "Весенний финал седьмого сезона впервые вышел на большую внешнюю площадку."}
   ],
   "rutubeVideos": [
+    {"id":"dc43e9e4f88593e33a07d4af8db13960","title":"ITMO MEGABATTLE 8 сезон 1 раунд","url":"https://rutube.ru/video/dc43e9e4f88593e33a07d4af8db13960/","embedUrl":"https://rutube.ru/play/embed/dc43e9e4f88593e33a07d4af8db13960"},
+    {"id":"8d3cc2caa45752edb9133866cabb74c8","title":"ITMO MEGABATTLE 7 сезон 1 раунд","url":"https://rutube.ru/video/8d3cc2caa45752edb9133866cabb74c8/","embedUrl":"https://rutube.ru/play/embed/8d3cc2caa45752edb9133866cabb74c8"},
+    {"id":"ee49c006a16e04ef7251be899dac5c28","title":"ITMO MEGABATTLE 6 сезон 1 раунд","url":"https://rutube.ru/video/ee49c006a16e04ef7251be899dac5c28/","embedUrl":"https://rutube.ru/play/embed/ee49c006a16e04ef7251be899dac5c28"},
+    {"id":"22ba251e5c57bf043fc679a51fea3699","title":"ITMO MEGABATTLE 5 сезон 1 раунд","url":"https://rutube.ru/video/22ba251e5c57bf043fc679a51fea3699/","embedUrl":"https://rutube.ru/play/embed/22ba251e5c57bf043fc679a51fea3699"},
+    {"id":"5a44238a2673bf86e90d0109dd61a426","title":"ITMO MEGABATTLE 4 сезон 1 раунд","url":"https://rutube.ru/video/5a44238a2673bf86e90d0109dd61a426/","embedUrl":"https://rutube.ru/play/embed/5a44238a2673bf86e90d0109dd61a426"},
+    {"id":"0a8d35a558dcd87f690cbb6da68cb3e5","title":"ITMO MEGABATTLE 3 сезон 1 раунд","url":"https://rutube.ru/video/0a8d35a558dcd87f690cbb6da68cb3e5/","embedUrl":"https://rutube.ru/play/embed/0a8d35a558dcd87f690cbb6da68cb3e5"},
+    {"id":"e01edad29372023947bf462081e4daad","title":"ITMO MEGABATTLE 2 сезон 1 раунд","url":"https://rutube.ru/video/e01edad29372023947bf462081e4daad/","embedUrl":"https://rutube.ru/play/embed/e01edad29372023947bf462081e4daad"},
     {
       "id": "080f122a3d38d7520d0a579c558d9c5d",
       "title": "ITMO MEGABATTLE 8 сезон 2 раунд",

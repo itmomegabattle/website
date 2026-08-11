@@ -687,6 +687,12 @@
   text-decoration: none;
 }
 
+.tiktok-screen__actions > * svg {
+  display:block;
+  margin:auto;
+  transform:none;
+}
+
 .tiktok-screen__actions > a:first-child {
   background: #fe2c55;
 }
@@ -1338,6 +1344,21 @@
   .rutube-screen__profile span {
     font-size: 0.46rem;
   }
+}
+
+/* Final alignment pass for social controls on both breakpoints. */
+.vk-screen__stats { align-items:stretch; }
+.vk-screen__stat {
+  align-content:center;
+  justify-items:center;
+  min-width:0;
+  text-align:center;
+}
+.vk-screen__stat strong,
+.vk-screen__stat small { width:100%; text-align:center; }
+
+html[data-theme="light"] .employee-card__message {
+  border:1px solid #0069e0;
 }
 
 /* =========================================================
@@ -2364,3 +2385,20 @@
     bottom: 0.38rem;
   }
 }
+
+.tiktok-screen__actions > a:nth-last-child(-n + 3) {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:0 !important;
+  line-height:0;
+}
+.tiktok-screen__actions > a:nth-last-child(-n + 3) svg {
+  position:static !important;
+  display:block !important;
+  width:1em !important;
+  height:1em !important;
+  margin:0 !important;
+  transform:none !important;
+}
+html[data-theme="light"] .employee-card__message { border-color:#000; }

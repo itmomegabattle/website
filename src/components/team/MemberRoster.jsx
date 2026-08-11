@@ -77,7 +77,9 @@ export default function MemberRoster({ members }) {
               </div>
               <div className="people-member-modal__copy">
                 <header className="people-member-modal__header">
-                  <p className="people-member-modal__kicker">{activeMember.activity || "Команда Megabattle"}</p>
+                  {activeMember.activity && activeMember.activity !== activeMember.role && (
+                    <p className="people-member-modal__kicker">{activeMember.activity}</p>
+                  )}
                   <h3>{activeMember.name}</h3>
                   {activeMember.role && <p className="people-member-modal__role">{activeMember.role}</p>}
                 </header>

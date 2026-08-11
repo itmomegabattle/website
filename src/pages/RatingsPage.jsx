@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AuthenticatedRatingPanel,
   RatingsOverview,
@@ -12,10 +13,10 @@ import "../styles/page-info.css";
 
 const AdminCabinetPanel = lazy(() => import("../components/AdminCabinetPanel"));
 const ProfileEditor = lazy(() => import("../components/ProfileEditor"));
-const SocialBioCard = lazy(() => import("../components/SocialBioCard"));
 
 export default function RatingsPage() {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const DEV_PROFILE = {
     id: 999999,
@@ -106,7 +107,7 @@ export default function RatingsPage() {
                 <AuthenticatedRatingPanel
                   profile={profile}
                   onEditProfile={() => setActiveModal("edit")}
-                  onPreviewCard={() => setActiveModal("preview")}
+                  onPreviewCard={() => navigate(`/u/${profile.id}`)}
                   onSignOut={signOut}
                 />
                 <NfcTagsPanel profileId={profile.id} compact />
@@ -140,16 +141,12 @@ export default function RatingsPage() {
               className={`profile-modal profile-modal--${activeModal}`}
               role="dialog"
               aria-modal="true"
-              aria-label={activeModal === "edit" ? "Редактирование профиля" : "Предпросмотр визитки"}
+              aria-label="Редактирование профиля"
             >
               <button className="profile-modal-close" type="button" onClick={closeModal}>
                 ×
               </button>
-              {activeModal === "edit" ? (
-                <Suspense fallback={null}><ProfileEditor /></Suspense>
-              ) : (
-                <Suspense fallback={null}><SocialBioCard profile={profile} qrOnSocials /></Suspense>
-              )}
+              <Suspense fallback={null}><ProfileEditor /></Suspense>
             </section>
           </div>
         </ModalPortal>

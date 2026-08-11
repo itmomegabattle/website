@@ -397,15 +397,18 @@
 
 /* Solid editing surface: form fields remain readable over the team photography. */
 .team-admin-panel {
-  background: color-mix(in srgb, var(--background-color) 98%, var(--surface-color-special) 2%);
-  backdrop-filter: blur(36px) saturate(.62);
+  background: #05070b;
+  backdrop-filter: none;
 }
 
+.people-member-modal__copy {
+  grid-template-rows:auto auto auto;
+  align-content:center;
+}
 .people-member-modal__header,
 .people-member-modal__about,
-.people-member-modal__description,
-.people-member-modal__links { text-align: center; }
-.people-member-modal__links { justify-content: center; }
+.people-member-modal__description { text-align:left; }
+.people-member-modal__links { justify-content:flex-start; }
 
 .team-admin-head {
   display: flex;
@@ -587,7 +590,7 @@
   }
 
   .people-member-modal__copy {
-    align-content: start;
+    align-content: center;
     justify-content: stretch;
     min-height: 0;
     gap: 0.65rem;
@@ -674,16 +677,32 @@
 }
 
 @media (max-width: 480px) {
+  .people-roster {
+    column-gap: .4rem;
+    row-gap: 1rem;
+  }
+
   .people-person-card {
-    flex-basis: calc((100% - 0.65rem) / 2);
+    flex-basis: calc((100% - .8rem) / 3);
+    border-radius: .78rem;
   }
 
   .people-person-card__copy {
-    padding: 0.75rem;
+    padding: .42rem;
   }
 
   .people-person-card__copy strong {
-    font-size: clamp(0.82rem, 4vw, 1rem);
+    font-size: clamp(.58rem, 2.8vw, .78rem);
+  }
+
+  .people-person-card__copy small,
+  .people-person-card__copy em { display:none; }
+
+  .people-person-card__index {
+    top:.38rem;
+    left:.38rem;
+    width:1.35rem;
+    font-size:.4rem;
   }
 }
 
@@ -698,3 +717,8 @@
 .people-person-card { border-color:transparent; border-radius:1rem; }
 .people-person-card__media::after { background:linear-gradient(180deg,rgba(0,0,0,.02) 26%,rgba(0,0,0,.16) 54%,rgba(0,0,0,.94) 100%); }
 .toggle-slider { background:rgba(255,255,255,.1); }
+
+html[data-theme="light"] .team-admin-panel {
+  border-color: rgba(0, 105, 224, .22);
+  background: #fff;
+}

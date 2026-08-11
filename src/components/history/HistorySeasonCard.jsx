@@ -17,9 +17,6 @@ export default function HistorySeasonCard({ season, index, onOpen }) {
             <b>{season.winner}</b>
             {season.organizer && <em>{season.organizer}</em>}
           </span>
-          <span className="history-season-card__highlights">
-            {season.highlights?.slice(0, 3).map((item) => <em key={item}>{item}</em>)}
-          </span>
           <i>ОТКРЫТЬ ГЛАВУ ↗</i>
         </span>
       </button>

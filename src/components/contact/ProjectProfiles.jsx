@@ -34,7 +34,7 @@ export function BusinessCard() {
         </div>
         <a className="employee-card__message" href="https://t.me/Arshinovoleg" target="_blank" rel="noreferrer">
           <FontAwesomeIcon icon={faPaperPlane} />
-          <span>Написать @Arshinovoleg</span>
+          <span>Написать</span>
         </a>
       </div>
       <div className="employee-card__footer">

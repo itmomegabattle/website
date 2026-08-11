@@ -3,7 +3,7 @@ import ModalPortal from "../ModalPortal";
 
 export default function HistoryChapter({
   season,
-  video,
+  videos = [],
   onPlay,
   onClose,
   onPrevious,
@@ -64,7 +64,6 @@ export default function HistoryChapter({
             <strong>{season.years}</strong>
           </div>
           <div className="history-chapter__body">
-            <span className="history-section-tag">СЕЗОН {season.number} / {season.years}</span>
             <h2>{season.title}</h2>
             <p className="history-chapter__lead">{season.summary}</p>
             <p>{season.text}</p>
@@ -75,10 +74,14 @@ export default function HistoryChapter({
             <div className="history-chapter__tags">
               {season.highlights?.map((item) => <span key={item}>{item}</span>)}
             </div>
-            {video && (
-              <button type="button" className="history-chapter__play" onClick={() => onPlay(video)}>
-                СМОТРЕТЬ ЗАПИСЬ РАУНДА <i>▶</i>
-              </button>
+            {!!videos.length && (
+              <div className="history-chapter__videos">
+                {videos.map((video) => (
+                  <button key={video.id || video.url} type="button" className="history-chapter__play" onClick={() => onPlay(video)}>
+                    {(/1\s*раунд/i.test(video.title || "") ? "ОСЕННИЙ КОНЦЕРТ" : "ВЕСЕННИЙ КОНЦЕРТ")} <i>▶</i>
+                  </button>
+                ))}
+              </div>
             )}
           </div>
         </article>

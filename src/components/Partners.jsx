@@ -38,46 +38,36 @@ export default function Partners() {
 
   useEffect(() => {
     const wall = wallRef.current;
-    if (!wall) return;
-
+    if (!wall) return undefined;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const tracks = Array.from(wall.querySelectorAll(".partners-wall-track"));
     let raf = 0;
 
     const update = () => {
       raf = 0;
-
       if (reducedMotion.matches) {
-        tracks.forEach((track) => {
-          track.style.transform = "translate3d(0, 0, 0)";
-        });
+        tracks.forEach((track) => { track.style.transform = "translate3d(0,0,0)"; });
         return;
       }
-
       const rect = wall.getBoundingClientRect();
       const viewport = window.innerHeight || document.documentElement.clientHeight;
-      const rawProgress = (viewport - rect.top) / (viewport + rect.height);
-      const progress = Math.min(1, Math.max(0, rawProgress));
-      const shift = (progress - 0.5) * Math.min(920, Math.max(420, window.innerWidth * 0.58));
-
+      const progress = Math.min(1, Math.max(0, (viewport - rect.top) / (viewport + rect.height)));
+      const mobileFactor = window.innerWidth <= 560 ? .22 : 1;
+      const shift = (progress - .5) * Math.min(920, Math.max(420, window.innerWidth * .58)) * mobileFactor;
       tracks.forEach((track, index) => {
         const direction = Number(track.dataset.direction || 1);
         const speed = Number(track.dataset.speed || 1);
-        const drift = index === 1 ? 80 : index === 2 ? -120 : 0;
-        track.style.transform = `translate3d(${direction * shift * speed + drift}px, 0, 0)`;
+        const drift = (index === 1 ? 80 : index === 2 ? -120 : 0) * mobileFactor;
+        track.style.transform = `translate3d(${direction * shift * speed + drift}px,0,0)`;
       });
     };
-
     const requestUpdate = () => {
-      if (raf) return;
-      raf = window.requestAnimationFrame(update);
+      if (!raf) raf = window.requestAnimationFrame(update);
     };
-
     update();
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
     reducedMotion.addEventListener?.("change", requestUpdate);
-
     return () => {
       if (raf) window.cancelAnimationFrame(raf);
       window.removeEventListener("scroll", requestUpdate);

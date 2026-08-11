@@ -2217,3 +2217,69 @@ html[data-theme="light"] .history-chapter__body { border-color:rgba(0,0,0,.22); 
     font-size: clamp(1.65rem, 8vw, 2.2rem);
   }
 }
+
+/* The same background rhythm is used in both themes: solid chapters alternate
+   with sections that let the global line artwork show through. */
+.history-origin,
+.history-final {
+  background:#05070b;
+}
+
+.history-hero,
+.history-plot,
+.history-facts,
+.participants-roles,
+.history-oath {
+  background:transparent;
+}
+
+html[data-theme="light"] .history-origin,
+html[data-theme="light"] .history-final {
+  background:#fff;
+}
+
+html[data-theme="light"] .history-hero,
+html[data-theme="light"] .history-plot,
+html[data-theme="light"] .history-facts,
+html[data-theme="light"] .participants-roles,
+html[data-theme="light"] .history-oath {
+  background:transparent;
+}
+
+.history-origin { position:relative; }
+.history-chapters,
+html[data-theme="light"] .history-chapters { background:transparent; }
+html[data-theme="light"] .history-origin::before { color:rgba(0,0,0,.025); }
+
+.history-chapter__videos {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:.55rem;
+}
+.history-chapter__videos .history-chapter__play {
+  flex:1 1 12rem;
+  margin:0;
+  justify-content:flex-start;
+  text-align:left;
+}
+.history-chapter__videos .history-chapter__play i { flex:0 0 auto; margin-left:auto; }
+
+html[data-theme="light"] .history-chapter__panel {
+  border:1px solid #111;
+  background:#fff;
+  box-shadow:0 3rem 9rem rgba(0,32,74,.2);
+}
+html[data-theme="light"] .history-chapter__visual,
+html[data-theme="light"] .history-chapter__body {
+  border:1px solid #111;
+  background:#fff;
+}
+html[data-theme="light"] .history-chapter__meta span,
+html[data-theme="light"] .history-chapter__tags span,
+html[data-theme="light"] .history-chapter__play { border-color:#111; }
+html[data-theme="light"] .history-chapter__play i {
+  border:1px solid #111;
+  background:#0069e0;
+  color:#fff;
+}

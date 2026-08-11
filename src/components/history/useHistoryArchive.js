@@ -5,7 +5,10 @@ export default function useHistoryArchive(data) {
   const [remoteVideos, setRemoteVideos] = useState([]);
 
   const allVideos = useMemo(
-    () => (remoteVideos.length ? remoteVideos : (data.rutubeVideos || [])),
+    () => {
+      const merged = [...remoteVideos, ...(data.rutubeVideos || [])];
+      return [...new Map(merged.map((video) => [video.id || video.url, video])).values()];
+    },
     [data.rutubeVideos, remoteVideos],
   );
   const seasonVideos = useMemo(() => pickSeasonVideos(allVideos), [allVideos]);

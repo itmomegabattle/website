@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import HistoryBirth from "./HistoryBirth";
 import HistoryChapter from "./HistoryChapter";
 import HistoryFacts from "./HistoryFacts";
@@ -16,9 +16,27 @@ export default function HistoryExperience({ data }) {
   const [activeVideo, setActiveVideo] = useState(null);
   const [activeSeason, setActiveSeason] = useState(null);
 
+  useEffect(() => {
+    if (!window.location.hash) return undefined;
+    let attempts = 0;
+    let timer;
+    const revealAnchor = () => {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        target.scrollIntoView({ block: "start" });
+        return;
+      }
+      attempts += 1;
+      if (attempts < 30) timer = window.setTimeout(revealAnchor, 50);
+    };
+    revealAnchor();
+    return () => window.clearTimeout(timer);
+  }, []);
+
   const seasons = data.seasons || [];
   const quickFacts = data.quickFacts || [];
   const {
+    allVideos,
     seasonVideos,
     featured,
   } = useHistoryArchive(data);
@@ -32,9 +50,11 @@ export default function HistoryExperience({ data }) {
   };
 
   const activeSeasonIndex = activeSeason ? seasons.indexOf(activeSeason) : -1;
-  const activeSeasonVideo = activeSeason
-    ? seasonVideos.find((video) => seasonNumber(video) === activeSeason.number)
-    : null;
+  const activeSeasonVideos = activeSeason
+    ? allVideos
+      .filter((video) => seasonNumber(video) === activeSeason.number)
+      .sort((a, b) => (/1\s*раунд/i.test(a.title || "") ? -1 : 1))
+    : [];
 
   return (
     <>
@@ -70,7 +90,7 @@ export default function HistoryExperience({ data }) {
       {activeSeason && (
         <HistoryChapter
           season={activeSeason}
-          video={activeSeasonVideo}
+          videos={activeSeasonVideos}
           onPlay={(video) => {
             setActiveSeason(null);
             setActiveVideo(video);

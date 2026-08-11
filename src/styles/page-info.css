@@ -4224,6 +4224,32 @@ html[data-theme="light"] .participants-page .pixel-progress > span {
   box-shadow:0 0 1rem rgba(0,105,224,.3);
 }
 
+/* Public business card: centered controls and dense black glass in dark mode. */
+.social-bio-card {
+  background:
+    radial-gradient(circle at 20% 5%, rgba(0,105,224,.18), transparent 34%),
+    linear-gradient(155deg, rgba(255,255,255,.055), transparent 42%),
+    rgba(2,5,9,.97);
+}
+.social-bio-links,
+.social-bio-actions {
+  justify-items:center;
+}
+.social-bio-links a,
+.social-bio-actions a,
+.social-bio-actions button {
+  width:min(100%, 30rem);
+  margin-inline:auto;
+  text-align:center;
+}
+html[data-theme="light"] .social-bio-card { background:#fff; }
+
+@media (min-width:641px) {
+  .participants-page .player-card-v2 .participant-profile-content::before {
+    top:1.15rem;
+  }
+}
+
 @media (max-width:640px) {
   .participants-page .participants-bento {
     display:flex;

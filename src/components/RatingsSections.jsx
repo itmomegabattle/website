@@ -77,7 +77,7 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
               Редактировать профиль
             </button>
             <button className="text-button" type="button" onClick={onPreviewCard}>
-              Предпросмотр визитки
+              Открыть визитку
             </button>
             <button className="text-button" type="button" onClick={onSignOut}>
               Выйти
