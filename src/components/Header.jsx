@@ -139,7 +139,7 @@ export default function Header() {
     { to: "/faculties", label: "Факультеты" },
     { to: "/history", label: "История" },
     { to: "/events", label: "Мероприятия" },
-    { to: "/ratings", label: "Участникам" },
+    { to: "/ratings", label: "Профиль" },
   ];
 
   useEffect(() => {

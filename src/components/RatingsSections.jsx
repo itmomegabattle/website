@@ -43,6 +43,7 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
   const game = useQuery({ queryKey: ["game-dashboard", profile?.id], queryFn: () => backendApi("/api/v1/game/dashboard"), enabled: Boolean(profile?.id) }).data;
 
   const participantScore = game?.level?.xp ?? 0;
+  const displayName = profile?.nickname || profile?.full_name || "Участник";
   const avatar = profile?.avatar_url || Api.normalizeURL("/images/people/member.jpg");
   const links = getProfileSocialLinks(profile).slice(0, 4);
 
@@ -50,11 +51,10 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
     <div className="authenticated-rating-grid">
       <article className="info-card participant-profile-card player-card-v2">
         <div className="participant-profile-avatar">
-          <img src={avatar} alt={profile?.nickname} />
+          <img src={avatar} alt={displayName} />
         </div>
         <div className="participant-profile-content">
-          <h2>{profile?.nickname}</h2>
-          {profile?.full_name && <p className="profile-real-name">{profile.full_name}</p>}
+          <h2>{displayName}</h2>
           {profile?.bio && <p className="profile-bio">{profile.bio}</p>}
 
           <div className="participant-profile-socials">

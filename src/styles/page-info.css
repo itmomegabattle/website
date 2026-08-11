@@ -4028,6 +4028,20 @@ html[data-theme="light"] .participants-page .nfc-tags-panel--compact .form-statu
     margin-top:auto;
   }
 
+  .participants-page .player-card-v2 .participant-profile-content h2 {
+    margin-top:1.15rem;
+  }
+
+  .participants-page .player-card-v2 .participant-profile-content::before {
+    top:2.25rem;
+  }
+
+  .participants-page .player-card-v2 .profile-actions .text-button {
+    min-height:2.65rem;
+    padding:.55rem .9rem;
+    font-size:.76rem;
+  }
+
   .participants-page .player-card-v2__connections {
     margin-top:.42rem;
     padding:.36rem .55rem;
@@ -4208,4 +4222,135 @@ html[data-theme="light"] .participants-page .pixel-progress::after {
 html[data-theme="light"] .participants-page .pixel-progress > span {
   background:linear-gradient(90deg,#0069e0,#45a2ff);
   box-shadow:0 0 1rem rgba(0,105,224,.3);
+}
+
+@media (max-width:640px) {
+  .participants-page .participants-bento {
+    display:flex;
+    flex-direction:column;
+    gap:.75rem;
+  }
+
+  .participants-page .authenticated-rating-grid { display:contents; }
+  .participants-page .participant-profile-card { order:1; }
+  .participants-page .nfc-tags-panel--compact { order:2; }
+  .participants-page .ratings-overview { order:3; }
+  .participants-page .pixel-glass-widget { order:4; }
+
+  .participants-page .participant-profile-card.player-card-v2 {
+    display:grid;
+    grid-template-columns:8rem minmax(0,1fr);
+    grid-template-rows:auto auto minmax(0,1fr) auto auto;
+    align-items:start;
+    gap:.55rem .8rem;
+    min-height:22rem;
+    padding:1rem;
+    overflow:hidden;
+  }
+
+  .participants-page .player-card-v2 .participant-profile-avatar {
+    grid-column:1;
+    grid-row:1 / 3;
+    width:8rem;
+    height:auto;
+    min-height:0;
+    aspect-ratio:1 / 1;
+    transform:translateY(-.3rem);
+  }
+
+  .participants-page .player-card-v2 .participant-profile-content {
+    display:contents;
+  }
+
+  .participants-page .player-card-v2 .participant-profile-content h2,
+  .participants-page .player-card-v2 .profile-real-name {
+    grid-column:2;
+    align-self:end;
+  }
+
+  .participants-page .player-card-v2 .profile-bio {
+    display:-webkit-box;
+    grid-column:1 / -1;
+    grid-row:3;
+    margin:.25rem 0 0;
+    font-size:.78rem;
+    line-height:1.42;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
+  }
+
+  .participants-page .player-card-v2 .participant-profile-content h2 {
+    grid-row:1;
+    margin-top:0;
+    font-size:clamp(1.8rem,10vw,2.5rem);
+    transform:translateY(.25rem);
+  }
+
+  .participants-page .player-card-v2 .profile-real-name {
+    grid-row:2;
+    align-self:start;
+    margin:0;
+  }
+
+  .participants-page .player-card-v2 .participant-profile-socials {
+    grid-column:1 / -1;
+    grid-row:4;
+    align-self:end;
+    margin:0;
+  }
+
+  .participants-page .player-card-v2 .profile-actions {
+    grid-column:1 / -1;
+    grid-row:5;
+    margin:0;
+    padding-top:.65rem;
+  }
+
+  .participants-page .player-card-v2 .profile-actions .text-button {
+    flex:1 1 8rem;
+    min-height:2.7rem;
+    padding:.58rem .75rem;
+    border-radius:999px;
+    font-size:.7rem;
+  }
+
+  .participants-page .player-card-v2 .profile-actions .text-button:nth-child(3) {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .participants-page .nfc-tags-panel--compact,
+  .participants-page .ratings-overview .faculty-leaderboard-card,
+  .participants-page .pixel-glass-widget {
+    width:100%;
+    height:auto;
+    min-height:0;
+    overflow:visible;
+  }
+
+  .participants-page .ratings-overview .faculty-leaderboard-card {
+    padding:.75rem;
+  }
+
+  .participants-page .ratings-overview .faculty-leaderboard-card h2 {
+    margin-bottom:.55rem;
+    font-size:1.2rem;
+    line-height:1;
+  }
+
+  .participants-page .faculty-leaderboard-card .leaderboard {
+    gap:.3rem;
+  }
+
+  .participants-page .faculty-leaderboard-card .leaderboard-row {
+    grid-template-columns:2rem minmax(0,1fr) auto;
+    gap:.4rem;
+    padding:.42rem .5rem;
+    font-size:.76rem;
+  }
+
+  .participants-page .faculty-leaderboard-card .leaderboard-row em {
+    display:none;
+  }
 }

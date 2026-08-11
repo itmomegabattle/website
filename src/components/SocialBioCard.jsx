@@ -12,6 +12,7 @@ export default function SocialBioCard({ profile, actions, qrOnSocials = false })
   if (!profile) return null;
 
   const avatar = profile.avatar_url || Api.normalizeURL("/images/people/member.jpg");
+  const displayName = profile.nickname || profile.full_name || "Участник";
   const links = getProfileSocialLinks(profile);
   const bioWords = String(profile.bio || "").trim().split(/\s+/).filter(Boolean).slice(0, 22);
   const shortBio = bioWords.join(" ");
@@ -25,14 +26,13 @@ export default function SocialBioCard({ profile, actions, qrOnSocials = false })
   return (
     <article className="social-bio-card">
       <div className="social-bio-avatar">
-        <img src={avatar} alt={profile.nickname} />
+        <img src={avatar} alt={displayName} />
       </div>
 
       <div className="social-bio-content">
         <p className="social-bio-faculty">{profile.faculty || "ITMO Megabattle"}</p>
-        <h1>{profile.nickname}</h1>
+        <h1>{displayName}</h1>
         {profile.role_badge && <p className="social-bio-name">{profile.role_badge}</p>}
-        {profile.full_name && <p className="social-bio-name">{profile.full_name}</p>}
         {shortBio && <p className="social-bio-text">{shortBio}</p>}
 
         <div className="social-bio-links">

@@ -5,8 +5,7 @@ import { updateProfile, uploadAvatar } from "../services/profileService";
 const emptySocialLink = { title: "", url: "", color: "#0066FF", style: "soft" };
 const maxSocialLinks = 3;
 const limits = {
-  nickname: 18,
-  full_name: 34,
+  nickname: 34,
   faculty: 24,
   bio: 22,
   bioCharacters: 180,
@@ -30,7 +29,6 @@ export default function ProfileEditor() {
   const { profile, refreshProfile } = useAuth();
   const [form, setForm] = useState({
     nickname: "",
-    full_name: "",
     faculty: "",
     bio: "",
     telegram_username: "",
@@ -44,8 +42,7 @@ export default function ProfileEditor() {
   useEffect(() => {
     if (!profile) return;
     setForm({
-      nickname: profile.nickname ?? "",
-      full_name: profile.full_name ?? "",
+      nickname: profile.nickname || profile.full_name || "",
       faculty: profile.faculty ?? "",
       bio: limitWords(profile.bio ?? "", limits.bio).slice(0, limits.bioCharacters),
       telegram_username: profile.telegram_username ?? "",
@@ -135,13 +132,8 @@ export default function ProfileEditor() {
 
       <div className="profile-editor-grid">
         <label className="form-field">
-          <span>Никнейм</span>
-          <input name="nickname" value={form.nickname} onChange={updateField} maxLength={limits.nickname} required />
-        </label>
-
-        <label className="form-field">
           <span>Имя</span>
-          <input name="full_name" value={form.full_name} onChange={updateField} maxLength={limits.full_name} />
+          <input name="nickname" value={form.nickname} onChange={updateField} maxLength={limits.nickname} required />
         </label>
 
         <label className="form-field">
