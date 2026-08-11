@@ -42,13 +42,13 @@ export function RatingsOverview() {
 export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard, onSignOut }) {
   const game = useQuery({ queryKey: ["game-dashboard", profile?.id], queryFn: () => backendApi("/api/v1/game/dashboard"), enabled: Boolean(profile?.id) }).data;
 
-  const participantScore = game?.level?.xp ?? profile?.megaballs ?? 0;
+  const participantScore = game?.level?.xp ?? 0;
   const avatar = profile?.avatar_url || Api.normalizeURL("/images/people/member.jpg");
   const links = getProfileSocialLinks(profile).slice(0, 4);
 
   return (
     <div className="authenticated-rating-grid">
-      <article className="info-card participant-profile-card">
+      <article className="info-card participant-profile-card player-card-v2">
         <div className="participant-profile-avatar">
           <img src={avatar} alt={profile?.nickname} />
         </div>
@@ -87,7 +87,7 @@ export function AuthenticatedRatingPanel({ profile, onEditProfile, onPreviewCard
       </article>
 
       <GamificationWidget
-        profile={{ ...profile, megaballs: game?.balances?.find((item) => item.code === "credits")?.amount ?? profile?.megaballs, achievements: game?.achievements }}
+        profile={{ ...profile, achievements: game?.achievements }}
         score={game?.level?.xp ?? participantScore}
         socialCount={links.length}
       />

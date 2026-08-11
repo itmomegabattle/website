@@ -13,14 +13,45 @@ import "../styles/page-info.css";
 const AdminCabinetPanel = lazy(() => import("../components/AdminCabinetPanel"));
 const ProfileEditor = lazy(() => import("../components/ProfileEditor"));
 const SocialBioCard = lazy(() => import("../components/SocialBioCard"));
-const RolesDomeSection = lazy(() => import("../components/RolesDomeSection"));
-
-function DeferredRolesSection() {
-  return <Suspense fallback={<div className="participants-roles-deferred" aria-hidden="true" />}><RolesDomeSection /></Suspense>;
-}
 
 export default function RatingsPage() {
-  const { isAuthenticated, profile, signOut } = useAuth();
+  const auth = useAuth();
+
+  const DEV_PROFILE = {
+    id: 999999,
+    nickname: "Никита",
+    full_name: "nikita",
+    bio: "Делаю всякое красивое и иногда ломаю прод.",
+    avatar_url: null,
+
+    faculty: "Megabattle",
+    megaballs: 1240,
+
+    role_badge: "Участник",
+    is_admin: false,
+    is_best_actor: false,
+
+    // тут структура должна совпадать с тем,
+    // что ожидает getProfileSocialLinks()
+    social_links: [
+      {
+        type: "telegram",
+        title: "Telegram",
+        url: "https://t.me/nikita",
+      },
+    ],
+
+    // специальный флаг для локального мока
+    __devMock: true,
+  };
+
+  const isDevMock = import.meta.env.DEV;
+
+  const isAuthenticated = isDevMock ? true : auth.isAuthenticated;
+  const profile = isDevMock ? DEV_PROFILE : auth.profile;
+  const signOut = isDevMock
+    ? () => console.log("DEV: signOut")
+    : auth.signOut;
   const canAdmin = isAdminProfile(profile);
   const [activeModal, setActiveModal] = useState(null);
   const [activeView, setActiveView] = useState("profile");
@@ -40,7 +71,7 @@ export default function RatingsPage() {
   return (
     <main className="info-page structured-page participants-page">
       <section className="main-width participants-hero">
-        <h1>Участникам</h1>
+        <h1>Профиль</h1>
       </section>
 
       {isAuthenticated && canAdmin && (
@@ -95,8 +126,6 @@ export default function RatingsPage() {
 
             <RatingsOverview />
           </section>
-
-          <DeferredRolesSection />
         </>
       ) : (
         isAuthenticated && canAdmin && <Suspense fallback={null}><AdminCabinetPanel /></Suspense>

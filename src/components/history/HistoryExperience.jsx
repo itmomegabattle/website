@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import HistoryBirth from "./HistoryBirth";
 import HistoryChapter from "./HistoryChapter";
 import HistoryFacts from "./HistoryFacts";
 import HistoryFinal from "./HistoryFinal";
-import HistoryGallery from "./HistoryGallery";
 import HistoryHero from "./HistoryHero";
 import HistoryOrigin from "./HistoryOrigin";
 import HistorySeasonRail from "./HistorySeasonRail";
@@ -11,16 +10,16 @@ import HistoryVideo from "./HistoryVideo";
 import { seasonNumber } from "./historyUtils";
 import useHistoryArchive from "./useHistoryArchive";
 
+const RolesDomeSection = lazy(() => import("../RolesDomeSection"));
+
 export default function HistoryExperience({ data }) {
   const [activeVideo, setActiveVideo] = useState(null);
   const [activeSeason, setActiveSeason] = useState(null);
-  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
   const seasons = data.seasons || [];
   const quickFacts = data.quickFacts || [];
   const {
     seasonVideos,
-    galleryVideos,
     featured,
   } = useHistoryArchive(data);
   const navigateTo = (event, id) => {
@@ -59,12 +58,9 @@ export default function HistoryExperience({ data }) {
         </section>
 
         <HistoryFacts facts={quickFacts} />
-        <HistoryGallery
-          videos={galleryVideos}
-          activeIndex={activeGalleryIndex}
-          onSelect={setActiveGalleryIndex}
-          onPlay={setActiveVideo}
-        />
+        <Suspense fallback={<div className="history-roles-deferred" aria-hidden="true" />}>
+          <RolesDomeSection />
+        </Suspense>
         <HistoryFinal onNavigate={navigateTo} />
       </div>
 

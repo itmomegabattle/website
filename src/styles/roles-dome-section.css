@@ -1,0 +1,87 @@
+.participants-roles {
+  display:grid;
+  gap:clamp(.45rem,1vw,.8rem);
+  width:min(calc(100% - 2rem),110rem);
+  min-width:0;
+  margin-inline:auto;
+  padding-block:clamp(5rem,9vw,9rem);
+}
+
+.history-roles-deferred {
+  min-height:min(82svh,52rem);
+  width:100%;
+  contain:layout paint style;
+}
+
+.participants-roles__heading {
+  display:grid;
+  justify-items:center;
+  gap:.65rem;
+  text-align:center;
+}
+
+.participants-roles__heading h2 {
+  margin:0;
+  font:500 clamp(2.25rem,5vw,4.25rem)/.92 var(--heading-font);
+  letter-spacing:-.035em;
+}
+
+.participants-roles__heading > p:last-child {
+  max-width:43rem;
+  margin:0;
+  color:rgba(255,255,255,.62);
+  font-size:clamp(.88rem,1.1vw,1.02rem);
+  line-height:1.55;
+}
+
+.roles-dome {
+  width:100%;
+  height:clamp(52rem,76vw,70rem);
+  margin:clamp(-8.5rem,-7vw,-5.75rem) 0 clamp(2rem,4vw,4rem);
+}
+.roles-dome.sphere-root {
+  border:0;
+  border-radius:0;
+  overflow:visible;
+  background:transparent;
+  box-shadow:none;
+  contain:layout style;
+}
+
+.roles-dome main.sphere-main { overflow:visible; }
+.roles-dome :is(.sphere-overlay,.sphere-edge-fade) { display:none; }
+.roles-dome .sphere-item__image {
+  inset:clamp(4px,.4vw,7px);
+  scale:.82;
+  background:linear-gradient(145deg,rgba(16,16,16,.98),rgba(1,1,1,.99));
+}
+.roles-dome__tile { display:grid; grid-template-rows:minmax(0,1fr) auto; gap:.35rem; width:100%; height:100%; padding:clamp(.55rem,1.2vw,1rem); color:#fff; pointer-events:none; }
+.roles-dome__icon { display:grid; place-items:center; min-height:0; }
+.roles-dome__icon .role-icon { width:min(100%,8rem); height:min(100%,8rem); padding:6%; filter:drop-shadow(2px 2px 0 rgba(0,105,224,.88)) drop-shadow(6px 6px 0 rgba(0,0,0,.64)); }
+.roles-dome__tile > strong { min-height:2.2em; font-size:clamp(.58rem,.78vw,.76rem); line-height:1.08; text-align:left; text-wrap:balance; }
+.roles-dome .sphere-item__image:hover .role-icon,.roles-dome .sphere-item__image:focus-visible .role-icon { color:#fff; filter:drop-shadow(2px 2px 0 #0069e0) drop-shadow(8px 8px 0 rgba(0,0,0,.72)); }
+.roles-dome .sphere-gallery-footer { bottom:clamp(10rem,12vw,13rem); }
+
+html[data-theme="light"] .roles-dome.sphere-root {
+  border:0;
+  border-radius:0;
+  overflow:visible;
+  background:transparent;
+  box-shadow:none;
+  contain:layout style;
+}
+
+html[data-theme="light"] .roles-dome main.sphere-main { overflow:visible; }
+
+@media (max-width:640px) {
+  .participants-roles { gap:1rem; width:calc(100vw - 1rem); padding-block:4rem; }
+  .participants-roles__heading { padding-inline:.6rem; }
+  .participants-roles__heading h2 { font-size:clamp(2rem,10vw,3rem); }
+  .participants-roles__heading > p:last-child { font-size:.8rem; }
+  .roles-dome { height:min(190vw,52rem); min-height:42rem; margin:-3.25rem 0 2rem; }
+  .roles-dome__tile { gap:.2rem; padding:.45rem; }
+  .roles-dome .sphere-item__image { inset:3px; scale:.82; }
+  .roles-dome__icon .role-icon { width:min(100%,6rem); height:min(100%,6rem); padding:5%; }
+  .roles-dome__tile > strong { min-height:2em; font-size:.5rem; }
+  .roles-dome .sphere-gallery-footer { bottom:7.5rem; }
+}

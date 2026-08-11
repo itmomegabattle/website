@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { roleItems } from "./roles/roleData";
 import DomeGallery from "./DomeGallery";
 import RoleIcon from "./roles/RoleIcon";
+import "../styles/roles-dome-section.css";
 
 export default function RolesDomeSection() {
   const domeRoles = useMemo(() => roleItems.map((role) => ({
@@ -14,20 +15,15 @@ export default function RolesDomeSection() {
   return (
     <section id="roles" className="participants-roles" aria-labelledby="participants-roles-title">
       <header className="participants-roles__heading">
-        <p className="eyebrow">Точки входа</p>
         <h2 id="participants-roles-title">РОЛИ</h2>
-        <p>
-          Один проект — десятки способов быть внутри. Вращай купол и выбирай,
-          что тебе хочется создавать.
-        </p>
       </header>
 
       <DomeGallery
         images={domeRoles}
         className="roles-dome"
-        fit={0.82}
-        minRadius={560}
-        maxRadius={980}
+        fit={0.64}
+        minRadius={440}
+        maxRadius={800}
         maxVerticalRotationDeg={0}
         dragSensitivity={20}
         segments={30}

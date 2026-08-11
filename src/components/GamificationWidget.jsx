@@ -31,7 +31,7 @@ export default function GamificationWidget({
   score = 0,
   socialCount = 0,
 }) {
-  const level = getLevelProgress(score || profile?.megaballs);
+  const level = getLevelProgress(score);
   const badges = [...new Set([
     ...(profile?.achievements || []).map((item) => (Array.isArray(item.achievements) ? item.achievements[0]?.name : item.achievements?.name)).filter(Boolean),
     profile?.role_badge,
@@ -74,10 +74,6 @@ export default function GamificationWidget({
         </div>
 
         <div className="pixel-stat-grid">
-          <div>
-            <span>мегабаллы</span>
-            <strong>{profile?.megaballs || 0}</strong>
-          </div>
           <div>
             <span>соцсети</span>
             <strong>{socialCount}</strong>
