@@ -153,30 +153,6 @@ function getDepartmentSearchText(department) {
     .join(" ");
 }
 
-function getUnitCountLabel(count, unitType = "faculties") {
-  const lastTwoDigits = count % 100;
-  const lastDigit = count % 10;
-  const words = {
-    directions: ["направление", "направления", "направлений"],
-    units: ["подразделение", "подразделения", "подразделений"],
-    faculties: ["факультет", "факультета", "факультетов"],
-  }[unitType] ?? ["подразделение", "подразделения", "подразделений"];
-
-  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-    return `${String(count).padStart(2, "0")} ${words[2]}`;
-  }
-
-  if (lastDigit === 1) {
-    return `${String(count).padStart(2, "0")} ${words[0]}`;
-  }
-
-  if (lastDigit >= 2 && lastDigit <= 4) {
-    return `${String(count).padStart(2, "0")} ${words[1]}`;
-  }
-
-  return `${String(count).padStart(2, "0")} ${words[2]}`;
-}
-
 function normalizeSearchValue(value) {
   return String(value ?? "")
     .normalize("NFKC")
@@ -527,19 +503,8 @@ export default function FacultyExplorer() {
         <section className={`faculty-programs faculty-programs--${activeFaculty.id}`}>
           <header className="faculty-section-head">
             <div>
-              <p className="faculty-section-index">
-                {getUnitCountLabel(activeFaculty.departments.length, activeUnitType)}
-              </p>
               <h2>{activeUnitTitle}</h2>
             </div>
-            {activeUnitType === "directions" ? (
-              <p>
-                ФТМИ — отдельный мегафакультет. Здесь собраны его основные
-                образовательные направления без подмены ФТМИ одним из факультетов.
-              </p>
-            ) : (
-              <p>{activeFaculty.structureNote ?? "Структура сверена с ИСУ ИТМО."}</p>
-            )}
           </header>
 
           <div className="faculty-program-grid">
