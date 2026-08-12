@@ -110,9 +110,10 @@ export default function ProfileEditor() {
 
       await updateProfile(profile.id, {
         ...form,
+        faculty: form.faculty || null,
         avatar_url: avatarUrl,
         bio: limitWords(form.bio, limits.bio).trim(),
-        social_links: form.social_links.filter((item) => item.title || item.url).slice(0, maxSocialLinks),
+        social_links: form.social_links.filter((item) => item.title && item.url).slice(0, maxSocialLinks),
       });
       await refreshProfile();
       setStatus("Профиль сохранён");

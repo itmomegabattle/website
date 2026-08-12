@@ -183,7 +183,8 @@ main {
     .page-stage main:not(.history-page):not(.faculties-page) section > header h1,
     .page-stage main:not(.history-page):not(.faculties-page) section > header h2,
     .page-stage main:not(.history-page):not(.faculties-page) > header > h1,
-    .page-stage .faculties-page .faculty-explorer-section > .faculties-title
+    .page-stage .faculties-page .faculty-explorer-section > .faculties-title,
+    .page-stage .faculties-page .faculty-retro-section > .faculty-retro-title
 ) {
     width: 100% !important;
     max-width: none !important;
