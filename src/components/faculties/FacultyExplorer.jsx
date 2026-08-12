@@ -490,7 +490,6 @@ export default function FacultyExplorer() {
             <FacultyLogo faculty={activeFaculty} />
           </div>
           <div className="faculty-identity-copy">
-            <p className="faculty-section-index">Выбран мегафак · {activeFaculty.name}</p>
             <h2>{activeFaculty.title}</h2>
             <p className="faculty-identity-lead">{activeFaculty.description}</p>
             <div className="faculty-identity-actions">
@@ -557,7 +556,6 @@ export default function FacultyExplorer() {
                   {department.isuId ? ` · ИСУ ${department.isuId}` : ""}
                 </span>
                 <h3>
-                  {department.short ? <small>{department.short}</small> : null}
                   {getDepartmentLabel(department)}
                 </h3>
                 {department.programs?.length ? (
@@ -569,7 +567,6 @@ export default function FacultyExplorer() {
                       >
                         <div className="faculty-degree-head">
                           <span>{program.level ?? "Программа"}</span>
-                          {program.short ? <b>{program.short}</b> : null}
                         </div>
                         <h4>{program.name}</h4>
                         <div className="faculty-direction-list">
@@ -620,7 +617,7 @@ export default function FacultyExplorer() {
               <span>{activeFaculty.title}</span>
             </div>
             <div className="faculty-retro-facts">
-              {retrospectiveSections.map((section, index) => (
+              {retrospectiveSections.map((section) => (
                 <article className={`faculty-retro-fact${section.image ? "" : " is-text-only"}`} key={section.title}>
                   {section.image ? (
                     <div className="faculty-retrospective-image">
@@ -633,7 +630,6 @@ export default function FacultyExplorer() {
                     </div>
                   ) : null}
                   <div className="faculty-retro-fact__copy">
-                    <small>{String(index + 1).padStart(2, "0")} · ХРОНИКА</small>
                     <h3>{section.title}</h3>
                     <p>{section.text}</p>
                   </div>

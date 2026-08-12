@@ -15,7 +15,6 @@ export default function HistorySeasonCard({ season, index, onOpen }) {
           <span>{season.summary}</span>
           <span className="history-season-card__result">
             <b>{season.winner}</b>
-            {season.organizer && <em>{season.organizer}</em>}
           </span>
           <i>ОТКРЫТЬ ГЛАВУ ↗</i>
         </span>

@@ -69,7 +69,6 @@ export default function HistoryChapter({
             <p>{season.text}</p>
             <div className="history-chapter__meta">
               <span><b>ИТОГ</b>{season.winner}</span>
-              {season.organizer && <span><b>КОМАНДА</b>{season.organizer}</span>}
             </div>
             <div className="history-chapter__tags">
               {season.highlights?.map((item) => <span key={item}>{item}</span>)}
