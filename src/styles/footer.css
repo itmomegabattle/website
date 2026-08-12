@@ -232,7 +232,8 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
   text-transform: uppercase;
 }
 
-.footer-policy a {
+.footer-policy a,
+.footer-policy > button {
   overflow-wrap: anywhere;
   color: color-mix(in srgb, var(--text-color) 78%, transparent);
   font: 550 clamp(0.72rem, 0.9vw, 0.86rem) / 1.3 var(--body-font);
@@ -431,6 +432,7 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
   }
 
   .footer-policy a,
+  .footer-policy > button,
   .footer-support {
     font-size: 0.64rem;
   }
