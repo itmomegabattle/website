@@ -3902,19 +3902,17 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   .participants-page .pixel-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .participants-page .pixel-glass-screen::after { animation:none; }
 
-  .participants-page .participants-bento--guest .participants-auth-bento {
-    grid-column:1 / 9;
-    grid-row:1 / 3;
-    display:grid;
-    grid-template-columns:1fr;
-    grid-template-rows:minmax(0,.72fr) minmax(0,1.28fr);
-    gap:.85rem;
-    min-height:0;
+  .participants-page .participants-bento--guest {
+    grid-template-rows:repeat(2,minmax(0,1fr));
+    height:clamp(29rem,calc(100svh - 14rem),34rem);
   }
+  .participants-page .participants-bento--guest .participants-auth-bento { display:contents; }
   .participants-page .participants-bento--guest .participants-auth-copy {
+    grid-column:1 / 9;
+    grid-row:1;
     min-height:0;
     height:100%;
-    padding:clamp(1.25rem,2.2vw,2rem);
+    padding:clamp(1rem,1.7vw,1.5rem);
     align-content:center;
   }
   .participants-page .participants-bento--guest .participants-auth-copy h2 {
@@ -3929,21 +3927,41 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     line-height:1.45;
   }
   .participants-page .participants-bento--guest .auth-card {
+    grid-column:1 / 9;
+    grid-row:2;
     min-height:0;
     height:100%;
-    padding:clamp(1.25rem,2vw,1.8rem);
+    padding:clamp(1rem,1.6vw,1.4rem);
     align-content:center;
   }
   .participants-page .participants-bento--guest > .ratings-overview {
     grid-column:9 / 13;
-    grid-row:1 / 3;
+    grid-row:1;
     width:100%;
     margin:0;
-    align-self:start;
+    min-height:0;
   }
   .participants-page .participants-bento--guest > .ratings-overview .faculty-leaderboard-card {
-    height:auto;
+    height:100%;
     min-height:0;
+    padding:.75rem .85rem;
+  }
+  .participants-page .participants-bento--guest > .ratings-overview .faculty-leaderboard-card h2 {
+    margin-bottom:.35rem;
+    font-size:clamp(1.05rem,1.35vw,1.35rem);
+    line-height:.92;
+  }
+  .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard {
+    gap:.16rem;
+  }
+  .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard-row {
+    min-height:2rem;
+    padding:.22rem .42rem;
+    font-size:.7rem;
+  }
+  .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard-place {
+    width:1.75rem;
+    height:1.75rem;
   }
   .participants-page .participants-bento--guest .auth-telegram-button {
     display:flex;
@@ -3956,6 +3974,13 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     background:color-mix(in srgb,var(--accent-color) 18%,var(--control-background));
     font-weight:850;
   }
+  .participants-page .participants-bento--guest .profile-services-card {
+    grid-column:9 / 13;
+    grid-row:2;
+    min-height:0;
+    height:100%;
+    padding:1rem;
+  }
 }
 
 @media (min-width:641px) and (max-width:1100px) {
@@ -3965,6 +3990,54 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   .participants-page .participants-bento--guest .participants-auth-bento { grid-column:1 / -1; grid-template-columns:repeat(2,minmax(0,1fr)); }
   .participants-page .participants-bento--guest .participants-auth-copy { min-height:22rem; }
   .participants-page .participants-bento--guest > .ratings-overview { grid-column:1 / -1; }
+}
+
+.profile-services-card {
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  gap:.7rem;
+}
+
+.profile-services-card h2 {
+  margin:0;
+  font-size:clamp(1.35rem,2.2vw,2rem);
+  line-height:1;
+}
+
+.profile-services-links {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.45rem;
+  min-height:0;
+}
+
+.profile-services-links a {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-width:0;
+  padding:.65rem .72rem;
+  border:var(--card-border);
+  border-radius:.85rem;
+  background:var(--control-background);
+  color:var(--control-color);
+  font-size:.7rem;
+  font-weight:800;
+  text-decoration:none;
+  transition:transform 180ms ease,border-color 180ms ease,background-color 180ms ease;
+}
+
+.profile-services-links a:hover {
+  border-color:var(--accent-color);
+  background:var(--control-background-hover);
+  transform:translateY(-1px);
+}
+
+.profile-services-links b { color:var(--accent-color); }
+
+@media (max-width:640px) {
+  .profile-services-card { order:4; }
+  .profile-services-links { grid-template-columns:1fr; }
 }
 
 /* Participant HUD refinements. */
