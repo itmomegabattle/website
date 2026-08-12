@@ -235,6 +235,9 @@
     margin: 0;
 }
 
+.project-menu__text p { margin:0; }
+.project-menu__text p + p { margin-top:.8rem; }
+
 .project-menu__cta {
     margin: 0;
     white-space: nowrap;
