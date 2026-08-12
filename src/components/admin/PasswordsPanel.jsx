@@ -154,15 +154,9 @@ export default function PasswordsPanel() {
     );
   }
 
-  const presetTitles = new Set(PASSWORD_PRESETS.map((preset) => normalizeTitle(preset.title)));
-  const customEntries = data.filter((item) => !presetTitles.has(normalizeTitle(item.title)));
-
   return (
     <section className="admin-vault-workspace">
-      <header className="admin-vault-header">
-        <div><span>Хранилище открыто</span><h2>Аккаунты команды</h2></div>
-        <button type="button" onClick={lockVault}>Закрыть</button>
-      </header>
+      <div className="admin-vault-toolbar"><button type="button" onClick={lockVault}>Закрыть хранилище</button></div>
       {(vaultError || error) && <p className="form-error">{vaultError || error.message}</p>}
 
       <div className="admin-password-grid">
@@ -177,8 +171,15 @@ export default function PasswordsPanel() {
               </div>
               <div className="admin-password-card__body">
                 <h3>{preset.title}</h3>
-                <p>{secret ? secret.login || "Логин не указан" : preset.hint}</p>
-                {secret?.password_value && <code>{secret.password_value}</code>}
+                {!secret && <p>{preset.hint}</p>}
+                {secret && (
+                  <dl className="admin-password-details">
+                    <div><dt>Логин</dt><dd>{secret.login || "Не указан"}</dd></div>
+                    <div><dt>Пароль</dt><dd><code>{secret.password_value || "Не указан"}</code></dd></div>
+                    {secret.url && <div><dt>Ссылка</dt><dd><a href={secret.url} target="_blank" rel="noreferrer">Открыть аккаунт</a></dd></div>}
+                    {secret.notes && <div className="admin-password-details__notes"><dt>Комментарий</dt><dd>{secret.notes}</dd></div>}
+                  </dl>
+                )}
               </div>
               <div className="admin-password-card__actions">
                 {!item && <button type="button" onClick={() => selectPreset(preset)}>Заполнить</button>}
@@ -209,12 +210,6 @@ export default function PasswordsPanel() {
         </form>
       )}
 
-      {customEntries.length > 0 && (
-        <div className="admin-password-custom">
-          <h3>Другие доступы</h3>
-          {customEntries.map((item) => <button type="button" key={item.id} onClick={() => editSecret(item)}><PasswordServiceIcon title={item.title} />{item.title}</button>)}
-        </div>
-      )}
     </section>
   );
 }
