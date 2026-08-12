@@ -141,6 +141,10 @@ export default function RatingsPage() {
                   <a href="/events"><span>Афиша мероприятий</span><b>→</b></a>
                   <a href="https://mblinks.online" target="_blank" rel="noreferrer"><span>Все площадки</span><b>↗</b></a>
                 </nav>
+                <div className="profile-services-lock" aria-label="Сервисы появятся позже">
+                  <strong>Скоро</strong>
+                  <span>Собираем всё в одном месте</span>
+                </div>
               </article>
             )}
           </section>

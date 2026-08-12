@@ -3908,7 +3908,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   }
   .participants-page .participants-bento--guest .participants-auth-bento { display:contents; }
   .participants-page .participants-bento--guest .participants-auth-copy {
-    grid-column:1 / 9;
+    grid-column:1 / 7;
     grid-row:1;
     min-height:0;
     height:100%;
@@ -3927,7 +3927,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     line-height:1.45;
   }
   .participants-page .participants-bento--guest .auth-card {
-    grid-column:1 / 9;
+    grid-column:1 / 7;
     grid-row:2;
     min-height:0;
     height:100%;
@@ -3935,7 +3935,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     align-content:center;
   }
   .participants-page .participants-bento--guest > .ratings-overview {
-    grid-column:9 / 13;
+    grid-column:7 / 13;
     grid-row:1;
     width:100%;
     margin:0;
@@ -3975,7 +3975,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     font-weight:850;
   }
   .participants-page .participants-bento--guest .profile-services-card {
-    grid-column:9 / 13;
+    grid-column:7 / 13;
     grid-row:2;
     min-height:0;
     height:100%;
@@ -3993,6 +3993,8 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
 }
 
 .profile-services-card {
+  position:relative;
+  overflow:hidden;
   display:grid;
   grid-template-rows:auto minmax(0,1fr);
   gap:.7rem;
@@ -4009,6 +4011,41 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:.45rem;
   min-height:0;
+}
+
+.profile-services-card .profile-services-links {
+  filter:blur(7px);
+  opacity:.32;
+  pointer-events:none;
+  user-select:none;
+}
+
+.profile-services-lock {
+  position:absolute;
+  z-index:2;
+  inset:0;
+  display:grid;
+  place-content:center;
+  gap:.35rem;
+  padding:1rem;
+  background:color-mix(in srgb,var(--surface-color) 32%,transparent);
+  text-align:center;
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+}
+
+.profile-services-lock strong {
+  color:var(--accent-color);
+  font-family:var(--heading-font);
+  font-size:clamp(1.6rem,2.8vw,2.5rem);
+  line-height:.9;
+  text-transform:uppercase;
+}
+
+.profile-services-lock span {
+  color:var(--text-color-muted);
+  font-size:.72rem;
+  font-weight:750;
 }
 
 .profile-services-links a {
