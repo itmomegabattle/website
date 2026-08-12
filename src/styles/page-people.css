@@ -1,6 +1,7 @@
 @import "./variables.css";
 
 .people-page {
+  --section-title-switch-gap: clamp(1.4rem, 2.4vw, 2.25rem);
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -48,7 +49,7 @@
 }
 
 .people-team-title {
-  margin: 0 0 clamp(2rem, 3vw, 3rem);
+  margin: 0 0 var(--section-title-switch-gap);
   text-align: center;
   font-size: clamp(2.25rem, 5vw, 4.25rem);
   line-height: 0.92;
@@ -402,7 +403,7 @@
   }
 
   .people-team-title {
-    margin-bottom: 1.4rem;
+    margin-bottom: var(--section-title-switch-gap);
     font-size: clamp(1.8rem, 8vw, 2.15rem);
     line-height: 0.92;
     letter-spacing: -0.02em;

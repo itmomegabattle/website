@@ -2,8 +2,16 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.events-page {
+  --section-title-switch-gap: clamp(1.4rem, 2.4vw, 2.25rem);
+}
+
+.events-section > h1 {
+  margin-bottom: var(--section-title-switch-gap);
+}
+
 .event-team-filters {
-  margin: -1.15rem 0 clamp(2.2rem, 5vw, 4.6rem);
+  margin: 0 0 clamp(2.2rem, 5vw, 4.6rem);
 }
 
 .team-toggle.event-group-tabs .toggle-slider.event-group-slider {
@@ -464,7 +472,7 @@ html[data-theme="light"] .events-page .event-showcase-card .card-kicker {
 .events-page .event-admin-strip { margin-top: 0; }
 
 @media (max-width: 640px) {
-  .events-section > h1 { margin-bottom: 2.2rem; }
+  .events-section > h1 { margin-bottom: var(--section-title-switch-gap); }
   .event-team-filters { margin-top: 0; }
   .events-page .event-admin-strip {
     box-sizing: border-box;

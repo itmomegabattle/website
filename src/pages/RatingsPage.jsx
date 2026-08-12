@@ -9,6 +9,7 @@ import NfcTagsPanel from "../components/NfcTagsPanel";
 import ModalPortal from "../components/ModalPortal";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
+import "../styles/member-list.css";
 import "../styles/page-info.css";
 
 const AdminCabinetPanel = lazy(() => import("../components/AdminCabinetPanel"));
@@ -73,31 +74,33 @@ export default function RatingsPage() {
     <main className="info-page structured-page participants-page">
       <section className="main-width participants-hero">
         <h1>Профиль</h1>
+        {isAuthenticated && canAdmin && (
+          <nav className="team-filters profile-view-filters" aria-label="Режим страницы">
+            <div className="team-toggle profile-view-toggle" data-filter={activeView}>
+              <span className="toggle-slider" aria-hidden="true" />
+              <button
+                type="button"
+                className={`toggle-btn${activeView === "profile" ? " active" : ""}`}
+                aria-pressed={activeView === "profile"}
+                onClick={() => setActiveView("profile")}
+              >
+                Профиль
+              </button>
+              <button
+                type="button"
+                className={`toggle-btn${activeView === "admin" ? " active" : ""}`}
+                aria-pressed={activeView === "admin"}
+                onClick={() => {
+                  closeModal();
+                  setActiveView("admin");
+                }}
+              >
+                Админка
+              </button>
+            </div>
+          </nav>
+        )}
       </section>
-
-      {isAuthenticated && canAdmin && (
-        <nav className="main-width participants-view-switch" aria-label="Режим страницы">
-          <button
-            type="button"
-            className={activeView === "profile" ? "is-active" : ""}
-            aria-pressed={activeView === "profile"}
-            onClick={() => setActiveView("profile")}
-          >
-            Профиль
-          </button>
-          <button
-            type="button"
-            className={activeView === "admin" ? "is-active" : ""}
-            aria-pressed={activeView === "admin"}
-            onClick={() => {
-              closeModal();
-              setActiveView("admin");
-            }}
-          >
-            Админка
-          </button>
-        </nav>
-      )}
 
       {activeView === "profile" ? (
         <>
