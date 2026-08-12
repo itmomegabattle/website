@@ -127,10 +127,6 @@ export default function RatingsPage() {
             <RatingsOverview />
             {!isAuthenticated && (
               <article className="info-card profile-services-card">
-                <div>
-                  <p className="card-kicker">Экосистема</p>
-                  <h2>Сервисы</h2>
-                </div>
                 <nav className="profile-services-links" aria-label="Сервисы ITMO Megabattle">
                   <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><span>Telegram проекта</span><b>↗</b></a>
                   <a href="/nfc"><span>NFC-визитка</span><b>→</b></a>

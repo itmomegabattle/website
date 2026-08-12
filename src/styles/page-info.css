@@ -3947,22 +3947,27 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     padding:.75rem .85rem;
   }
   .participants-page .participants-bento--guest > .ratings-overview .faculty-leaderboard-card h2 {
-    margin-bottom:.35rem;
-    font-size:clamp(1.05rem,1.35vw,1.35rem);
+    margin-bottom:.65rem;
+    font-size:clamp(1.45rem,1.8vw,1.85rem);
     line-height:.92;
+    text-align:center;
   }
   .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard {
-    gap:.16rem;
+    width:min(100%,34rem);
+    margin-inline:auto;
+    gap:.28rem;
   }
   .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard-row {
-    min-height:2rem;
-    padding:.22rem .42rem;
-    font-size:.7rem;
+    min-height:2.45rem;
+    padding:.32rem .58rem;
+    font-size:.86rem;
   }
   .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard-place {
-    width:1.75rem;
-    height:1.75rem;
+    width:2rem;
+    height:2rem;
+    font-size:1rem;
   }
+  .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard-row :is(strong,b) { font-size:.86rem; }
   .participants-page .participants-bento--guest .auth-telegram-button {
     display:flex;
     align-items:center;
@@ -3976,6 +3981,10 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   }
   .participants-page .participants-bento--guest .auth-card :is(.auth-description,.auth-switch) {
     display:none;
+  }
+  .participants-page .participants-bento--guest .auth-policy-notice {
+    max-width:none;
+    white-space:nowrap;
   }
   .participants-page .participants-bento--guest .profile-services-card {
     grid-column:7 / 13;
@@ -3999,7 +4008,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   position:relative;
   overflow:hidden;
   display:grid;
-  grid-template-rows:auto minmax(0,1fr);
+  grid-template-rows:minmax(0,1fr);
   gap:.7rem;
 }
 
@@ -4078,6 +4087,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
 @media (max-width:640px) {
   .profile-services-card { order:4; }
   .profile-services-links { grid-template-columns:1fr; }
+  .participants-page .participants-bento--guest .auth-policy-notice { white-space:normal; }
 }
 
 /* Participant HUD refinements. */
