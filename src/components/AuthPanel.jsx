@@ -46,7 +46,7 @@ function returnAttempt() {
   return null;
 }
 
-export default function AuthPanel({ redirectTo = "/ratings" }) {
+export default function AuthPanel({ redirectTo = "/ratings", showPolicyNotice = false }) {
   const navigate = useNavigate();
   const { beginTelegramOidcLogin, completeTelegramOidcLogin } = useAuth();
   const [initialAttempt] = useState(returnAttempt);
@@ -119,8 +119,15 @@ export default function AuthPanel({ redirectTo = "/ratings" }) {
       <h2>Войти в экосистему</h2>
       <p>Один аккаунт для сайта, NFC-визитки и бота. Telegram откроет приложение и попросит подтвердить вход для этого браузера.</p>
       <button className="text-button auth-telegram-button" type="button" onClick={startLogin} disabled={isStarting || Boolean(attempt)}>
-        {isStarting ? "Подключаем Telegram…" : attempt?.code ? "Завершаем вход…" : attempt ? "Ожидаем Telegram…" : "Войти через Telegram"}
+        <span>{isStarting ? "Подключаем Telegram…" : attempt?.code ? "Завершаем вход…" : attempt ? "Ожидаем Telegram…" : "Войти через Telegram"}</span>
+        {!isStarting && !attempt && <span aria-hidden="true">→</span>}
       </button>
+      {showPolicyNotice && (
+        <p className="auth-policy-notice">
+          Продолжая вход, вы подтверждаете, что ознакомились с нашей{" "}
+          <a href="/itmo-megabattle-privacy-policy.pdf" target="_blank" rel="noreferrer">политикой конфиденциальности</a>.
+        </p>
+      )}
       {attempt && (
         <div className="auth-pending-actions">
           <p className="form-status">Подтверди вход в приложении Telegram. Не пересылай адрес авторизации.</p>

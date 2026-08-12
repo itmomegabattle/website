@@ -118,13 +118,13 @@ export default function RatingsPage() {
             ) : (
               <div className="participants-auth-bento">
                 <article className="info-card participants-auth-copy">
-                  <h2>Авторизуйся, чтобы открыть профиль</h2>
+                  <h2>Профиль начинается со входа</h2>
                   <p>
-                    После входа здесь появятся визитка, личный прогресс,
-                    соцсети, NFC-метки и связи в графе знакомств.
+                    Визитка, личный прогресс, соцсети, NFC-метки и связи
+                    в графе знакомств собраны в одном кабинете.
                   </p>
                 </article>
-                <AuthPanel redirectTo="/ratings" />
+                <AuthPanel redirectTo="/ratings" showPolicyNotice />
               </div>
             )}
 
