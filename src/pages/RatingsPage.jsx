@@ -59,17 +59,21 @@ export default function RatingsPage() {
   const canAdmin = isAdminProfile(profile);
   const [activeModal, setActiveModal] = useState(null);
   const [activeView, setActiveView] = useState("profile");
-  const profileTags = useQuery({
+  const profileTagsQuery = useQuery({
     queryKey: ["profile-tags", profile?.id],
     queryFn: getProfileTags,
     enabled: Boolean(isAuthenticated && profile?.id && !isDevMock),
     placeholderData: [],
-  }).data.filter((tag) => tag.is_active !== false && tag.public_slug);
+  });
+  const publicProfileTags = (profileTagsQuery.data ?? []).filter((tag) => tag.is_active !== false && tag.public_slug);
   const closeModal = () => setActiveModal(null);
 
-  const openBusinessCard = () => {
-    if (profileTags.length > 0) {
-      navigate(`/nfc/${profileTags[0].public_slug}`);
+  const openBusinessCard = async () => {
+    const loadedTags = publicProfileTags.length
+      ? publicProfileTags
+      : (await getProfileTags()).filter((tag) => tag.is_active !== false && tag.public_slug);
+    if (loadedTags.length > 0) {
+      navigate(`/nfc/${loadedTags[0].public_slug}`);
       return;
     }
     setActiveModal("cards");
