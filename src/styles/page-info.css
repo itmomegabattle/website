@@ -1314,6 +1314,23 @@
     text-underline-offset: 0.18em;
 }
 
+.participants-page .participants-bento--guest .auth-card :is(.auth-description,.auth-switch) {
+    display: none;
+}
+
+.participants-page .participants-bento--guest .auth-telegram-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 3.15rem;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--accent-color) 18%, var(--control-background));
+    color: var(--control-color);
+    font-weight: 850;
+}
+
 .auth-telegram-button:not(:disabled):hover {
     transform: translateY(-2px);
     border-color: var(--accent-color);
@@ -3968,20 +3985,6 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     font-size:1rem;
   }
   .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard-row :is(strong,b) { font-size:.86rem; }
-  .participants-page .participants-bento--guest .auth-telegram-button {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    width:100%;
-    min-height:3.15rem;
-    padding:.75rem 1rem;
-    border-radius:1rem;
-    background:color-mix(in srgb,var(--accent-color) 18%,var(--control-background));
-    font-weight:850;
-  }
-  .participants-page .participants-bento--guest .auth-card :is(.auth-description,.auth-switch) {
-    display:none;
-  }
   .participants-page .participants-bento--guest .auth-policy-notice {
     max-width:none;
     white-space:nowrap;
@@ -4088,6 +4091,32 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   .profile-services-card { order:4; }
   .profile-services-links { grid-template-columns:1fr; }
   .participants-page .participants-bento--guest .auth-policy-notice { white-space:normal; }
+  .participants-page .participants-bento--guest .auth-card {
+    display:grid;
+    gap:.8rem;
+    padding:1rem;
+    border-radius:1.25rem;
+    background:
+      linear-gradient(145deg,color-mix(in srgb,var(--accent-color) 8%,transparent),transparent 48%),
+      var(--surface-color-special);
+  }
+  .participants-page .participants-bento--guest .auth-card h2 {
+    margin:0;
+    font-size:clamp(1.55rem,8vw,2rem);
+    line-height:.95;
+  }
+  .participants-page .participants-bento--guest .auth-telegram-button {
+    min-height:3.25rem;
+    padding:.8rem .95rem;
+    border-color:color-mix(in srgb,var(--accent-color) 70%,var(--border-color));
+    border-radius:1rem;
+    font-size:.82rem;
+  }
+  .participants-page .participants-bento--guest .auth-policy-notice {
+    margin:0;
+    font-size:.64rem;
+    line-height:1.4;
+  }
 }
 
 /* Participant HUD refinements. */
