@@ -3904,7 +3904,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
 
   .participants-page .participants-bento--guest {
     grid-template-rows:repeat(2,minmax(0,1fr));
-    height:clamp(29rem,calc(100svh - 14rem),34rem);
+    height:clamp(33rem,calc(100svh - 11rem),38rem);
   }
   .participants-page .participants-bento--guest .participants-auth-bento { display:contents; }
   .participants-page .participants-bento--guest .participants-auth-copy {
@@ -3927,16 +3927,16 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     line-height:1.45;
   }
   .participants-page .participants-bento--guest .auth-card {
-    grid-column:1 / 7;
-    grid-row:2;
+    grid-column:7 / 13;
+    grid-row:1;
     min-height:0;
     height:100%;
     padding:clamp(1rem,1.6vw,1.4rem);
     align-content:center;
   }
   .participants-page .participants-bento--guest > .ratings-overview {
-    grid-column:7 / 13;
-    grid-row:1;
+    grid-column:1 / 7;
+    grid-row:2;
     width:100%;
     margin:0;
     min-height:0;
@@ -4014,8 +4014,8 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
 }
 
 .profile-services-card .profile-services-links {
-  filter:blur(7px);
-  opacity:.32;
+  filter:blur(13px);
+  opacity:.2;
   pointer-events:none;
   user-select:none;
 }
