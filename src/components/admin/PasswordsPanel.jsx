@@ -60,18 +60,18 @@ export default function PasswordsPanel() {
   });
 
   const openVault = async () => {
-    if (pinInput === "0000") {
-      try {
-        await unlockAdminVault(pinInput);
-        setVaultPin(pinInput);
-        setVaultError("");
-        queryClient.invalidateQueries({ queryKey: ["admin-passwords"] });
-      } catch (error) {
-        setVaultError(error.message);
-      }
+    if (!/^\d{4}$/.test(pinInput)) {
+      setVaultError("Введи четырёхзначный код");
       return;
     }
-    setVaultError("Неверный код");
+    try {
+      await unlockAdminVault(pinInput);
+      setVaultPin(pinInput);
+      setVaultError("");
+      queryClient.invalidateQueries({ queryKey: ["admin-passwords"] });
+    } catch (error) {
+      setVaultError(error.message);
+    }
   };
 
   const revealSecret = async (item) => {
