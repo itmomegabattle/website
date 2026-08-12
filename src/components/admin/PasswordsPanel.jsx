@@ -10,12 +10,13 @@ import { EMPTY_PASSWORD } from "./adminConfig";
 import { decryptSecret, encryptSecret } from "./vaultCrypto";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFigma, faGithub, faGoogle, faInstagram, faTiktok, faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faBuilding, faGlobe, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faEnvelope, faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 const PASSWORD_PRESETS = [
   { id: "instagram", title: "Instagram", hint: "Логин или почта", icon: faInstagram },
   { id: "tiktok", title: "TikTok", hint: "Логин или почта", icon: faTiktok },
   { id: "gmail", title: "Gmail", hint: "Адрес Gmail", icon: faGoogle },
+  { id: "mailru", title: "Mail.ru", hint: "Адрес почты Mail.ru", icon: faEnvelope },
   { id: "vercel", title: "Vercel", hint: "Почта аккаунта", mark: "▲" },
   { id: "github", title: "GitHub", hint: "Username или почта", icon: faGithub },
   { id: "rutube", title: "Rutube", hint: "Телефон или почта", mark: "R" },
