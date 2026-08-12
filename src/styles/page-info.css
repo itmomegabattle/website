@@ -3183,6 +3183,63 @@
 .admin-vault-entry:not(.is-unlocked) .admin-pin-box { grid-template-columns: minmax(0, 15rem) auto; justify-content: center; }
 .admin-password-accesses { grid-column: span 1; }
 
+.admin-vault-lockscreen { display:grid; min-height:52vh; place-items:center; }
+.admin-vault-unlock { position:relative; overflow:hidden; width:min(100%,34rem); padding:clamp(1.6rem,4vw,2.8rem); text-align:center; }
+.admin-vault-unlock::before { content:""; position:absolute; width:14rem; height:14rem; top:-8rem; left:50%; border-radius:50%; background:var(--accent-color); filter:blur(80px); opacity:.24; transform:translateX(-50%); pointer-events:none; }
+.admin-vault-unlock__eyebrow,.admin-vault-header span,.admin-password-editor__heading span { color:var(--accent-color); font-size:.68rem; font-weight:900; letter-spacing:.14em; text-transform:uppercase; }
+.admin-vault-unlock h2 { margin:.55rem 0 .7rem; font-size:clamp(2rem,5vw,3.2rem); }
+.admin-vault-unlock > p { max-width:27rem; margin:0 auto 1.6rem; color:var(--text-muted); line-height:1.55; }
+.admin-vault-unlock .admin-pin-box { display:grid; grid-template-columns:minmax(0,10rem) auto; gap:.65rem; justify-content:center; }
+.admin-vault-unlock .admin-pin-box input { min-height:3.2rem; border:var(--card-border); border-radius:1rem; background:var(--control-background); color:var(--control-color); font:800 1.35rem/1 var(--font-body); letter-spacing:.38em; text-align:center; }
+.admin-vault-unlock .admin-pin-box button,.admin-vault-header button { padding:.8rem 1.1rem; border:var(--card-border); border-radius:1rem; background:var(--control-background-active); color:var(--control-color); font:800 .78rem/1 var(--font-body); }
+
+.admin-vault-workspace { display:grid; gap:1.25rem; width:100%; }
+.admin-vault-header { display:flex; align-items:end; justify-content:space-between; gap:1rem; padding:.25rem .15rem 1rem; }
+.admin-vault-header h2 { margin:.25rem 0 0; font-size:clamp(2rem,4vw,3.5rem); line-height:.95; }
+.admin-password-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.8rem; }
+.admin-password-card { display:flex; min-height:14rem; flex-direction:column; gap:1rem; padding:1rem; border:var(--card-border); border-radius:1.35rem; background:var(--ui-glass-background); box-shadow:var(--card-shadow); }
+.admin-password-card.is-saved { border-color:color-mix(in srgb,var(--accent-color) 42%,transparent); background:linear-gradient(145deg,color-mix(in srgb,var(--accent-color) 9%,transparent),var(--ui-glass-background)); }
+.admin-password-card__top,.admin-password-card__actions,.admin-password-editor__heading { display:flex; align-items:center; justify-content:space-between; gap:.55rem; }
+.admin-password-card__status { padding:.35rem .5rem; border-radius:999px; background:var(--control-background); color:var(--text-muted); font-size:.58rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
+.admin-password-card.is-saved .admin-password-card__status { color:var(--accent-color); }
+.admin-password-card__body { min-width:0; flex:1; }
+.admin-password-card__body h3 { margin:0 0 .35rem; font-size:1.25rem; }
+.admin-password-card__body p { overflow:hidden; margin:0; color:var(--text-muted); font-size:.82rem; text-overflow:ellipsis; white-space:nowrap; }
+.admin-password-card__body code { display:block; overflow:hidden; margin-top:.65rem; padding:.55rem .65rem; border-radius:.7rem; background:rgba(0,0,0,.22); color:inherit; font-size:.72rem; text-overflow:ellipsis; white-space:nowrap; }
+.admin-password-card__actions { justify-content:flex-start; margin-top:auto; flex-wrap:wrap; }
+.admin-password-card__actions button,.admin-password-editor__heading button,.admin-password-custom button { min-height:2.15rem; padding:.45rem .7rem; border:var(--card-border); border-radius:.7rem; background:var(--control-background); color:var(--control-color); font:750 .68rem/1 var(--font-body); }
+.admin-password-card__actions button:first-child { background:var(--control-background-active); }
+.admin-password-card__actions .is-danger { margin-left:auto; color:#ff7f87; }
+.admin-password-editor { display:grid; gap:1rem; padding:clamp(1rem,3vw,1.6rem); }
+.admin-password-editor__heading h3 { margin:.2rem 0 0; font-size:1.65rem; }
+.admin-password-editor__fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.8rem; }
+.admin-password-editor__notes { grid-column:1/-1; }
+.admin-password-editor .auth-submit { width:fit-content; margin-left:auto; }
+.admin-password-custom { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; padding-top:.5rem; }
+.admin-password-custom h3 { width:100%; margin:0; }
+.admin-password-custom button { display:flex; align-items:center; gap:.5rem; }
+.admin-password-custom .password-service-icon { width:1.65rem; border-radius:.5rem; font-size:.7rem; }
+.password-service-icon.service-instagram { color:#ff61ae; }
+.password-service-icon.service-tiktok { color:#55e9e3; }
+.password-service-icon.service-youtube,.password-service-icon.service-rutube { color:#ff5c63; }
+.password-service-icon.service-gmail { color:#f2c25b; }
+.password-service-icon.service-github { color:#fff; }
+.password-service-icon.service-figma { color:#b894ff; }
+.password-service-icon.service-supabase { color:#55e69e; }
+
+@media (max-width:900px) {
+  .admin-password-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .admin-password-editor__fields { grid-template-columns:1fr 1fr; }
+}
+
+@media (max-width:580px) {
+  .admin-vault-unlock .admin-pin-box,.admin-password-grid,.admin-password-editor__fields { grid-template-columns:1fr; }
+  .admin-vault-header { align-items:center; }
+  .admin-vault-header h2 { font-size:1.8rem; }
+  .admin-password-card { min-height:12rem; border-radius:1rem; }
+  .admin-password-editor__notes { grid-column:auto; }
+}
+
 .public-profile-card {
     position: relative;
     overflow: hidden;
