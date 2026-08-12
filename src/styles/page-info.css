@@ -4420,6 +4420,9 @@ html[data-theme="light"] .social-bio-card { background:#fff; }
 
   .participants-page .ratings-overview .faculty-leaderboard-card {
     padding:.75rem;
+    overflow:hidden;
+    isolation:isolate;
+    background-clip:padding-box;
   }
 
   .participants-page .ratings-overview .faculty-leaderboard-card h2 {
