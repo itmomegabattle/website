@@ -22,7 +22,7 @@ export default function NfcTagsPanel({ profileId, compact = false }) {
       {tags.length > 0 ? (
         <div className="nfc-tag-list">
           {tags.map((tag) => (
-            <Link className="nfc-tag-item" to={`/nfc/${tag.code}`} key={tag.id}>
+            <Link className="nfc-tag-item" to={`/nfc/${tag.public_slug || tag.code}`} key={tag.id}>
               <strong>{tag.label || tag.code}</strong>
               <span>{tag.tag_type || "other"}</span>
             </Link>

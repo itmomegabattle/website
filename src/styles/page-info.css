@@ -1998,6 +1998,22 @@
     cursor: pointer;
 }
 
+.profile-modal--cards {
+    width: min(92vw, 36rem);
+}
+
+.profile-card-picker {
+    display: grid;
+    gap: 1rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.profile-card-picker h2,
+.profile-card-picker p {
+    margin: 0;
+}
+
+
 .friendship-graph-card {
     position: relative;
     min-height: clamp(560px, 62vw, 820px);

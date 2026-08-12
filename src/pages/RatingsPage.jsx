@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import {
   AuthenticatedRatingPanel,
   RatingsOverview,
@@ -9,6 +10,7 @@ import NfcTagsPanel from "../components/NfcTagsPanel";
 import ModalPortal from "../components/ModalPortal";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
+import { getProfileTags } from "../services/profileService";
 import "../styles/member-list.css";
 import "../styles/page-info.css";
 
@@ -57,7 +59,21 @@ export default function RatingsPage() {
   const canAdmin = isAdminProfile(profile);
   const [activeModal, setActiveModal] = useState(null);
   const [activeView, setActiveView] = useState("profile");
+  const profileTags = useQuery({
+    queryKey: ["profile-tags", profile?.id],
+    queryFn: getProfileTags,
+    enabled: Boolean(isAuthenticated && profile?.id && !isDevMock),
+    placeholderData: [],
+  }).data.filter((tag) => tag.is_active !== false && tag.public_slug);
   const closeModal = () => setActiveModal(null);
+
+  const openBusinessCard = () => {
+    if (profileTags.length > 0) {
+      navigate(`/nfc/${profileTags[0].public_slug}`);
+      return;
+    }
+    setActiveModal("cards");
+  };
 
   useEffect(() => {
     if (!activeModal) return undefined;
@@ -110,7 +126,7 @@ export default function RatingsPage() {
                 <AuthenticatedRatingPanel
                   profile={profile}
                   onEditProfile={() => setActiveModal("edit")}
-                  onPreviewCard={() => navigate(`/u/${profile.id}`)}
+                  onPreviewCard={openBusinessCard}
                   onSignOut={signOut}
                 />
                 <NfcTagsPanel profileId={profile.id} compact />
@@ -154,12 +170,20 @@ export default function RatingsPage() {
               className={`profile-modal profile-modal--${activeModal}`}
               role="dialog"
               aria-modal="true"
-              aria-label="Редактирование профиля"
+              aria-label={activeModal === "cards" ? "Выбор NFC-визитки" : "Редактирование профиля"}
             >
               <button className="profile-modal-close" type="button" onClick={closeModal}>
                 ×
               </button>
-              <Suspense fallback={null}><ProfileEditor /></Suspense>
+              {activeModal === "cards" ? (
+                <div className="profile-card-picker">
+                  <p className="card-kicker">NFC-визитка</p>
+                  <h2>Нет привязанных меток</h2>
+                  <p>Сначала привяжи NFC-метку к профилю — после этого кнопка будет открывать настоящую визитку.</p>
+                </div>
+              ) : (
+                <Suspense fallback={null}><ProfileEditor /></Suspense>
+              )}
             </section>
           </div>
         </ModalPortal>
