@@ -3887,12 +3887,49 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
   .participants-page .pixel-stat-grid > div { padding:.5rem; }
   .participants-page .pixel-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .participants-page .pixel-glass-screen::after { animation:none; }
+
+  .participants-page .participants-bento--guest .participants-auth-bento { display:contents; }
+  .participants-page .participants-bento--guest .participants-auth-copy {
+    grid-column:1 / 8;
+    grid-row:1;
+    min-height:0;
+    height:100%;
+    padding:clamp(1.25rem,2.2vw,2rem);
+    align-content:center;
+  }
+  .participants-page .participants-bento--guest .participants-auth-copy h2 {
+    max-width:12ch;
+    margin:0 0 .8rem;
+    font-size:clamp(2.35rem,3.7vw,4.25rem);
+  }
+  .participants-page .participants-bento--guest .participants-auth-copy p:not(.card-kicker) {
+    max-width:46rem;
+    margin:0;
+    font-size:.9rem;
+    line-height:1.45;
+  }
+  .participants-page .participants-bento--guest .auth-card {
+    grid-column:8 / 13;
+    grid-row:1;
+    min-height:0;
+    height:100%;
+    padding:clamp(1.25rem,2vw,1.8rem);
+  }
+  .participants-page .participants-bento--guest > .ratings-overview {
+    grid-column:1 / 13;
+    grid-row:2;
+    width:100%;
+    margin:0;
+  }
 }
 
 @media (min-width:641px) and (max-width:1100px) {
   .participants-page .participants-bento { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .participants-page .authenticated-rating-grid { display:contents; }
   .participants-page .participant-profile-card,.participants-page .pixel-glass-widget,.participants-page .ratings-overview,.participants-page .nfc-tags-panel--compact { width:100%; margin:0; }
+  .participants-page .participants-bento--guest .participants-auth-bento { grid-column:1 / -1; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .participants-page .participants-bento--guest .participants-auth-copy { min-height:22rem; }
+  .participants-page .participants-bento--guest > .ratings-overview { grid-column:1 / -1; }
 }
 
 /* Participant HUD refinements. */

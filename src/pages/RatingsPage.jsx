@@ -104,7 +104,7 @@ export default function RatingsPage() {
 
       {activeView === "profile" ? (
         <>
-          <section className="main-width participants-bento">
+          <section className={`main-width participants-bento${isAuthenticated ? "" : " participants-bento--guest"}`}>
             {isAuthenticated && profile ? (
               <>
                 <AuthenticatedRatingPanel
