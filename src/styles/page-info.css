@@ -4571,7 +4571,7 @@ html[data-theme="light"] .social-bio-card--admin {
   background:
     radial-gradient(circle at 8% 4%,rgba(255,255,255,.48),transparent 34%),
     radial-gradient(circle at 92% 88%,rgba(6,87,219,.13),transparent 38%),
-    linear-gradient(108deg in oklab,#ecf1f9 0%,#dae4f4 19%,#071225 81%,#000103 100%);
+    linear-gradient(108deg in oklab,#ecf1f9 0%,#dae4f4 26%,#8da0b9 43%,#172334 56%,#01040b 69%,#000103 100%);
   box-shadow:0 30px 80px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.1),0 0 44px color-mix(in srgb,var(--admin-accent) 13%,transparent);
   color:#fff;
 }
@@ -4579,12 +4579,12 @@ html[data-theme="light"] .social-bio-card--admin {
 .social-bio-card--admin::before {
   opacity:.76;
   background-image:
-    radial-gradient(ellipse at -2% 20%,transparent 0 34%,rgba(0,92,230,.9) 34.12% 34.3%,transparent 34.45%),
-    radial-gradient(ellipse at 7% 48%,transparent 0 43%,rgba(0,56,140,.62) 43.1% 43.26%,transparent 43.4%),
-    radial-gradient(ellipse at 18% 88%,transparent 0 51%,rgba(0,92,230,.72) 51.1% 51.28%,transparent 51.42%),
-    radial-gradient(ellipse at 102% 18%,transparent 0 40%,rgba(0,28,71,.9) 40.12% 40.3%,transparent 40.45%),
-    radial-gradient(ellipse at 94% 56%,transparent 0 48%,rgba(6,87,219,.72) 48.1% 48.26%,transparent 48.4%),
-    radial-gradient(ellipse at 84% 102%,transparent 0 55%,rgba(0,28,71,.76) 55.1% 55.28%,transparent 55.42%);
+    radial-gradient(ellipse at -2% 20%,transparent 0 34%,#005ce6 34.12% 34.26%,transparent 34.4%),
+    radial-gradient(ellipse at 7% 48%,transparent 0 43%,#00388c 43.1% 43.24%,transparent 43.38%),
+    radial-gradient(ellipse at 18% 88%,transparent 0 51%,#005ce6 51.1% 51.24%,transparent 51.38%),
+    radial-gradient(ellipse at 102% 18%,transparent 0 40%,#001c47 40.12% 40.26%,transparent 40.4%),
+    radial-gradient(ellipse at 94% 56%,transparent 0 48%,#0657db 48.1% 48.24%,transparent 48.38%),
+    radial-gradient(ellipse at 84% 102%,transparent 0 55%,#001c47 55.1% 55.24%,transparent 55.38%);
   background-size:138% 112%,145% 126%,150% 132%,142% 116%,150% 128%,154% 136%;
   mask-image:none;
 }
@@ -4642,7 +4642,7 @@ html[data-theme="light"] .social-bio-card--admin {
     background:
       radial-gradient(circle at 8% 2%,rgba(255,255,255,.48),transparent 36%),
       radial-gradient(circle at 92% 100%,rgba(6,87,219,.13),transparent 34%),
-      linear-gradient(118deg in oklab,#ecf1f9 0%,#dae4f4 17%,#071225 83%,#000103 100%);
+      linear-gradient(118deg in oklab,#ecf1f9 0%,#dae4f4 25%,#8da0b9 42%,#172334 56%,#01040b 68%,#000103 100%);
   }
   .social-bio-card--admin .social-bio-avatar { box-shadow:0 12px 30px rgba(0,0,0,.3); }
   .social-bio-card--admin .social-bio-content { padding:.8rem;background:rgba(2,8,15,.58);backdrop-filter:blur(20px); }
