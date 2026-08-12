@@ -117,7 +117,7 @@ export default function AuthPanel({ redirectTo = "/ratings", showPolicyNotice = 
     <div className="info-card auth-card">
       <p className="card-kicker">Telegram</p>
       <h2>Войти в экосистему</h2>
-      <p>Один аккаунт для сайта, NFC-визитки и бота. Telegram откроет приложение и попросит подтвердить вход для этого браузера.</p>
+      <p className="auth-description">Один аккаунт для сайта, NFC-визитки и бота. Telegram откроет приложение и попросит подтвердить вход для этого браузера.</p>
       <button className="text-button auth-telegram-button" type="button" onClick={startLogin} disabled={isStarting || Boolean(attempt)}>
         <span>{isStarting ? "Подключаем Telegram…" : attempt?.code ? "Завершаем вход…" : attempt ? "Ожидаем Telegram…" : "Войти через Telegram"}</span>
         {!isStarting && !attempt && <span aria-hidden="true">→</span>}

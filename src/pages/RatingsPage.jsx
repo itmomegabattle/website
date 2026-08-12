@@ -119,10 +119,6 @@ export default function RatingsPage() {
               <div className="participants-auth-bento">
                 <article className="info-card participants-auth-copy">
                   <h2>Профиль начинается со входа</h2>
-                  <p>
-                    Визитка, личный прогресс, соцсети, NFC-метки и связи
-                    в графе знакомств собраны в одном кабинете.
-                  </p>
                 </article>
                 <AuthPanel redirectTo="/ratings" showPolicyNotice />
               </div>
@@ -142,8 +138,8 @@ export default function RatingsPage() {
                   <a href="https://mblinks.online" target="_blank" rel="noreferrer"><span>Все площадки</span><b>↗</b></a>
                 </nav>
                 <div className="profile-services-lock" aria-label="Сервисы появятся позже">
-                  <strong>Скоро</strong>
-                  <span>Собираем всё в одном месте</span>
+                  <strong>Сервисы</strong>
+                  <span>Скоро</span>
                 </div>
               </article>
             )}

@@ -3904,7 +3904,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
 
   .participants-page .participants-bento--guest {
     grid-template-rows:repeat(2,minmax(0,1fr));
-    height:clamp(33rem,calc(100svh - 11rem),38rem);
+    height:clamp(38rem,calc(100svh - 8rem),43rem);
   }
   .participants-page .participants-bento--guest .participants-auth-bento { display:contents; }
   .participants-page .participants-bento--guest .participants-auth-copy {
@@ -3973,6 +3973,9 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     border-radius:1rem;
     background:color-mix(in srgb,var(--accent-color) 18%,var(--control-background));
     font-weight:850;
+  }
+  .participants-page .participants-bento--guest .auth-card :is(.auth-description,.auth-switch) {
+    display:none;
   }
   .participants-page .participants-bento--guest .profile-services-card {
     grid-column:7 / 13;
