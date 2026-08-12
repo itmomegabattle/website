@@ -4562,6 +4562,106 @@ html[data-theme="light"] .participants-page .pixel-progress > span {
 }
 html[data-theme="light"] .social-bio-card { background:#fff; }
 
+/* Admin business card deliberately combines both themes. */
+.social-bio-card--admin,
+html[data-theme="light"] .social-bio-card--admin {
+  --admin-blue:#087cff;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.38);
+  background:
+    linear-gradient(116deg,rgba(255,255,255,.98) 0 46%,rgba(236,244,255,.96) 46% 49%,#087cff 49% 50%,#050608 50% 100%);
+  box-shadow:0 30px 80px rgba(0,0,0,.4),0 0 0 1px rgba(8,124,255,.35);
+  color:#fff;
+}
+
+.social-bio-card--admin::before {
+  opacity:.5;
+  background-image:
+    linear-gradient(rgba(8,124,255,.18) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(8,124,255,.18) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(90deg,#000,transparent 48%,transparent 52%,#000);
+}
+
+.social-bio-card--admin::after {
+  content:"MEGABATTLE / CONTROL";
+  position:absolute;
+  right:1rem;
+  bottom:.75rem;
+  z-index:-1;
+  color:rgba(255,255,255,.14);
+  font-size:.62rem;
+  font-weight:900;
+  letter-spacing:.22em;
+  writing-mode:vertical-rl;
+}
+
+.social-bio-admin-mark {
+  position:absolute;
+  top:clamp(.8rem,2vw,1.2rem);
+  left:clamp(.8rem,2vw,1.2rem);
+  z-index:2;
+  display:flex;
+  overflow:hidden;
+  border:1px solid #050608;
+  border-radius:999px;
+  background:#fff;
+  color:#050608;
+  font-size:.65rem;
+  line-height:1;
+  letter-spacing:.12em;
+  box-shadow:5px 5px 0 var(--admin-blue);
+}
+
+.social-bio-admin-mark span,
+.social-bio-admin-mark strong { padding:.62rem .7rem; }
+.social-bio-admin-mark strong { background:#050608;color:#fff; }
+
+.social-bio-card--admin .social-bio-avatar {
+  position:relative;
+  z-index:1;
+  padding:.28rem;
+  border:.22rem solid #fff;
+  outline:.22rem solid #050608;
+  background:linear-gradient(135deg,#fff 0 48%,var(--admin-blue) 48% 52%,#050608 52%);
+  box-shadow:10px 10px 0 var(--admin-blue),-10px -10px 0 rgba(255,255,255,.72);
+}
+
+.social-bio-card--admin .social-bio-avatar img { border-radius:50%; }
+
+.social-bio-card--admin .social-bio-content {
+  z-index:1;
+  width:min(100%,36rem);
+  padding:clamp(1rem,2.5vw,1.5rem);
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:calc(var(--corner-radius) * .8);
+  background:rgba(3,5,8,.88);
+  color:#fff;
+  box-shadow:0 18px 48px rgba(0,0,0,.28);
+  backdrop-filter:blur(14px);
+}
+
+.social-bio-card--admin .social-bio-faculty { color:#70b6ff; }
+.social-bio-card--admin .social-bio-name { color:#fff; }
+.social-bio-card--admin .social-bio-links .social-link-button,
+.social-bio-card--admin .social-bio-actions :is(a,button) {
+  border-color:rgba(255,255,255,.32);
+  background:linear-gradient(90deg,#fff 0 49%,#080a0d 49% 100%);
+  color:#fff;
+  box-shadow:inset 50vw 0 0 rgba(8,124,255,.08),0 10px 24px rgba(0,0,0,.25);
+  text-shadow:1px 1px 0 #000,-1px -1px 0 #000;
+}
+
+@media (max-width:640px) {
+  .social-bio-card--admin,
+  html[data-theme="light"] .social-bio-card--admin {
+    background:linear-gradient(128deg,#fff 0 43%,#087cff 43% 44.5%,#050608 44.5% 100%);
+  }
+  .social-bio-admin-mark { transform:scale(.86);transform-origin:top left; }
+  .social-bio-card--admin .social-bio-avatar { margin-top:.55rem;box-shadow:7px 7px 0 var(--admin-blue),-7px -7px 0 rgba(255,255,255,.72); }
+  .social-bio-card--admin .social-bio-content { padding:.8rem;backdrop-filter:blur(10px); }
+}
+
 @media (min-width:641px) {
   .participants-page .player-card-v2 .participant-profile-content::before {
     top:1.15rem;

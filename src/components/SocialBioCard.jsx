@@ -24,7 +24,13 @@ export default function SocialBioCard({ profile, actions, qrOnSocials = false })
   };
 
   return (
-    <article className="social-bio-card">
+    <article className={`social-bio-card${profile.is_admin ? " social-bio-card--admin" : ""}`}>
+      {profile.is_admin && (
+        <div className="social-bio-admin-mark" aria-label="Администратор ITMO Megabattle">
+          <span>IMB</span>
+          <strong>ADMIN</strong>
+        </div>
+      )}
       <div className="social-bio-avatar">
         <img src={avatar} alt={displayName} />
       </div>
