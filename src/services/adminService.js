@@ -55,3 +55,6 @@ export async function getAdminPasswords(){ const value=pin(); if(!value)return [
 export async function upsertAdminPassword(secret){ const value=pin(); if(!value)throw new Error("Сначала открой vault"); const entry={title:secret.title,login:secret.login||null,password:secret.password_value||null,url:secret.url||null,notes:secret.notes||null}; return backendApi(`/api/v1/admin/vault${secret.id?`/${secret.id}`:""}`,{method:secret.id?"PUT":"POST",body:JSON.stringify({pin:value,entry})}); }
 export const deleteAdminPassword=(secretId)=>backendApi(`/api/v1/admin/vault/${secretId}`,{method:"DELETE",body:JSON.stringify({pin:pin()})});
 export async function getAdminAuditLogs(){ const data=await backendApi("/api/v1/admin/audit?limit=10"); return (data.logs??[]).map((item)=>({...item,actor:item.profiles})); }
+export async function getAdminSupportRequests(){ return (await backendApi("/api/v1/admin/support")).items??[]; }
+export async function updateAdminSupportRequest(id,status){ return backendApi(`/api/v1/admin/support/${id}`,{method:"PATCH",body:JSON.stringify({status})}); }
+export async function openAdminSupportAttachment(id){ const data=await backendApi(`/api/v1/admin/support/${id}/attachment`); window.open(data.url,"_blank","noopener,noreferrer"); }

@@ -4,6 +4,7 @@ import PasswordsPanel from "./admin/PasswordsPanel";
 import ProfilesPanel from "./admin/ProfilesPanel";
 import TagsPanel from "./admin/TagsPanel";
 import FacultyRatingsPanel from "./admin/FacultyRatingsPanel";
+import SupportPanel from "./admin/SupportPanel";
 import { ADMIN_TABS } from "./admin/adminConfig";
 
 export default function AdminCabinetPanel() {
@@ -27,6 +28,7 @@ export default function AdminCabinetPanel() {
       {activeTab === "profiles" && <ProfilesPanel />}
       {activeTab === "tags" && <TagsPanel />}
       {activeTab === "passwords" && <PasswordsPanel />}
+      {activeTab === "support" && <SupportPanel />}
       {activeTab === "logs" && <LogsPanel />}
     </section>
   );

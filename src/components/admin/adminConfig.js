@@ -3,6 +3,7 @@ export const ADMIN_TABS = [
   { id: "profiles", label: "Участники" },
   { id: "tags", label: "Метки" },
   { id: "passwords", label: "Пароли" },
+  { id: "support", label: "Поддержка" },
   { id: "logs", label: "Логи" },
 ];
 

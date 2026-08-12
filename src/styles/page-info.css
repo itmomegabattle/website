@@ -3212,6 +3212,12 @@
 .admin-password-details dd code { margin:0; padding:0; background:none; font-size:.78rem; white-space:normal; }
 .admin-password-details a { color:var(--accent-color); font-weight:800; text-decoration:none; }
 .admin-password-details__notes dd { white-space:pre-wrap; }
+.admin-support-row { align-items:start; }
+.admin-support-row > div:first-child { display:grid; gap:.45rem; }
+.admin-support-row p { margin:.2rem 0; white-space:pre-wrap; line-height:1.5; }
+.admin-support-row > div:first-child > button { width:fit-content; padding:.5rem .7rem; border:var(--card-border); border-radius:.7rem; background:var(--control-background); color:var(--accent-color); font:inherit; font-size:.72rem; font-weight:800; cursor:pointer; }
+.admin-support-row.status-new { border-color:color-mix(in srgb,var(--accent-color) 48%,var(--border-color)); }
+.admin-support-row.status-resolved { opacity:.66; }
 .admin-password-card__actions { justify-content:flex-start; margin-top:auto; flex-wrap:wrap; }
 .admin-password-card__actions button,.admin-password-editor__heading button,.admin-password-custom button { min-height:2.15rem; padding:.45rem .7rem; border:var(--card-border); border-radius:.7rem; background:var(--control-background); color:var(--control-color); font:750 .68rem/1 var(--font-body); }
 .admin-password-card__actions button:first-child { background:var(--control-background-active); }
