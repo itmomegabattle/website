@@ -3953,7 +3953,7 @@ html[data-theme="light"] .pixel-glass-screen :is(h2,strong,span,p) { color:inher
     text-align:center;
   }
   .participants-page .participants-bento--guest .faculty-leaderboard-card .leaderboard {
-    width:min(100%,34rem);
+    width:100%;
     margin-inline:auto;
     gap:.28rem;
   }
