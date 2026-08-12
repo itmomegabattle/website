@@ -4566,18 +4566,21 @@ html[data-theme="light"] .social-bio-card { background:#fff; }
 .social-bio-card--admin,
 html[data-theme="light"] .social-bio-card--admin {
   overflow:hidden;
-  border:1px solid rgba(128,128,128,.48);
+  border:1px solid rgba(255,255,255,.5);
   background:
-    radial-gradient(circle at 50% 8%,rgba(255,255,255,.2),transparent 32%),
-    linear-gradient(135deg,#f7f7f5 0%,#d7d7d4 35%,#4a4a4a 66%,#070707 100%);
-  box-shadow:0 30px 80px rgba(0,0,0,.38);
+    radial-gradient(ellipse at 15% 0%,#fff 0 18%,transparent 42%),
+    radial-gradient(ellipse at 88% 100%,#fff 0 8%,transparent 34%),
+    #000;
+  box-shadow:0 30px 80px rgba(0,0,0,.44),inset 0 0 0 1px rgba(0,0,0,.22);
   color:#fff;
 }
 
 .social-bio-card--admin::before {
-  opacity:.16;
-  background-image:linear-gradient(120deg,transparent 0 47%,rgba(255,255,255,.8) 50%,transparent 53%);
-  background-size:100% 100%;
+  opacity:.68;
+  background-image:
+    radial-gradient(ellipse at 8% 34%,transparent 0 42%,rgba(255,255,255,.88) 42.4% 42.8%,transparent 43.2%),
+    radial-gradient(ellipse at 92% 72%,transparent 0 48%,rgba(255,255,255,.5) 48.4% 48.8%,transparent 49.2%);
+  background-size:140% 120%,150% 135%;
   mask-image:none;
 }
 
@@ -4585,10 +4588,10 @@ html[data-theme="light"] .social-bio-card--admin {
   position:relative;
   z-index:1;
   padding:.22rem;
-  border:.18rem solid rgba(255,255,255,.92);
-  outline:.12rem solid rgba(0,0,0,.72);
-  background:linear-gradient(135deg,#fff,#111);
-  box-shadow:0 16px 38px rgba(0,0,0,.28);
+  border:.18rem solid #fff;
+  outline:.12rem solid #000;
+  background:#fff;
+  box-shadow:0 16px 38px rgba(0,0,0,.34),0 0 0 .42rem rgba(255,255,255,.16);
 }
 
 .social-bio-card--admin .social-bio-avatar img { border-radius:50%; }
@@ -4597,32 +4600,44 @@ html[data-theme="light"] .social-bio-card--admin {
   z-index:1;
   width:min(100%,36rem);
   padding:clamp(1rem,2.5vw,1.5rem);
-  border:1px solid rgba(255,255,255,.24);
+  border:1px solid rgba(255,255,255,.42);
   border-radius:calc(var(--corner-radius) * .8);
-  background:linear-gradient(135deg,rgba(35,35,35,.88),rgba(3,3,3,.94));
+  background:rgba(0,0,0,.58);
   color:#fff;
-  box-shadow:0 18px 48px rgba(0,0,0,.28);
-  backdrop-filter:blur(14px);
+  box-shadow:0 18px 48px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.18);
+  backdrop-filter:blur(24px) saturate(125%);
 }
 
-.social-bio-card--admin .social-bio-faculty { color:rgba(255,255,255,.72); }
+.social-bio-card--admin .social-bio-faculty { color:#fff;opacity:.74; }
 .social-bio-card--admin .social-bio-name { color:#fff; }
 .social-bio-card--admin .social-bio-links .social-link-button,
 .social-bio-card--admin .social-bio-actions :is(a,button) {
-  border-color:rgba(255,255,255,.22);
-  background:linear-gradient(115deg,rgba(255,255,255,.14),rgba(255,255,255,.035));
+  border-color:rgba(255,255,255,.5);
+  background:linear-gradient(115deg,rgba(255,255,255,.2),rgba(255,255,255,.035));
   color:#fff;
-  box-shadow:0 10px 24px rgba(0,0,0,.18);
+  box-shadow:0 10px 28px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.24);
+  backdrop-filter:blur(18px);
   text-shadow:none;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+
+.social-bio-card--admin .social-bio-links .social-link-button:hover,
+.social-bio-card--admin .social-bio-actions :is(a,button):hover {
+  background:#fff;
+  color:#000;
+  transform:translateY(-2px);
 }
 
 @media (max-width:640px) {
   .social-bio-card--admin,
   html[data-theme="light"] .social-bio-card--admin {
-    background:linear-gradient(145deg,#f7f7f5 0%,#c9c9c6 36%,#424242 67%,#070707 100%);
+    background:
+      radial-gradient(ellipse at 10% 0%,#fff 0 16%,transparent 44%),
+      radial-gradient(ellipse at 92% 100%,#fff 0 7%,transparent 31%),
+      #000;
   }
   .social-bio-card--admin .social-bio-avatar { box-shadow:0 12px 30px rgba(0,0,0,.3); }
-  .social-bio-card--admin .social-bio-content { padding:.8rem;backdrop-filter:blur(10px); }
+  .social-bio-card--admin .social-bio-content { padding:.8rem;background:rgba(0,0,0,.5);backdrop-filter:blur(20px); }
 }
 
 @media (min-width:641px) {
