@@ -98,6 +98,10 @@ export default function GamificationWidget({
           <span>season_09</span>
         </footer>
       </div>
+      <div className="pixel-game-lock" aria-label="Геймификация откроется в 2027 году">
+        <div className="pixel-game-lock__preview" aria-hidden="true"><span /><span /><span /></div>
+        <time dateTime="2027">2027</time>
+      </div>
     </article>
   );
 }
