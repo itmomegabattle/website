@@ -219,8 +219,8 @@ body:has(.history-page) .header {
 .history-chapter__visual > span,.history-chapter__visual > strong { position: absolute; z-index: 2; left: 1.3rem; }
 .history-chapter__visual > span { top: 1.2rem; color: rgba(255,255,255,.6); font-size: .57rem; font-weight: 900; letter-spacing: .22em; }
 .history-chapter__visual > strong { bottom: 1.2rem; font: 500 clamp(3.5rem, 7vw, 7rem)/.75 var(--heading-font); }
-.history-chapter__body { padding: clamp(2rem, 4vw, 4rem); overflow-y: auto; }
-.history-chapter__body h2 { max-width: 12ch; margin: 1rem 0 1.4rem; font: 500 clamp(3rem, 5vw, 5.6rem)/.78 var(--heading-font); letter-spacing: -.06em; }
+.history-chapter__body { display:flex; flex-direction:column; padding: clamp(2rem, 4vw, 4rem); overflow-y: auto; }
+.history-chapter__body h2 { max-width: 30ch; margin: 1rem 0 1.4rem; font: 500 clamp(1.1rem, calc(2vw - 2.5px), 2.175rem)/.9 var(--heading-font); letter-spacing: -.035em; }
 .history-chapter__body > p { max-width: 47rem; color: rgba(255,255,255,.6); font-size: .9rem; line-height: 1.58; }
 .history-chapter__body .history-chapter__lead { color: #fff; font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.38; }
 .history-chapter__meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; margin: 1.8rem 0; }
@@ -1676,8 +1676,8 @@ body:has(.history-page) .header {
 
   .history-chapter__body h2 {
     margin: .7rem 0 1rem;
-    font-size: clamp(2.25rem, 9.2vw, 3.25rem);
-    line-height: .8;
+    font-size: clamp(1.7rem, 7.6vw, 2.55rem);
+    line-height: .84;
   }
 
   .history-chapter__body > p {
@@ -1788,7 +1788,7 @@ body:has(.history-page) .header {
 html[data-theme="light"] :is(.history-hero,.history-plot,.history-gallery,.history-final) { background:transparent; }
 html[data-theme="light"] :is(.history-origin,.history-seasons,.history-facts) { background:#fff; }
 html[data-theme="light"] :is(.history-origin__founding,.history-fact,.history-credits__grid article) { background:#fff; }
-.history-chapter__body h2 { font-size: clamp(2.65rem, 4.35vw, 5rem); }
+.history-chapter__body h2 { font-size: clamp(1.325rem, 2.175vw, 2.5rem); }
 .history-chapter__meta span:first-child { font-size: clamp(.78rem, 1vw, .96rem); font-weight: 850; color:#fff; }
 .history-chapter__close { top: 1.35rem; right: 1.35rem; }
 .history-gallery__feature,
@@ -2256,6 +2256,8 @@ html[data-theme="light"] .history-origin::before { color:rgba(0,0,0,.025); }
   flex-wrap:wrap;
   justify-content:center;
   gap:.55rem;
+  margin-top:auto;
+  padding-top:1.5rem;
 }
 .history-chapter__videos .history-chapter__play {
   flex:1 1 12rem;
@@ -2282,4 +2284,9 @@ html[data-theme="light"] .history-chapter__play i {
   border:1px solid #111;
   background:#0069e0;
   color:#fff;
+}
+
+html:not([data-theme="light"]) .history-chapter__videos .history-chapter__play {
+  border:1px solid rgba(255,255,255,.46);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04), 0 .7rem 1.8rem rgba(0,0,0,.24);
 }

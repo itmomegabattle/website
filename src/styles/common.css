@@ -170,6 +170,45 @@ main {
     padding-bottom: 4rem;
 }
 
+/* Единая типографика заголовков самостоятельных разделов.
+   Селекторы намеренно не захватывают карточки, редакторы и модальные окна. */
+:root {
+    --section-heading-size: clamp(2rem, 5vw, 4.25rem);
+    --section-heading-gap: clamp(1.75rem, 3vw, 3rem);
+}
+
+:where(
+    .page-stage main:not(.history-page):not(.faculties-page) section > h1,
+    .page-stage main:not(.history-page):not(.faculties-page) section > h2,
+    .page-stage main:not(.history-page):not(.faculties-page) section > header h1,
+    .page-stage main:not(.history-page):not(.faculties-page) section > header h2,
+    .page-stage main:not(.history-page):not(.faculties-page) > header > h1,
+    .page-stage .faculties-page .faculty-explorer-section > .faculties-title
+) {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 0 var(--section-heading-gap) !important;
+    color: var(--text-color) !important;
+    font-family: var(--heading-font) !important;
+    font-size: var(--section-heading-size) !important;
+    font-weight: 500 !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.035em !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    text-shadow: var(--text-blue-shadow) !important;
+    text-wrap: balance;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+@media (max-width: 560px) {
+    :root {
+        --section-heading-size: clamp(2rem, 10vw, 3rem);
+        --section-heading-gap: clamp(1.35rem, 6vw, 2rem);
+    }
+}
+
 /* * :not(use) {
     outline: 1px solid red;
 } */

@@ -90,6 +90,11 @@
   margin-left: -12vw;
 }
 
+.partners-wall-row--3 {
+  display: none;
+  margin-left: 8vw;
+}
+
 .partners-wall-track {
   display: flex;
   align-items: center;
@@ -420,12 +425,16 @@
 
 @media (max-width: 560px) {
   .partners-wall {
-    min-height: 520px;
+    min-height: 640px;
   }
 
   .partners-wall__stage {
     min-width: 1040px;
     gap: 0.8rem;
+  }
+
+  .partners-wall-row--3 {
+    display: flex;
   }
 
   .partners-wall-track {

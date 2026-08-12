@@ -777,7 +777,10 @@ html[data-theme="dark"] .faculty-explorer {
 }
 
 .faculty-retro-ribbon span {
+    display: block;
+    width: 100%;
     max-width: min(100%, 64rem);
+    margin-inline: auto;
     text-align: center;
     line-height: 1.35;
 }
@@ -1950,6 +1953,7 @@ html[data-theme="dark"] .faculty-explorer {
 @media (max-width: 620px) {
     .faculties-page {
         gap: 2rem;
+        padding-top: 4.4rem;
     }
 
     .faculties-title {

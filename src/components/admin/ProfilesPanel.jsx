@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAdminProfiles, updateAdminProfile } from "../../services/adminService";
+import { deleteAdminProfile, getAdminProfiles, updateAdminProfile } from "../../services/adminService";
 import { useAuth } from "../../context/AuthContext";
 
 export default function ProfilesPanel() {
@@ -16,6 +16,14 @@ export default function ProfilesPanel() {
     mutationFn: ({ profileId, values }) => updateAdminProfile(profileId, values, profile),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-profiles"] }),
   });
+  const deleteMutation = useMutation({
+    mutationFn: deleteAdminProfile,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-profiles"] }),
+  });
+  const requestDelete = (item) => {
+    if (!window.confirm(`Удалить участника «${item.nickname}»? Это действие нельзя отменить.`)) return;
+    deleteMutation.mutate(item.id);
+  };
 
   const visibleProfiles = useMemo(
     () => [...profileResult.items].sort((first, second) => String(first.nickname || "").localeCompare(String(second.nickname || ""), "ru")),
@@ -53,6 +61,14 @@ export default function ProfilesPanel() {
                 onClick={() => updateMutation.mutate({ profileId: item.id, values: { is_banned: !item.is_banned } })}
               >
                 {item.is_banned ? "Разбанить" : "Бан"}
+              </button>
+              <button
+                className="admin-danger-button"
+                type="button"
+                disabled={deleteMutation.isPending && deleteMutation.variables === item.id}
+                onClick={() => requestDelete(item)}
+              >
+                {deleteMutation.isPending && deleteMutation.variables === item.id ? "Удаляем…" : "Удалить"}
               </button>
             </div>
           </div>

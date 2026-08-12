@@ -218,7 +218,7 @@
 }
 
 .partnership-formats-section > h1 {
-  margin-bottom: 1rem !important;
+  margin-bottom: var(--section-heading-gap);
 }
 
 .partnership-section-lead {

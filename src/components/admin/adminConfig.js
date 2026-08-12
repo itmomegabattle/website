@@ -41,3 +41,16 @@ export const ACTION_LABELS = {
   "auth.login": "вошёл в админку",
   "auth.logout": "вышел из админки",
 };
+
+export const ENTITY_LABELS = {
+  profile: "участника",
+  event: "мероприятие",
+  tag: "NFC-метку",
+  nfc_tag: "NFC-метку",
+  password: "доступ",
+  vault_entry: "доступ",
+  team_member: "участника команды",
+  story: "историю",
+  rating: "запись рейтинга",
+  partner: "партнёра",
+};

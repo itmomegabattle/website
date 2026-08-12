@@ -1,7 +1,22 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAdminAuditLogs } from "../../services/adminService";
-import { ACTION_LABELS } from "./adminConfig";
+import { ACTION_LABELS, ENTITY_LABELS } from "./adminConfig";
+
+const FIELD_LABELS = {
+  nickname: "имя", faculty: "факультет", is_admin: "права администратора",
+  is_banned: "статус блокировки", role_badge: "роль", status: "статус",
+  name: "название", title: "заголовок", description: "описание", sort_order: "порядок",
+};
+
+function getDetails(item) {
+  const payload = item.metadata || item.details || item.payload || item.changes;
+  if (!payload || typeof payload !== "object") return "";
+  const changes = payload.changes || payload.updated_fields || payload.fields || payload;
+  const keys = Array.isArray(changes) ? changes : Object.keys(changes).filter((key) => key !== "id");
+  if (!keys.length) return "";
+  return `Изменено: ${keys.map((key) => FIELD_LABELS[key] || String(key).replaceAll("_", " ")).join(", ")}`;
+}
 
 export default function LogsPanel() {
   const [search, setSearch] = useState("");
@@ -14,7 +29,7 @@ export default function LogsPanel() {
     return logs.slice(0, 10);
   }, [data, search]);
   const describeAction = (item) => ACTION_LABELS[item.action]
-    || `выполнил действие «${String(item.action || item.entity_type || "системное").replaceAll(/[._-]+/g, " ")}»`;
+    || `изменил ${ENTITY_LABELS[item.entity_type] || "данные в системе"}`;
 
   return (
     <article className="info-card admin-panel">
@@ -31,9 +46,8 @@ export default function LogsPanel() {
           <div className="admin-list-row" key={item.id}>
             <div>
               <strong>{item.actor?.nickname || "Система"} — {describeAction(item)}</strong>
-              <span>{new Date(item.created_at).toLocaleString("ru-RU", { dateStyle: "long", timeStyle: "short" })}</span>
+              <span>{getDetails(item) || (item.entity_id ? `${ENTITY_LABELS[item.entity_type] || "Запись"}: ${item.entity_id}` : "Системное действие")} · {new Date(item.created_at).toLocaleString("ru-RU", { dateStyle: "long", timeStyle: "short" })}</span>
             </div>
-            <code>{item.entity_id ? `Объект: ${item.entity_id}` : "Системное действие"}</code>
           </div>
         ))}
       </div>

@@ -466,10 +466,11 @@ html[data-theme="light"] .events-page .event-showcase-card .card-kicker {
 @media (max-width: 640px) {
   .events-section > h1 { margin-bottom: 2.2rem; }
   .event-team-filters { margin-top: 0; }
-  .events-page .event-admin-strip,
-  .events-page .event-admin-chip,
+  .events-page .event-admin-strip { border-radius: 1.25rem; }
+  .events-page .event-admin-chip { border-radius: 1rem; }
   .events-page .event-admin-strip button,
-  .events-page .event-inline-editor { border-radius: .55rem; }
+  .events-page .event-admin-chip button { border-radius: 999px; }
+  .event-editor-overlay .event-inline-editor { border-radius: 1.25rem; }
 }
 
 html[data-theme="light"] .events-page .event-showcase-card h2 {

@@ -193,6 +193,7 @@
 
 .faculties-page {
     gap: 2rem;
+    padding-top: calc(2 * var(--corner-radius) + 2rem);
     padding-bottom: 6rem;
 }
 

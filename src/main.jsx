@@ -20,6 +20,10 @@ import { AuthProvider } from "./context/AuthContext";
 import { scheduleSiteWarmup } from "./lib/sitePrefetch";
 import { routeModuleLoaders } from "./routes/pageModules";
 import "./styles/common.css";
+// Формы открываются интерактивно и часть из них рендерится порталом в body.
+// Загружаем их стили заранее, чтобы первый показ не попадал в неоформленный кадр.
+import "./styles/page-info.css";
+import "./styles/stories-list.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({

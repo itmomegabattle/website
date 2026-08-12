@@ -30,7 +30,7 @@ export default function Partners() {
   const wallPartners = visiblePartners.length ? visiblePartners : partners;
   const getPartnerGroup = (partner) =>
     partner.partnerGroup || (String(partner.sourceKey || partner.source_key || "").startsWith("general:") ? "general" : "regular");
-  const rows = [0, 1, 2].map((rowIndex) => {
+  const rows = [0, 1, 2, 3].map((rowIndex) => {
     const shifted = wallPartners.slice(rowIndex).concat(wallPartners.slice(0, rowIndex));
     const repeatCount = Math.max(2, Math.ceil(8 / Math.max(shifted.length, 1)));
     return Array.from({ length: repeatCount }, () => shifted).flat();
@@ -57,7 +57,7 @@ export default function Partners() {
       tracks.forEach((track, index) => {
         const direction = Number(track.dataset.direction || 1);
         const speed = Number(track.dataset.speed || 1);
-        const drift = (index === 1 ? 80 : index === 2 ? -120 : 0) * mobileFactor;
+        const drift = (index === 1 ? 80 : index === 2 ? -120 : index === 3 ? 45 : 0) * mobileFactor;
         track.style.transform = `translate3d(${direction * shift * speed + drift}px,0,0)`;
       });
     };
@@ -124,13 +124,13 @@ export default function Partners() {
         <div className="partners-wall__stage">
           {rows.map((row, rowIndex) => (
             <div
-              className={`partners-wall-row partners-wall-row--${rowIndex}${rowIndex === 1 ? " partners-wall-row--reverse" : ""}`}
+              className={`partners-wall-row partners-wall-row--${rowIndex}${rowIndex % 2 === 1 ? " partners-wall-row--reverse" : ""}`}
               key={`row-${rowIndex}`}
             >
               <div
                 className="partners-wall-track"
-                data-direction={rowIndex === 1 ? -1 : 1}
-                data-speed={rowIndex === 0 ? 1 : rowIndex === 1 ? 1.18 : 0.84}
+                data-direction={rowIndex % 2 === 1 ? -1 : 1}
+                data-speed={rowIndex === 0 ? 1 : rowIndex === 1 ? 1.18 : rowIndex === 2 ? 0.84 : 1.06}
               >
                 {row.map((partner, index) => renderCard(partner, `row-${rowIndex}-${partner.partnerKey || partner.id || partner.name}-${index}`, index + rowIndex))}
               </div>
