@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import EventList from "../components/EventList";
+import ProjectTabs from "../components/ProjectTabs";
 import heroVideo from "/hero-video.mp4";
 import heroVideoMobile from "/hero-video-mobile.mp4";
 import heroPoster from "/hero-poster.webp";
@@ -26,61 +26,8 @@ export default function HomePage() {
   });
   const [preloaderFinished, setPreloaderFinished] = useState(() => hasSeenPreloader());
   const heroVideoRef = useRef(null);
-  const [activeProjectTab, setActiveProjectTab] = useState(0);
   const isDarkTheme = theme === "dark";
   const shouldPlayHeroVideo = allowHeroVideo && preloaderFinished;
-  const projectTabs = [
-    {
-      number: "01",
-      title: "Что это?",
-      text: [
-        "ITMO.Megabattle — проект, созданный студентами для студентов. С 2018 года он объединяет мегафакультеты ИТМО, сохраняет университетские традиции и создаёт новые.",
-        "Как проект вырос из наследия Студвесны и менялся от сезона к сезону, рассказывает раздел «История». Прошлое своего мегафакультета можно изучить в ретро-блоке факультетов, а зарегистрироваться на ближайшие события — в разделе мероприятий.",
-      ],
-      tags: ["творческий сезон", "5 мегафакультетов", "история проекта"],
-      links: [
-        { to: "/history", label: "История" },
-        { to: "/faculties", label: "Ретро факультетов" },
-        { to: "/events", label: "Мероприятия" },
-      ],
-    },
-    {
-      number: "02",
-      title: "Что я буду делать?",
-      text: [
-        "Каждый участник может найти занятие по интересам и навыкам: выходить на сцену, снимать и монтировать, создавать костюмы и декорации, работать со светом, звуком, дизайном, медиа или организацией.",
-        "В проекте более 50 ролей, и с каждым сезоном появляются новые. Megabattle устроен так, что вклад каждого человека влияет на общий результат — подробнее о направлениях работы можно узнать в разделе «Роли».",
-      ],
-      tags: ["сцена", "медиа", "техника и организация"],
-      links: [{ to: "/history#roles", label: "Посмотреть роли" }],
-    },
-    {
-      number: "03",
-      title: "Как попасть?",
-      text: [
-        "Если ты ещё не знаешь свой мегафакультет, открой страницу факультетов: там собраны инфографика, структура университета, образовательные программы и поиск по названиям и сокращениям.",
-        "Чтобы попасть в актив, достаточно написать ответственному своего факультета. Можно сразу рассказать, что тебе интересно, или просто прийти познакомиться — подходящую роль помогут найти вместе.",
-      ],
-      tags: ["найти факультет", "выбрать роль", "прийти на событие"],
-      links: [
-        { to: "/people?team=responsible#team", label: "Ответственные в команде" },
-        { to: "/faculties", label: "Найти факультет" },
-      ],
-    },
-    {
-      number: "04",
-      title: "Что-то ещё?",
-      text: [
-        "У участников проекта остаются истории и воспоминания — они собраны на отдельной странице, которую можно дополнять новыми рассказами.",
-        "С сезона 2026/27 у проекта работает собственный сайт с личным кабинетом. Здесь развиваются профиль, рейтинг и игровые механики, а NFC-карту или брелок можно привязать к визитке, знакомиться с участниками и вместе строить граф связей.",
-      ],
-      links: [
-        { to: "/ratings", label: "Открыть профиль" },
-        { to: "/people#connections", label: "Граф знакомств" },
-        { to: "/people#stories", label: "Истории участников" },
-      ],
-    },
-  ];
 
   useEffect(() => {
     Theme.addListener(setTheme, false);
@@ -176,37 +123,7 @@ export default function HomePage() {
 
         <section id="about" className="about main-width">
           <h1>ПРОЕКТ</h1>
-          <div className="project-menu" aria-label="Навигация по проекту">
-            <div className="project-menu__nav" role="tablist" aria-label="О проекте">
-              {projectTabs.map((item, index) => (
-                <button
-                  className={`project-menu__trigger${activeProjectTab === index ? " is-active" : ""}`}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeProjectTab === index}
-                  aria-controls="project-panel"
-                  onClick={() => setActiveProjectTab(index)}
-                  key={item.title}
-                >
-                  <span className="project-menu__number">{item.number}</span>
-                  <span className="project-menu__title">{item.title}</span>
-                </button>
-              ))}
-            </div>
-            <div className="project-menu__panel" id="project-panel" role="tabpanel" aria-live="polite">
-              <h2>{projectTabs[activeProjectTab].title}</h2>
-              <div className="project-menu__text">
-                {projectTabs[activeProjectTab].text.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-              </div>
-              <div className="project-menu__actions">
-                {projectTabs[activeProjectTab].links.map((link) => (
-                  <Link className="project-menu__cta" to={link.to} key={link.to}>
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
+          <ProjectTabs />
         </section>
 
         <section id="events" className="events events-page main-width">
