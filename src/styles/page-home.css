@@ -51,13 +51,13 @@
 }
 
 @media (max-width: 768px) {
-    .hero-content {
+    /* .hero-content {
         align-self: end;
         width: min(66vw, 270px);
         max-width: calc(100vw - 2 * var(--screen-edge-padding));
         box-sizing: border-box;
         padding-bottom: clamp(1.2rem, 7svh, 4rem);
-    }
+    } */
 
     .hero-title {
         width: 100%;
