@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../styles/project-tabs.css";
+import "./project-tabs.css";
 
 const projectTabs = [
   {

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
-import "../styles/preloader.css";
+import "./preloader.css";
 
 const PreloaderCapture = lazy(() => import("./PreloaderCapture"));
 

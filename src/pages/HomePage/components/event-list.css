@@ -1,5 +1,5 @@
-@import './button.css';
-@import "./variables.css";
+@import '../../../styles/button.css';
+@import "../../../styles/variables.css";
 
 /* Event Cards */
 .event-cards {

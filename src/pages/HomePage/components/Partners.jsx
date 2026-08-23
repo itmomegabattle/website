@@ -1,11 +1,11 @@
-import { Api } from "../api";
-import "../styles/partners.css";
+import { Api } from "../../../api";
+import "./partners.css";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
-import ModalPortal from "./ModalPortal";
-import { PartnerEditor } from "./PartnersBento";
-import { useAuth } from "../context/AuthContext";
-import { isAdminProfile } from "../services/adminService";
+import ModalPortal from "../../../components/ModalPortal";
+import { PartnerEditor } from "../../../components/PartnersBento";
+import { useAuth } from "../../../context/AuthContext";
+import { isAdminProfile } from "../../../services/adminService";
 
 function uniquePartners(partners) {
   return Array.from(

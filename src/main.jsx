@@ -14,7 +14,7 @@ import { Api } from "./api";
 import Background from "./components/Background";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Preloader from "./components/Preloader";
+import Preloader from "./common/components/Preloader";
 import PageStage from "./components/PageStage";
 import { AuthProvider } from "./context/AuthContext";
 import { scheduleSiteWarmup } from "./lib/sitePrefetch";

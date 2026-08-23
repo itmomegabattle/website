@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BusinessCard, TelegramProfile, VkProfile } from "./contact/ProjectProfiles";
 import { InstagramProfile, RutubeProfile, TiktokProfile } from "./contact/SocialProfiles";
 import { FALLBACK_STATS, SOCIALS } from "./contact/contactData";
-import "../styles/contact-showcase.css";
+import "./contact-showcase.css";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 export default function ContactShowcase() {

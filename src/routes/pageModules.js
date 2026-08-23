@@ -1,5 +1,5 @@
 const pageLoaders = {
-  "/": () => import("../pages/HomePage"),
+  "/": () => import("../pages/HomePage/HomePage"),
   "/people": () => import("../pages/PeoplePage"),
   "/faculties": () => import("../pages/FacultiesPage"),
   "/history": () => import("../pages/HistoryPage"),

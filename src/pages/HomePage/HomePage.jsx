@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import EventList from "../components/EventList";
-import ProjectTabs from "../components/ProjectTabs";
+import EventList from "./components/EventList";
+import ProjectTabs from "./components/ProjectTabs";
 import heroVideo from "/hero-video.mp4";
 import heroVideoMobile from "/hero-video-mobile.mp4";
 import heroPoster from "/hero-poster.webp";
 import heroPosterMobile from "/hero-poster-mobile.webp";
-import "../styles/page-home.css";
-import Megabattle from "../components/Megabattle";
-import Partners from "../components/Partners";
-import ContactShowcase from "../components/ContactShowcase";
+import "./home-page.css";
+import Megabattle from "./components/Megabattle";
+import Partners from "./components/Partners";
+import ContactShowcase from "./components/ContactShowcase";
 import {
   hasSeenPreloader,
   PRELOADER_FINISHED_EVENT,
-} from "../components/Preloader";
-import { Theme } from "../theme";
+} from "../../common/components/Preloader";
+import { Theme } from "../../theme";
 
 export default function HomePage() {
   const [theme, setTheme] = useState(Theme.get());
