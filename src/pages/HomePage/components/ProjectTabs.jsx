@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import ActionLink from "../../../common/components/ActionLink";
+import Card from "../../../common/components/Card";
 import "./project-tabs.css";
 
 const projectTabs = [
@@ -10,7 +11,6 @@ const projectTabs = [
       "ITMO.Megabattle — проект, созданный студентами для студентов. С 2018 года он объединяет мегафакультеты ИТМО, сохраняет университетские традиции и создаёт новые.",
       "Как проект вырос из наследия Студвесны и менялся от сезона к сезону, рассказывает раздел «История». Прошлое своего мегафакультета можно изучить в ретро-блоке факультетов, а зарегистрироваться на ближайшие события — в разделе мероприятий.",
     ],
-    tags: ["творческий сезон", "5 мегафакультетов", "история проекта"],
     links: [
       { to: "/history", label: "История" },
       { to: "/faculties", label: "Ретро факультетов" },
@@ -24,7 +24,6 @@ const projectTabs = [
       "Каждый участник может найти занятие по интересам и навыкам: выходить на сцену, снимать и монтировать, создавать костюмы и декорации, работать со светом, звуком, дизайном, медиа или организацией.",
       "В проекте более 50 ролей, и с каждым сезоном появляются новые. Megabattle устроен так, что вклад каждого человека влияет на общий результат — подробнее о направлениях работы можно узнать в разделе «Роли».",
     ],
-    tags: ["сцена", "медиа", "техника и организация"],
     links: [{ to: "/history#roles", label: "Посмотреть роли" }],
   },
   {
@@ -34,7 +33,6 @@ const projectTabs = [
       "Если ты ещё не знаешь свой мегафакультет, открой страницу факультетов: там собраны инфографика, структура университета, образовательные программы и поиск по названиям и сокращениям.",
       "Чтобы попасть в актив, достаточно написать ответственному своего факультета. Можно сразу рассказать, что тебе интересно, или просто прийти познакомиться — подходящую роль помогут найти вместе.",
     ],
-    tags: ["найти факультет", "выбрать роль", "прийти на событие"],
     links: [
       { to: "/people?team=responsible#team", label: "Ответственные в команде" },
       { to: "/faculties", label: "Найти факультет" },
@@ -60,7 +58,7 @@ export default function ProjectTabs() {
   const active = projectTabs[activeTab];
 
   return (
-    <div className="project-menu" aria-label="Навигация по проекту">
+    <Card className="project-menu" aria-label="Навигация по проекту">
       <div className="project-menu__nav" role="tablist" aria-label="О проекте">
         {projectTabs.map((item, index) => (
           <button
@@ -78,18 +76,18 @@ export default function ProjectTabs() {
         ))}
       </div>
       <div className="project-menu__panel" id="project-panel" role="tabpanel" aria-live="polite">
-        <h2>{active.title}</h2>
+        <h2 className="card-title">{active.title}</h2>
         <div className="project-menu__text">
           {active.text.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         </div>
         <div className="project-menu__actions">
           {active.links.map((link) => (
-            <Link className="project-menu__cta" to={link.to} key={link.to}>
+            <ActionLink to={link.to} key={link.to}>
               {link.label}
-            </Link>
+            </ActionLink>
           ))}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

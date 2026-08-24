@@ -1,7 +1,6 @@
-@import '../../../styles/button.css';
 @import "../../../styles/variables.css";
 
-/* Event Cards */
+/* Лента событий: карточки рисует общий EventCard (event-showcase.css). */
 .event-cards {
     margin-top: 2rem;
     display: flex;
@@ -9,76 +8,4 @@
     gap: 2rem;
     justify-content: center;
     align-items: center;
-}
-
-.event-card {
-    display: flex;
-    gap: 0;
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.5s ease;
-    width: 1200px;
-    max-width: 100%;
-    border-radius: var(--corner-radius);
-    overflow: hidden;
-    background: var(--surface-color-special);
-    box-shadow: var(--card-shadow);
-    border: var(--card-border);
-    color: var(--text-color-special)
-}
-
-.event-image {
-    flex: 3;
-    height: 500px;
-    overflow: hidden;
-    border-radius: 0;
-    background: transparent;
-}
-
-.event-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.event-info {
-    flex: 2;
-    padding: var(--card-padding-vertical) var(--card-padding-horizontal);
-    display: flex;
-    flex-direction: column;
-    background: transparent;
-    border-radius: 0;
-}
-
-.event-description {
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-.event-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 0.8rem;
-}
-
-.event-button {
-    margin-top: auto;
-}
-
-@media (max-width: 900px) {
-    .event-card {
-        flex-direction: column;
-    }
-
-    .event-image {
-        width: 100%;
-        height: 280px;
-        flex: none;
-    }
-
-    .event-info {
-        width: 100%;
-    }
 }

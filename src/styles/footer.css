@@ -3,44 +3,25 @@
   padding: clamp(1rem, 2.4vw, 2rem) 0;
 }
 
+/* Поверхность (рамка, тень, фон, скругление) — от общего Card. */
 .footer-content {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  width: min(100%, 1180px);
+  width: 100%;
   min-height: 210px;
   margin: 0 auto;
-  padding: 0.75rem;
+  padding: var(--card-padding-small);
   display: grid;
   grid-template-columns:
     minmax(170px, 0.85fr)
     minmax(260px, 1.45fr)
     minmax(360px, 2fr);
   grid-template-rows: repeat(2, minmax(82px, auto));
-  gap: 0.75rem;
-  border: 1px solid var(--glass-border);
-  border-radius: clamp(1.25rem, 2vw, 1.75rem);
-  background:
-    radial-gradient(
-      circle at 12% 18%,
-      color-mix(in srgb, var(--accent-color) 11%, transparent),
-      transparent 36%
-    ),
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--glass-background-strong) 86%, transparent),
-      var(--glass-background)
-    );
-  box-shadow:
-    0 22px 58px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .footer-content > * {
   min-width: 0;
-  border: 1px solid color-mix(in srgb, var(--border-color) 72%, transparent);
   border-radius: 1.1rem;
   background:
     linear-gradient(
@@ -58,13 +39,7 @@
   align-items: center;
   justify-content: center;
   padding: clamp(1rem, 2vw, 1.5rem);
-  background:
-    radial-gradient(
-      circle at 50% 30%,
-      color-mix(in srgb, var(--accent-color) 16%, transparent),
-      transparent 66%
-    ),
-    rgba(255, 255, 255, 0.018);
+  background: rgba(255, 255, 255, 0.018);
 }
 
 .footer-logo {
@@ -201,7 +176,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
   grid-row: 1;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.55rem;
   padding: 0.65rem;
 }
 
@@ -211,14 +185,12 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
   border-radius: 0.85rem;
   color: color-mix(in srgb, var(--text-color) 68%, transparent);
   text-decoration: none;
   background: rgba(255, 255, 255, 0.018);
   transition:
     color 0.22s ease,
-    border-color 0.22s ease,
     background 0.22s ease,
     transform 0.22s ease;
 }
@@ -226,7 +198,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
 .footer-socials a:hover,
 .footer-socials a:focus-visible {
   color: var(--text-color);
-  border-color: color-mix(in srgb, var(--accent-color) 48%, var(--border-color));
   background: color-mix(in srgb, var(--accent-color) 9%, transparent);
   transform: translateY(-2px);
   outline: none;
@@ -247,7 +218,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
   grid-row: 2;
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(180px, 0.85fr);
-  gap: 0.55rem;
   padding: 0.65rem;
 }
 
@@ -285,7 +255,7 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
 
 .footer-support {
   appearance: none;
-  border: 1px solid transparent;
+  border: 0;
   padding: 0.85rem 0.95rem;
   display: flex;
   align-items: center;
@@ -297,14 +267,12 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
   text-align: left;
   cursor: default;
   transition:
-    border-color 0.22s ease,
     background 0.22s ease,
     transform 0.22s ease;
 }
 
 .footer-support:hover,
 .footer-support:focus-visible {
-  border-color: color-mix(in srgb, var(--text-color) 16%, transparent);
   background: rgba(255, 255, 255, 0.035);
   color: var(--text-color);
   transform: none;
@@ -363,8 +331,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
   .footer-content {
     width: 100%;
 
-    padding: 0.55rem;
-
     grid-template-columns:
       minmax(92px, 0.68fr)
       minmax(0, 1.72fr);
@@ -373,10 +339,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
       auto
       auto
       auto;
-
-    gap: 0.55rem;
-
-    border-radius: 1.2rem;
   }
 
   /* Logo and university info now share the first row. */
@@ -427,7 +389,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
     grid-column: 1 / -1;
     grid-row: 2;
 
-    gap: 0.4rem;
 
     padding: 0.45rem;
   }
@@ -452,7 +413,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
       minmax(0, 1.12fr)
       minmax(125px, 0.88fr);
 
-    gap: 0.4rem;
 
     padding: 0.45rem;
   }
@@ -498,9 +458,6 @@ html[data-theme="light"] .footer-modal-primary { border-color:#0069e0; backgroun
     grid-template-columns:
       minmax(78px, 0.58fr)
       minmax(0, 1.42fr);
-
-    gap: 0.45rem;
-    padding: 0.45rem;
   }
 
   .footer-brand,

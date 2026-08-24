@@ -1,4 +1,5 @@
 import { Api } from "../../../api";
+import ActionLink from "../../../common/components/ActionLink";
 import "./partners.css";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -185,10 +186,9 @@ export default function Partners() {
                     "Подробная информация о партнёре появится здесь после заполнения описания в редакторе."}
                 </p>
                 {activePartner.link && (
-                  <a className="partner-detail-link" href={activePartner.link} target="_blank" rel="noreferrer">
+                  <ActionLink className="partner-detail-link" href={activePartner.link}>
                     Открыть сайт
-                    <span aria-hidden="true">↗</span>
-                  </a>
+                  </ActionLink>
                 )}
               </div>
             </article>

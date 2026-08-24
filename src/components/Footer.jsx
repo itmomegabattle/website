@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Card from "../common/components/Card";
 import "../styles/footer.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +9,7 @@ import {
   faTelegram,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
+import RutubeIcon from "../common/components/RutubeIcon";
 import ModalPortal from "./ModalPortal";
 import { backendApi } from "../lib/backendApi";
 import { supabase } from "../lib/supabase";
@@ -93,7 +94,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="main-width">
-        <div className="footer-content">
+        <Card className="footer-content">
           <Link
             to="/"
             className="footer-brand"
@@ -165,7 +166,7 @@ export default function Footer() {
               title="Rutube"
               aria-label="Rutube"
             >
-              <FontAwesomeIcon icon={faCirclePlay} />
+              <RutubeIcon />
             </a>
           </nav>
 
@@ -185,7 +186,7 @@ export default function Footer() {
               Поддержка
             </button>
           </div>
-        </div>
+        </Card>
       </div>
       {modal === "privacy" && <PrivacyPolicy onClose={() => setModal(null)} onSupport={() => setModal("support")} />}
       {modal === "support" && <SupportForm onClose={() => setModal(null)} onPolicy={() => setModal("privacy")} />}

@@ -254,16 +254,13 @@
   font: 500 clamp(0.86rem, 1.2vw, 1rem)/1.3 var(--heading-font);
 }
 
-.pill-row {
-  display: flex;
-  flex-wrap: wrap;
+.event-showcase-card .tag-row {
   gap: 0.45rem;
 }
 
-.pill {
+.event-showcase-card .tag {
   padding: 0.46rem 0.68rem;
   border: 1px solid color-mix(in srgb, var(--accent-color) 25%, rgba(255, 255, 255, 0.13));
-  border-radius: 999px;
   background: rgba(0, 105, 224, 0.045);
   color: var(--brand-white);
   font: 500 0.76rem/1 var(--heading-font);
@@ -375,7 +372,7 @@ html[data-theme="dark"] .events-page .event-meta-grid > span {
   color: rgba(255, 255, 255, 0.88);
 }
 
-html[data-theme="dark"] .events-page .pill {
+html[data-theme="dark"] .events-page .tag {
   border-color: rgba(0, 105, 224, 0.34);
   background: rgba(0, 105, 224, 0.08);
   color: rgba(236, 244, 255, 0.88);
@@ -501,7 +498,7 @@ html[data-theme="light"] .events-page .event-meta-grid > span {
   color: var(--text-color);
 }
 
-html[data-theme="light"] .events-page .pill {
+html[data-theme="light"] .events-page .tag {
   border-color: color-mix(in srgb, var(--accent-color) 25%, rgba(0, 0, 0, 0.12));
   background: rgba(0, 105, 224, 0.075);
   color: color-mix(in srgb, var(--accent-color) 64%, var(--text-color));
@@ -696,7 +693,7 @@ html[data-theme="light"] .events-page .event-registration-button--disabled {
     font-size: 0.76rem;
   }
 
-  .pill {
+  .event-showcase-card .tag {
     padding: 0.48rem 0.62rem;
     font-size: 0.68rem;
   }

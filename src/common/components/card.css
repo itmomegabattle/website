@@ -1,0 +1,20 @@
+@import "../../styles/variables.css";
+
+.card {
+    border: var(--card-border);
+    border-radius: var(--corner-radius);
+    background: var(--card-background);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(var(--content-glass-blur));
+    -webkit-backdrop-filter: blur(var(--content-glass-blur));
+}
+
+/* Единый заголовок карточки. */
+.card-title {
+    margin: 0;
+    color: var(--text-color);
+    font-family: var(--heading-font);
+    font-size: var(--heading-card-size);
+    line-height: 0.95;
+    text-transform: uppercase;
+}

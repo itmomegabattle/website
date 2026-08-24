@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BusinessCard, TelegramProfile, VkProfile } from "./contact/ProjectProfiles";
 import { InstagramProfile, RutubeProfile, TiktokProfile } from "./contact/SocialProfiles";
 import { FALLBACK_STATS, SOCIALS } from "./contact/contactData";
+import RutubeIcon from "../../../common/components/RutubeIcon";
 import "./contact-showcase.css";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
@@ -59,6 +60,8 @@ export default function ContactShowcase() {
           >
             {item.id === "instagram" ? (
               <FontAwesomeIcon icon={faCamera} />
+            ) : item.id === "rutube" ? (
+              <RutubeIcon />
             ) : item.icon ? (
               <FontAwesomeIcon icon={item.icon} />
             ) : (

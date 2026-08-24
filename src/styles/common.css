@@ -31,6 +31,10 @@
 
 html {
     overflow-x: clip;
+    /* Маюскульные (выровненные) цифры: Raleway по умолчанию рисует
+       «старостильные» цифры с выносами, выбивающиеся из строки. */
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "lnum" 1;
 }
 
 /* Плавная смена цвета при смене темы */

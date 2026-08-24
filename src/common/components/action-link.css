@@ -1,0 +1,35 @@
+@import "../../styles/variables.css";
+
+.action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--text-color);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.action-link__icon {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.action-link:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.action-link:hover .action-link__icon {
+    transform: translate(0.15em, -0.15em);
+}
+
+.action-link:focus-visible {
+    outline: 2px solid var(--brand-blue-soft);
+    outline-offset: 3px;
+    border-radius: 2px;
+}

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Api } from "../api";
+import Tag, { TagRow } from "../common/components/Tag";
 import "../styles/event-showcase.css";
 
 export default function EventCard({ event }) {
@@ -41,13 +42,11 @@ export default function EventCard({ event }) {
         </div>
 
         {details.length > 0 && (
-          <div className="pill-row">
+          <TagRow>
             {details.map((detail) => (
-              <span className="pill" key={detail}>
-                {detail}
-              </span>
+              <Tag key={detail}>{detail}</Tag>
             ))}
-          </div>
+          </TagRow>
         )}
       </div>
     </>
