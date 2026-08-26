@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../api";
-import { getMemberCardImage } from "./team/memberImages";
+import MemberCard from "./team/MemberCard";
 
-const fallbackAvatar = "/images/people/member-full.jpg";
 const INITIAL_PEOPLE_COUNT = 24;
 const PEOPLE_BATCH_SIZE = 24;
 
@@ -79,21 +78,9 @@ export default function PeopleCloud() {
         </div>
       </header>
 
-      <div className="people-cloud" aria-label="Люди проекта">
+      <div className="people-cloud main-width" aria-label="Люди проекта">
         {bubbles.slice(0, visibleCount).map((person, index) => (
-          <article className="people-cloud-person" key={person.bubbleKey} tabIndex="0">
-            <img
-              src={Api.normalizeURL(getMemberCardImage(person) || fallbackAvatar)}
-              alt=""
-              width="256"
-              height="256"
-              loading={index < 8 ? "eager" : "lazy"}
-              decoding="async"
-            />
-            <span>
-              <strong>{person.name}</strong>
-            </span>
-          </article>
+          <MemberCard key={person.bubbleKey} member={person} index={index} nameOnly />
         ))}
       </div>
       {visibleCount < bubbles.length && (

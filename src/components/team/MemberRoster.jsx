@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Api } from "../../api";
 import ExternalLink from "../ExternalLink";
 import ModalPortal from "../ModalPortal";
-import { getMemberCardImage, getMemberDetailImage } from "./memberImages";
+import MemberCard from "./MemberCard";
+import { getMemberDetailImage } from "./memberImages";
 
-export default function MemberRoster({ members }) {
+export default function MemberRoster({ section, members }) {
   const [activeMember, setActiveMember] = useState(null);
   const closeButtonRef = useRef(null);
 
@@ -28,34 +29,12 @@ export default function MemberRoster({ members }) {
     <>
       <div className="people-roster is-ready">
         {members.map((member, index) => (
-          <button
-            key={member.key ?? `${member.name}-${member.activity}`}
-            className={`people-person-card people-person-card--${(index % 7) + 1}`}
-            type="button"
-            onClick={() => setActiveMember(member)}
-            style={{
-              "--person-index": String(index + 1).padStart(2, "0"),
-              "--person-tilt": `${((index * 11) % 5 - 2) * 0.22}deg`,
-              "--person-shift": `${[0, 1.7, 0.55, 2.25, 0.9][index % 5]}rem`,
-            }}
-          >
-            <span className="people-person-card__media">
-              <img
-                src={Api.normalizeURL(getMemberCardImage(member))}
-                alt={member.name}
-                width="480"
-                height="640"
-                loading={index < 4 ? "eager" : "lazy"}
-                fetchPriority={index < 2 ? "high" : "auto"}
-                decoding="async"
-              />
-            </span>
-            <span className="people-person-card__copy">
-              <small>{member.activity || "Команда Megabattle"}</small>
-              <strong>{member.name}</strong>
-              <em>Открыть профиль ↗</em>
-            </span>
-          </button>
+          <MemberCard
+            key={`${section}-${member.key ?? `${member.name}-${member.activity}`}`}
+            member={member}
+            index={index}
+            onOpen={setActiveMember}
+          />
         ))}
       </div>
       {activeMember && (

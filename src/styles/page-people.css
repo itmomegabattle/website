@@ -25,19 +25,6 @@
   pointer-events: none;
 }
 
-.people-page .main-width {
-  width: min(92vw, 1540px);
-}
-
-.people-kicker {
-  margin: 0 0 1rem;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: clamp(0.62rem, 0.82vw, 0.75rem);
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
 .people-team {
   display: grid;
   gap: 0;
@@ -88,8 +75,8 @@
   max-width: 40rem;
   margin: 0;
   color: rgba(255, 255, 255, 0.52);
-  font-size: clamp(0.88rem, 1.1vw, 1.02rem);
-  line-height: 1.6;
+  font-size: var(--body-size);
+  line-height: var(--body-line-height);
 }
 
 .people-connections .people-section-heading h2 {
@@ -103,10 +90,8 @@
   gap: clamp(2rem, 3.5vw, 3.5rem);
   width: 100%;
   min-width: 0;
-  padding: clamp(1rem, 2vw, 2rem) clamp(0.75rem, 2vw, 2rem);
-  content-visibility: auto;
-  contain-intrinsic-size: 58rem;
-  overflow: hidden;
+  /* Без content-visibility: его paint containment резал тени карточек по границе секции. */
+  padding: clamp(1rem, 2vw, 2rem) 0;
   background:
     radial-gradient(circle at 16% 34%, rgba(0, 105, 224, 0.11), transparent 24rem),
     radial-gradient(circle at 84% 68%, rgba(255, 255, 255, 0.045), transparent 22rem);
@@ -134,107 +119,15 @@
   line-height: 0.9;
 }
 
+/* Ширину дает общий .main-width, отступы между карточками — те же, что в секции команды. */
 .people-cloud {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(7.5rem, 10vw, 9.5rem), 1fr));
-  gap: clamp(0.6rem, 1.2vw, 1.15rem);
-  width: min(100%, 90rem);
-  margin-inline: auto;
-  padding: clamp(0.5rem, 1vw, 1rem);
-}
-
-.people-cloud-person {
-  position: relative;
-  min-width: 0;
-  aspect-ratio: 4 / 5;
-  outline: none;
-  transform: translateY(var(--cloud-shift, 0)) rotate(var(--cloud-tilt, 0deg));
-  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.people-cloud-person:nth-child(6n + 2) {
-  --cloud-shift: 0.32rem;
-  --cloud-tilt: 0.65deg;
-}
-
-.people-cloud-person:nth-child(6n + 3) {
-  --cloud-shift: -0.28rem;
-  --cloud-tilt: -0.55deg;
-}
-
-.people-cloud-person:nth-child(6n + 5) {
-  --cloud-shift: -0.18rem;
-  --cloud-tilt: 0.45deg;
-}
-
-.people-cloud-person:nth-child(6n) {
-  --cloud-shift: 0.22rem;
-  --cloud-tilt: -0.4deg;
-}
-
-.people-cloud-person:nth-child(9n + 1) img {
-  border-color: rgba(0, 105, 224, 0.58);
-  box-shadow: 0 0 0 0.25rem rgba(0, 105, 224, 0.07), 0 1.4rem 3.5rem rgba(0, 0, 0, 0.32);
-}
-
-.people-cloud-person img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: clamp(0.8rem, 1.3vw, 1.25rem);
-  object-fit: cover;
-  filter: grayscale(0.72) brightness(0.76);
-  transition: filter 220ms ease, border-color 220ms ease, transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.people-cloud-person > span {
-  position: absolute;
-  z-index: 3;
-  right: 0.65rem;
-  bottom: 0.65rem;
-  left: 0.65rem;
-  display: grid;
-  gap: 0.15rem;
-  padding: 0.7rem 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 0.7rem;
-  background: rgba(0, 0, 0, 0.78);
-  opacity: 1;
-  transform: none;
-  transition: opacity 180ms ease, transform 180ms ease;
-}
-
-.people-cloud-person strong {
-  font-size: 0.78rem;
-  line-height: 1.15;
-}
-
-.people-cloud-person small {
-  color: rgba(255, 255, 255, 0.58);
-  font-size: 0.6rem;
-  line-height: 1.25;
-}
-
-.people-cloud-person:hover img,
-.people-cloud-person:focus-visible img {
-  border-color: rgba(99, 174, 255, 0.8);
-  filter: grayscale(0) brightness(0.98);
-  transform: scale(1.035);
-}
-
-.people-cloud-person:hover,
-.people-cloud-person:focus-visible {
-  z-index: 4;
-  transform: translateY(calc(var(--cloud-shift, 0) - 0.3rem)) rotate(0deg);
-}
-
-.people-cloud-person:hover > span,
-.people-cloud-person:focus-visible > span {
-  opacity: 1;
-  transform: translateY(0);
+  grid-template-columns: repeat(auto-fill, minmax(clamp(6.5rem, 4rem + 9vw, 11rem), 1fr));
+  column-gap: clamp(0.7rem, 1.15vw, 1.2rem);
+  row-gap: clamp(2.5rem, 4vw, 3.8rem);
+  padding: clamp(0.5rem, 1vw, 1rem) 0;
 }
 
 .people-cloud-more {
@@ -326,8 +219,8 @@
 .friendship-graph-card__launch-copy > span,
 .friendship-graph-card__launch-copy > strong {
   color: rgba(255, 255, 255, 0.7);
-  font: 800 0.72rem/1 var(--body-font);
-  letter-spacing: 0.22em;
+  font: var(--eyebrow-weight) var(--eyebrow-size)/1 var(--body-font);
+  letter-spacing: var(--eyebrow-tracking);
   text-transform: uppercase;
 }
 
@@ -398,10 +291,6 @@
     padding: 4.75rem 0 5rem;
   }
 
-  .people-page .main-width {
-    width: min(94vw, 1540px);
-  }
-
   .people-team-title {
     margin-bottom: var(--section-title-switch-gap);
     font-size: clamp(1.8rem, 8vw, 2.15rem);
@@ -436,29 +325,9 @@
   }
 
   .people-cloud {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.45rem;
-    padding: 0.5rem 0.75rem 0.8rem;
-  }
-
-  .people-cloud-person > span {
-    right: 0.25rem;
-    bottom: 0.25rem;
-    left: 0.25rem;
-    padding: 0.4rem;
-  }
-
-  .people-cloud-person {
-    --cloud-shift: 0 !important;
-    --cloud-tilt: 0deg !important;
-  }
-
-  .people-cloud-person strong {
-    font-size: 0.52rem;
-  }
-
-  .people-cloud-person small {
-    display: none;
+    column-gap: 0.65rem;
+    row-gap: 1.6rem;
+    padding: 0.5rem 0 0.8rem;
   }
 
   .people-connections .friendship-graph-card {
@@ -490,13 +359,3 @@
 .people-connections .friendship-graph-card { background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 50%),rgba(3,3,3,.95); border-color:rgba(255,255,255,.13); }
 .friendship-graph-card__preview { background:linear-gradient(115deg,transparent 5%,rgba(255,255,255,.055) 45%,transparent 78%); }
 .friendship-graph-card__launch-copy time { font-size:clamp(2.8rem,7vw,6rem); letter-spacing:-.045em; }
-.people-cloud-person img,
-.people-cloud-person:nth-child(9n + 1) img { border-color:transparent; box-shadow:0 1.4rem 3.5rem rgba(0,0,0,.32); }
-.people-cloud-person:hover img,.people-cloud-person:focus-visible img { border-color:rgba(255,255,255,.28); }
-.people-cloud-person > span {
-  border:0;
-  background:transparent;
-  border-radius:0;
-  color:#fff;
-  text-shadow:0 2px 12px rgba(0,0,0,.95),0 1px 2px rgba(0,0,0,.95);
-}

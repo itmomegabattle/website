@@ -266,10 +266,6 @@ html[data-theme="light"] .contact-tab--tiktok,
 html[data-theme="light"] .contact-tab--rutube { color:#080808; }
 
 /* Pleiad portraits should retain their real exposure in light mode. */
-html[data-theme="light"] .people-cloud-person img { filter:grayscale(.18) brightness(.96) contrast(1.02); }
-html[data-theme="light"] .people-cloud-person:hover img,
-html[data-theme="light"] .people-cloud-person:focus-visible img { filter:none; }
-html[data-theme="light"] .people-cloud-person > span { background:transparent; color:#fff; }
 
 /* Retro uses visible editorial cells. */
 html[data-theme="light"] .faculty-retro-newspaper .faculty-retro-cell,

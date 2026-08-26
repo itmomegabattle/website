@@ -1,0 +1,194 @@
+@import "../../styles/variables.css";
+
+/* Карточка участника: ширину задает ячейка сетки родителя. */
+.people-person-card {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 0.76;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  background: var(--brand-black);
+  box-shadow: 0 1.35rem 4rem rgba(0, 0, 0, 0.36);
+  color: var(--brand-white);
+  overflow: hidden;
+  text-align: left;
+  transform: translateY(var(--person-shift)) rotate(var(--person-tilt));
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.people-person-card {
+  cursor: pointer;
+}
+
+/* Ховер согласован с карточками партнеров: чуть ярче рамка и мягкое акцентное свечение. */
+.people-person-card:hover,
+.people-person-card:focus-visible {
+  z-index: 2;
+  border-color: var(--white-a42);
+  box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, 0.48), 0 0 3rem var(--accent-a10);
+  transform: translateY(calc(var(--person-shift) - 0.55rem)) rotate(0deg);
+}
+
+.people-person-card__media,
+.people-person-card__media::after {
+  position: absolute;
+  inset: 0;
+}
+
+.people-person-card__media::after {
+  content: "";
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 26%, rgba(0, 0, 0, 0.16) 54%, rgba(0, 0, 0, 0.94) 100%);
+}
+
+.people-person-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.82) contrast(1.03);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+}
+
+.people-person-card:hover .people-person-card__media img,
+.people-person-card:focus-visible .people-person-card__media img {
+  filter: saturate(1) contrast(1.05);
+  transform: scale(1.045);
+}
+
+.people-person-card__index {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.65rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+  background: rgba(2, 8, 18, 0.42);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+}
+
+.people-person-card__copy {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  display: grid;
+  gap: 0.32rem;
+  padding: clamp(0.85rem, 1.35vw, 1.3rem);
+}
+
+.people-person-card__copy small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  letter-spacing: var(--eyebrow-tracking);
+  text-transform: uppercase;
+}
+
+.people-person-card__copy strong {
+  max-width: 100%;
+  font: 500 clamp(1rem, 1.3vw, 1.55rem)/0.96 var(--heading-font);
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+/* Компактный вариант («Плеяда»): только имя, без вертикальных сдвигов раскладки. */
+.people-person-card--compact {
+  transform: translateY(0) rotate(var(--person-tilt));
+}
+
+.people-person-card--compact:hover,
+.people-person-card--compact:focus-visible {
+  transform: translateY(-0.35rem) rotate(0deg);
+}
+
+.people-person-card--compact .people-person-card__copy {
+  padding: 0.6rem 0.65rem;
+  gap: 0.2rem;
+}
+
+.people-person-card--compact .people-person-card__copy strong {
+  font-size: clamp(0.8rem, 0.95vw, 1.05rem);
+}
+
+@media (max-width: 720px) {
+  .people-person-card {
+    border-radius: 1.15rem;
+    transform: translateY(0) rotate(var(--person-tilt));
+  }
+
+  .people-person-card:nth-child(4n + 2),
+  .people-person-card:nth-child(4n + 3) {
+    transform: translateY(0.8rem) rotate(var(--person-tilt));
+  }
+
+  .people-person-card--compact,
+  .people-person-card--compact:nth-child(4n + 2),
+  .people-person-card--compact:nth-child(4n + 3) {
+    transform: translateY(0) rotate(var(--person-tilt));
+  }
+
+  .people-person-card:hover,
+  .people-person-card:focus-visible {
+    transform: translateY(-0.35rem) rotate(0deg);
+  }
+
+  .people-person-card__copy {
+    padding: 0.65rem;
+  }
+
+  .people-person-card__copy strong {
+    font-size: clamp(0.72rem, 3.3vw, 0.98rem);
+  }
+
+  .people-person-card__copy small {
+    font-size: 0.46rem;
+  }
+
+  .people-person-card__index {
+    top: 0.55rem;
+    left: 0.55rem;
+    width: 1.8rem;
+    font-size: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .people-person-card {
+    border-radius: 0.78rem;
+  }
+
+  .people-person-card__copy {
+    padding: 0.42rem;
+  }
+
+  .people-person-card__copy strong {
+    font-size: clamp(0.58rem, 2.8vw, 0.78rem);
+  }
+
+  .people-person-card__copy small {
+    display: none;
+  }
+
+  .people-person-card__index {
+    top: 0.38rem;
+    left: 0.38rem;
+    width: 1.35rem;
+    font-size: 0.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .people-person-card,
+  .people-person-card__media img {
+    transition: none;
+  }
+}

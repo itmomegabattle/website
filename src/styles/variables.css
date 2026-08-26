@@ -113,6 +113,10 @@
     --accent-a38: color-mix(in srgb, var(--accent-color) 38%, transparent);
     --accent-a45: color-mix(in srgb, var(--accent-color) 45%, transparent);
 
+    /* СКРОЛЛБАР */
+    --scrollbar-thumb: rgba(0, 0, 0, 0.35);
+    --scrollbar-track: rgba(0, 0, 0, 0.08);
+
     /* ТЕМОЗАВИСИМЫЙ ТЕКСТ И ЛИНИИ */
     --text-muted: rgba(0, 0, 0, 0.68);
     --text-subtle: rgba(0, 0, 0, 0.48);
@@ -185,6 +189,10 @@
     --content-glass-blur: 10px;
     --text-blue-shadow: 2px 2px 0px rgba(0, 105, 224, 0.62);
     --svg-blue-shadow: drop-shadow(3px 3px 0px rgba(0, 105, 224, 0.62));
+
+    /* СКРОЛЛБАР */
+    --scrollbar-thumb: rgba(255, 255, 255, 0.35);
+    --scrollbar-track: rgba(255, 255, 255, 0.08);
 
     /* ТЕМОЗАВИСИМЫЙ ТЕКСТ И ЛИНИИ */
     --text-muted: rgba(255, 255, 255, 0.7);

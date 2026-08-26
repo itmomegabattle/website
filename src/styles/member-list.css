@@ -1,181 +1,20 @@
 @import "./button.css";
 @import "./variables.css";
 
-.team-filters {
-  display: flex;
-  justify-content: center;
-  margin: 0 0 clamp(0.85rem, 1.25vw, 1.15rem);
-}
+/* Переключатель составов вынесен в компонент team/TeamToggle. */
 
-.team-toggle {
-  position: relative;
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  width: min(100%, 29rem);
-  padding: 0.28rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 999px;
-  background: var(--ui-glass-background);
-  backdrop-filter: blur(var(--content-glass-blur));
-  -webkit-backdrop-filter: blur(var(--content-glass-blur));
-  box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, 0.28);
-  overflow: hidden;
-}
-
-.toggle-slider {
-  position: absolute;
-  inset: 0.28rem auto 0.28rem 0.28rem;
-  width: calc(50% - 0.28rem);
-  border: 1px solid var(--control-border-hover);
-  border-radius: 999px;
-  background:
-    linear-gradient(135deg, rgba(0, 105, 224, 0.28), rgba(0, 105, 224, 0.08)),
-    var(--control-background);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0.8rem 2rem rgba(0, 0, 0, 0.24);
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.team-toggle[data-filter="responsible"] .toggle-slider {
-  transform: translateX(100%);
-}
-
-.toggle-btn {
-  position: relative;
-  z-index: 1;
-  min-height: 2.75rem;
-  padding: 0.62rem 1.15rem;
-  border: 0;
-  background: none;
-  color: rgba(255, 255, 255, 0.62);
-  font: 800 clamp(0.78rem, 1.2vw, 1rem)/1 var(--body-font);
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.25s ease;
-}
-
-.toggle-btn.active {
-  color: #fff;
-}
-
+/* Сетка команды: число столбцов автоматическое, ширина карточки — через minmax. */
 .people-roster {
   --roster-gap: clamp(0.7rem, 1.15vw, 1.2rem);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  /* Минимум карточки плавно растет с экраном (~7.5rem на 480px, ~9rem на 720px, 13rem на десктопе),
+     чтобы auto-fill перестраивал колонки без скачков на брейкпоинтах. */
+  --roster-card-min: clamp(7.5rem, 3.5rem + 12vw, 13rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--roster-card-min), 1fr));
   column-gap: var(--roster-gap);
   row-gap: clamp(2.5rem, 4vw, 3.8rem);
   align-items: start;
   padding-block: 0.15rem 1.5rem;
-}
-
-.people-person-card {
-  position: relative;
-  flex: 0 1 calc((100% - 5 * var(--roster-gap)) / 6);
-  min-width: 0;
-  aspect-ratio: 0.76;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: clamp(1.25rem, 2vw, 2rem);
-  background: #000000;
-  box-shadow: 0 1.35rem 4rem rgba(0, 0, 0, 0.36);
-  color: #fff;
-  cursor: pointer;
-  overflow: hidden;
-  text-align: left;
-  transform: translateY(var(--person-shift)) rotate(var(--person-tilt));
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.people-person-card:hover,
-.people-person-card:focus-visible {
-  z-index: 2;
-  border-color: rgba(255, 255, 255, 0.56);
-  box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, 0.48), 0 0 0 0.25rem rgba(0, 105, 224, 0.07);
-  outline: none;
-  transform: translateY(calc(var(--person-shift) - 0.55rem)) rotate(0deg);
-}
-
-.people-person-card__media,
-.people-person-card__media::after {
-  position: absolute;
-  inset: 0;
-}
-
-.people-person-card__media::after {
-  content: "";
-  background:
-    linear-gradient(180deg, rgba(1, 5, 12, 0.05) 22%, rgba(1, 6, 14, 0.22) 50%, rgba(1, 5, 12, 0.96) 100%),
-    linear-gradient(135deg, transparent 50%, rgba(0, 105, 224, 0.08));
-}
-
-.people-person-card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.82) contrast(1.03);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
-}
-
-.people-person-card:hover .people-person-card__media img,
-.people-person-card:focus-visible .people-person-card__media img {
-  filter: saturate(1) contrast(1.05);
-  transform: scale(1.045);
-}
-
-.people-person-card__index {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 2.65rem;
-  aspect-ratio: 1;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 50%;
-  background: rgba(2, 8, 18, 0.42);
-  backdrop-filter: blur(8px);
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 0.68rem;
-  font-weight: 900;
-}
-
-.people-person-card__copy {
-  position: absolute;
-  inset: auto 0 0;
-  z-index: 2;
-  display: grid;
-  gap: 0.32rem;
-  padding: clamp(0.85rem, 1.35vw, 1.3rem);
-}
-
-.people-person-card__copy small {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.66rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.people-person-card__copy strong {
-  max-width: 100%;
-  font: 500 clamp(1rem, 1.3vw, 1.55rem)/0.96 var(--heading-font);
-  letter-spacing: -0.045em;
-  text-wrap: balance;
-  overflow-wrap: normal;
-  word-break: normal;
-  hyphens: none;
-}
-
-.people-person-card__copy em {
-  margin-top: 0.45rem;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.66rem;
-  font-style: normal;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .people-member-modal-backdrop {
@@ -247,9 +86,9 @@
   bottom: 1.35rem;
   left: 1.5rem;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 0.62rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  letter-spacing: var(--eyebrow-tracking);
   text-transform: uppercase;
 }
 
@@ -273,15 +112,15 @@
 .people-member-modal__kicker {
   margin: 0 0 0.75rem;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 0.7rem;
-  font-weight: 900;
-  letter-spacing: 0.14em;
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  letter-spacing: var(--eyebrow-tracking);
   text-transform: uppercase;
 }
 
 .people-member-modal__copy h3 {
   margin: 0;
-  font: 500 clamp(1.52rem, calc(3.7vw - 5px), 3.52rem)/0.94 var(--heading-font);
+  font: 500 var(--heading-card-compact-size)/0.94 var(--heading-font);
   letter-spacing: -0.045em;
   overflow-wrap: anywhere;
   text-wrap: balance;
@@ -303,8 +142,8 @@
   max-width: 42rem;
   margin: 0;
   color: rgba(255, 255, 255, 0.74);
-  font-size: clamp(0.92rem, 1.25vw, 1.08rem);
-  line-height: 1.52;
+  font-size: var(--body-size);
+  line-height: var(--body-line-height);
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -487,72 +326,14 @@
   gap: 0.35rem;
 }
 
-@media (max-width: 1100px) {
-  .people-person-card {
-    flex-basis: calc((100% - 4 * var(--roster-gap)) / 5);
-  }
-}
-
 @media (max-width: 720px) {
-  .team-filters {
-    justify-content: stretch;
-    margin-bottom: 0.85rem;
-  }
-
   .team-admin {
     margin-bottom: 0.85rem;
-  }
-
-  .team-toggle {
-    width: 100%;
-  }
-
-  .toggle-btn {
-    min-height: 2.5rem;
-    padding-inline: 0.65rem;
-    font-size: 0.72rem;
   }
 
   .people-roster {
     column-gap: 0.65rem;
     row-gap: 1.6rem;
-  }
-
-  .people-person-card {
-    flex-basis: calc((100% - 1.3rem) / 3);
-    aspect-ratio: 0.76;
-    border-radius: 1.15rem;
-    transform: translateY(0) rotate(var(--person-tilt));
-  }
-
-  .people-person-card:nth-child(4n + 2),
-  .people-person-card:nth-child(4n + 3) {
-    transform: translateY(0.8rem) rotate(var(--person-tilt));
-  }
-
-  .people-person-card:hover,
-  .people-person-card:focus-visible {
-    transform: translateY(-0.35rem) rotate(0deg);
-  }
-
-  .people-person-card__copy {
-    padding: 0.65rem;
-  }
-
-  .people-person-card__copy strong {
-    font-size: clamp(0.72rem, 3.3vw, 0.98rem);
-  }
-
-  .people-person-card__copy small,
-  .people-person-card__copy em {
-    font-size: 0.46rem;
-  }
-
-  .people-person-card__index {
-    top: 0.55rem;
-    left: 0.55rem;
-    width: 1.8rem;
-    font-size: 0.5rem;
   }
 
   .people-member-modal {
@@ -681,42 +462,7 @@
     column-gap: .4rem;
     row-gap: 1rem;
   }
-
-  .people-person-card {
-    flex-basis: calc((100% - .8rem) / 3);
-    border-radius: .78rem;
-  }
-
-  .people-person-card__copy {
-    padding: .42rem;
-  }
-
-  .people-person-card__copy strong {
-    font-size: clamp(.58rem, 2.8vw, .78rem);
-  }
-
-  .people-person-card__copy small,
-  .people-person-card__copy em { display:none; }
-
-  .people-person-card__index {
-    top:.38rem;
-    left:.38rem;
-    width:1.35rem;
-    font-size:.4rem;
-  }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .toggle-slider,
-  .people-person-card,
-  .people-person-card__media img {
-    transition: none;
-  }
-}
-
-.people-person-card { border-color:transparent; border-radius:1rem; }
-.people-person-card__media::after { background:linear-gradient(180deg,rgba(0,0,0,.02) 26%,rgba(0,0,0,.16) 54%,rgba(0,0,0,.94) 100%); }
-.toggle-slider { background:rgba(255,255,255,.1); }
 
 html[data-theme="light"] .team-admin-panel {
   border-color: rgba(0, 105, 224, .22);

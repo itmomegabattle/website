@@ -91,19 +91,23 @@ body {
     color: var(--text-color-inverted);
 }
 
-/* Стилизация скроллбаров */
+/* Стилизация скроллбаров: цвета следуют теме и наследуются всеми скролл-областями. */
+html {
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
 .scrollable::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
+    background: var(--scrollbar-thumb);
     border-radius: 6px;
 }
 
 .scrollable::-webkit-scrollbar-track {
-    background: rgba(0,0,0,.08);
+    background: var(--scrollbar-track);
 }
 
 /* Иконки с FontAwesome */

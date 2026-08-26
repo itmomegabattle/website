@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Api } from "../../api";
+import { ChevronLeftIcon, ChevronRightIcon } from "../../common/components/ChevronIcons";
 import ModalPortal from "../ModalPortal";
 
 export default function StoriesCarousel({ stories }) {
@@ -64,10 +65,9 @@ export default function StoriesCarousel({ stories }) {
           <span className="stories-progress-fill" key={page} style={{ "--stories-progress-ms": `${progressMs}ms` }} />
         </div>
         <div className="stories-carousel-controls" aria-label="Управление историями">
-          <button type="button" onClick={() => goToPage(-1)} aria-label="Предыдущие истории">‹</button>
-          <button type="button" onClick={() => goToPage(1)} aria-label="Следующие истории">›</button>
+          <button type="button" onClick={() => goToPage(-1)} aria-label="Предыдущие истории"><ChevronLeftIcon /></button>
+          <button type="button" onClick={() => goToPage(1)} aria-label="Следующие истории"><ChevronRightIcon /></button>
         </div>
-        <p className="stories-carousel-hint">Наведи, чтобы остановить · нажми карточку, чтобы открыть</p>
       </div>
       {openedStory && (
         <ModalPortal>
