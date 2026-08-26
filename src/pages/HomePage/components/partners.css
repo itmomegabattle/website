@@ -265,7 +265,8 @@
   transform: rotate(0deg);
 }
 
-.partner-detail-backdrop {
+/* Подложку и кнопку закрытия дает общий Modal. */
+.partner-detail-modal {
   --modal-surface: var(--brand-black);
   --modal-panel-surface: var(--surface-ink);
   --modal-panel-surface-deep: var(--surface-ink-blue);
@@ -274,18 +275,6 @@
   --modal-text: var(--brand-white);
   --modal-text-muted: var(--white-a76);
   --modal-control-background: var(--white-a08);
-  position: fixed;
-  inset: 0;
-  z-index: 4000;
-  display: grid;
-  place-items: center;
-  padding: clamp(1rem, 3vw, 2rem);
-  background: var(--black-a72);
-  backdrop-filter: blur(10px);
-}
-
-.partner-detail-modal {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1fr);
   gap: clamp(0.55rem, 1vw, 0.85rem);
@@ -300,24 +289,6 @@
   box-shadow: 0 2rem 7rem var(--black-a62);
 }
 
-.partner-detail-close {
-  position: absolute;
-  top: 1.35rem;
-  right: 1.35rem;
-  z-index: 4;
-  display: grid;
-  place-items: center;
-  width: 2.55rem;
-  aspect-ratio: 1;
-  border: 1px solid var(--modal-border);
-  border-radius: 999px;
-  background: var(--modal-control-background);
-  color: var(--modal-text);
-  font: inherit;
-  font-size: 1.45rem;
-  font-weight: 900;
-  cursor: pointer;
-}
 
 .partner-detail-logo {
   display: grid;

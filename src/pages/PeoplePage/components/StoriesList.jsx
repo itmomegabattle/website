@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { Api } from "../api";
-import { useAuth } from "../context/AuthContext";
-import { isAdminProfile } from "../services/adminService";
+import { Api } from "../../../api";
+import { useAuth } from "../../../context/AuthContext";
+import { isAdminProfile } from "../../../services/adminService";
 import StoryEditor from "./stories/StoryEditor";
 import StoryProposalForm from "./stories/StoryProposalForm";
 import StoriesCarousel from "./stories/StoriesCarousel";
-import "../styles/stories-list.css";
+import "./stories-list.css";
 
 export default function StoriesList() {
   const { profile } = useAuth();

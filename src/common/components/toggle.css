@@ -9,7 +9,7 @@
 .team-toggle {
   position: relative;
   display: inline-grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(var(--toggle-count, 2), minmax(0, 1fr));
   width: min(100%, 29rem);
   padding: 0.28rem;
   border: 1px solid var(--white-a18);
@@ -17,14 +17,15 @@
   background: var(--ui-glass-background);
   backdrop-filter: blur(var(--content-glass-blur));
   -webkit-backdrop-filter: blur(var(--content-glass-blur));
-  box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, 0.28);
+  box-shadow: 0 1.25rem 4rem var(--black-a28);
   overflow: hidden;
 }
 
 .toggle-slider {
   position: absolute;
   inset: 0.28rem auto 0.28rem 0.28rem;
-  width: calc(50% - 0.28rem);
+  width: calc((100% - 0.56rem) / var(--toggle-count, 2));
+  transform: translateX(calc(var(--toggle-index, 0) * 100%));
   border: 1px solid var(--control-border-hover);
   border-radius: 999px;
   background: var(--white-a10);
@@ -38,10 +39,6 @@
   }
 }
 
-.team-toggle[data-filter="responsible"] .toggle-slider {
-  transform: translateX(100%);
-}
-
 .toggle-btn {
   position: relative;
   z-index: 1;
@@ -49,7 +46,7 @@
   padding: 0.62rem 1.15rem;
   border: 0;
   background: none;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--white-a62);
   font: 800 clamp(0.78rem, 1.2vw, 1rem)/1 var(--body-font);
   letter-spacing: 0.02em;
   cursor: pointer;

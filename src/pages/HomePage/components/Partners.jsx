@@ -3,7 +3,7 @@ import ActionLink from "../../../common/components/ActionLink";
 import "./partners.css";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
-import ModalPortal from "../../../components/ModalPortal";
+import Modal from "../../../common/components/Modal";
 import { PartnerEditor } from "../../../components/PartnersBento";
 import { useAuth } from "../../../context/AuthContext";
 import { isAdminProfile } from "../../../services/adminService";
@@ -143,28 +143,11 @@ export default function Partners() {
         </div>
       </div>
       {activePartner && (
-        <ModalPortal>
-          <div
-            className="partner-detail-backdrop"
-            role="presentation"
-            onMouseDown={(event) => {
-              if (event.target === event.currentTarget) setActivePartner(null);
-            }}
-          >
-            <article
-              className="partner-detail-modal"
-              role="dialog"
-              aria-modal="true"
-              aria-label={`Партнёр: ${activePartner.name}`}
-            >
-              <button
-                className="partner-detail-close"
-                type="button"
-                onClick={() => setActivePartner(null)}
-                aria-label="Закрыть"
-              >
-                ×
-              </button>
+        <Modal
+          label={`Партнёр: ${activePartner.name}`}
+          onClose={() => setActivePartner(null)}
+          className="partner-detail-modal"
+        >
               <div className="partner-detail-logo">
                 <img
                   src={Api.normalizeURL(activePartner.logo)}
@@ -191,9 +174,7 @@ export default function Partners() {
                   </ActionLink>
                 )}
               </div>
-            </article>
-          </div>
-        </ModalPortal>
+        </Modal>
       )}
     </div>
   );

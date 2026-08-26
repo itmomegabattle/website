@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../../context/AuthContext";
 import {
   deleteTeamMember,
   getAdminTeamMembers,
   importStaticTeamMembers,
   uploadTeamMemberImage,
   upsertTeamMember,
-} from "../../services/teamService";
+} from "../../../../services/teamService";
 import { emptyMember, linksToText, textToLinks } from "./memberConfig";
 
 export default function TeamAdminEditor({ section, fallbackMembers }) {

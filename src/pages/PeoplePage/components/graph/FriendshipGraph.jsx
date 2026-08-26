@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { getFriendshipGraph } from "../services/profileService";
-import { defaultViewBox, fallbackEdges, graphWorld, makeGraph } from "./graph/graphData";
+import { getFriendshipGraph } from "../../../../services/profileService";
+import { defaultViewBox, fallbackEdges, graphWorld, makeGraph } from "./graphData";
 
 export default function FriendshipGraph() {
   const navigate = useNavigate();

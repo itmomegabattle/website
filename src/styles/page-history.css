@@ -210,9 +210,9 @@ body:has(.history-page) .header {
 .history-fact h3 { position: relative; z-index: 1; margin: auto 0 .6rem; font: 500 clamp(1.3rem, 2.15vw, 2.25rem)/.94 var(--heading-font); overflow-wrap: anywhere; text-transform: uppercase; }
 .history-fact p { position: relative; z-index: 1; max-width: 29rem; margin: 0; color: rgba(255,255,255,.53); font-size: .78rem; line-height: 1.5; }
 
-.history-chapter { position: fixed; inset: 0; z-index: 1320; display: grid; place-items: center; padding: 1rem; overflow-y: auto; background: rgba(0,0,0,.86); backdrop-filter: blur(10px); }
+/* Подложка — общий Modal; класс уточняет кинематографичный фон истории. */
+.modal-backdrop.history-chapter { z-index: 1320; padding: 1rem; overflow-y: auto; background: rgba(0,0,0,.86); backdrop-filter: blur(10px); }
 .history-chapter__panel { position: relative; display: grid; grid-template-columns: minmax(20rem, .85fr) minmax(28rem, 1.15fr); width: min(86rem, 96vw); max-height: min(52rem, calc(100svh - 2rem)); overflow: hidden; border: 1px solid rgba(255,255,255,.23); border-radius: 1.5rem; background: #050910; box-shadow: 0 3rem 9rem rgba(0,0,0,.8); }
-.history-chapter__close { position: absolute; z-index: 5; top: .8rem; right: .8rem; display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; font: 300 1.7rem/1 sans-serif; cursor: pointer; }
 .history-chapter__visual { position: relative; isolation: isolate; min-height: 42rem; overflow: hidden; background: #0a101b; }
 .history-chapter__visual::after { content: ""; position: absolute; z-index: 2; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(2,4,7,.88)); }
 .history-chapter__visual img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; filter: saturate(.85) brightness(.86) contrast(1.06); }
@@ -247,10 +247,9 @@ body:has(.history-page) .header {
 .history-final h2 { max-width: min(12ch, calc(100vw - 2rem)); margin: 1.5rem 0 2rem; font: 500 clamp(3.6rem, 10vw, 10rem)/.8 var(--heading-font); letter-spacing: -.06em; overflow-wrap: anywhere; }
 .history-final a { padding: .9rem 1.2rem; border: 1px solid rgba(255,255,255,.34); font-size: .6rem; font-weight: 900; letter-spacing: .18em; }.history-final a:hover { background: #fff; color: #020407; text-decoration: none; }
 
-.history-video { position: fixed; inset: 0; z-index: 1300; display: grid; place-items: center; padding: 1rem; background: rgba(0,0,0,.84); backdrop-filter: blur(9px); }
+.modal-backdrop.history-video { z-index: 1300; padding: 1rem; background: rgba(0,0,0,.84); backdrop-filter: blur(9px); }
 .history-video__panel { position: relative; width: min(74rem, 96vw); overflow: hidden; border: 1px solid rgba(255,255,255,.28); background: #05080e; box-shadow: 0 2rem 7rem rgba(0,0,0,.8); }
 .history-video iframe { display: block; width: 100%; aspect-ratio: 16/9; border: 0; background: #000; }
-.history-video__close { position: absolute; z-index: 2; top: .75rem; right: .75rem; display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; background: rgba(0,0,0,.72); color: #fff; font: 300 1.6rem/1 sans-serif; cursor: pointer; }
 .history-video footer { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.2rem; }
 .history-video footer span { color: rgba(255,255,255,.68); font-size: .54rem; font-weight: 800; letter-spacing: .2em; }.history-video footer h2 { margin: .3rem 0 0; font-size: clamp(.9rem, 2vw, 1.3rem); }.history-video footer a { flex: 0 0 auto; padding: .7rem .9rem; border: 1px solid rgba(255,255,255,.3); font-size: .55rem; font-weight: 900; letter-spacing: .12em; }
 
@@ -1649,13 +1648,6 @@ body:has(.history-page) .header {
     -webkit-user-select: none;
   }
 
-  .history-chapter__close {
-    top: .65rem;
-    right: .65rem;
-    width: 2.45rem;
-    height: 2.45rem;
-  }
-
   .history-chapter__visual {
     height: clamp(14rem, 31svh, 19rem);
     min-height: 0;
@@ -1790,7 +1782,6 @@ html[data-theme="light"] :is(.history-origin,.history-seasons,.history-facts) { 
 html[data-theme="light"] :is(.history-origin__founding,.history-fact,.history-credits__grid article) { background:#fff; }
 .history-chapter__body h2 { font-size: clamp(1.325rem, 2.175vw, 2.5rem); }
 .history-chapter__meta span:first-child { font-size: clamp(.78rem, 1vw, .96rem); font-weight: 850; color:#fff; }
-.history-chapter__close { top: 1.35rem; right: 1.35rem; }
 .history-gallery__feature,
 .history-gallery__rail .history-gallery__item { border:1px solid rgba(255,255,255,.22); }
 .history-gallery__feature img { object-position:center; }
@@ -1809,7 +1800,6 @@ html[data-theme="light"] .history-chapter__body { border-color:rgba(0,0,0,.22); 
 
 @media (max-width:980px) {
   .history-chapter__body h2 { font-size: clamp(1.9rem, 7.8vw, 2.8rem); }
-  .history-chapter__close { top: 1rem; right: 1rem; }
   .history-gallery__feature > span { bottom: 1rem; }
   .history-gallery__rail { width:100%; }
   .history-gallery { height:auto; min-height:100svh; }
@@ -1820,20 +1810,6 @@ html[data-theme="light"] .history-chapter__body { border-color:rgba(0,0,0,.22); 
 .history-chapter__play i {
   background: var(--control-background-active);
   color: var(--history-white);
-}
-
-.history-chapter__close,
-.history-video__close {
-  border-color: var(--control-border);
-  background: var(--glass-background-strong);
-  color: var(--control-color);
-  box-shadow: var(--control-shadow);
-}
-
-.history-chapter__close:hover,
-.history-video__close:hover {
-  border-color: var(--control-border-hover);
-  background: var(--control-background-hover);
 }
 
 /* Главы истории: компактная редакционная сетка без растянутых карточек. */
@@ -2192,10 +2168,6 @@ html[data-theme="light"] .history-chapter__body { border-color:rgba(0,0,0,.22); 
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .history-chapter__close {
-    top: .6rem;
-    right: .6rem;
-  }
 }
 
 @media (max-width: 420px) {

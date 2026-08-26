@@ -1,8 +1,8 @@
-import FriendshipGraphLaunch from "../components/graph/FriendshipGraphLaunch";
-import MemberList from "../components/MemberList";
-import PeopleCloud from "../components/PeopleCloud";
-import StoriesList from "../components/StoriesList";
-import "../styles/page-people.css";
+import FriendshipGraphLaunch from "./components/graph/FriendshipGraphLaunch";
+import MemberList from "./components/MemberList";
+import PeopleCloud from "./components/PeopleCloud";
+import StoriesList from "./components/StoriesList";
+import "./people-page.css";
 
 export default function PeoplePage() {
   return (

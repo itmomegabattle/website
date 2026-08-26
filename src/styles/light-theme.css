@@ -54,7 +54,6 @@ html[data-theme="light"] .story-card {
 }
 html[data-theme="light"] .story-modal { border-color:rgba(0,0,0,.14); background:rgba(250,251,253,.96); color:#080808; }
 html[data-theme="light"] .story-modal :is(h2,p) { color:#080808; }
-html[data-theme="light"] .story-modal-close { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
 
 /* Participants and admin */
 html[data-theme="light"] .participants-page {
@@ -118,7 +117,7 @@ html[data-theme="light"] .faculty-retro-section {
 html[data-theme="light"] .faculty-retro-newspaper { color:#080808; border-color:rgba(0,0,0,.16); }
 html[data-theme="light"] .faculty-retro-newspaper :is(h2,h3,strong,p,small,span,blockquote,li) { color:#080808; }
 html[data-theme="light"] :is(.profile-modal,.qr-popover) { color:#080808; }
-html[data-theme="light"] :is(.profile-modal-close,.qr-popover-close) { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
+html[data-theme="light"] .qr-popover-close { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
 
 /* Footer */
 html[data-theme="light"] footer { color:#080808; }
@@ -184,8 +183,6 @@ html[data-theme="light"] :is(.profile-editor,.social-bio-card,.nfc-page-card,.nf
 }
 html[data-theme="light"] :is(.profile-editor,.social-bio-card,.nfc-page-card,.nfc-claim-card) :is(h1,h2,h3,p,strong,span) { color:inherit; }
 html[data-theme="light"] .social-link-button { border-color:rgba(0,0,0,.16); }
-html[data-theme="light"] .profile-modal-backdrop,
-html[data-theme="light"] .story-modal-backdrop { background:rgba(222,229,239,.62); }
 
 /* Admin controls use the same light glass rather than dark local variables. */
 html[data-theme="light"] :is(.admin-row-actions button,.admin-row-link,.admin-show-all,.admin-pin-box button,.partners-admin-toggle,.partners-admin-head button,.partners-admin-row button) {
@@ -311,12 +308,12 @@ html[data-theme="light"] .roles-dome .sphere-item__image:focus-visible .role-ico
 }
 
 /* Open cards keep two clean surfaces in the light theme. */
-html[data-theme="light"] :is(.people-member-modal,.partner-detail-modal,.history-chapter__panel) {
+html[data-theme="light"] :is(.people-member-modal,.partner-detail-modal,.history-chapter__panel,.footer-modal) {
   border-color:rgba(0,0,0,.14);
   background:rgba(236,240,246,.96);
   color:#080808;
 }
-html[data-theme="light"] :is(.people-member-modal__image,.people-member-modal__copy,.partner-detail-logo,.partner-detail-content,.history-chapter__visual,.history-chapter__body) {
+html[data-theme="light"] :is(.people-member-modal__image,.partner-detail-logo,.partner-detail-content,.history-chapter__visual,.history-chapter__body) {
   border-color:rgba(0,0,0,.13);
   background:rgba(255,255,255,.9);
   color:#080808;

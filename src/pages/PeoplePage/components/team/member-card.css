@@ -1,4 +1,4 @@
-@import "../../styles/variables.css";
+@import "../../../../styles/variables.css";
 
 /* Карточка участника: ширину задает ячейка сетки родителя. */
 .people-person-card {
@@ -9,7 +9,7 @@
   border: 1px solid transparent;
   border-radius: 1rem;
   background: var(--brand-black);
-  box-shadow: 0 1.35rem 4rem rgba(0, 0, 0, 0.36);
+  box-shadow: 0 1.35rem 4rem var(--black-a36);
   color: var(--brand-white);
   overflow: hidden;
   text-align: left;
@@ -26,7 +26,7 @@ button.people-person-card {
 .people-person-card:focus-visible {
   z-index: 2;
   border-color: var(--white-a42);
-  box-shadow: 0 1.8rem 5rem rgba(0, 0, 0, 0.48), 0 0 3rem var(--accent-a10);
+  box-shadow: 0 1.8rem 5rem var(--black-a48), 0 0 3rem var(--accent-a10);
   transform: translateY(calc(var(--person-shift) - 0.55rem)) rotate(0deg);
 }
 
@@ -38,7 +38,7 @@ button.people-person-card {
 
 .people-person-card__media::after {
   content: "";
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 26%, rgba(0, 0, 0, 0.16) 54%, rgba(0, 0, 0, 0.94) 100%);
+  background: linear-gradient(180deg, var(--black-a02) 26%, var(--black-a16) 54%, var(--black-a94) 100%);
 }
 
 .people-person-card__media img {
@@ -64,11 +64,11 @@ button.people-person-card {
   place-items: center;
   width: 2.65rem;
   aspect-ratio: 1;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid var(--white-a24);
   border-radius: 50%;
-  background: rgba(2, 8, 18, 0.42);
+  background: var(--black-a42);
   backdrop-filter: blur(8px);
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--white-a88);
   font-size: var(--eyebrow-size);
   font-weight: var(--eyebrow-weight);
 }
@@ -83,7 +83,7 @@ button.people-person-card {
 }
 
 .people-person-card__copy small {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--white-a72);
   font-size: var(--eyebrow-size);
   font-weight: var(--eyebrow-weight);
   letter-spacing: var(--eyebrow-tracking);

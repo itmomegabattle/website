@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Api } from "../api";
+import { Api } from "../../../api";
 import MemberCard from "./team/MemberCard";
 
 const INITIAL_PEOPLE_COUNT = 24;

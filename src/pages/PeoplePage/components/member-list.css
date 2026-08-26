@@ -1,5 +1,5 @@
-@import "./button.css";
-@import "./variables.css";
+@import "../../../styles/button.css";
+@import "../../../styles/variables.css";
 
 /* Переключатель составов вынесен в компонент team/TeamToggle. */
 
@@ -11,46 +11,21 @@
   --roster-card-min: clamp(7.5rem, 3.5rem + 12vw, 13rem);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--roster-card-min), 1fr));
+  justify-content: center;
   column-gap: var(--roster-gap);
   row-gap: clamp(2.5rem, 4vw, 3.8rem);
   align-items: start;
   padding-block: 0.15rem 1.5rem;
 }
 
-.people-member-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  display: grid;
-  place-items: center;
-  padding: clamp(0.75rem, 3vw, 2rem);
-  background: rgba(0, 2, 7, 0.82);
-  backdrop-filter: blur(8px);
-  animation: people-modal-in 0.25s ease both;
-}
-
+/* Подложку, поверхность и кнопку закрытия дает общий Modal. */
 .people-member-modal {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(17rem, 0.88fr) minmax(24rem, 1.12fr);
   gap: clamp(0.55rem, 1vw, 0.85rem);
   width: min(94vw, 68rem);
   height: min(88svh, 46rem);
   padding: clamp(0.5rem, 0.8vw, 0.7rem);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: clamp(1.5rem, 2.6vw, 2.75rem);
-  background: #000;
-  box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.65);
-  overflow: hidden;
-}
-
-.people-member-modal::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  pointer-events: none;
 }
 
 .people-member-modal__image {
@@ -59,9 +34,9 @@
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--white-a12);
   border-radius: calc(clamp(1.5rem, 2.6vw, 2.75rem) - 0.5rem);
-  background: #000;
+  background: var(--brand-black);
 }
 
 .people-member-modal__image::after {
@@ -69,8 +44,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, transparent 68%, rgba(2, 7, 15, 0.58) 100%),
-    linear-gradient(180deg, transparent 58%, rgba(2, 7, 15, 0.74) 100%);
+    linear-gradient(90deg, transparent 68%, var(--black-a58) 100%),
+    linear-gradient(180deg, transparent 58%, var(--black-a74) 100%);
   pointer-events: none;
 }
 
@@ -85,7 +60,7 @@
   z-index: 2;
   bottom: 1.35rem;
   left: 1.5rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--white-a72);
   font-size: var(--eyebrow-size);
   font-weight: var(--eyebrow-weight);
   letter-spacing: var(--eyebrow-tracking);
@@ -101,17 +76,14 @@
   min-height: 0;
   padding: clamp(1.25rem, 2.2vw, 2rem);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: calc(clamp(1.5rem, 2.6vw, 2.75rem) - 0.5rem);
-  background: #050505;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 .people-member-modal__kicker {
   margin: 0 0 0.75rem;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--white-a72);
   font-size: var(--eyebrow-size);
   font-weight: var(--eyebrow-weight);
   letter-spacing: var(--eyebrow-tracking);
@@ -128,8 +100,8 @@
 
 .people-member-modal__role {
   margin: 0.85rem 0 0;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 1.05rem;
+  color: var(--white-a62);
+  font-size: var(--body-large-size);
 }
 
 .people-member-modal__about {
@@ -141,7 +113,7 @@
 .people-member-modal__description {
   max-width: 42rem;
   margin: 0;
-  color: rgba(255, 255, 255, 0.74);
+  color: var(--white-a74);
   font-size: var(--body-size);
   line-height: var(--body-line-height);
   min-height: 0;
@@ -149,7 +121,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
@@ -159,38 +131,6 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-top: 1.15rem;
-}
-
-.people-member-modal__close {
-  position: absolute;
-  top: 1.4rem;
-  right: 1.4rem;
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  width: 3rem;
-  aspect-ratio: 1;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 50%;
-  background: rgba(2, 7, 15, 0.78);
-  backdrop-filter: blur(6px);
-  color: #fff;
-  font: 400 1.55rem/1 var(--body-font);
-  cursor: pointer;
-  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
-}
-
-.people-member-modal__close:hover,
-.people-member-modal__close:focus-visible {
-  border-color: rgba(255, 255, 255, 0.62);
-  background: rgba(0, 105, 224, 0.8);
-  outline: none;
-  transform: rotate(6deg);
-}
-
-@keyframes people-modal-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 .team-admin {
@@ -236,7 +176,7 @@
 
 /* Solid editing surface: form fields remain readable over the team photography. */
 .team-admin-panel {
-  background: #05070b;
+  background: var(--surface-ink-navy);
   backdrop-filter: none;
 }
 
@@ -338,7 +278,7 @@
 
   .people-member-modal {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(9rem, 34svh) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
     width: min(calc(100vw - 1.25rem), 29rem);
     height: min(calc(100svh - 1rem), 48rem);
     max-height: calc(100svh - 1rem);
@@ -350,8 +290,9 @@
 
   .people-member-modal__image {
     width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
     min-height: 0;
-    height: 100%;
     margin: 0;
     border-radius: 1rem;
   }
@@ -361,13 +302,12 @@
   }
 
   .people-member-modal__image::after {
-    background: linear-gradient(180deg, transparent 54%, rgba(2, 7, 15, 0.88) 100%);
+    background: linear-gradient(180deg, transparent 54%, var(--black-a88) 100%);
   }
 
   .people-member-modal__image-label {
     bottom: 0.8rem;
     left: 1rem;
-    font-size: 0.54rem;
   }
 
   .people-member-modal__copy {
@@ -379,51 +319,27 @@
     overflow: hidden;
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
-    border-radius: 1rem;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
   }
 
   .people-member-modal__kicker {
     margin-bottom: 0.45rem;
     padding-right: 2.6rem;
-    font-size: 0.58rem;
-    letter-spacing: 0.11em;
   }
 
   .people-member-modal__copy h3 {
     padding-right: 2.4rem;
     font-size: clamp(1.1rem, calc(7vw - 5px), 1.87rem);
     line-height: 0.94;
-    letter-spacing: -0.035em;
   }
 
   .people-member-modal__role {
     margin-top: 0.55rem;
-    font-size: 0.86rem;
-    line-height: 1.3;
-  }
-
-  .people-member-modal__description {
-    font-size: 0.82rem;
-    line-height: 1.42;
   }
 
   .people-member-modal__links {
     gap: 0.4rem;
     margin-top: 0.8rem;
-  }
-
-  .people-member-modal__links .external-link {
-    min-height: 2.25rem;
-    padding: 0.45rem 0.7rem;
-    font-size: 0.72rem;
-  }
-
-  .people-member-modal__close {
-    top: 0.85rem;
-    right: 0.85rem;
-    width: 2.35rem;
-    background: rgba(0, 0, 0, 0.84);
   }
 
   .team-admin-grid,
@@ -465,6 +381,6 @@
 }
 
 html[data-theme="light"] .team-admin-panel {
-  border-color: rgba(0, 105, 224, .22);
-  background: #fff;
+  border-color: var(--accent-a22);
+  background: var(--brand-white);
 }

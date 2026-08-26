@@ -9,18 +9,19 @@ import {
   faTelegram,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
+import ActionLink from "../common/components/ActionLink";
 import RutubeIcon from "../common/components/RutubeIcon";
-import ModalPortal from "./ModalPortal";
+import Modal from "../common/components/Modal";
 import { backendApi } from "../lib/backendApi";
 import { supabase } from "../lib/supabase";
 
 function FooterModal({ title, onClose, children, wide = false }) {
-  useEffect(() => {
-    const close = (event) => event.key === "Escape" && onClose();
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
-  }, [onClose]);
-  return <ModalPortal><div className="footer-modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}><section className={`footer-modal${wide ? " footer-modal--wide" : ""}`} role="dialog" aria-modal="true" aria-label={title}><header><h2>{title}</h2><button type="button" onClick={onClose} aria-label="Закрыть">×</button></header>{children}</section></div></ModalPortal>;
+  return (
+    <Modal label={title} onClose={onClose} className={`footer-modal${wide ? " footer-modal--wide" : ""}`}>
+      <header><h2>{title}</h2></header>
+      <div className="footer-modal__body">{children}</div>
+    </Modal>
+  );
 }
 
 function PrivacyPolicy({ onClose, onSupport }) {
@@ -31,7 +32,7 @@ function PrivacyPolicy({ onClose, onSupport }) {
     <h3>Хранение и доступ</h3><p>Доступ получают только уполномоченные организаторы и технические администраторы. Вложения поддержки хранятся в закрытом хранилище и открываются по временной ссылке. Мы не публикуем и не продаём данные. Сведения хранятся не дольше, чем это необходимо для указанных целей и выполнения обязательных требований.</p>
     <h3>Права пользователя</h3><p>Можно запросить сведения об обработке, исправление или удаление данных, а также отозвать согласие. Для этого отправьте обращение через поддержку и укажите контакт, по которому можно подтвердить запрос.</p>
     <h3>Безопасность и обновления</h3><p>Мы применяем разграничение доступа, закрытое хранение вложений и защищённое соединение. Политика может обновляться при изменении сайта или требований; актуальная версия всегда доступна в подвале.</p>
-    <div className="footer-policy-actions"><a className="footer-modal-primary" href="/itmo-megabattle-privacy-policy.pdf" target="_blank" rel="noreferrer">Открыть полную политику PDF</a><button className="footer-modal-primary" type="button" onClick={onSupport}>Связаться по вопросу данных</button></div>
+    <div className="footer-policy-actions"><ActionLink href="/itmo-megabattle-privacy-policy.pdf">Открыть полную политику PDF</ActionLink><ActionLink onClick={onSupport}>Связаться по вопросу данных</ActionLink></div>
   </div></FooterModal>;
 }
 
@@ -65,7 +66,7 @@ function SupportForm({ onClose, onPolicy }) {
     <label className="footer-file"><span>Вложение <small>до 20 МБ</small></span><input type="file" accept="image/*,video/mp4,video/webm,application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />{file && <em>{file.name}</em>}</label>
     <label className="footer-consent"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} required /><span>Согласен на обработку контакта и содержания обращения согласно <button type="button" onClick={onPolicy}>политике конфиденциальности</button>.</span></label>
     {status && <p className="footer-support-status" role="status">{status}</p>}
-    <button className="footer-modal-primary" type="submit" disabled={sending}>{sending ? "Отправляем…" : "Отправить обращение"}</button>
+    <button className="button" type="submit" disabled={sending}>{sending ? "Отправляем…" : "Отправить обращение"}</button>
   </form></FooterModal>;
 }
 

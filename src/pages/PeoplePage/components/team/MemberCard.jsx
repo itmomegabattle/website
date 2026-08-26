@@ -1,4 +1,4 @@
-import { Api } from "../../api";
+import { Api } from "../../../../api";
 import { getMemberCardImage } from "./memberImages";
 import "./member-card.css";
 

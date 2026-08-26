@@ -1,6 +1,6 @@
 const pageLoaders = {
   "/": () => import("../pages/HomePage/HomePage"),
-  "/people": () => import("../pages/PeoplePage"),
+  "/people": () => import("../pages/PeoplePage/PeoplePage"),
   "/faculties": () => import("../pages/FacultiesPage"),
   "/history": () => import("../pages/HistoryPage"),
   "/partners": () => import("../pages/PartnersPage"),

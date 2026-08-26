@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import ModalPortal from "../ModalPortal";
+import { useRef } from "react";
+import Modal from "../../common/components/Modal";
 
 export default function HistoryChapter({
   season,
@@ -10,17 +10,6 @@ export default function HistoryChapter({
   onNext,
 }) {
   const swipeStart = useRef(null);
-
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    const onKeyDown = (event) => event.key === "Escape" && onClose();
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [onClose]);
 
   const startSwipe = (event) => {
     const point = event.touches?.[0] || event;
@@ -40,51 +29,41 @@ export default function HistoryChapter({
   };
 
   return (
-    <ModalPortal>
-      <div
-        className="history-chapter"
-        role="dialog"
-        aria-modal="true"
-        aria-label={`Сезон ${season.number}`}
-        onMouseDown={(event) => {
-          if (event.target === event.currentTarget) onClose();
-        }}
-      >
-        <article
-          className="history-chapter__panel"
-          onTouchStart={startSwipe}
-          onTouchEnd={finishSwipe}
-          onPointerDown={(event) => event.pointerType !== "touch" && startSwipe(event)}
-          onPointerUp={(event) => event.pointerType !== "touch" && finishSwipe(event)}
-        >
-          <button type="button" className="history-chapter__close" onClick={onClose} aria-label="Закрыть" autoFocus>×</button>
-          <div className="history-chapter__visual" style={{ "--history-image": `url("${season.image}")` }}>
-            <img src={season.image} alt="" width="1280" height="960" />
-            <span>CHAPTER {String(season.number).padStart(2, "0")}</span>
-            <strong>{season.years}</strong>
-          </div>
-          <div className="history-chapter__body">
-            <h2>{season.title}</h2>
-            <p className="history-chapter__lead">{season.summary}</p>
-            <p>{season.text}</p>
-            <div className="history-chapter__meta">
-              <span><b>ИТОГ</b>{season.winner}</span>
-            </div>
-            <div className="history-chapter__tags">
-              {season.highlights?.map((item) => <span key={item}>{item}</span>)}
-            </div>
-            {!!videos.length && (
-              <div className="history-chapter__videos">
-                {videos.map((video) => (
-                  <button key={video.id || video.url} type="button" className="history-chapter__play" onClick={() => onPlay(video)}>
-                    {(/1\s*раунд/i.test(video.title || "") ? "ОСЕННИЙ КОНЦЕРТ" : "ВЕСЕННИЙ КОНЦЕРТ")} <i>▶</i>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </article>
+    <Modal
+      label={`Сезон ${season.number}`}
+      onClose={onClose}
+      backdropClassName="history-chapter"
+      className="history-chapter__panel"
+      onTouchStart={startSwipe}
+      onTouchEnd={finishSwipe}
+      onPointerDown={(event) => event.pointerType !== "touch" && startSwipe(event)}
+      onPointerUp={(event) => event.pointerType !== "touch" && finishSwipe(event)}
+    >
+      <div className="history-chapter__visual" style={{ "--history-image": `url("${season.image}")` }}>
+        <img src={season.image} alt="" width="1280" height="960" />
+        <span>CHAPTER {String(season.number).padStart(2, "0")}</span>
+        <strong>{season.years}</strong>
       </div>
-    </ModalPortal>
+      <div className="history-chapter__body">
+        <h2>{season.title}</h2>
+        <p className="history-chapter__lead">{season.summary}</p>
+        <p>{season.text}</p>
+        <div className="history-chapter__meta">
+          <span><b>ИТОГ</b>{season.winner}</span>
+        </div>
+        <div className="history-chapter__tags">
+          {season.highlights?.map((item) => <span key={item}>{item}</span>)}
+        </div>
+        {!!videos.length && (
+          <div className="history-chapter__videos">
+            {videos.map((video) => (
+              <button key={video.id || video.url} type="button" className="history-chapter__play" onClick={() => onPlay(video)}>
+                {(/1\s*раунд/i.test(video.title || "") ? "ОСЕННИЙ КОНЦЕРТ" : "ВЕСЕННИЙ КОНЦЕРТ")} <i>▶</i>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </Modal>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "../../context/AuthContext";
-import { submitStoryProposal, uploadStorySubmissionImage } from "../../services/contentService";
+import { useAuth } from "../../../../context/AuthContext";
+import { submitStoryProposal, uploadStorySubmissionImage } from "../../../../services/contentService";
 import { EMPTY_PROPOSAL } from "./storyConfig";
 
 export default function StoryProposalForm() {

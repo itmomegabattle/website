@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Api } from "../api";
-import { useAuth } from "../context/AuthContext";
-import { isAdminProfile } from "../services/adminService";
-import "../styles/member-list.css";
+import { Api } from "../../../api";
+import { useAuth } from "../../../context/AuthContext";
+import { isAdminProfile } from "../../../services/adminService";
+import "./member-list.css";
+import Toggle from "../../../common/components/Toggle";
 import MemberRoster from "./team/MemberRoster";
 import TeamAdminEditor from "./team/TeamAdminEditor";
-import TeamToggle from "./team/TeamToggle";
 
 export default function MemberList() {
   const { profile } = useAuth();
@@ -20,7 +20,15 @@ export default function MemberList() {
 
   return (
     <>
-      <TeamToggle value={activeFilter} onChange={setActiveFilter} />
+      <Toggle
+        label="Состав команды"
+        options={[
+          { value: "organizers", label: "Организаторы" },
+          { value: "responsible", label: "Ответственные" },
+        ]}
+        value={activeFilter}
+        onChange={setActiveFilter}
+      />
       {canEdit && <TeamAdminEditor section={activeFilter} fallbackMembers={activeMembers} />}
       <MemberRoster section={activeFilter} members={activeMembers} />
     </>
