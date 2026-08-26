@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { useAuth } from "../../context/AuthContext";
-import { uploadAdminEventImage, upsertAdminEvent } from "../../services/adminService";
+import { useAuth } from "../../../context/AuthContext";
+import { uploadAdminEventImage, upsertAdminEvent } from "../../../services/adminService";
 import { emptyEvent, mapEventToForm, mergeEventDetails, splitEventDetails, toSlug } from "./eventConfig";
+import "./inline-event-editor.css";
 
 export default function InlineEventEditor({ groupId, selectedEvent, onClose }) {
   const { profile } = useAuth();

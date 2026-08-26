@@ -1,4 +1,4 @@
-@import "../../../styles/variables.css";
+@import "../../styles/variables.css";
 
 /* Карточка события на главной: поверхность дает общий Card,
    изображение прижато к краям и обрезается скруглением самой карточки. */
@@ -10,6 +10,10 @@
     width: 100%;
     overflow: hidden;
     color: var(--text-color);
+}
+
+.event-card--no-media {
+    grid-template-columns: 1fr;
 }
 
 .event-card__image {

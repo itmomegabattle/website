@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Api } from "../api";
-import { useAuth } from "../context/AuthContext";
-import { deleteAdminEvent, getAdminEvents, isAdminProfile } from "../services/adminService";
-import EventCard from "./EventCard";
-import { eventGroups, getEventSortTime } from "./events/eventConfig";
-import InlineEventEditor from "./events/InlineEventEditor";
-import Toggle from "../common/components/Toggle";
+import { Api } from "../../../api";
+import { useAuth } from "../../../context/AuthContext";
+import { deleteAdminEvent, getAdminEvents, isAdminProfile } from "../../../services/adminService";
+import Toggle from "../../../common/components/Toggle";
+import EventCard from "../../../common/components/EventCard";
+import { eventGroups, getEventSortTime } from "./eventConfig";
+import InlineEventEditor from "./InlineEventEditor";
+import "./event-sections.css";
 
 export default function EventSections() {
   const { profile } = useAuth();
@@ -51,8 +52,6 @@ export default function EventSections() {
       <h1>МЕРОПРИЯТИЯ</h1>
       <Toggle
         label="Тип мероприятий"
-        wrapClassName="event-team-filters"
-        className="event-group-tabs"
         options={eventGroups.map((group) => ({ value: group.id, label: group.title }))}
         value={activeGroup.id}
         onChange={(groupId) => {
@@ -88,7 +87,7 @@ export default function EventSections() {
         />
       )}
 
-      <div className="event-showcase-list" role="tabpanel">
+      <div className="events-list" role="tabpanel">
         {groupEvents.map((event) => <EventCard event={event} key={event.id} />)}
         {groupEvents.length === 0 && <p className="event-group-empty">События этой категории скоро появятся.</p>}
       </div>

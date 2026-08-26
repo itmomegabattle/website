@@ -1,6 +1,6 @@
 @import "../../../styles/variables.css";
 
-/* Лента событий: карточки рисует общий EventCard (event-showcase.css). */
+/* Лента событий: карточки рисует общий EventCard из common/components. */
 .event-cards {
     margin-top: 2rem;
     display: flex;

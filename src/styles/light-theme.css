@@ -171,18 +171,6 @@ html[data-theme="light"] :is(.admin-row-actions button,.admin-row-link,.admin-sh
   background:#fff;
 }
 
-/* Event cards on both the events page and the home page. */
-html[data-theme="light"] .event-showcase-card {
-  border-color:rgba(0,0,0,.14);
-  background:linear-gradient(145deg,rgba(255,255,255,.5),rgba(255,255,255,.2)),rgba(255,255,255,.72);
-  color:#080808;
-  box-shadow:0 18px 56px rgba(24,45,72,.13);
-}
-html[data-theme="light"] .event-showcase-info { border-color:rgba(0,0,0,.09); background:rgba(255,255,255,.52); }
-html[data-theme="light"] .event-showcase-card :is(h2,p,span) { color:#080808; }
-html[data-theme="light"] .event-showcase-card .card-kicker { color:rgba(0,0,0,.54); }
-html[data-theme="light"] .event-registration-button { border-color:rgba(0,0,0,.18); background:rgba(255,255,255,.8); color:#080808; }
-
 /* Home partner wall */
 html[data-theme="light"] .partners-wall {
   background:linear-gradient(180deg,transparent,rgba(255,255,255,.5) 18%,rgba(255,255,255,.78) 52%,rgba(255,255,255,.5) 84%,transparent);

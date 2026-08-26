@@ -4,7 +4,7 @@ const pageLoaders = {
   "/faculties": () => import("../pages/FacultiesPage/FacultiesPage"),
   "/history": () => import("../pages/HistoryPage/HistoryPage"),
   "/partners": () => import("../pages/PartnersPage"),
-  "/events": () => import("../pages/EventsPage"),
+  "/events": () => import("../pages/EventsPage/EventsPage"),
   "/ratings": () => import("../pages/RatingsPage"),
   "/auth": () => import("../pages/AuthPage"),
 };

@@ -1,25 +1,28 @@
-import { Api } from "../../../api";
-import Card from "../../../common/components/Card";
-import Tag, { TagRow } from "../../../common/components/Tag";
-import "../../../styles/button.css";
+import { Api } from "../../api";
+import Card from "./Card";
+import Tag, { TagRow } from "./Tag";
+import "../../styles/button.css";
 import "./event-card.css";
 
 export default function EventCard({ event }) {
   const hasRegistration = event.registration?.status === "open" && event.registration.link;
   const hasTelegram = Boolean(event.telegram?.link);
+  const hasImage = Boolean(event.image);
   const details = Array.isArray(event.details) ? event.details : [];
 
   return (
-    <Card as="article" className="event-card">
-      <img
-        className="event-card__image"
-        src={Api.normalizeURL(event.image)}
-        alt={event.name}
-        width="900"
-        height="900"
-        loading="lazy"
-        decoding="async"
-      />
+    <Card as="article" className={`event-card${hasImage ? "" : " event-card--no-media"}`}>
+      {hasImage && (
+        <img
+          className="event-card__image"
+          src={Api.normalizeURL(event.image)}
+          alt={event.name}
+          width="900"
+          height="900"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
 
       <div className="event-card__body">
         <p className="event-card__kicker">{event.type}</p>

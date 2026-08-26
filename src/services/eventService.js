@@ -1,5 +1,5 @@
 import { Api } from "../api";
-import { splitEventDetails } from "../components/events/eventConfig";
+import { splitEventDetails } from "../pages/EventsPage/components/eventConfig";
 import { backendApi } from "../lib/backendApi";
 
 function mapDbEvent(event) {

@@ -1,0 +1,13 @@
+@import "../../styles/variables.css";
+
+.events-page {
+    --section-title-switch-gap: clamp(1.4rem, 2.4vw, 2.25rem);
+}
+
+.events-section {
+    display: block;
+}
+
+.events-section > h1 {
+    margin-bottom: var(--section-title-switch-gap);
+}

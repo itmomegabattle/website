@@ -16,6 +16,8 @@
     --background-color: #FFFFFF;
     --primary-color: #000000;
     --accent-color: var(--brand-blue);
+    --success-color: #61D79B;
+    --danger-color: #FF4D6D;
     --text-color: #000000;
     --text-color-inverted: #FFFFFF;
     --surface-color: rgba(255, 255, 255, 0.18);
