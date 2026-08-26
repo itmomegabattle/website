@@ -1,6 +1,5 @@
-import FacultyExplorer from "../components/faculties/FacultyExplorer";
-import "../styles/page-info.css";
-import "../styles/faculties.css";
+import FacultyExplorer from "./components/FacultyExplorer";
+import "./faculties-page.css";
 
 export default function FacultiesPage() {
   return (

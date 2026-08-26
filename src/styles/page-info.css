@@ -179,20 +179,6 @@
     letter-spacing: -0.035em;
 }
 
-.faculties-title {
-    margin-top: 5.5rem;
-    margin-bottom: 1.25rem;
-    text-align: center;
-    font-size: clamp(1.9rem, 3vw, 2.65rem);
-    line-height: 0.92;
-}
-
-.faculties-page {
-    gap: 2rem;
-    padding-top: calc(2 * var(--corner-radius) + 2rem);
-    padding-bottom: 6rem;
-}
-
 .faculty-map-block,
 .faculty-history-section {
     display: block;

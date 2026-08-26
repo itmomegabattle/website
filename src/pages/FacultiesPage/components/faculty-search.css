@@ -1,0 +1,175 @@
+@import "../../../styles/variables.css";
+
+.faculty-search-zone {
+    position: relative;
+    z-index: 8;
+    width: 100%;
+    min-width: 0;
+}
+
+.faculty-search {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 3.5rem;
+    gap: 1rem;
+    padding: 0.55rem 0.85rem 0.55rem 1.35rem;
+    border: 1px solid var(--divider-color);
+    border-radius: var(--control-radius);
+    background: var(--ui-glass-background);
+    box-shadow:
+        0 1.5rem 4rem var(--black-a16),
+        inset 0 1px 0 var(--white-a12);
+    backdrop-filter: blur(var(--content-glass-blur));
+    -webkit-backdrop-filter: blur(var(--content-glass-blur));
+}
+
+.faculty-search > svg {
+    width: 1.35rem;
+    fill: none;
+    stroke: var(--text-color);
+    stroke-width: 1.8;
+}
+
+.faculty-search input {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    color: var(--text-color);
+    background: transparent;
+    font-family: var(--body-font);
+    font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.faculty-search input::placeholder {
+    color: var(--text-subtle);
+}
+
+/* Нативный крестик очистки у type="search" дублирует нашу кнопку. */
+.faculty-search input::-webkit-search-cancel-button,
+.faculty-search input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.faculty-search-hint {
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--control-radius);
+    color: var(--text-muted);
+    background: var(--active-wash);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+}
+
+/* Кнопка вписана в свободную высоту строки (min-height − паддинги),
+   чтобы поле не меняло размер при появлении крестика вместо подсказки. */
+.faculty-search-clear {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    aspect-ratio: 1;
+    padding: 0;
+    border: 1px solid var(--divider-color);
+    border-radius: 50%;
+    color: var(--text-color);
+    background: var(--ui-glass-background);
+    font-family: var(--body-font);
+    font-size: 1.7rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.faculty-search-results {
+    position: absolute;
+    top: calc(100% + 0.65rem);
+    left: 0;
+    right: 0;
+    display: grid;
+    max-height: min(34rem, 70vh);
+    overflow-y: auto;
+    padding: 0.55rem;
+    border: 1px solid var(--divider-color);
+    border-radius: var(--corner-radius);
+    background: var(--ui-glass-background-strong);
+    box-shadow: 0 1.8rem 5rem var(--black-a38);
+    backdrop-filter: blur(var(--content-glass-blur));
+    -webkit-backdrop-filter: blur(var(--content-glass-blur));
+}
+
+.faculty-search-result {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem;
+    border: 0;
+    border-radius: calc(var(--corner-radius) - 0.55rem);
+    color: var(--text-color);
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.faculty-search-result:hover,
+.faculty-search-result:focus-visible {
+    outline: 0;
+    background: var(--accent-a12);
+}
+
+.faculty-search-result > span {
+    display: grid;
+    gap: 0.18rem;
+}
+
+.faculty-search-result em {
+    color: var(--text-subtle);
+    font-size: 0.72rem;
+    font-style: normal;
+}
+
+.faculty-search-result small {
+    color: var(--accent-color);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+}
+
+.faculty-search-result strong {
+    overflow-wrap: anywhere;
+    font-size: 1rem;
+}
+
+.faculty-search-result svg {
+    width: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+}
+
+.faculty-search-empty {
+    margin: 0;
+    padding: 1.3rem;
+    color: var(--text-muted);
+}
+
+@media (max-width: 620px) {
+    .faculty-search {
+        min-height: 3.65rem;
+        padding: 0.55rem 0.7rem 0.55rem 1.1rem;
+    }
+
+    .faculty-search-hint {
+        display: none;
+    }
+
+    .faculty-search-result {
+        padding: 0.85rem;
+    }
+}

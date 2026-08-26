@@ -1,0 +1,53 @@
+@import "../../../styles/variables.css";
+
+.faculty-logo {
+    display: block;
+    width: min(100%, 14rem);
+    max-height: 7rem;
+    object-fit: contain;
+    filter: brightness(0);
+}
+
+.faculty-logo--parts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    height: 5.25rem;
+    max-height: none;
+    filter: none;
+}
+
+.faculty-logo--parts img {
+    width: auto;
+    max-width: none;
+    height: 100%;
+    flex: 0 1 auto;
+    object-fit: contain;
+    filter: brightness(0);
+}
+
+.faculty-logo-wordmark {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    color: var(--brand-black);
+    font-family: var(--heading-font);
+    font-size: clamp(1.8rem, 2.8vw, 2.7rem);
+    font-weight: 500;
+    line-height: 0.82;
+    letter-spacing: -0.085em;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+    .faculty-logo {
+        max-height: 4rem;
+    }
+
+    .faculty-logo--parts {
+        height: 3.6rem;
+    }
+}

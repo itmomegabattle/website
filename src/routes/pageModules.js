@@ -1,7 +1,7 @@
 const pageLoaders = {
   "/": () => import("../pages/HomePage/HomePage"),
   "/people": () => import("../pages/PeoplePage/PeoplePage"),
-  "/faculties": () => import("../pages/FacultiesPage"),
+  "/faculties": () => import("../pages/FacultiesPage/FacultiesPage"),
   "/history": () => import("../pages/HistoryPage"),
   "/partners": () => import("../pages/PartnersPage"),
   "/events": () => import("../pages/EventsPage"),
