@@ -1,0 +1,126 @@
+@import "../../../styles/variables.css";
+
+/* Тоггл — общий компонент в виде со страницы людей;
+   странице принадлежит только отступ до списка карточек. */
+.events-section .team-filters {
+    margin-bottom: clamp(2.2rem, 5vw, 4.6rem);
+}
+
+.events-list {
+    display: grid;
+    gap: 2rem;
+}
+
+.event-group-empty {
+    width: min(100%, 58rem);
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 5rem) 1.5rem;
+    border: var(--card-border);
+    border-radius: var(--corner-radius);
+    background: var(--surface-color-special);
+    color: var(--text-muted);
+    text-align: center;
+}
+
+html[data-theme="light"] .events-page .event-group-empty {
+    background: color-mix(in srgb, var(--surface-color) 92%, var(--brand-white));
+    color: var(--text-muted);
+}
+
+/* Админ-панель управления мероприятиями (видна только администраторам). */
+.event-admin-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    margin: -1.5rem 0 2rem;
+    padding: 0.75rem;
+    border: var(--card-border);
+    border-radius: 1.4rem;
+    background: color-mix(in srgb, var(--surface-color-special) 72%, transparent);
+    box-shadow: var(--card-shadow);
+}
+
+.event-admin-strip > button,
+.event-admin-chip button {
+    min-height: 2.4rem;
+    padding: 0 0.85rem;
+    border: var(--card-border);
+    border-radius: var(--control-radius);
+    background: var(--surface-color);
+    color: var(--text-color);
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.event-admin-strip > button {
+    border-color: var(--control-border-hover);
+    background: var(--control-background-active);
+    color: var(--control-color);
+    box-shadow: var(--control-shadow);
+}
+
+.event-admin-chip {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    min-height: 2.5rem;
+    padding: 0.3rem 0.35rem 0.3rem 0.85rem;
+    border: var(--card-border);
+    border-radius: var(--control-radius);
+    background: color-mix(in srgb, var(--surface-color) 86%, transparent);
+    font-size: 0.88rem;
+    font-weight: 800;
+}
+
+.event-admin-error {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 42%, var(--border-color));
+    border-radius: 1rem;
+    background: var(--accent-a18);
+    color: var(--brand-white);
+    font-weight: 900;
+}
+
+.event-admin-status {
+    padding: 0.55rem 0.8rem;
+    border: 1px solid color-mix(in srgb, var(--success-color) 38%, var(--border-color));
+    border-radius: var(--control-radius);
+    background: color-mix(in srgb, var(--success-color) 12%, transparent);
+    color: color-mix(in srgb, var(--success-color) 70%, var(--brand-white));
+    font-size: 0.82rem;
+    font-weight: 850;
+}
+
+.event-admin-chip .event-admin-delete {
+    border-color: color-mix(in srgb, var(--danger-color) 55%, var(--border-color));
+    color: color-mix(in srgb, var(--danger-color) 78%, var(--brand-white));
+}
+
+.event-admin-chip button:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+    .event-admin-strip {
+        box-sizing: border-box;
+        width: calc(100% - 1rem);
+        margin-right: auto;
+        margin-left: auto;
+        border-radius: 1.25rem;
+    }
+
+    .event-admin-chip {
+        border-radius: 1rem;
+    }
+
+    .event-admin-strip button,
+    .event-admin-chip button {
+        border-radius: var(--control-radius);
+    }
+}

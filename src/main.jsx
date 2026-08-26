@@ -14,7 +14,7 @@ import { Api } from "./api";
 import Background from "./components/Background";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Preloader from "./components/Preloader";
+import Preloader from "./common/components/Preloader";
 import PageStage from "./components/PageStage";
 import { AuthProvider } from "./context/AuthContext";
 import { scheduleSiteWarmup } from "./lib/sitePrefetch";
@@ -23,7 +23,7 @@ import "./styles/common.css";
 // Формы открываются интерактивно и часть из них рендерится порталом в body.
 // Загружаем их стили заранее, чтобы первый показ не попадал в неоформленный кадр.
 import "./styles/page-info.css";
-import "./styles/stories-list.css";
+import "./pages/PeoplePage/components/stories-list.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({

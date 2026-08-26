@@ -1,0 +1,362 @@
+@import "../../styles/variables.css";
+
+.people-page {
+  --section-title-switch-gap: clamp(1.4rem, 2.4vw, 2.25rem);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(5rem, 8vw, 8rem);
+  padding: clamp(4.75rem, 6vw, 6rem) 0 8rem;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse at 74% 8%, var(--accent-a055), transparent 34rem),
+    radial-gradient(ellipse at 18% 46%, var(--white-a025), transparent 28rem);
+}
+
+.people-page::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(var(--white-a018) 1px, transparent 1px),
+    linear-gradient(90deg, var(--white-a018) 1px, transparent 1px);
+  background-size: 7rem 7rem;
+  pointer-events: none;
+}
+
+.people-team {
+  display: grid;
+  gap: 0;
+}
+
+.people-connections {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.people-team-title {
+  margin: 0 0 var(--section-title-switch-gap);
+  text-align: center;
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+.people-roster.is-preparing .people-person-card {
+  opacity: 0.08;
+  filter: blur(10px);
+}
+
+.people-roster.is-ready .people-person-card {
+  opacity: 1;
+  filter: none;
+  transition:
+    opacity 320ms ease,
+    filter 420ms ease,
+    transform 260ms ease,
+    border-color 220ms ease;
+}
+
+.people-section-heading {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.people-section-heading h2 {
+  margin: 0;
+  font: 500 clamp(2.25rem, 5vw, 4.25rem)/0.92 var(--heading-font);
+  letter-spacing: -0.035em;
+}
+
+.people-section-heading > p {
+  max-width: 40rem;
+  margin: 0;
+  color: var(--white-a52);
+  font-size: var(--body-size);
+  line-height: var(--body-line-height);
+}
+
+.people-connections .people-section-heading h2 {
+  font-size: clamp(2.8rem, 4.4vw, 4rem);
+}
+
+.people-cloud-section {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: clamp(2rem, 3.5vw, 3.5rem);
+  width: 100%;
+  min-width: 0;
+  /* Без content-visibility: его paint containment резал тени карточек по границе секции. */
+  padding: clamp(1rem, 2vw, 2rem) 0;
+  background:
+    radial-gradient(circle at 16% 34%, var(--accent-a11), transparent 24rem),
+    radial-gradient(circle at 84% 68%, var(--white-a045), transparent 22rem);
+}
+
+.people-cloud-section::before {
+  position: absolute;
+  inset: 7rem 0 2rem;
+  z-index: 0;
+  opacity: 0.2;
+  background-image: radial-gradient(circle, var(--white-a55) 0 1px, transparent 1.5px);
+  background-size: 2.2rem 2.2rem;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 78%);
+  content: "";
+  pointer-events: none;
+}
+
+.people-cloud-heading {
+  position: relative;
+  z-index: 2;
+}
+
+.people-cloud-heading h2 {
+  font-size: clamp(2.8rem, 4.4vw, 4rem);
+  line-height: 0.9;
+}
+
+/* Ширину дает общий .main-width, отступы между карточками — те же, что в секции команды. */
+.people-cloud {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(6.5rem, 4rem + 9vw, 11rem), 1fr));
+  justify-content: center;
+  column-gap: clamp(0.7rem, 1.15vw, 1.2rem);
+  row-gap: clamp(2.5rem, 4vw, 3.8rem);
+  padding: clamp(0.5rem, 1vw, 1rem) 0;
+}
+
+.people-cloud-more {
+  display: grid;
+  place-items: center;
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.people-cloud-more button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.7rem 1.15rem;
+  border: 1px solid var(--white-a20);
+  border-radius: 999px;
+  background: var(--ui-glass-background);
+  color: var(--brand-white);
+  font: 900 0.88rem/1 var(--body-font);
+  cursor: pointer;
+}
+
+.people-cloud-more button:hover,
+.people-cloud-more button:focus-visible {
+  border-color: var(--white-a56);
+  background: var(--ui-glass-background-hover);
+  outline: none;
+}
+
+.people-cloud-more span {
+  color: var(--accent-color);
+  font-size: 0.72rem;
+}
+
+.people-connections .friendship-graph-card {
+  position: relative;
+  min-height: clamp(35rem, 62vw, 51rem);
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--white-a18);
+  border-radius: clamp(1.75rem, 3vw, 3rem);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, var(--accent-a10), transparent 46%),
+    linear-gradient(135deg, var(--white-a055), transparent 42%),
+    var(--black-a82);
+  box-shadow: 0 2rem 7rem var(--black-a36);
+}
+
+.people-connections .friendship-graph-card--launch {
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.friendship-graph-card__preview {
+  position: absolute;
+  inset: 8%;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0.48;
+  filter: blur(16px);
+  background:
+    linear-gradient(115deg, transparent 5%, var(--white-a08) 45%, transparent 78%),
+    repeating-linear-gradient(90deg, var(--white-a055) 0 1px, transparent 1px 9rem),
+    repeating-linear-gradient(0deg, var(--white-a04) 0 1px, transparent 1px 7rem);
+}
+
+.friendship-graph-card__preview span {
+  position: absolute;
+  width: 25rem;
+  height: 25rem;
+  border: 1px solid var(--white-a14);
+  border-radius: 50%;
+}
+
+.friendship-graph-card__preview span:nth-child(1) { left: 8%; top: 10%; }
+.friendship-graph-card__preview span:nth-child(2) { right: 5%; top: 22%; }
+.friendship-graph-card__preview span:nth-child(3) { left: 36%; bottom: -18%; }
+
+.friendship-graph-card__launch-copy {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.friendship-graph-card__launch-copy > span,
+.friendship-graph-card__launch-copy > strong {
+  color: var(--white-a70);
+  font: var(--eyebrow-weight) var(--eyebrow-size)/1 var(--body-font);
+  letter-spacing: var(--eyebrow-tracking);
+  text-transform: uppercase;
+}
+
+.friendship-graph-card__launch-copy time {
+  color: var(--brand-white);
+  font: 500 clamp(4rem, 11vw, 9rem)/0.9 var(--heading-font);
+  letter-spacing: -0.06em;
+}
+
+.people-connections .friendship-graph-toolbar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.35rem;
+  border: 1px solid var(--white-a20);
+  border-radius: 999px;
+  background: var(--black-a86);
+  backdrop-filter: blur(9px);
+}
+
+.people-connections .friendship-graph-toolbar button {
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--white-a07);
+  color: var(--brand-white);
+  font-family: var(--body-font);
+  font-size: 0.95rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.people-connections .friendship-graph-canvas {
+  display: block;
+  width: 100%;
+  height: clamp(35rem, 62vw, 51rem);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.people-connections .friendship-graph-canvas:active {
+  cursor: grabbing;
+}
+
+.stories-title {
+  display: grid;
+  justify-items: center;
+  gap: 0.08em;
+  margin: 0;
+  font: 500 clamp(2.8rem, 4.4vw, 4rem)/0.9 var(--heading-font);
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+
+.stories-title span {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .people-page {
+    gap: 4.5rem;
+    padding: 4.75rem 0 5rem;
+  }
+
+  .people-team-title {
+    margin-bottom: var(--section-title-switch-gap);
+    font-size: clamp(1.8rem, 8vw, 2.15rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+
+  .people-section-heading h2 {
+    font-size: clamp(2.35rem, 10vw, 3.25rem);
+  }
+
+  .people-connections .people-section-heading h2 {
+    font-size: clamp(2.35rem, 10vw, 3.25rem);
+  }
+
+  .people-section-heading > p {
+    max-width: 29rem;
+    font-size: 0.82rem;
+  }
+
+  .people-cloud-heading h2 {
+    font-size: clamp(2.35rem, 10vw, 3.25rem);
+  }
+
+  .stories-title {
+    font-size: clamp(2.35rem, 10vw, 3.25rem);
+  }
+
+  .people-cloud-section {
+    min-height: auto;
+    padding: 1rem max(0.75rem, env(safe-area-inset-left)) 1.5rem;
+  }
+
+  .people-cloud {
+    column-gap: 0.65rem;
+    row-gap: 1.6rem;
+    padding: 0.5rem 0 0.8rem;
+  }
+
+  .people-connections .friendship-graph-card {
+    min-height: 30rem;
+    border-radius: 1.4rem;
+  }
+
+  .people-connections .friendship-graph-canvas {
+    height: 30rem;
+  }
+
+  .people-connections .friendship-graph-toolbar {
+    top: 0.65rem;
+    right: 0.65rem;
+    gap: 0.25rem;
+    padding: 0.25rem;
+  }
+
+  .people-connections .friendship-graph-toolbar button {
+    min-width: 2.15rem;
+    min-height: 2.15rem;
+    padding-inline: 0.62rem;
+    font-size: 0.82rem;
+  }
+}
+
+.people-page,.people-cloud-section { background:none; }
+.people-page::before,.people-cloud-section::before { display:none; }
+.people-connections .friendship-graph-card { background:linear-gradient(145deg,var(--white-a035),transparent 50%),var(--black-a95); border-color:var(--white-a13); }
+.friendship-graph-card__preview { background:linear-gradient(115deg,transparent 5%,var(--white-a055) 45%,transparent 78%); }
+.friendship-graph-card__launch-copy time { font-size:clamp(2.8rem,7vw,6rem); letter-spacing:-.045em; }

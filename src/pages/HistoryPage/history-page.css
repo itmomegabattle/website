@@ -1,0 +1,98 @@
+@import "../../styles/variables.css";
+
+/* Кинематографичная страница истории: тёмный сплошной фон чередуется
+   с секциями, сквозь которые виден глобальный линейный арт.
+   Палитра страницы собрана в локальные алиасы глобальных токенов.
+   Модалы рендерятся в портале вне страницы, поэтому переменные
+   объявлены и на их подложках. */
+.history-page,
+.modal-backdrop.history-chapter,
+.modal-backdrop.history-video {
+    --history-white: var(--brand-white);
+    --history-blue: var(--brand-blue);
+    --history-blue-soft: var(--brand-blue-soft);
+    --history-surface: var(--surface-ink-navy);
+    --history-panel: var(--surface-ink);
+    --history-text: var(--white-a70);
+    --history-text-dim: var(--white-a62);
+    --history-text-soft: var(--white-a56);
+    --history-line: var(--white-a14);
+    --history-line-strong: var(--white-a24);
+    /* Единая «синяя» тонировка архивных фото. */
+    --history-photo-filter: grayscale(1) sepia(0.2) hue-rotate(172deg) saturate(2.8) brightness(0.72) contrast(1.08);
+    --history-photo-filter-hover: grayscale(1) sepia(0.2) hue-rotate(172deg) saturate(3) brightness(0.82) contrast(1.08);
+}
+
+.history-page {
+    position: relative;
+    min-height: 100svh;
+    overflow: clip;
+    gap: 0;
+    padding-bottom: 0;
+    background: transparent;
+    color: var(--history-white);
+}
+
+@media (max-width: 980px) {
+    .history-page {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: clip;
+    }
+}
+
+/* Ритм фона: сплошные главы чередуются с «прозрачными» секциями. */
+.history-origin,
+.history-final {
+    background: var(--history-surface);
+}
+
+.history-hero,
+.history-plot,
+.history-chapters,
+.history-oath,
+.history-facts,
+.participants-roles {
+    background: transparent;
+}
+
+html[data-theme="light"] .history-origin,
+html[data-theme="light"] .history-final {
+    background: var(--brand-white);
+}
+
+/* Единая система интерактивных элементов внутри страницы. */
+.history-plot__copy button,
+.history-chapter__play,
+.history-final a,
+.history-video footer a {
+    min-height: var(--control-height);
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--control-color);
+    box-shadow: var(--control-shadow);
+    text-decoration: none;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.history-plot__copy button:hover,
+.history-chapter__play:hover,
+.history-final a:hover,
+.history-video footer a:hover {
+    border-color: var(--control-border-hover);
+    background: var(--control-background-hover);
+    color: var(--control-color);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.history-plot__copy button i,
+.history-chapter__play i {
+    background: var(--control-background-active);
+    color: var(--history-white);
+}

@@ -1,0 +1,104 @@
+@import "../../styles/variables.css";
+
+/* Фон в :where(): нулевая специфичность, чтобы конкретный модал мог
+   переопределить фон/паддинги своим классом на подложке. */
+:where(.modal-backdrop) {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+  background: rgba(0, 2, 7, 0.82);
+  backdrop-filter: blur(8px);
+  animation: modal-backdrop-in 0.25s ease both;
+}
+
+html[data-theme="light"] :where(.modal-backdrop) {
+  background: rgba(222, 229, 239, 0.62);
+}
+
+.modal {
+  position: relative;
+}
+
+/* Поверхность в :where(): нулевая специфичность, чтобы конкретный модал
+   мог переопределить любое свойство своим классом. */
+:where(.modal) {
+  max-width: calc(100vw - 1.5rem);
+  max-height: calc(100svh - 1.5rem);
+  overflow: hidden;
+  border: 1px solid var(--white-a20);
+  border-radius: clamp(1.5rem, 2.6vw, 2.75rem);
+  background: var(--brand-black);
+  color: var(--brand-white);
+  box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.65);
+}
+
+:where(.modal)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 var(--white-a08);
+  pointer-events: none;
+}
+
+.modal__close {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+  background: rgba(2, 7, 15, 0.78);
+  backdrop-filter: blur(6px);
+  color: var(--brand-white);
+  font: 400 1.55rem/1 var(--body-font);
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.modal__close:hover,
+.modal__close:focus-visible {
+  border-color: rgba(255, 255, 255, 0.62);
+  background: rgba(0, 105, 224, 0.8);
+  outline: none;
+  transform: rotate(6deg);
+}
+
+html[data-theme="light"] .modal__close {
+  border-color: rgba(0, 0, 0, 0.16);
+  background: #fff;
+  color: #080808;
+}
+
+html[data-theme="light"] .modal__close:hover,
+html[data-theme="light"] .modal__close:focus-visible {
+  border-color: transparent;
+  background: rgba(0, 105, 224, 0.85);
+  color: #fff;
+}
+
+@media (max-width: 720px) {
+  .modal__close {
+    top: 0.85rem;
+    right: 0.85rem;
+    width: 2.35rem;
+    font-size: 1.3rem;
+    background: rgba(0, 0, 0, 0.84);
+  }
+
+  html[data-theme="light"] .modal__close {
+    background: #fff;
+  }
+}
+
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

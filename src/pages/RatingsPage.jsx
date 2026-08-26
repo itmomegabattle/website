@@ -7,11 +7,13 @@ import {
 } from "../components/RatingsSections";
 import AuthPanel from "../components/AuthPanel";
 import NfcTagsPanel from "../components/NfcTagsPanel";
-import ModalPortal from "../components/ModalPortal";
+import Modal from "../common/components/Modal";
+import ExternalArrowIcon from "../common/components/ExternalArrowIcon";
+import Toggle from "../common/components/Toggle";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
 import { getProfileTags } from "../services/profileService";
-import "../styles/member-list.css";
+import "../common/components/toggle.css";
 import "../styles/page-info.css";
 
 const AdminCabinetPanel = lazy(() => import("../components/AdminCabinetPanel"));
@@ -95,30 +97,20 @@ export default function RatingsPage() {
       <section className="main-width participants-hero">
         <h1>Профиль</h1>
         {isAuthenticated && canAdmin && (
-          <nav className="team-filters profile-view-filters" aria-label="Режим страницы">
-            <div className="team-toggle profile-view-toggle" data-filter={activeView}>
-              <span className="toggle-slider" aria-hidden="true" />
-              <button
-                type="button"
-                className={`toggle-btn${activeView === "profile" ? " active" : ""}`}
-                aria-pressed={activeView === "profile"}
-                onClick={() => setActiveView("profile")}
-              >
-                Профиль
-              </button>
-              <button
-                type="button"
-                className={`toggle-btn${activeView === "admin" ? " active" : ""}`}
-                aria-pressed={activeView === "admin"}
-                onClick={() => {
-                  closeModal();
-                  setActiveView("admin");
-                }}
-              >
-                Админка
-              </button>
-            </div>
-          </nav>
+          <Toggle
+            label="Режим страницы"
+            wrapClassName="profile-view-filters"
+            className="profile-view-toggle"
+            options={[
+              { value: "profile", label: "Профиль" },
+              { value: "admin", label: "Админка" },
+            ]}
+            value={activeView}
+            onChange={(view) => {
+              if (view === "admin") closeModal();
+              setActiveView(view);
+            }}
+          />
         )}
       </section>
 
@@ -148,10 +140,10 @@ export default function RatingsPage() {
             {!isAuthenticated && (
               <article className="info-card profile-services-card">
                 <nav className="profile-services-links" aria-label="Сервисы ITMO Megabattle">
-                  <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><span>Telegram проекта</span><b>↗</b></a>
+                  <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><span>Telegram проекта</span><b><ExternalArrowIcon /></b></a>
                   <a href="/nfc"><span>NFC-визитка</span><b>→</b></a>
                   <a href="/events"><span>Афиша мероприятий</span><b>→</b></a>
-                  <a href="https://mblinks.online" target="_blank" rel="noreferrer"><span>Все площадки</span><b>↗</b></a>
+                  <a href="https://mblinks.online" target="_blank" rel="noreferrer"><span>Все площадки</span><b><ExternalArrowIcon /></b></a>
                 </nav>
                 <div className="profile-services-lock" aria-label="Сервисы появятся позже">
                   <strong>Сервисы</strong>
@@ -166,31 +158,21 @@ export default function RatingsPage() {
       )}
 
       {activeModal && (
-        <ModalPortal>
-          <div className="profile-modal-backdrop" role="presentation" onMouseDown={(event) => {
-            if (event.target === event.currentTarget) closeModal();
-          }}>
-            <section
-              className={`profile-modal profile-modal--${activeModal}`}
-              role="dialog"
-              aria-modal="true"
-              aria-label={activeModal === "cards" ? "Выбор NFC-визитки" : "Редактирование профиля"}
-            >
-              <button className="profile-modal-close" type="button" onClick={closeModal}>
-                ×
-              </button>
-              {activeModal === "cards" ? (
-                <div className="profile-card-picker">
-                  <p className="card-kicker">NFC-визитка</p>
-                  <h2>Нет привязанных меток</h2>
-                  <p>Сначала привяжи NFC-метку к профилю — после этого кнопка будет открывать настоящую визитку.</p>
-                </div>
-              ) : (
-                <Suspense fallback={null}><ProfileEditor /></Suspense>
-              )}
-            </section>
-          </div>
-        </ModalPortal>
+        <Modal
+          label={activeModal === "cards" ? "Выбор NFC-визитки" : "Редактирование профиля"}
+          onClose={closeModal}
+          className={`profile-modal profile-modal--${activeModal}`}
+        >
+          {activeModal === "cards" ? (
+            <div className="profile-card-picker">
+              <p className="card-kicker">NFC-визитка</p>
+              <h2>Нет привязанных меток</h2>
+              <p>Сначала привяжи NFC-метку к профилю — после этого кнопка будет открывать настоящую визитку.</p>
+            </div>
+          ) : (
+            <Suspense fallback={null}><ProfileEditor /></Suspense>
+          )}
+        </Modal>
       )}
     </main>
   );

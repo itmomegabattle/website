@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "../api";
+import ExternalArrowIcon from "../common/components/ExternalArrowIcon";
 
 export function ExternalPrCards() {
   const data = useQuery({
@@ -49,7 +50,7 @@ export function ExternalPrContact() {
         {contacts.map((contact) => (
           <a href={contact.href} key={`${contact.label}-${contact.href}`}>
             <span>{contact.label}</span>
-            <span aria-hidden="true">↗</span>
+            <span aria-hidden="true"><ExternalArrowIcon /></span>
           </a>
         ))}
       </div>

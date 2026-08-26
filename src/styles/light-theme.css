@@ -54,7 +54,6 @@ html[data-theme="light"] .story-card {
 }
 html[data-theme="light"] .story-modal { border-color:rgba(0,0,0,.14); background:rgba(250,251,253,.96); color:#080808; }
 html[data-theme="light"] .story-modal :is(h2,p) { color:#080808; }
-html[data-theme="light"] .story-modal-close { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
 
 /* Participants and admin */
 html[data-theme="light"] .participants-page {
@@ -118,56 +117,32 @@ html[data-theme="light"] .faculty-retro-section {
 html[data-theme="light"] .faculty-retro-newspaper { color:#080808; border-color:rgba(0,0,0,.16); }
 html[data-theme="light"] .faculty-retro-newspaper :is(h2,h3,strong,p,small,span,blockquote,li) { color:#080808; }
 html[data-theme="light"] :is(.profile-modal,.qr-popover) { color:#080808; }
-html[data-theme="light"] :is(.profile-modal-close,.qr-popover-close) { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
+html[data-theme="light"] .qr-popover-close { background:#fff; color:#080808; border-color:rgba(0,0,0,.16); }
 
 /* Footer */
 html[data-theme="light"] footer { color:#080808; }
 html[data-theme="light"] footer a { color:inherit; }
 
-/* History keeps its cinematic layout, but follows the selected palette. */
+/* History keeps its cinematic layout, but follows the selected palette:
+   the page repaints through its local --history-* aliases. */
 html[data-theme="light"] .history-page {
-  --history-black:#eef2f7;
   --history-white:#090a0c;
-  --background-color:#eef2f7;
-  --text-color:#090a0c;
+  --history-text:rgba(9,10,12,.7);
+  --history-text-dim:rgba(9,10,12,.64);
+  --history-text-soft:rgba(9,10,12,.56);
+  --history-line:rgba(0,0,0,.14);
+  --history-line-strong:rgba(0,0,0,.26);
   color:#090a0c;
   background:#eef2f7;
 }
-html[data-theme="light"] :is(.history-world,.history-hero,.history-plot,.history-origin,.history-seasons,.history-credits,.history-facts,.history-gallery,.history-final) {
-  background-color:#eef2f7;
-  color:#090a0c;
-}
 html[data-theme="light"] .history-hero__logo { filter:invert(1) drop-shadow(0 1.2rem 3.5rem rgba(24,45,72,.16)); }
-html[data-theme="light"] :is(.history-hero__title>span,.history-hero__title p,.history-scroll-cue,.history-section-tag,.history-plot__copy small,.history-plot__copy p,.history-origin__copy>p,.history-origin__copy blockquote,.history-seasons__heading p,.history-final>span) { color:rgba(9,10,12,.64); }
-html[data-theme="light"] .history-local-nav { border-color:rgba(0,0,0,.14); background:rgba(255,255,255,.78); }
-html[data-theme="light"] .history-local-nav a { color:rgba(0,0,0,.62); }
-html[data-theme="light"] .history-local-nav a:hover { background:#090a0c; color:#fff; }
-html[data-theme="light"] .history-plot { background:radial-gradient(circle at 50% 55%,rgba(0,105,224,.08),transparent 25%),#eef2f7; }
-html[data-theme="light"] .history-plot__orbit { border-color:rgba(0,0,0,.14); }
+html[data-theme="light"] :is(.history-hero__title>span,.history-hero__title p,.history-oath p,.history-final>span) { color:rgba(9,10,12,.64); }
+html[data-theme="light"] .history-oath h2 em { -webkit-text-stroke-color:#090a0c; }
 html[data-theme="light"] .history-plot__orbit i { background:#090a0c; }
-html[data-theme="light"] .history-plot__copy button { border-color:rgba(0,0,0,.28); color:#090a0c; }
-html[data-theme="light"] .history-plot__copy button i { background:#090a0c; color:#fff; }
-html[data-theme="light"] .history-origin { background:radial-gradient(circle at 78% 23%,rgba(0,105,224,.08),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.45),rgba(238,242,247,.86)); color:#090a0c; }
-html[data-theme="light"] .history-origin__copy .history-origin__lead { color:#090a0c; }
-html[data-theme="light"] .history-origin__founding,
-html[data-theme="light"] .history-fact,
-html[data-theme="light"] .history-credits__grid article { border-color:rgba(0,0,0,.13); background:rgba(255,255,255,.72); color:#090a0c; box-shadow:0 18px 56px rgba(24,45,72,.12); }
-html[data-theme="light"] :is(.history-origin__founding p,.history-fact p,.history-credits__grid p,.history-credits__details b) { color:rgba(9,10,12,.62); }
-html[data-theme="light"] .history-seasons { background:radial-gradient(circle at 78% 38%,rgba(0,105,224,.07),transparent 32%),#eef2f7; }
-html[data-theme="light"] .history-seasons__sticky::before { background:linear-gradient(90deg,#eef2f7 0 31%,rgba(238,242,247,.94) 36%,transparent 47% 86%,#eef2f7); }
-html[data-theme="light"] .history-season-card__date strong { color:#090a0c; }
-html[data-theme="light"] .history-season-card__date span { color:rgba(9,10,12,.45); }
-html[data-theme="light"] .history-season-card__date>i { border-color:#eef2f7; }
-html[data-theme="light"] .history-facts { background:radial-gradient(circle at 73% 20%,rgba(0,105,224,.08),transparent 30%),#eef2f7; }
-html[data-theme="light"] .history-gallery { background:#eef2f7; }
-html[data-theme="light"] .history-final { background:radial-gradient(circle at 50% 50%,rgba(0,105,224,.08),transparent 28%),#eef2f7; }
-html[data-theme="light"] .history-final a { border-color:rgba(0,0,0,.28); color:#090a0c; }
-html[data-theme="light"] .history-final a:hover { background:#090a0c; color:#fff; }
-
-html[data-theme="light"] body:has(.history-page) .header {
-  --background-color:#eef2f7;
-  --text-color:#090a0c;
-  --border-color:rgba(0,0,0,.14);
+html[data-theme="light"] .history-origin__photo figcaption { color:#fff; }
+html[data-theme="light"] .history-fact {
+  border-color:rgba(0,0,0,.13);
+  box-shadow:0 18px 56px rgba(24,45,72,.12);
 }
 
 /* Forms, account pages and compact NFC route. */
@@ -184,8 +159,6 @@ html[data-theme="light"] :is(.profile-editor,.social-bio-card,.nfc-page-card,.nf
 }
 html[data-theme="light"] :is(.profile-editor,.social-bio-card,.nfc-page-card,.nfc-claim-card) :is(h1,h2,h3,p,strong,span) { color:inherit; }
 html[data-theme="light"] .social-link-button { border-color:rgba(0,0,0,.16); }
-html[data-theme="light"] .profile-modal-backdrop,
-html[data-theme="light"] .story-modal-backdrop { background:rgba(222,229,239,.62); }
 
 /* Admin controls use the same light glass rather than dark local variables. */
 html[data-theme="light"] :is(.admin-row-actions button,.admin-row-link,.admin-show-all,.admin-pin-box button,.partners-admin-toggle,.partners-admin-head button,.partners-admin-row button) {
@@ -197,18 +170,6 @@ html[data-theme="light"] :is(.admin-row-actions button,.admin-row-link,.admin-sh
   border-color:rgba(0,0,0,.4);
   background:#fff;
 }
-
-/* Event cards on both the events page and the home page. */
-html[data-theme="light"] .event-showcase-card {
-  border-color:rgba(0,0,0,.14);
-  background:linear-gradient(145deg,rgba(255,255,255,.5),rgba(255,255,255,.2)),rgba(255,255,255,.72);
-  color:#080808;
-  box-shadow:0 18px 56px rgba(24,45,72,.13);
-}
-html[data-theme="light"] .event-showcase-info { border-color:rgba(0,0,0,.09); background:rgba(255,255,255,.52); }
-html[data-theme="light"] .event-showcase-card :is(h2,p,span) { color:#080808; }
-html[data-theme="light"] .event-showcase-card .card-kicker { color:rgba(0,0,0,.54); }
-html[data-theme="light"] .event-registration-button { border-color:rgba(0,0,0,.18); background:rgba(255,255,255,.8); color:#080808; }
 
 /* Home partner wall */
 html[data-theme="light"] .partners-wall {
@@ -266,10 +227,6 @@ html[data-theme="light"] .contact-tab--tiktok,
 html[data-theme="light"] .contact-tab--rutube { color:#080808; }
 
 /* Pleiad portraits should retain their real exposure in light mode. */
-html[data-theme="light"] .people-cloud-person img { filter:grayscale(.18) brightness(.96) contrast(1.02); }
-html[data-theme="light"] .people-cloud-person:hover img,
-html[data-theme="light"] .people-cloud-person:focus-visible img { filter:none; }
-html[data-theme="light"] .people-cloud-person > span { background:transparent; color:#fff; }
 
 /* Retro uses visible editorial cells. */
 html[data-theme="light"] .faculty-retro-newspaper .faculty-retro-cell,
@@ -315,12 +272,12 @@ html[data-theme="light"] .roles-dome .sphere-item__image:focus-visible .role-ico
 }
 
 /* Open cards keep two clean surfaces in the light theme. */
-html[data-theme="light"] :is(.people-member-modal,.partner-detail-modal,.history-chapter__panel) {
+html[data-theme="light"] :is(.people-member-modal,.partner-detail-modal,.history-chapter__panel,.footer-modal) {
   border-color:rgba(0,0,0,.14);
   background:rgba(236,240,246,.96);
   color:#080808;
 }
-html[data-theme="light"] :is(.people-member-modal__image,.people-member-modal__copy,.partner-detail-logo,.partner-detail-content,.history-chapter__visual,.history-chapter__body) {
+html[data-theme="light"] :is(.people-member-modal__image,.history-chapter__visual,.history-chapter__body) {
   border-color:rgba(0,0,0,.13);
   background:rgba(255,255,255,.9);
   color:#080808;

@@ -11,3 +11,4 @@
 .env.bot
 .env.example
 !.env.example
+/.playwright-mcp

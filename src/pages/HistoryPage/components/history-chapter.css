@@ -1,0 +1,354 @@
+@import "../../../styles/variables.css";
+
+/* Подложка — общий Modal; класс уточняет кинематографичный фон истории. */
+.modal-backdrop.history-chapter {
+    position: fixed;
+    inset: 0;
+    z-index: 2200;
+    width: 100vw;
+    height: 100dvh;
+    padding: clamp(0.6rem, 1.6vw, 1.25rem);
+    overflow: hidden;
+    overscroll-behavior: contain;
+    background: var(--black-a86);
+    backdrop-filter: blur(18px) saturate(0.72);
+    -webkit-backdrop-filter: blur(18px) saturate(0.72);
+}
+
+.history-chapter__panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.82fr) minmax(0, 1.18fr);
+    gap: clamp(0.55rem, 1vw, 0.85rem);
+    width: min(86rem, 100%);
+    height: min(52rem, calc(100dvh - 2rem));
+    max-height: calc(100dvh - 2rem);
+    overflow: hidden;
+    padding: clamp(0.5rem, 0.8vw, 0.7rem);
+    border: 1px solid var(--history-line-strong);
+    border-radius: 1.5rem;
+    background: var(--brand-black);
+    box-shadow: 0 3rem 9rem var(--black-a78);
+    touch-action: pan-y;
+}
+
+.history-chapter__visual,
+.history-chapter__body {
+    border: 1px solid var(--white-a12);
+    border-radius: calc(1.5rem - 0.5rem);
+    background: var(--history-panel);
+}
+
+.history-chapter__visual {
+    position: relative;
+    isolation: isolate;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.history-chapter__visual::before {
+    content: "";
+    position: absolute;
+    inset: -8%;
+    background: var(--history-image) center/cover no-repeat;
+    filter: blur(18px) saturate(0.7) brightness(0.38);
+    transform: scale(1.08);
+}
+
+.history-chapter__visual::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, var(--black-a88));
+}
+
+.history-chapter__visual img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: var(--history-photo-filter);
+}
+
+.history-chapter__visual > span,
+.history-chapter__visual > strong {
+    position: absolute;
+    z-index: 3;
+    left: 1.3rem;
+}
+
+/* Подписи лежат поверх фото — цвет фиксированный в обеих темах. */
+.history-chapter__visual > span {
+    top: 1.2rem;
+    color: var(--white-a62);
+    font-size: 0.68rem;
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: 0.22em;
+}
+
+.history-chapter__visual > strong {
+    bottom: 1.2rem;
+    color: var(--brand-white);
+    font-family: var(--heading-font);
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-weight: 500;
+    line-height: 0.75;
+}
+
+.history-chapter__body {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: clamp(1.5rem, 3.2vw, 3.2rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.history-chapter__body h2 {
+    max-width: 30ch;
+    margin: 1rem 0 1.4rem;
+    font-family: var(--heading-font);
+    font-size: clamp(1.325rem, 2.175vw, 2.5rem);
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+}
+
+.history-chapter__body > p {
+    max-width: 47rem;
+    color: var(--history-text-dim);
+    font-size: 1rem;
+    line-height: 1.58;
+}
+
+.history-chapter__body .history-chapter__lead {
+    color: var(--history-white);
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    line-height: 1.38;
+}
+
+.history-chapter__meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin: 1.8rem 0;
+}
+
+.history-chapter__meta span {
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    min-height: 6.2rem;
+    padding: 0.8rem;
+    border: 1px solid var(--white-a13);
+    border-radius: 0.8rem;
+    color: var(--history-text);
+    font-size: 0.82rem;
+    line-height: 1.35;
+}
+
+.history-chapter__meta span:first-child {
+    color: var(--history-white);
+    font-size: clamp(0.78rem, 1vw, 0.96rem);
+    font-weight: 850;
+}
+
+.history-chapter__meta b {
+    color: var(--history-text);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+}
+
+.history-chapter__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.history-chapter__tags span {
+    padding: 0.45rem 0.65rem;
+    border-radius: var(--control-radius);
+    background: var(--white-a075);
+    color: var(--history-text);
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.history-chapter__videos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+}
+
+.history-chapter__play {
+    display: inline-flex;
+    align-items: center;
+    flex: 1 1 12rem;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.55rem 0.55rem 0.55rem 0.85rem;
+    font-family: var(--body-font);
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-align: left;
+    cursor: pointer;
+}
+
+.history-chapter__play i {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+    border-radius: 50%;
+    font-style: normal;
+}
+
+html:not([data-theme="light"]) .history-chapter__play {
+    border: 1px solid var(--white-a42);
+    box-shadow: inset 0 0 0 1px var(--white-a04), 0 0.7rem 1.8rem var(--black-a26);
+}
+
+html[data-theme="light"] .modal-backdrop.history-chapter {
+    --history-white: var(--text-color);
+    --history-text: var(--black-a72);
+    --history-text-dim: var(--black-a62);
+    --history-text-soft: var(--black-a58);
+    --history-line: var(--black-a16);
+    --history-line-strong: var(--black-a26);
+    --history-panel: var(--brand-white);
+}
+
+html[data-theme="light"] .history-chapter__panel {
+    border: 1px solid var(--brand-black);
+    background: var(--brand-white);
+    box-shadow: 0 3rem 9rem var(--accent-a22);
+}
+
+html[data-theme="light"] .history-chapter__visual,
+html[data-theme="light"] .history-chapter__body {
+    border: 1px solid var(--brand-black);
+    background: var(--brand-white);
+}
+
+html[data-theme="light"] .history-chapter__meta span,
+html[data-theme="light"] .history-chapter__tags span,
+html[data-theme="light"] .history-chapter__play {
+    border-color: var(--brand-black);
+}
+
+html[data-theme="light"] .history-chapter__play i {
+    border: 1px solid var(--brand-black);
+    background: var(--brand-blue);
+    color: var(--brand-white);
+}
+
+@media (max-width: 980px) {
+    .modal-backdrop.history-chapter {
+        align-items: center;
+        padding:
+            max(0.35rem, env(safe-area-inset-top))
+            max(0.35rem, env(safe-area-inset-right))
+            max(0.35rem, env(safe-area-inset-bottom))
+            max(0.35rem, env(safe-area-inset-left));
+    }
+
+    .history-chapter__panel {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(8.5rem, 27dvh) minmax(0, 1fr);
+        gap: 0.4rem;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        padding: 0.4rem;
+        border-radius: 1rem;
+        overscroll-behavior: contain;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .history-chapter__visual,
+    .history-chapter__body {
+        border-radius: 0.75rem;
+    }
+
+    .history-chapter__visual {
+        grid-column: 1;
+        grid-row: 1;
+        height: auto;
+        min-height: 0;
+    }
+
+    .history-chapter__visual > span {
+        max-width: calc(100% - 4.5rem);
+        font-size: 0.58rem;
+    }
+
+    .history-chapter__visual > strong {
+        font-size: clamp(3.4rem, 14vw, 5rem);
+    }
+
+    .history-chapter__body {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 1.05rem 1rem calc(1.3rem + env(safe-area-inset-bottom));
+    }
+
+    .history-chapter__body h2 {
+        margin: 0.7rem 0 1rem;
+        font-size: clamp(1.9rem, 9vw, 2.8rem);
+        line-height: 0.88;
+    }
+
+    .history-chapter__body > p {
+        font-size: 0.82rem;
+        line-height: 1.5;
+    }
+
+    .history-chapter__body .history-chapter__lead {
+        font-size: 0.95rem;
+        line-height: 1.42;
+    }
+
+    .history-chapter__meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin: 1.35rem 0;
+    }
+
+    .history-chapter__meta span {
+        min-height: auto;
+        padding: 0.75rem;
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .history-chapter__meta {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 380px), (max-height: 700px) {
+    .history-chapter__panel {
+        grid-template-rows: minmax(7rem, 22dvh) minmax(0, 1fr);
+    }
+
+    .history-chapter__body {
+        padding: 0.85rem 0.8rem calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    .history-chapter__body h2 {
+        font-size: clamp(1.65rem, 8vw, 2.2rem);
+    }
+}

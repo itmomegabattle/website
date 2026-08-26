@@ -1,0 +1,234 @@
+@import "../../../styles/variables.css";
+
+/* Гид по проекту. Два варианта раскладки: колонки рядом на широких экранах,
+   на узких — категории одним столбиком сверху и текст снизу.
+   Поверхность карточки (рамка, тень, фон) дает общий компонент Card. */
+.project-menu {
+    --tabs-grid-line: var(--grid-line-strong);
+    --tabs-grid-line-soft: var(--grid-line-soft);
+    --tabs-number-color: var(--text-faint);
+    --tabs-title-color: var(--text-subtle);
+    --tabs-title-active-color: var(--text-color);
+    --tabs-active-wash: var(--active-wash);
+    --tabs-divider-color: var(--divider-color);
+    --tabs-body-color: var(--text-muted);
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.35fr);
+    min-height: clamp(360px, 31vw, 470px);
+    margin-top: clamp(1.2rem, 2.3vw, 2rem);
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+.project-menu::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--tabs-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--tabs-grid-line-soft) 1px, transparent 1px);
+    background-size: 220px 220px;
+    opacity: 0.42;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+    pointer-events: none;
+}
+
+.project-menu__nav {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: center;
+    padding-block: clamp(2rem, 4vw, 4rem);
+}
+
+.project-menu__trigger {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: clamp(2.2rem, 3vw, 3.2rem) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(0.8rem, 1.5vw, 1.4rem);
+    width: 100%;
+    min-height: clamp(72px, 6vw, 88px);
+    padding: clamp(1rem, 1.5vw, 1.3rem) clamp(1rem, 2.8vw, 2.8rem);
+    color: var(--text-color);
+    text-align: left;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.project-menu__trigger::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--tabs-active-wash), transparent 84%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.project-menu__trigger.is-active::before {
+    opacity: 1;
+}
+
+.project-menu__number,
+.project-menu__title {
+    position: relative;
+    z-index: 1;
+}
+
+.project-menu__number {
+    color: var(--tabs-number-color);
+    font-size: var(--label-size);
+    font-weight: var(--label-weight);
+}
+
+.project-menu__title {
+    font-family: var(--heading-font);
+    font-size: var(--heading-tab-size);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--tabs-title-color);
+    text-transform: uppercase;
+    transition: color 0.25s ease;
+}
+
+.project-menu__trigger.is-active .project-menu__title {
+    color: var(--tabs-title-active-color);
+}
+
+.project-menu__trigger:focus-visible {
+    outline: 2px solid var(--brand-blue-soft);
+    outline-offset: -2px;
+}
+
+.project-menu__panel {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: clamp(0.8rem, 1.3vw, 1.15rem);
+    padding: var(--card-padding-large);
+}
+
+/* Контент выбранной опции плавно появляется при переключении
+   (блок пересоздается по key активной вкладки). */
+.project-menu__panel-content {
+    display: grid;
+    justify-items: start;
+    gap: clamp(0.8rem, 1.3vw, 1.15rem);
+    animation: project-panel-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes project-panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.4rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-menu__panel-content {
+        animation: none;
+    }
+}
+
+.project-menu__panel::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 15%;
+    bottom: 15%;
+    width: 1px;
+    background: linear-gradient(transparent, var(--tabs-divider-color), transparent);
+}
+
+.project-menu__text {
+    max-width: 620px;
+    color: var(--tabs-body-color);
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    margin: 0;
+}
+
+.project-menu__text p { margin: 0; }
+.project-menu__text p + p { margin-top: 0.8rem; }
+
+.project-menu__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    margin-top: 0.35rem;
+}
+
+/* Узкие экраны: столбик категорий сверху, текст снизу */
+@media (max-width: 900px) {
+    .project-menu {
+        grid-template-columns: 1fr;
+        padding-block: 1rem;
+    }
+
+    .project-menu__nav {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .project-menu__trigger {
+        min-height: 62px;
+        grid-template-columns: 1.8rem minmax(0, 1fr);
+        padding: 0.9rem 1rem;
+    }
+
+    .project-menu__title {
+        font-size: clamp(1.2rem, 4.8vw, 1.55rem);
+    }
+
+    .project-menu__panel {
+        min-height: 290px;
+        padding: 2rem;
+    }
+
+    .project-menu__panel::before {
+        left: 1rem;
+        right: 1rem;
+        top: 0;
+        bottom: auto;
+        width: auto;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--tabs-divider-color), transparent);
+    }
+}
+
+@media (max-width: 560px) {
+    .project-menu {
+        margin-top: 1rem;
+    }
+
+    .project-menu__nav {
+        gap: 0.2rem;
+        padding: 0.7rem;
+    }
+
+    .project-menu__trigger {
+        min-height: 56px;
+        padding: 0.75rem 0.65rem;
+    }
+
+    .project-menu__number {
+        font-size: 0.72rem;
+    }
+
+    .project-menu__title {
+        font-size: clamp(1.08rem, 5.4vw, 1.35rem);
+    }
+
+    .project-menu__panel {
+        min-height: 300px;
+        padding: 1.6rem 1rem 2rem;
+    }
+}

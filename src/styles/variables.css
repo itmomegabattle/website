@@ -16,6 +16,8 @@
     --background-color: #FFFFFF;
     --primary-color: #000000;
     --accent-color: var(--brand-blue);
+    --success-color: #61D79B;
+    --danger-color: #FF4D6D;
     --text-color: #000000;
     --text-color-inverted: #FFFFFF;
     --surface-color: rgba(255, 255, 255, 0.18);
@@ -67,9 +69,122 @@
     --corner-radius: 30px;
     --card-shadow: 0px 18px 56px rgba(0, 0, 0, 0.16);
     --card-border: 1px solid var(--border-color);
+    --card-background: var(--glass-background);
 
     --text-blue-shadow: 3px 3px 0px color-mix(in srgb, var(--accent-color) 40%, var(--background-color));
     --svg-blue-shadow: drop-shadow(4px 4px 0px color-mix(in srgb, var(--accent-color) 40%, var(--background-color)));
+
+    /* ГРАДАЦИИ ПРОЗРАЧНОСТИ: БЕЛЫЙ (постоянно темные, «кинематографичные» поверхности) */
+    --white-a018: rgba(255, 255, 255, 0.018);
+    --white-a025: rgba(255, 255, 255, 0.025);
+    --white-a035: rgba(255, 255, 255, 0.035);
+    --white-a04: rgba(255, 255, 255, 0.04);
+    --white-a045: rgba(255, 255, 255, 0.045);
+    --white-a055: rgba(255, 255, 255, 0.055);
+    --white-a065: rgba(255, 255, 255, 0.065);
+    --white-a07: rgba(255, 255, 255, 0.07);
+    --white-a075: rgba(255, 255, 255, 0.075);
+    --white-a08: rgba(255, 255, 255, 0.08);
+    --white-a10: rgba(255, 255, 255, 0.1);
+    --white-a12: rgba(255, 255, 255, 0.12);
+    --white-a13: rgba(255, 255, 255, 0.13);
+    --white-a14: rgba(255, 255, 255, 0.14);
+    --white-a15: rgba(255, 255, 255, 0.15);
+    --white-a16: rgba(255, 255, 255, 0.16);
+    --white-a18: rgba(255, 255, 255, 0.18);
+    --white-a20: rgba(255, 255, 255, 0.2);
+    --white-a24: rgba(255, 255, 255, 0.24);
+    --white-a30: rgba(255, 255, 255, 0.3);
+    --white-a35: rgba(255, 255, 255, 0.35);
+    --white-a42: rgba(255, 255, 255, 0.42);
+    --white-a52: rgba(255, 255, 255, 0.52);
+    --white-a55: rgba(255, 255, 255, 0.55);
+    --white-a56: rgba(255, 255, 255, 0.56);
+    --white-a62: rgba(255, 255, 255, 0.62);
+    --white-a70: rgba(255, 255, 255, 0.7);
+    --white-a72: rgba(255, 255, 255, 0.72);
+    --white-a74: rgba(255, 255, 255, 0.74);
+    --white-a76: rgba(255, 255, 255, 0.76);
+    --white-a88: rgba(255, 255, 255, 0.88);
+
+    /* ГРАДАЦИИ ПРОЗРАЧНОСТИ: ЧЕРНЫЙ */
+    --black-a02: rgba(0, 0, 0, 0.02);
+    --black-a16: rgba(0, 0, 0, 0.16);
+    --black-a26: rgba(0, 0, 0, 0.26);
+    --black-a28: rgba(0, 0, 0, 0.28);
+    --black-a34: rgba(0, 0, 0, 0.34);
+    --black-a36: rgba(0, 0, 0, 0.36);
+    --black-a38: rgba(0, 0, 0, 0.38);
+    --black-a42: rgba(0, 0, 0, 0.42);
+    --black-a44: rgba(0, 0, 0, 0.44);
+    --black-a46: rgba(0, 0, 0, 0.46);
+    --black-a48: rgba(0, 0, 0, 0.48);
+    --black-a58: rgba(0, 0, 0, 0.58);
+    --black-a62: rgba(0, 0, 0, 0.62);
+    --black-a66: rgba(0, 0, 0, 0.66);
+    --black-a72: rgba(0, 0, 0, 0.72);
+    --black-a74: rgba(0, 0, 0, 0.74);
+    --black-a76: rgba(0, 0, 0, 0.76);
+    --black-a78: rgba(0, 0, 0, 0.78);
+    --black-a82: rgba(0, 0, 0, 0.82);
+    --black-a86: rgba(0, 0, 0, 0.86);
+    --black-a88: rgba(0, 0, 0, 0.88);
+    --black-a94: rgba(0, 0, 0, 0.94);
+    --black-a95: rgba(0, 0, 0, 0.95);
+
+    /* ГРАДАЦИИ ПРОЗРАЧНОСТИ: АКЦЕНТ */
+    --accent-a05: color-mix(in srgb, var(--accent-color) 5%, transparent);
+    --accent-a055: color-mix(in srgb, var(--accent-color) 5.5%, transparent);
+    --accent-a07: color-mix(in srgb, var(--accent-color) 7%, transparent);
+    --accent-a10: color-mix(in srgb, var(--accent-color) 10%, transparent);
+    --accent-a11: color-mix(in srgb, var(--accent-color) 11%, transparent);
+    --accent-a12: color-mix(in srgb, var(--accent-color) 12%, transparent);
+    --accent-a18: color-mix(in srgb, var(--accent-color) 18%, transparent);
+    --accent-a22: color-mix(in srgb, var(--accent-color) 22%, transparent);
+    --accent-a38: color-mix(in srgb, var(--accent-color) 38%, transparent);
+    --accent-a45: color-mix(in srgb, var(--accent-color) 45%, transparent);
+
+    /* СКРОЛЛБАР */
+    --scrollbar-thumb: rgba(0, 0, 0, 0.35);
+    --scrollbar-track: rgba(0, 0, 0, 0.08);
+
+    /* ТЕМОЗАВИСИМЫЙ ТЕКСТ И ЛИНИИ */
+    --text-muted: rgba(0, 0, 0, 0.68);
+    --text-subtle: rgba(0, 0, 0, 0.48);
+    --text-faint: rgba(0, 0, 0, 0.42);
+    --divider-color: rgba(0, 0, 0, 0.18);
+    --grid-line-strong: rgba(0, 0, 0, 0.045);
+    --grid-line-soft: rgba(0, 0, 0, 0.04);
+    --active-wash: rgba(0, 0, 0, 0.075);
+
+    /* ГЛУБОКИЕ ПОВЕРХНОСТИ (модальные панели на темных секциях) */
+    --surface-ink: #050505;
+    --surface-ink-blue: #070b12;
+    --surface-ink-navy: #05070b;
+    --video-backdrop: #002346;
+    --hero-title-shadow: drop-shadow(1px 1px 2px var(--brand-black));
+
+    /* ТИПОГРАФИКА: РОЛИ ТЕКСТА */
+    --heading-card-size: clamp(2rem, 3.25vw, 3.8rem);
+    --heading-card-compact-size: clamp(1.52rem, 2.9vw, 3.15rem);
+    --heading-tab-size: clamp(1.35rem, 1.65vw, 1.85rem);
+    --body-size: clamp(0.94rem, 1vw, 1.08rem);
+    --body-line-height: 1.58;
+    --body-large-size: clamp(1rem, 1.35vw, 1.15rem);
+    --body-large-line-height: 1.6;
+    --label-size: clamp(0.74rem, 0.85vw, 0.9rem);
+    --label-weight: 900;
+    --eyebrow-size: 0.68rem;
+    --eyebrow-tracking: 0.14em;
+    --eyebrow-weight: 900;
+    --display-sm-size: clamp(1.05rem, 1.75vw, 1.8rem);
+    --display-xl-size: clamp(2rem, 5vw, 5rem);
+
+    /* ГЕОМЕТРИЯ КАРТОЧЕК И СЕКЦИЙ */
+    --card-padding-small: clamp(1rem, 1.8vw, 1.45rem);
+    --card-padding-medium: clamp(1.35rem, 2.8vw, 2.6rem);
+    --card-padding-large: clamp(2.2rem, 4vw, 4.5rem);
+    --section-band-padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(3rem, 7vw, 6rem);
 }
 
 :root[data-theme="dark"] {
@@ -106,4 +221,17 @@
     --content-glass-blur: 10px;
     --text-blue-shadow: 2px 2px 0px rgba(0, 105, 224, 0.62);
     --svg-blue-shadow: drop-shadow(3px 3px 0px rgba(0, 105, 224, 0.62));
+
+    /* СКРОЛЛБАР */
+    --scrollbar-thumb: rgba(255, 255, 255, 0.35);
+    --scrollbar-track: rgba(255, 255, 255, 0.08);
+
+    /* ТЕМОЗАВИСИМЫЙ ТЕКСТ И ЛИНИИ */
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --text-subtle: rgba(255, 255, 255, 0.5);
+    --text-faint: rgba(255, 255, 255, 0.42);
+    --divider-color: rgba(255, 255, 255, 0.17);
+    --grid-line-strong: rgba(255, 255, 255, 0.035);
+    --grid-line-soft: rgba(255, 255, 255, 0.03);
+    --active-wash: rgba(255, 255, 255, 0.085);
 }

@@ -1,10 +1,10 @@
 const pageLoaders = {
-  "/": () => import("../pages/HomePage"),
-  "/people": () => import("../pages/PeoplePage"),
-  "/faculties": () => import("../pages/FacultiesPage"),
-  "/history": () => import("../pages/HistoryPage"),
+  "/": () => import("../pages/HomePage/HomePage"),
+  "/people": () => import("../pages/PeoplePage/PeoplePage"),
+  "/faculties": () => import("../pages/FacultiesPage/FacultiesPage"),
+  "/history": () => import("../pages/HistoryPage/HistoryPage"),
   "/partners": () => import("../pages/PartnersPage"),
-  "/events": () => import("../pages/EventsPage"),
+  "/events": () => import("../pages/EventsPage/EventsPage"),
   "/ratings": () => import("../pages/RatingsPage"),
   "/auth": () => import("../pages/AuthPage"),
 };

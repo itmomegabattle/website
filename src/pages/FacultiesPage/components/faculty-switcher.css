@@ -1,0 +1,93 @@
+@import "../../../styles/variables.css";
+
+.faculty-switcher {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--divider-color);
+    border-radius: var(--corner-radius);
+    background: var(--ui-glass-background);
+    backdrop-filter: blur(var(--content-glass-blur));
+    -webkit-backdrop-filter: blur(var(--content-glass-blur));
+}
+
+.faculty-switcher-item {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    min-height: 3.65rem;
+    align-content: center;
+    justify-items: center;
+    overflow: hidden;
+    padding: 0.6rem 0.25rem;
+    border: 0;
+    border-right: 1px solid var(--divider-color);
+    color: var(--text-muted);
+    background: transparent;
+    text-align: center;
+    cursor: pointer;
+    transition: color 180ms ease, background 180ms ease;
+}
+
+.faculty-switcher-item:last-child {
+    border-right: 0;
+}
+
+.faculty-switcher-item::after {
+    content: "";
+    position: absolute;
+    left: 0.55rem;
+    right: 0.55rem;
+    bottom: 0;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--accent-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 180ms ease;
+}
+
+.faculty-switcher-item:hover {
+    color: var(--text-color);
+    background: var(--active-wash);
+}
+
+.faculty-switcher-item.is-active {
+    color: var(--text-color);
+    background: var(--accent-a10);
+}
+
+.faculty-switcher-item.is-active::after {
+    transform: scaleX(1);
+}
+
+.faculty-switcher-item > strong {
+    font-family: var(--heading-font);
+    font-size: clamp(0.72rem, 1.05vw, 0.92rem);
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+@media (max-width: 620px) {
+    .faculty-switcher {
+        width: calc(100vw - (var(--screen-edge-padding) * 2));
+        max-width: calc(100vw - (var(--screen-edge-padding) * 2));
+    }
+
+    .faculty-switcher-item {
+        min-height: 3.5rem;
+        padding: 0.55rem 0.15rem;
+    }
+
+    .faculty-switcher-item::after {
+        left: 0.45rem;
+        right: 0.45rem;
+    }
+
+    .faculty-switcher-item > strong {
+        font-size: clamp(0.61rem, 2.8vw, 0.78rem);
+    }
+}

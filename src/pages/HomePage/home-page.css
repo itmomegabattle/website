@@ -1,0 +1,600 @@
+@import "../../styles/variables.css";
+
+
+/* Hero Section */
+.hero {
+    --hero-video-backdrop: var(--video-backdrop);
+    --hero-title-fill: var(--brand-white);
+    display: grid;
+    align-items: end;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.video-background {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    width: 100%;
+    height: 100%;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100dvh;
+    object-fit: cover;
+    border-bottom-right-radius: var(--corner-radius);
+    border-bottom-left-radius: var(--corner-radius);
+    background-color: var(--hero-video-backdrop);
+}
+
+/* logo and slogan */
+.hero-content {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    width: 100%;
+    padding: var(--screen-edge-padding);
+}
+
+.hero-title {
+    width: 100%;
+    margin-bottom: 2rem;
+    fill: var(--hero-title-fill) !important;
+    filter: var(--hero-title-shadow);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* About Section: ширину задает общий .main-width, как и у остальных секций. */
+.about {
+    scroll-margin-top: 7rem;
+}
+
+.events .event-cards {
+    margin-top: 0;
+}
+
+/* Contacts Section */
+.contacts {
+    color: var(--text-color);
+}
+
+.contacts-container {
+    display: grid;
+    grid-template-columns: minmax(0, 0.88fr) minmax(560px, 1.12fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Map Styles */
+.yandex-map {
+    height: 500px;
+    width: 100%;
+    border-radius: var(--corner-radius);
+    overflow: hidden;
+    border: 0;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+}
+
+.contact-info {
+    position: relative;
+    min-width: 0;
+    height: 500px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 78% 12%, rgba(0, 105, 224, 0.1), transparent 38%),
+        rgba(0, 0, 0, 0.94);
+    border-radius: var(--corner-radius);
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #fff;
+}
+
+.contact-info__screen {
+    min-height: 0;
+    padding: clamp(1rem, 2vw, 1.55rem);
+}
+
+.contact-card {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    padding: clamp(1.4rem, 2.5vw, 2.2rem);
+    border-radius: clamp(1.1rem, 1.7vw, 1.6rem);
+    background:
+        linear-gradient(125deg, rgba(0, 105, 224, 0.15), transparent 42%),
+        radial-gradient(circle at 78% 25%, rgba(255, 255, 255, 0.13), transparent 28%),
+        linear-gradient(145deg, #061222, #000000 67%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1.5rem 3.5rem rgba(0, 0, 0, 0.35);
+}
+
+.contact-card::after {
+    content: "";
+    position: absolute;
+    width: 16rem;
+    height: 16rem;
+    right: -6rem;
+    bottom: -8rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 2.8rem rgba(0, 105, 224, 0.025), 0 0 0 5.5rem rgba(0, 105, 224, 0.015);
+}
+
+.contact-card__head,
+.contact-card__body,
+.contact-card__mark {
+    position: relative;
+    z-index: 1;
+}
+
+.contact-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.contact-card__head img {
+    width: clamp(7rem, 11vw, 9rem);
+    height: auto;
+}
+
+.contact-card__head > span,
+.contact-card__mark {
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.contact-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+.contact-card__body > p {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--heading-font);
+    font-size: clamp(1.8rem, 3.2vw, 3rem);
+    line-height: 0.98;
+    text-transform: uppercase;
+}
+
+.contact-card__details {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.contact-line {
+    display: grid;
+    grid-template-columns: 1.4rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.65rem;
+    color: rgba(255, 255, 255, 0.74);
+    text-decoration: none;
+    font-size: 0.92rem;
+}
+
+.contact-line svg {
+    justify-self: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-card__mark {
+    justify-self: end;
+}
+
+.social-profile {
+    --platform-color: #147efb;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    height: 100%;
+    overflow: hidden;
+    border-radius: clamp(1.1rem, 1.7vw, 1.6rem);
+    color: #fff;
+    background: #11141b;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.social-profile--telegram { --platform-color: #2aabee; background: linear-gradient(145deg, #172631, #10151b 60%); }
+.social-profile--vk { --platform-color: #0077ff; background: linear-gradient(145deg, #17263d, #10151d 62%); }
+.social-profile--instagram { --platform-color: #d62976; background: radial-gradient(circle at 100% 0%, rgba(214, 41, 118, 0.24), transparent 42%), #111116; }
+.social-profile--tiktok { --platform-color: #25f4ee; background: radial-gradient(circle at 90% 10%, rgba(254, 44, 85, 0.18), transparent 38%), #08090b; }
+.social-profile--rutube { --platform-color: #ff4d00; background: linear-gradient(145deg, #211712, #0d0e10 62%); }
+
+.social-profile__chrome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 52px;
+    padding: 0.75rem 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-profile__wordmark {
+    font-size: 1.05rem;
+    font-weight: 900;
+}
+
+.social-profile--instagram .social-profile__wordmark { font-family: cursive; font-size: 1.3rem; }
+.social-profile--tiktok .social-profile__wordmark { text-shadow: -1px 0 #25f4ee, 1px 0 #fe2c55; }
+
+.social-profile__status {
+    color: rgba(255, 255, 255, 0.46);
+    font-size: 0.7rem;
+}
+
+.social-profile__hero {
+    display: grid;
+    grid-template-columns: clamp(5.4rem, 8vw, 7.4rem) 1fr;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    padding: clamp(1.25rem, 2.6vw, 2.3rem);
+}
+
+.social-profile__avatar {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.18), transparent 35%), #05070c;
+    border: 3px solid var(--platform-color);
+    box-shadow: 0 0 2rem color-mix(in srgb, var(--platform-color) 28%, transparent);
+}
+
+.social-profile__avatar img {
+    width: 68%;
+    height: auto;
+}
+
+.social-profile__identity {
+    min-width: 0;
+}
+
+.social-profile__identity strong,
+.social-profile__handle {
+    display: block;
+}
+
+.social-profile__handle {
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.78rem;
+    margin-bottom: 0.35rem;
+}
+
+.social-profile__identity strong {
+    font-size: clamp(1.25rem, 2.2vw, 2rem);
+    line-height: 1;
+}
+
+.social-profile__identity strong span {
+    color: var(--platform-color);
+    font-size: 0.75em;
+}
+
+.social-profile__identity p {
+    margin: 0.7rem 0 0;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.88rem;
+}
+
+.social-profile__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 1.2rem 1rem;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+.social-profile__metrics span {
+    display: grid;
+    gap: 0.1rem;
+}
+
+.social-profile__metrics strong {
+    color: #fff;
+    font-size: 1.05rem;
+}
+
+.social-profile__open {
+    margin: 0 1.1rem 1.1rem;
+    padding: 0.72rem 1rem;
+    border-radius: 0.8rem;
+    color: #fff;
+    background: var(--platform-color);
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.84rem;
+    font-weight: 850;
+}
+
+.contact-tabs {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.35rem;
+    padding: 0.55rem;
+    background: rgba(0, 0, 0, 0.42);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.contact-tab {
+    display: grid;
+    place-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+    min-height: 52px;
+    padding: 0.4rem 0.25rem;
+    border: 1px solid transparent;
+    border-radius: 0.8rem;
+    color: rgba(255, 255, 255, 0.54);
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.contact-tab svg,
+.contact-tab > span:first-child {
+    font-size: 1.05rem;
+    font-weight: 950;
+}
+
+.contact-tab__label {
+    overflow: hidden;
+    max-width: 100%;
+    font-size: 0.62rem;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contact-tab:hover,
+.contact-tab.is-active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.contact-tab.is-active {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.contact-tab--telegram.is-active { color: #2aabee; }
+.contact-tab--vk.is-active { color: #2688eb; }
+.contact-tab--instagram.is-active { color: #e6689a; }
+.contact-tab--tiktok.is-active { color: #25f4ee; }
+.contact-tab--rutube.is-active { color: #fff; }
+
+.contact-tab:focus-visible {
+    outline: 2px solid var(--brand-blue-soft);
+    outline-offset: 1px;
+}
+
+@media (max-width: 900px) {
+    .contacts-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .yandex-map {
+        height: 300px;
+    }
+
+    .contact-info {
+        height: min(540px, 75svh);
+        min-height: 470px;
+    }
+}
+
+@media (max-width: 560px) {
+    .contact-info__screen {
+        padding: 0.75rem;
+    }
+
+    .contact-card {
+        padding: 1.25rem;
+    }
+
+    .contact-card__head > span,
+    .contact-card__mark {
+        font-size: 0.62rem;
+    }
+
+    .social-profile__hero {
+        grid-template-columns: 4.8rem 1fr;
+        padding: 1.1rem;
+    }
+
+    .social-profile__metrics {
+        padding-inline: 0.7rem;
+    }
+
+    .contact-tab {
+        min-height: 48px;
+    }
+
+    .contact-tab__label {
+        display: none;
+    }
+}
+
+/* =========================================================
+   CONTACTS вЂ” FINAL LAYOUT / BOTTOM SOCIAL NAV
+   ========================================================= */
+
+/* The old map column is gone; keep one centered contact showcase. */
+.contacts-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    width: 100%;
+    min-width: 0;
+
+    justify-items: center;
+
+    gap: 0;
+    margin-top: 2rem;
+}
+
+/* Витрина контактов занимает ту же максимальную ширину, что и остальные карточки. */
+.contacts-container .contact-showcase.contact-info {
+    width: 100%;
+}
+
+/* Common project font for the contact navigation. */
+.contact-tabs,
+.contact-tab {
+    font-family: var(--body-font);
+}
+
+/* Larger icons, but without making the whole footer oversized. */
+.contact-tabs {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+
+    gap: 0.35rem;
+    padding: 0.5rem 0.55rem;
+}
+
+.contact-tab {
+    min-width: 0;
+    min-height: 58px;
+
+    gap: 0;
+    padding: 0.4rem;
+
+    border-radius: 0.78rem;
+}
+
+.contact-tab svg {
+    width: 1em;
+    height: 1em;
+
+    font-size: clamp(1.28rem, 1.55vw, 1.5rem);
+}
+
+/* Text fallbacks such as MB / RU stay visually balanced with the icons. */
+.contact-tab > span:first-child {
+    font-family: var(--body-font);
+    font-size: clamp(1rem, 1.2vw, 1.18rem);
+    font-weight: 850;
+    line-height: 1;
+}
+
+/* Names are still available through aria-label/title in JSX. */
+.contact-tab__label {
+    display: none;
+}
+
+.contact-tab:hover {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+    .contacts-container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .contact-tab {
+        min-height: 54px;
+    }
+
+    .contact-tab svg {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .contact-tabs {
+        gap: 0.2rem;
+        padding: 0.38rem;
+    }
+
+    .contact-tab {
+        min-height: 48px;
+        padding: 0.32rem;
+        border-radius: 0.68rem;
+    }
+
+    .contact-tab svg {
+        font-size: 1.08rem;
+    }
+
+    .contact-tab > span:first-child {
+        font-size: 0.9rem;
+    }
+}
+
+/* =========================================================
+   V3 вЂ” SOCIAL TAB SELECTION WITHOUT RECTANGLE
+   ========================================================= */
+
+/* No rectangular background/border around active or hovered items. */
+.contact-tab:hover,
+.contact-tab.is-active {
+    background: transparent;
+    border-color: transparent;
+}
+
+/* Remove browser / custom focus rectangle for these icon tabs. */
+.contact-tab:focus,
+.contact-tab:focus-visible,
+.contact-tab:active {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Active state is communicated by icon color/brightness only. */
+.contact-tab.is-active {
+    transform: none;
+}
+
+.contact-tab.is-active svg,
+.contact-tab.is-active > span:first-child {
+    filter: brightness(1.18);
+}
+
+/* Keep hover subtle without creating a box. */
+.contact-tab:hover svg,
+.contact-tab:hover > span:first-child {
+    transform: translateY(-1px) scale(1.05);
+}
+
+.contact-tab svg,
+.contact-tab > span:first-child {
+    transition:
+        color 0.18s ease,
+        transform 0.18s ease,
+        filter 0.18s ease;
+}
+
+/* =========================================================
+   V9 вЂ” MOBILE CONTACT WIDTH
+   Keep the section in the shared main-width; only its child fills it.
+   ========================================================= */
+
+@media (max-width: 640px) {
+    .contacts-container {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+}
+

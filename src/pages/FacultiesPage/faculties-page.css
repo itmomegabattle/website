@@ -1,0 +1,18 @@
+@import "../../styles/variables.css";
+
+.faculties-page {
+    gap: 2rem;
+    padding-top: calc(2 * var(--corner-radius) + 2rem);
+    padding-bottom: 6rem;
+}
+
+.faculty-explorer-section {
+    min-width: 0;
+    padding-bottom: clamp(3rem, 6vw, 6rem);
+}
+
+@media (max-width: 620px) {
+    .faculties-page {
+        padding-top: 4.4rem;
+    }
+}

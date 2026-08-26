@@ -1,0 +1,435 @@
+@import "../../../styles/variables.css";
+
+.partners-section {
+  --wall-grid-line: var(--white-a055);
+  --wall-grid-line-soft: var(--white-a04);
+  --wall-card-text: var(--brand-white);
+  --wall-card-border: var(--white-a14);
+  --wall-card-border-hover: var(--white-a42);
+  --wall-caption-color: var(--white-a70);
+  --wall-marquee-color: var(--white-a20);
+  width: 100%;
+  margin: 0 calc(-50vw + 50%);
+  overflow: hidden;
+  padding: var(--section-band-padding);
+}
+
+.partners-wall {
+  position: relative;
+  min-height: clamp(520px, 58vw, 760px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 46%, var(--accent-a10), transparent 36rem),
+    radial-gradient(ellipse at 52% 58%, var(--white-a045), transparent 30rem),
+    linear-gradient(180deg, transparent 0%, var(--black-a34) 16%, var(--black-a78) 52%, var(--black-a36) 86%, transparent 100%);
+  border-block: 0;
+  isolation: isolate;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+.partners-wall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--wall-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wall-grid-line-soft) 1px, transparent 1px);
+  background-size: 220px 220px;
+  opacity: 0.34;
+  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+}
+
+.partners-wall__shade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 42%;
+  pointer-events: none;
+}
+
+.partners-wall__shade--top {
+  top: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, var(--accent-a07), transparent 58%),
+    linear-gradient(180deg, var(--black-a72) 0%, var(--black-a42) 44%, transparent 100%);
+}
+
+.partners-wall__shade--bottom {
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, var(--accent-a05), transparent 60%),
+    linear-gradient(0deg, var(--black-a76) 0%, var(--black-a44) 46%, transparent 100%);
+}
+
+.partners-wall__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 136vw;
+  min-width: 1700px;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  transform-origin: center;
+  display: grid;
+  gap: clamp(1rem, 1.8vw, 1.7rem);
+  z-index: 1;
+}
+
+.partners-wall-row {
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: visible;
+}
+
+.partners-wall-row--0 {
+  margin-left: -6vw;
+}
+
+.partners-wall-row--1 {
+  margin-left: 5vw;
+}
+
+.partners-wall-row--2 {
+  margin-left: -12vw;
+}
+
+.partners-wall-row--3 {
+  display: none;
+  margin-left: 8vw;
+}
+
+.partners-wall-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 1.7vw, 1.5rem);
+  width: max-content;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.partners-wall-row--reverse .partners-wall-track {
+  justify-self: end;
+}
+
+.partner-wall-card {
+  --panel-width: clamp(260px, 24vw, 430px);
+  --panel-height: clamp(150px, 13vw, 230px);
+  appearance: none;
+  position: relative;
+  display: grid;
+  align-content: end;
+  width: var(--panel-width);
+  height: var(--panel-height);
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: clamp(0.9rem, 1.4vw, 1.45rem);
+  color: var(--wall-card-text);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  background:
+    radial-gradient(circle at 18% 12%, var(--white-a14), transparent 30%),
+    linear-gradient(135deg, var(--white-a065), var(--white-a025) 48%, var(--black-a42)),
+    var(--white-a07);
+  border: 1px solid var(--wall-card-border);
+  box-shadow:
+    0 1.25rem 2.8rem var(--black-a58),
+    inset 0 1px 0 var(--white-a12);
+  transform: translateZ(0);
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.partner-wall-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent-color) 72%, white);
+  outline-offset: 4px;
+}
+
+.partner-wall-card:hover {
+  transform: translateY(-0.35rem) scale(1.025);
+  border-color: var(--wall-card-border-hover);
+  box-shadow:
+    0 1.7rem 3.8rem var(--black-a66),
+    0 0 2.4rem var(--accent-a10),
+    inset 0 1px 0 var(--white-a18);
+  text-decoration: none;
+}
+
+.partner-wall-card--1,
+.partner-wall-card--5 {
+  --panel-width: clamp(320px, 29vw, 520px);
+}
+
+.partner-wall-card--2 {
+  --panel-height: clamp(170px, 15vw, 250px);
+}
+
+.partner-wall-card--3,
+.partner-wall-card--6 {
+  --panel-width: clamp(220px, 20vw, 350px);
+}
+
+.partner-wall-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 0 36%, var(--black-a46) 100%),
+    linear-gradient(90deg, var(--black-a38), transparent 28%, transparent 72%, var(--black-a34));
+  z-index: 1;
+}
+
+.partner-wall-card::after {
+  content: "";
+  position: absolute;
+  inset: 0.55rem;
+  border-radius: inherit;
+  border: 1px solid var(--white-a055);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.partner-wall-card__media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.partner-wall-card__media img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 68%;
+  height: 56%;
+  max-width: 280px;
+  max-height: 145px;
+  object-fit: contain;
+  object-position: center;
+  transform: translate(-50%, -50%);
+  z-index:1;
+  filter:
+    brightness(0)
+    invert(1)
+    drop-shadow(0 0 1.1rem var(--white-a16));
+  opacity: 0.92;
+}
+
+.partner-wall-card__caption {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  gap: 0.2rem;
+  padding: var(--card-padding-small);
+}
+
+.partner-wall-card__caption span {
+  color: var(--wall-caption-color);
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  letter-spacing: var(--eyebrow-tracking);
+  text-transform: uppercase;
+}
+
+.partner-wall-card__caption strong {
+  max-width: 90%;
+  font-family: var(--heading-font);
+  font-size: var(--display-sm-size);
+  line-height: 0.95;
+  text-transform: uppercase;
+  text-shadow: 0.08em 0.08em 0 var(--accent-a45);
+}
+
+.partners-wall-marquee {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3.2rem;
+  color: var(--wall-marquee-color);
+  font-family: var(--heading-font);
+  font-size: var(--display-xl-size);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  transform: rotate(0deg);
+}
+
+/* Подложку и кнопку закрытия дает общий Modal. */
+.partner-detail-modal {
+  --modal-surface: var(--brand-black);
+  --modal-border: var(--white-a16);
+  --modal-text: var(--brand-white);
+  --modal-text-muted: var(--white-a76);
+  --modal-control-background: var(--white-a08);
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1fr);
+  gap: clamp(0.55rem, 1vw, 0.85rem);
+  width: min(calc(100vw - 2rem), 1180px);
+  max-height: calc(100svh - 1.5rem);
+  overflow: auto;
+  padding: clamp(0.5rem, 0.8vw, 0.7rem);
+  border: 1px solid var(--modal-border);
+  border-radius: calc(var(--corner-radius) * 1.1);
+  background: var(--modal-surface);
+  color: var(--modal-text);
+  box-shadow: 0 2rem 7rem var(--black-a62);
+}
+
+
+/* Логотип и текст лежат прямо на поверхности модала, без карточек-подложек. */
+.partner-detail-logo {
+  display: grid;
+  place-items: center;
+  min-height: clamp(280px, 34vw, 470px);
+  padding: var(--card-padding-medium);
+}
+
+.partner-detail-logo img {
+  display: block;
+  width: min(100%, 430px);
+  max-height: 350px;
+  object-fit: contain;
+  filter:brightness(0) invert(1) drop-shadow(0 0 1.2rem var(--white-a15));
+}
+
+.partner-detail-content {
+  display: grid;
+  align-content: center;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: var(--card-padding-medium);
+  padding-right:clamp(2.7rem,4vw,4rem);
+  overflow-y:auto;
+}
+
+.partner-detail-content h2 {
+  margin: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-family: var(--heading-font);
+  font-size: var(--heading-card-compact-size);
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: 0.055em 0.055em 0 var(--accent-a38);
+}
+
+.partner-detail-content p:not(.card-kicker) {
+  margin: 0;
+  max-width: 42rem;
+  color: var(--modal-text-muted);
+  font-size: var(--body-large-size);
+  line-height: var(--body-large-line-height);
+}
+
+/* Ссылка использует общий ActionLink: цвет наследует тему вместе с модалкой. */
+.partner-detail-link {
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 900px) {
+  .partners-section {
+    padding-block: 1.5rem 3rem;
+  }
+
+  .partners-wall {
+    min-height: 560px;
+  }
+
+  .partners-wall__stage {
+    width: 210vw;
+    min-width: 1200px;
+    transform: translate(-50%, -50%) rotate(-8deg);
+  }
+
+  .partner-wall-card {
+    --panel-width: 240px;
+    --panel-height: 145px;
+  }
+
+  .partner-wall-card--1,
+  .partner-wall-card--5 {
+    --panel-width: 300px;
+  }
+
+  .partner-wall-card--3,
+  .partner-wall-card--6 {
+    --panel-width: 220px;
+  }
+
+  .partner-wall-card__caption strong {
+    font-size: 1rem;
+  }
+
+  .partner-detail-modal {
+    grid-template-columns: 1fr;
+    width: min(calc(100vw - 1rem), 720px);
+  }
+
+  .partner-detail-content {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .partners-wall {
+    min-height: 640px;
+  }
+
+  .partners-wall__stage {
+    min-width: 1040px;
+    gap: 0.8rem;
+  }
+
+  .partners-wall-row--3 {
+    display: flex;
+  }
+
+  .partners-wall-track {
+    gap: 0.75rem;
+  }
+
+  .partner-wall-card {
+    --panel-width: 205px;
+    --panel-height: 128px;
+    border-radius: 0.9rem;
+  }
+
+  .partner-wall-card--1,
+  .partner-wall-card--5 {
+    --panel-width: 250px;
+  }
+
+  .partner-wall-card__media {
+    padding: 1rem;
+  }
+
+  .partner-wall-card__caption {
+    padding: 0.8rem;
+  }
+
+  .partner-wall-card__caption span {
+    font-size: 0.56rem;
+  }
+
+  .partner-wall-card__caption strong {
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-wall-track {
+    transform: none !important;
+  }
+}

@@ -1,0 +1,19 @@
+@import "../../styles/variables.css";
+
+.tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.35rem 0.75rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: var(--accent-a10);
+    font-weight: 700;
+    font-size: 0.9rem;
+}

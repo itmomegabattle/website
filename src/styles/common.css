@@ -31,6 +31,20 @@
 
 html {
     overflow-x: clip;
+    /* Маюскульные (выровненные) цифры: Raleway по умолчанию рисует
+       «старостильные» цифры с выносами, выбивающиеся из строки. */
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "lnum" 1;
+}
+
+/* Шорткат font в UA-стилях контролов сбрасывает начертание цифр —
+   возвращаем наследование от html. */
+input,
+textarea,
+select,
+button {
+    font-variant-numeric: inherit;
+    font-feature-settings: inherit;
 }
 
 /* Плавная смена цвета при смене темы */
@@ -87,19 +101,23 @@ body {
     color: var(--text-color-inverted);
 }
 
-/* Стилизация скроллбаров */
+/* Стилизация скроллбаров: цвета следуют теме и наследуются всеми скролл-областями. */
+html {
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
 .scrollable::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
+    background: var(--scrollbar-thumb);
     border-radius: 6px;
 }
 
 .scrollable::-webkit-scrollbar-track {
-    background: rgba(0,0,0,.08);
+    background: var(--scrollbar-track);
 }
 
 /* Иконки с FontAwesome */

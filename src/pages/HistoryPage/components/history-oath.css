@@ -1,0 +1,46 @@
+@import "../../../styles/variables.css";
+
+.history-oath {
+    position: relative;
+    display: grid;
+    place-content: center;
+    min-height: 105svh;
+    overflow: hidden;
+    text-align: center;
+}
+
+.history-oath p {
+    margin: 0 0 0.8rem;
+    color: var(--white-a72);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.48em;
+}
+
+.history-oath h2 {
+    margin: 0;
+    font-family: var(--heading-font);
+    font-size: clamp(4rem, 11vw, 11rem);
+    font-weight: 500;
+    line-height: 0.77;
+    letter-spacing: -0.07em;
+}
+
+.history-oath h2 em {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--history-white);
+    font-style: normal;
+}
+
+@media (max-width: 980px) {
+    .history-oath {
+        min-height: 100svh;
+        padding-inline: 1rem;
+    }
+
+    .history-oath h2 {
+        max-width: 100%;
+        font-size: clamp(3.6rem, 16vw, 6rem);
+        line-height: 0.76;
+    }
+}

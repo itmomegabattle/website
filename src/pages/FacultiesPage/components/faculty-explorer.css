@@ -1,0 +1,36 @@
+@import "../../../styles/variables.css";
+
+.faculty-explorer {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    gap: clamp(0.8rem, 1.4vw, 1.2rem);
+}
+
+.faculty-explorer-loading {
+    display: grid;
+    place-items: center;
+    min-height: 30rem;
+    color: var(--text-subtle);
+}
+
+.faculty-dynamic-page {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    gap: clamp(1.35rem, 2.4vw, 2rem);
+    animation: faculty-page-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes faculty-page-in {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .faculty-dynamic-page {
+        animation: none;
+    }
+}

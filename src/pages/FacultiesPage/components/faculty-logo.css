@@ -1,0 +1,27 @@
+@import "../../../styles/variables.css";
+
+.faculty-logo {
+    display: block;
+    width: min(100%, 14rem);
+    max-height: 7rem;
+    object-fit: contain;
+}
+
+/* Тематические пары: по умолчанию (светлая тема) виден *_dark-файл. */
+.faculty-logo--on-dark {
+    display: none;
+}
+
+html[data-theme="dark"] .faculty-logo--on-dark {
+    display: block;
+}
+
+html[data-theme="dark"] .faculty-logo--on-light {
+    display: none;
+}
+
+@media (max-width: 620px) {
+    .faculty-logo {
+        max-height: 4.5rem;
+    }
+}

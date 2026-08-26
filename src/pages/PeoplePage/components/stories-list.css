@@ -1,0 +1,599 @@
+@import '../../../styles/button.css';
+@import "../../../styles/variables.css";
+
+
+/* Stories Section */
+.stories-carousel {
+    width: min(94vw, 1320px);
+    margin: 0 auto;
+}
+
+/* Страницы сменяются прозрачностью на месте, клиппинг не нужен —
+   overflow: hidden резал тени карточек по границе контейнера. */
+.stories-carousel-window {
+    position: relative;
+    aspect-ratio: 4 / 1.8;
+    min-height: 0;
+}
+
+.stories-page {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: 1fr;
+    gap: clamp(0.6rem, 1.2vw, 1rem);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(0);
+    transition: opacity 0.45s ease;
+}
+
+.stories-page--active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+.story-card {
+    min-width: 0;
+    min-height: 0;
+    background-color: var(--surface-color-special);
+    color: var(--text-color-special);
+    border-radius: var(--corner-radius);;
+    padding: var(--card-padding-vertical) var(--card-padding-horizontal);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.story-card[data-tag="0"] { --tag-color: var(--accent-a22); }
+.story-card[data-tag="1"] { --tag-color: var(--white-a12); }
+.story-card[data-tag="2"] { --tag-color: var(--accent-a12); }
+
+.story-card {
+    background:
+        radial-gradient(ellipse 80% 25% at 0% 0%, var(--tag-color) 0%, transparent 100%),
+        radial-gradient(ellipse 100% 35% at 100% 100%, var(--tag-color) 0%, transparent 100%),
+        var(--content-glass-inverted-background);
+    backdrop-filter: blur(var(--content-glass-blur));
+    -webkit-backdrop-filter: blur(var(--content-glass-blur));
+}
+
+/* Анимации при наведении на карточку */
+.story-card:hover {
+    border-color: color-mix(in srgb, var(--accent-color) 52%, var(--border-color));
+    box-shadow: 0 14px 32px var(--black-a26);
+}
+
+.story-image-container {
+    flex-shrink: 0;
+    width: clamp(5rem, 10vw, 8.6rem);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: clamp(0.55rem, 1.2vw, 1.1rem);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Анимация фотографии при наведении */
+.story-card:hover .story-image-container {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--accent-a18)
+}
+
+.story-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+/* Анимация текста при наведении */
+.story-name {
+    font: 500 clamp(1rem, 2.4vw, 1.75rem)/0.96 var(--heading-font);
+    letter-spacing: -0.045em;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    text-wrap: balance;
+    transition: color 0.3s ease;
+}
+
+.story-faculty {
+    font-size: clamp(0.78rem, 1.35vw, 1rem);
+    margin-bottom: 0.55rem;
+    transition: transform 0.3s ease;
+}
+
+.story-description {
+    display: -webkit-box;
+    overflow: hidden;
+    min-height: 0;
+    font-size: var(--body-size);
+    line-height: var(--body-line-height);
+    margin: 0 0 0.7rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+.story-card:hover .story-description {
+    opacity: 1;
+}
+
+.story-date {
+    font-size: 0.8rem;
+    margin-top: auto;
+    transition: color 0.3s ease;
+    opacity: 0.6;
+}
+
+.stories-progress-track {
+    height: 0.45rem;
+    width: min(34vw, 420px);
+    margin: 1rem auto 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-color-special) 76%, transparent);
+}
+
+.stories-progress-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 45%, #ffffff));
+    transform-origin: left center;
+    animation: stories-progress var(--stories-progress-ms, 7200ms) linear forwards;
+}
+
+.stories-carousel--paused .stories-progress-fill {
+    animation-play-state: paused;
+}
+
+.stories-carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.55rem;
+    margin: 0.8rem auto 0;
+}
+
+.stories-carousel-controls button {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--control-color);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 900;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+}
+
+.stories-carousel-controls button svg {
+    display: block;
+    font-size: 1.15rem;
+}
+
+.stories-carousel-controls button:hover {
+    border-color: var(--control-border-hover);
+    background: var(--control-background-hover);
+    color: var(--control-color);
+}
+
+
+/* Подложку и кнопку закрытия дает общий Modal. */
+.story-modal {
+    display: grid;
+    justify-items: center;
+    width: min(94vw, 680px);
+    max-height: min(88svh, 820px);
+    overflow: auto;
+    padding: clamp(1.2rem, 3vw, 2rem);
+    border: var(--card-border);
+    border-radius: calc(var(--corner-radius) * 1.25);
+    background:
+        radial-gradient(ellipse 70% 25% at 0% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 100%),
+        var(--surface-color-special);
+    color: var(--text-color-special);
+    box-shadow: 0 24px 80px var(--black-a38);
+    text-align: center;
+}
+
+.story-modal-image {
+    width: min(48vw, 220px);
+    margin-top: 0.4rem;
+}
+
+.story-modal h2 {
+    margin: 0.2rem 0 0;
+    font-family: var(--heading-font);
+    font-size: clamp(2rem, 6vw, 4rem);
+    line-height: 0.95;
+}
+
+.story-modal-description {
+    max-width: 38rem;
+    margin: 0.6rem 0 1rem;
+    line-height: 1.65;
+    opacity: 0.88;
+}
+
+@keyframes stories-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+.stories-admin {
+    width: min(94vw, 1320px);
+    margin: 0 auto 1.5rem;
+}
+
+.stories-admin-toggle,
+.stories-admin-head button,
+.stories-admin-row button,
+.story-submit-toggle,
+.story-submit-panel button {
+    min-height: 2.6rem;
+    padding: 0 1rem;
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--control-color);
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.stories-admin-toggle {
+    display: block;
+    margin: 20px auto 0;
+    background: var(--control-background);
+    color: var(--control-color);
+}
+
+.story-submit {
+    width: min(94vw, 1320px);
+
+    /* Реальный отступ между большим заголовком и кнопкой */
+    margin: clamp(28px, 4vw, 0px) auto 1.75rem;
+}
+
+.story-submit-toggle {
+    display: block;
+    width: fit-content;
+    min-height: 2.6rem;
+    margin: 0 auto;
+    padding: 0.55rem 2rem;
+
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+
+    /* Без заливки */
+    background: transparent;
+    color: var(--control-color);
+
+    font: inherit;
+    font-weight: 900;
+    line-height: 1.15;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.story-submit-toggle:hover {
+    border-color: var(--control-border-hover);
+    background: color-mix(
+        in srgb,
+        var(--accent-color) 8%,
+        transparent
+    );
+    transform: translateY(-2px);
+}
+
+.story-submit-panel {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: clamp(1rem, 2vw, 1.6rem);
+    border: var(--card-border);
+    border-radius: var(--corner-radius);
+    background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 14%, transparent), transparent 42%),
+        var(--surface-color);
+    box-shadow: var(--card-shadow);
+}
+
+.story-submit-head {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.story-submit-head h3 {
+    margin: 0;
+    font-family: var(--heading-font);
+    font-size: clamp(1.6rem, 3.4vw, 3rem);
+    line-height: 0.95;
+}
+
+.story-submit-grid,
+.story-submit-bottom {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    align-items: end;
+}
+
+.story-submit-preview {
+    width: 5.5rem;
+    height: 5.5rem;
+    border: var(--card-border);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.stories-admin-panel {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border: var(--card-border);
+    border-radius: var(--corner-radius);
+    background:
+        radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--accent-color) 18%, transparent), transparent 36%),
+        var(--surface-color);
+    box-shadow: var(--card-shadow);
+}
+
+.stories-admin-panel,
+.story-submit-panel {
+  background: var(--surface-ink-navy);
+  backdrop-filter: none;
+}
+
+html[data-theme="light"] .stories-admin-panel,
+html[data-theme="light"] .story-submit-panel {
+  border-color: var(--accent-a22);
+  background: var(--brand-white);
+}
+
+.stories-admin-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.stories-admin-head h2 {
+    font-family: var(--heading-font);
+    font-size: clamp(1.7rem, 4vw, 3.4rem);
+    line-height: 0.95;
+}
+
+.stories-admin-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+    gap: 1rem;
+}
+
+.stories-admin-form,
+.stories-admin-list {
+    display: grid;
+    gap: 0.75rem;
+    max-height: min(68vh, 720px);
+    overflow: auto;
+    padding-right: 0.25rem;
+}
+
+.stories-admin-section {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.stories-admin-section h3 {
+    margin: 0.25rem 0 0;
+    font-family: var(--heading-font);
+    font-size: clamp(1.1rem, 2vw, 1.65rem);
+    line-height: 0.95;
+}
+
+.stories-admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.stories-admin-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+    padding: clamp(0.9rem, 1.8vw, 1.25rem);
+    border: var(--card-border);
+    border-radius: 1.3rem;
+    background: color-mix(in srgb, var(--surface-color-special) 70%, transparent);
+}
+
+.stories-admin-row > div:first-child {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.stories-admin-request {
+    display: grid;
+    grid-template-columns: 5.25rem minmax(0, 1fr);
+    gap: 0.9rem;
+    align-items: start;
+}
+
+.stories-admin-request img {
+    width: 5.25rem;
+    height: 5.25rem;
+    border: var(--card-border);
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--surface-color-special);
+}
+
+.stories-admin-row strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--heading-font);
+    font-size: clamp(1.1rem, 2.4vw, 1.55rem);
+    line-height: 0.95;
+}
+
+.stories-admin-row span {
+    opacity: 0.72;
+    font-size: 0.88rem;
+}
+
+.stories-admin-row p {
+    display: -webkit-box;
+    margin: 0.45rem 0 0;
+    overflow: hidden;
+    color: color-mix(in srgb, var(--text-color) 82%, transparent);
+    font-size: 0.9rem;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.stories-admin-row--pending {
+    background:
+        radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 48%),
+        color-mix(in srgb, var(--surface-color-special) 76%, transparent);
+}
+
+.stories-admin-row > div:last-child,
+.stories-admin-actions,
+.story-preview-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.45rem;
+}
+
+.stories-admin-actions {
+    padding-top: 0.15rem;
+}
+
+.story-preview-actions {
+    margin-top: 0.25rem;
+    justify-content: center;
+}
+
+.story-preview-actions button {
+    min-height: 2.6rem;
+    padding: 0 1rem;
+    border: var(--card-border);
+    border-radius: 999px;
+    background: var(--surface-color-special);
+    color: var(--text-color-special);
+    font: inherit;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.story-modal--admin-preview {
+    max-width: min(92vw, 620px);
+}
+
+@media (max-width: 900px) {
+    /* Сетка 2×2, вид карточек как на десктопе. Высоту окна задает контент:
+       страницы складываются в одну grid-ячейку. */
+    .stories-carousel-window {
+        display: grid;
+        aspect-ratio: auto;
+    }
+
+    .stories-page {
+        position: relative;
+        inset: auto;
+        grid-area: 1 / 1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: none;
+    }
+
+    .stories-progress-track {
+        width: min(62vw, 320px);
+    }
+
+    .stories-carousel-controls {
+        margin-top: 0.7rem;
+    }
+
+    .stories-carousel-controls button {
+        min-height: 2.55rem;
+        padding: 0 0.85rem;
+    }
+
+    .stories-admin-grid,
+    .stories-admin-form-grid,
+    .stories-admin-row,
+    .story-submit-grid,
+    .story-submit-bottom {
+        grid-template-columns: 1fr;
+    }
+
+    .stories-admin-head {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .stories-admin-row > div:last-child,
+    .stories-admin-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .stories-carousel {
+        width: min(94vw, 430px);
+    }
+
+    .stories-page {
+        gap: 0.55rem;
+    }
+
+
+    .stories-admin-request {
+        grid-template-columns: 4.4rem minmax(0, 1fr);
+        gap: 0.7rem;
+    }
+
+    .stories-admin-request img {
+        width: 4.4rem;
+        height: 4.4rem;
+    }
+
+}
+
+.story-card { --tag-color:var(--white-a035)!important; background:linear-gradient(145deg,var(--white-a035),transparent 48%),var(--black-a95); border-color:var(--white-a13); }
+.story-card:hover { border-color:var(--white-a35); }
+.story-card:hover .story-image-container { box-shadow:0 0 30px var(--white-a10); }
+.story-modal { background:linear-gradient(145deg,var(--white-a045),transparent 45%), var(--surface-ink); }
