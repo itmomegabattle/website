@@ -14,7 +14,7 @@ function DepartmentItem({ department }) {
             <li key={`${department.isuId ?? department.name}-${program.name}`}>
               <h4>
                 {program.url ? (
-                  <ActionLink href={program.url} icon={null}>{program.name}</ActionLink>
+                  <ActionLink href={program.url}>{program.name}</ActionLink>
                 ) : (
                   program.name
                 )}

@@ -8,6 +8,7 @@ import {
 import AuthPanel from "../components/AuthPanel";
 import NfcTagsPanel from "../components/NfcTagsPanel";
 import Modal from "../common/components/Modal";
+import ExternalArrowIcon from "../common/components/ExternalArrowIcon";
 import Toggle from "../common/components/Toggle";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
@@ -139,10 +140,10 @@ export default function RatingsPage() {
             {!isAuthenticated && (
               <article className="info-card profile-services-card">
                 <nav className="profile-services-links" aria-label="Сервисы ITMO Megabattle">
-                  <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><span>Telegram проекта</span><b>↗</b></a>
+                  <a href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer"><span>Telegram проекта</span><b><ExternalArrowIcon /></b></a>
                   <a href="/nfc"><span>NFC-визитка</span><b>→</b></a>
                   <a href="/events"><span>Афиша мероприятий</span><b>→</b></a>
-                  <a href="https://mblinks.online" target="_blank" rel="noreferrer"><span>Все площадки</span><b>↗</b></a>
+                  <a href="https://mblinks.online" target="_blank" rel="noreferrer"><span>Все площадки</span><b><ExternalArrowIcon /></b></a>
                 </nav>
                 <div className="profile-services-lock" aria-label="Сервисы появятся позже">
                   <strong>Сервисы</strong>

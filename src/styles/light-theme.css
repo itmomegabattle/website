@@ -277,7 +277,7 @@ html[data-theme="light"] :is(.people-member-modal,.partner-detail-modal,.history
   background:rgba(236,240,246,.96);
   color:#080808;
 }
-html[data-theme="light"] :is(.people-member-modal__image,.partner-detail-logo,.partner-detail-content,.history-chapter__visual,.history-chapter__body) {
+html[data-theme="light"] :is(.people-member-modal__image,.history-chapter__visual,.history-chapter__body) {
   border-color:rgba(0,0,0,.13);
   background:rgba(255,255,255,.9);
   color:#080808;

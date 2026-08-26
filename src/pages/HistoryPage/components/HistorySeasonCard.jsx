@@ -1,4 +1,5 @@
 import { pad } from "./historyUtils";
+import ExternalArrowIcon from "../../../common/components/ExternalArrowIcon";
 
 export default function HistorySeasonCard({ season, index, onOpen }) {
   return (
@@ -16,7 +17,7 @@ export default function HistorySeasonCard({ season, index, onOpen }) {
           <span className="history-season-card__result">
             <b>{season.winner}</b>
           </span>
-          <i>ОТКРЫТЬ ГЛАВУ ↗</i>
+          <i>ОТКРЫТЬ ГЛАВУ <ExternalArrowIcon /></i>
         </span>
       </button>
     </article>

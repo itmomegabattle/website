@@ -25,6 +25,7 @@ uniform vec2 uMouse;
 uniform float uMouseActive;
 uniform float uMouseStrength;
 uniform float uThickness;
+uniform float uPaintMix;
 uniform vec3 uBackgroundTop;
 uniform vec3 uBackgroundBottom;
 uniform vec3 uLineColor;
@@ -33,9 +34,6 @@ uniform vec3 uPulseColor;
 out vec4 fragColor;
 
 #define ROOT_COUNT 4
-#define MERGE_COUNT 2
-#define BRANCH_COUNT 3
-#define TOP_LEFT_BRANCH_COUNT 1
 
 float saturate(float value) {
   return clamp(value, 0.0, 1.0);
@@ -111,77 +109,6 @@ float rootY(float index, float x, float time) {
   return y;
 }
 
-float branchStart(float index) {
-  if (index < 0.5) return 0.2;
-  if (index < 1.5) return 0.45;
-  return 0.68;
-}
-
-float mergePoint(float index) {
-  return index < 0.5 ? 0.23 : 0.38;
-}
-
-float incomingY(float index, float x, float time, float mergeAt, float parent) {
-  float progress = easeInOut(x / max(mergeAt, 0.001));
-  float direction = index < 0.5 ? -1.0 : 1.0;
-  float openingSize = index < 0.5 ? 0.52 : 0.74;
-  float opening = direction * openingSize * (1.0 - progress);
-  float approachArc = direction * sin(progress * 3.14159265) * 0.017;
-  float fineWave = sin(x * 3.8 + index * 2.4 + time * 0.07) * 0.004 * (1.0 - progress);
-  return parent + opening + approachArc + fineWave;
-}
-
-float branchDirection(float index) {
-  if (index < 0.5) return -1.0;
-  if (index < 1.5) return -1.0;
-  return 1.0;
-}
-
-float branchProfile(float index, float progress) {
-  float shaped = easeInOut(progress);
-
-  if (index < 0.5) {
-    return shaped + sin(shaped * 3.14159265) * 0.085;
-  }
-
-  if (index < 1.5) {
-    return shaped - sin(shaped * 3.14159265) * 0.065;
-  }
-
-  return shaped + sin(shaped * 6.2831853) * 0.04;
-}
-
-float branchY(float index, float x, float time, float start, float parent) {
-  float progress = branchProfile(index, (x - start) / max(0.001, 1.0 - start));
-  float direction = branchDirection(index);
-
-  float mouseDx = (x - uMouse.x) / 0.27;
-  float mouseDy = (parent - uMouse.y) / 0.3;
-  float mouseInfluence = fastRadialFalloff(mouseDx, mouseDy) * uMouseActive;
-
-  float baseSeparation = index > 1.5 ? 0.5 : (index < 0.5 ? 0.3 : 0.116);
-  float separation = baseSeparation * (1.0 + mouseInfluence * 0.22);
-  float sculptedBend = sin(progress * 6.2831853) * 0.014 * progress;
-  float independentWave = sin(x * 3.15 + index * 2.1 - time * 0.095) * 0.007 * progress;
-
-  return parent + direction * (separation * progress + sculptedBend) + independentWave;
-}
-
-float returningBranchY(float x, float start, float mergeAt, float source, float destination) {
-  float progress = easeInOut((x - start) / max(mergeAt - start, 0.001));
-  float approach = sin(progress * 3.14159265) * 0.024;
-  return mix(source, destination, progress) - approach;
-}
-
-float topLeftBranchY(float x, float time, float start, float parent) {
-  float rawProgress = saturate((x - start) / max(1.0 - start, 0.001));
-  float acceleratedProgress = mix(rawProgress, sqrt(rawProgress), 0.56);
-  float progress = easeInOut(acceleratedProgress);
-  float longArc = sin(progress * 3.14159265) * 0.014;
-  float fineWave = sin(x * 3.45 + time * 0.065) * 0.004 * progress;
-  return parent - 0.132 * progress - longArc + fineWave;
-}
-
 float lineCore(float distanceToLine, float width) {
   return smoothstep(width * 1.18, width * 0.28, distanceToLine);
 }
@@ -215,10 +142,19 @@ void accumulateThread(
   float hoverY = (y - uMouse.y) / 0.115;
   float hoverSegment = fastRadialFalloff(hoverX, hoverY) * uMouseActive;
 
-  color += uLineColor * (core * quietLight + halo * 0.075);
-  color += mix(uLineColor, uPulseColor, 0.84) * core * pulse * 1.55;
-  color += uPulseColor * halo * pulse * 0.13;
-  color += mix(uLineColor, uPulseColor, 0.92) * core * hoverSegment * 1.55;
+  // Аддитивное смешивание светится на тёмном фоне, но на светлом уводит
+  // пиксель к белому и линии выцветают. Для светлой темы uPaintMix = 1:
+  // цвет линии подмешивается, затемняя фон под ней и сохраняя насыщенность.
+  vec3 additive = color
+    + uLineColor * (core * quietLight + halo * 0.075)
+    + mix(uLineColor, uPulseColor, 0.84) * core * pulse * 1.55
+    + uPulseColor * halo * pulse * 0.13
+    + mix(uLineColor, uPulseColor, 0.92) * core * hoverSegment * 1.55;
+
+  vec3 painted = mix(color, uLineColor, saturate(core * quietLight + halo * 0.12));
+  painted = mix(painted, uPulseColor, saturate(core * pulse * 0.9 + core * hoverSegment * 0.9));
+
+  color = mix(additive, painted, uPaintMix);
 }
 
 void main() {
@@ -236,48 +172,11 @@ void main() {
     roots[root] = rootY(float(root), uv.x, uTime);
   }
 
-  for (int merge = 0; merge < MERGE_COUNT; merge++) {
-    float index = float(merge);
-    float mergeAt = mergePoint(index);
-    float visibility = 1.0 - smoothstep(mergeAt - 0.008, mergeAt + 0.024, uv.x);
-    float y = incomingY(index, uv.x, uTime, mergeAt, roots[1]);
-    float pulse = pulseAt(uv.x, uTime, 1.0 * 0.233 + 0.08, 0.027 + 0.0017);
-    accumulateThread(color, uv, y, width, pulse, visibility, 9.6 + index);
-  }
-
   for (int root = 0; root < ROOT_COUNT; root++) {
     float index = float(root);
     float y = roots[root];
     float pulse = pulseAt(uv.x, uTime, index * 0.233 + 0.08, 0.027 + index * 0.0017);
     accumulateThread(color, uv, y, width, pulse, 1.0, index * 1.37);
-  }
-
-  for (int topBranch = 0; topBranch < TOP_LEFT_BRANCH_COUNT; topBranch++) {
-    float start = 0.035;
-    float visibility = smoothstep(start - 0.006, start + 0.022, uv.x);
-    float y = topLeftBranchY(uv.x, uTime, start, roots[3]);
-    float pulse = pulseAt(uv.x, uTime, 3.0 * 0.233 + 0.08, 0.027 + 3.0 * 0.0017);
-    accumulateThread(color, uv, y, width, pulse, visibility, 11.8);
-  }
-
-  for (int branch = 0; branch < BRANCH_COUNT; branch++) {
-    float index = float(branch);
-    float start = branchStart(index);
-    float visibility = smoothstep(start - 0.006, start + 0.022, uv.x);
-    bool returnsToNetwork = index > 0.5 && index < 1.5;
-    float mergeAt = 0.82;
-
-    if (returnsToNetwork) {
-      visibility *= 1.0 - smoothstep(mergeAt - 0.008, mergeAt + 0.024, uv.x);
-    }
-
-    int parentRoot = branch < 1 ? 0 : 2;
-    float y = returnsToNetwork
-      ? returningBranchY(uv.x, start, mergeAt, roots[2], roots[1])
-      : branchY(index, uv.x, uTime, start, roots[parentRoot]);
-    float parentIndex = float(parentRoot);
-    float pulse = pulseAt(uv.x, uTime, parentIndex * 0.233 + 0.08, 0.027 + parentIndex * 0.0017);
-    accumulateThread(color, uv, y, width, pulse, visibility, 4.8 + index);
   }
 
   fragColor = vec4(color, 1.0);
@@ -289,13 +188,16 @@ const DARK_PALETTE = {
   backgroundBottom: [0.001, 0.004, 0.011],
   line: [0.0, 0.11, 0.28],
   pulse: [0.025, 0.34, 0.86],
+  paintMix: 0,
 };
 
 const LIGHT_PALETTE = {
-  backgroundTop: [0.925, 0.945, 0.975],
-  backgroundBottom: [0.855, 0.895, 0.955],
-  line: [0.0, 0.22, 0.55],
-  pulse: [0.0, 0.36, 0.9],
+  backgroundTop: [0.972, 0.982, 0.995],
+  backgroundBottom: [0.93, 0.952, 0.982],
+  /* Цвета линий разбавлены фоном наполовину — пастельная насыщенность. */
+  line: [0.62, 0.76, 0.95],
+  pulse: [0.48, 0.69, 0.93],
+  paintMix: 1,
 };
 
 function setVector(target, values) {
@@ -358,6 +260,7 @@ export default function Background() {
           uMouseActive: { value: 0 },
           uMouseStrength: { value: 0.085 },
           uThickness: { value: 3.2 },
+          uPaintMix: { value: 0 },
           uBackgroundTop: { value: new Float32Array(3) },
           uBackgroundBottom: { value: new Float32Array(3) },
           uLineColor: { value: new Float32Array(3) },
@@ -387,6 +290,7 @@ export default function Background() {
         setVector(program.uniforms.uBackgroundBottom.value, palette.backgroundBottom);
         setVector(program.uniforms.uLineColor.value, palette.line);
         setVector(program.uniforms.uPulseColor.value, palette.pulse);
+        program.uniforms.uPaintMix.value = palette.paintMix;
       };
 
       const render = (time) => {

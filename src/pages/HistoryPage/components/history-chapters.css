@@ -159,6 +159,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    column-gap: 0.45em;
     width: 100%;
     min-height: 2.55rem;
     margin-top: auto;

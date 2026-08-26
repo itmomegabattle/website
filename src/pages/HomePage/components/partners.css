@@ -268,10 +268,7 @@
 /* Подложку и кнопку закрытия дает общий Modal. */
 .partner-detail-modal {
   --modal-surface: var(--brand-black);
-  --modal-panel-surface: var(--surface-ink);
-  --modal-panel-surface-deep: var(--surface-ink-blue);
   --modal-border: var(--white-a16);
-  --modal-panel-border: var(--white-a10);
   --modal-text: var(--brand-white);
   --modal-text-muted: var(--white-a76);
   --modal-control-background: var(--white-a08);
@@ -290,16 +287,12 @@
 }
 
 
+/* Логотип и текст лежат прямо на поверхности модала, без карточек-подложек. */
 .partner-detail-logo {
   display: grid;
   place-items: center;
   min-height: clamp(280px, 34vw, 470px);
   padding: var(--card-padding-medium);
-  border: 1px solid var(--modal-panel-border);
-  border-radius: calc(var(--corner-radius) * 0.9);
-  background:
-    linear-gradient(145deg, var(--white-a075), transparent),
-    var(--modal-panel-surface-deep);
 }
 
 .partner-detail-logo img {
@@ -318,9 +311,6 @@
   padding: var(--card-padding-medium);
   padding-right:clamp(2.7rem,4vw,4rem);
   overflow-y:auto;
-  border: 1px solid var(--modal-panel-border);
-  border-radius:calc(var(--corner-radius) * .9);
-  background: var(--modal-panel-surface);
 }
 
 .partner-detail-content h2 {

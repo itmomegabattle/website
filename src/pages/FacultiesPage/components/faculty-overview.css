@@ -13,18 +13,12 @@
     min-height: clamp(15rem, 24vw, 18rem);
 }
 
-.faculty-identity:has(.faculty-logo-wordmark) {
-    grid-template-columns: minmax(240px, 0.5fr) minmax(0, 1.5fr);
-}
-
+/* Логотип лежит прямо на поверхности карточки, без отдельной плашки. */
 .faculty-identity-logo {
     display: grid;
     place-items: center;
     min-width: 0;
     padding: clamp(1.25rem, 2.5vw, 2.2rem);
-    background:
-        radial-gradient(circle at 50% 50%, var(--accent-a22), transparent 58%),
-        var(--brand-white);
 }
 
 .faculty-identity-copy {
@@ -188,8 +182,7 @@
 }
 
 @media (max-width: 900px) {
-    .faculty-identity,
-    .faculty-identity:has(.faculty-logo-wordmark) {
+    .faculty-identity {
         grid-template-columns: 1fr;
     }
 

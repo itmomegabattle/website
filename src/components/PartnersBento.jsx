@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { Api } from "../api";
+import ExternalArrowIcon from "../common/components/ExternalArrowIcon";
 import { useAuth } from "../context/AuthContext";
 import { isAdminProfile } from "../services/adminService";
 import {
@@ -253,7 +254,7 @@ export default function PartnersBento() {
                 {partner.link && (
                   <a className="partner-bento-link" href={partner.link} target="_blank" rel="noreferrer">
                     Открыть сайт
-                    <span aria-hidden="true">↗</span>
+                    <span aria-hidden="true"><ExternalArrowIcon /></span>
                   </a>
                 )}
               </div>

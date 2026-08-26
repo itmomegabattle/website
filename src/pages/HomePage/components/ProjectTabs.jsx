@@ -76,16 +76,19 @@ export default function ProjectTabs() {
         ))}
       </div>
       <div className="project-menu__panel" id="project-panel" role="tabpanel" aria-live="polite">
-        <h2 className="card-title">{active.title}</h2>
-        <div className="project-menu__text">
-          {active.text.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        </div>
-        <div className="project-menu__actions">
-          {active.links.map((link) => (
-            <ActionLink to={link.to} key={link.to}>
-              {link.label}
-            </ActionLink>
-          ))}
+        {/* Ключ по активной вкладке перезапускает анимацию появления контента. */}
+        <div className="project-menu__panel-content" key={activeTab}>
+          <h2 className="card-title">{active.title}</h2>
+          <div className="project-menu__text">
+            {active.text.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          </div>
+          <div className="project-menu__actions">
+            {active.links.map((link) => (
+              <ActionLink to={link.to} key={link.to}>
+                {link.label}
+              </ActionLink>
+            ))}
+          </div>
         </div>
       </div>
     </Card>

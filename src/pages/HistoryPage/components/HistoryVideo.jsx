@@ -1,4 +1,5 @@
 import Modal from "../../../common/components/Modal";
+import ExternalArrowIcon from "../../../common/components/ExternalArrowIcon";
 import "./history-video.css";
 
 export default function HistoryVideo({ video, onClose }) {
@@ -13,7 +14,7 @@ export default function HistoryVideo({ video, onClose }) {
       />
       <footer>
         <div><span>RUTUBE ARCHIVE</span><h2>{video.title}</h2></div>
-        <a href={video.url} target="_blank" rel="noreferrer">ОТКРЫТЬ НА RUTUBE ↗</a>
+        <a href={video.url} target="_blank" rel="noreferrer">ОТКРЫТЬ НА RUTUBE <ExternalArrowIcon /></a>
       </footer>
     </Modal>
   );

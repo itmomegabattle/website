@@ -58,7 +58,21 @@
     border: 0;
     background: transparent;
     cursor: pointer;
-    transition: color 0.25s ease, background 0.25s ease;
+    transition: color 0.25s ease;
+}
+
+.project-menu__trigger::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--tabs-active-wash), transparent 84%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.project-menu__trigger.is-active::before {
+    opacity: 1;
 }
 
 .project-menu__number,
@@ -83,10 +97,6 @@
     transition: color 0.25s ease;
 }
 
-.project-menu__trigger.is-active {
-    background: linear-gradient(90deg, var(--tabs-active-wash), transparent 84%);
-}
-
 .project-menu__trigger.is-active .project-menu__title {
     color: var(--tabs-title-active-color);
 }
@@ -104,6 +114,28 @@
     justify-items: start;
     gap: clamp(0.8rem, 1.3vw, 1.15rem);
     padding: var(--card-padding-large);
+}
+
+/* Контент выбранной опции плавно появляется при переключении
+   (блок пересоздается по key активной вкладки). */
+.project-menu__panel-content {
+    display: grid;
+    justify-items: start;
+    gap: clamp(0.8rem, 1.3vw, 1.15rem);
+    animation: project-panel-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes project-panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.4rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-menu__panel-content {
+        animation: none;
+    }
 }
 
 .project-menu__panel::before {
