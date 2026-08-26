@@ -1,3 +1,5 @@
+import "./history-birth.css";
+
 export default function HistoryBirth({ founding, featured, onPlay }) {
   return (
     <section className="history-plot history-plot--birth" id="plot">

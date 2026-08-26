@@ -1,3 +1,5 @@
+import "./history-origin.css";
+
 export default function HistoryOrigin({ origin }) {
   if (!origin) return null;
 
@@ -24,7 +26,6 @@ export default function HistoryOrigin({ origin }) {
           <img src={origin.archiveImage} alt="Архивный кадр фестиваля «Весна в ИТМО»" width="1200" height="800" loading="lazy" />
           <figcaption>«Весна в ИТМО» · 2015</figcaption>
         </figure>
-        <span className="history-origin__stamp">ДО<br />MEGA<br />BATTLE</span>
       </div>
     </section>
   );

@@ -108,15 +108,11 @@ export default function Footer() {
 
           <div className="footer-info">
             <p>
-              <a
-                href="https://itmo.ru/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <ActionLink href="https://itmo.ru/" icon={null}>
                 Университет ИТМО
                 <br />
                 © 1993–{currentYear}
-              </a>
+              </ActionLink>
             </p>
 
             <p>
@@ -174,9 +170,9 @@ export default function Footer() {
           <div className="footer-actions">
             <div className="footer-policy">
               <span className="footer-section-label">Документы</span>
-              <button type="button" onClick={() => setModal("privacy")}>
+              <ActionLink icon={null} onClick={() => setModal("privacy")}>
                 Политика конфиденциальности
-              </button>
+              </ActionLink>
             </div>
 
             <button

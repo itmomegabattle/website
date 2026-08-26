@@ -1,16 +1,17 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import HistoryBirth from "./HistoryBirth";
 import HistoryChapter from "./HistoryChapter";
+import HistoryChapters from "./HistoryChapters";
 import HistoryFacts from "./HistoryFacts";
 import HistoryFinal from "./HistoryFinal";
 import HistoryHero from "./HistoryHero";
+import HistoryOath from "./HistoryOath";
 import HistoryOrigin from "./HistoryOrigin";
-import HistorySeasonRail from "./HistorySeasonRail";
 import HistoryVideo from "./HistoryVideo";
 import { seasonNumber } from "./historyUtils";
 import useHistoryArchive from "./useHistoryArchive";
 
-const RolesDomeSection = lazy(() => import("../RolesDomeSection"));
+const RolesDomeSection = lazy(() => import("../../../components/RolesDomeSection"));
 
 export default function HistoryExperience({ data }) {
   const [activeVideo, setActiveVideo] = useState(null);
@@ -35,11 +36,7 @@ export default function HistoryExperience({ data }) {
 
   const seasons = data.seasons || [];
   const quickFacts = data.quickFacts || [];
-  const {
-    allVideos,
-    seasonVideos,
-    featured,
-  } = useHistoryArchive(data);
+  const { allVideos, featured } = useHistoryArchive(data);
   const navigateTo = (event, id) => {
     event.preventDefault();
     const target = document.getElementById(id);
@@ -58,25 +55,16 @@ export default function HistoryExperience({ data }) {
 
   return (
     <>
-      <div className="history-world is-entered" aria-hidden={false}>
-        <HistoryHero featured={featured} onNavigate={navigateTo} />
+      <div className="history-world">
+        <HistoryHero />
         <HistoryOrigin origin={data.origin} />
         <HistoryBirth
           founding={data.founding}
           featured={featured}
           onPlay={setActiveVideo}
         />
-
-        <HistorySeasonRail
-          seasons={seasons}
-          onOpen={setActiveSeason}
-        />
-
-        <section className="history-oath">
-          <p1>MEGABATTLE</p1>
-          <h2>ЭТО НЕ ТОЛЬКО<br /><em>СЦЕНА</em></h2>
-        </section>
-
+        <HistoryChapters seasons={seasons} onOpen={setActiveSeason} />
+        <HistoryOath />
         <HistoryFacts facts={quickFacts} />
         <Suspense fallback={<div className="history-roles-deferred" aria-hidden="true" />}>
           <RolesDomeSection />

@@ -1,4 +1,5 @@
-import Modal from "../../common/components/Modal";
+import Modal from "../../../common/components/Modal";
+import "./history-video.css";
 
 export default function HistoryVideo({ video, onClose }) {
   return (

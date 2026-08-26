@@ -12,7 +12,6 @@ export default function useHistoryArchive(data) {
     [data.rutubeVideos, remoteVideos],
   );
   const seasonVideos = useMemo(() => pickSeasonVideos(allVideos), [allVideos]);
-  const galleryVideos = useMemo(() => allVideos.slice(0, 8), [allVideos]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -29,7 +28,6 @@ export default function useHistoryArchive(data) {
   return {
     allVideos,
     seasonVideos,
-    galleryVideos,
     featured: seasonVideos.at(-1) || allVideos[0],
   };
 }

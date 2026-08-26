@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import Modal from "../../common/components/Modal";
+import Modal from "../../../common/components/Modal";
+import "./history-chapter.css";
 
 export default function HistoryChapter({
   season,

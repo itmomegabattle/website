@@ -1,0 +1,234 @@
+@import "../../../styles/variables.css";
+
+.history-chapters {
+    width: min(92vw, 1280px);
+    margin: 0 auto;
+    padding: clamp(4rem, 6vw, 6rem) 0;
+}
+
+.history-chapters__header {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.history-chapters__header h2 {
+    margin: 0;
+    color: var(--history-white);
+    font-family: var(--heading-font);
+    font-size: clamp(3rem, 5vw, 4.8rem);
+    font-weight: 500;
+    line-height: 0.82;
+    letter-spacing: -0.055em;
+}
+
+.history-chapters__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.history-season-card > button {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: clamp(10.5rem, 16vw, 13rem) 1fr;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, var(--history-blue) 30%, var(--history-line));
+    border-radius: var(--corner-radius);
+    background:
+        linear-gradient(140deg, var(--accent-a12), transparent 42%),
+        color-mix(in srgb, var(--surface-color-special) 86%, transparent);
+    box-shadow: var(--card-shadow);
+    color: var(--brand-white);
+    text-align: left;
+    cursor: pointer;
+}
+
+.history-season-card__media {
+    position: relative;
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+.history-season-card__media::before {
+    content: "";
+    position: absolute;
+    inset: -8%;
+    background: var(--history-image) center/cover no-repeat;
+    filter: blur(18px) saturate(0.7) brightness(0.38);
+    transform: scale(1.08);
+}
+
+.history-season-card img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--history-photo-filter);
+    transition: filter 0.4s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.history-season-card:hover img {
+    filter: var(--history-photo-filter-hover);
+    transform: scale(1.02);
+}
+
+.history-season-card__shade {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, var(--black-a48));
+}
+
+.history-season-card__number {
+    position: absolute;
+    z-index: 5;
+    top: 0.85rem;
+    left: 0.9rem;
+    color: var(--white-a56);
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    opacity: 0.7;
+}
+
+.history-season-card__copy {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    grid-column: 1;
+    grid-row: 2;
+    gap: 0.46rem;
+    min-width: 0;
+    min-height: 17.25rem;
+    padding: clamp(1rem, 1.35vw, 1.2rem);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--surface-color-special) 94%, transparent), var(--black-a72));
+}
+
+.history-season-card__copy small {
+    color: color-mix(in srgb, var(--history-blue) 82%, var(--brand-white));
+    font-size: 0.64rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+}
+
+.history-season-card__copy strong {
+    display: block;
+    max-width: 17ch;
+    min-width: 0;
+    min-height: 2.08em;
+    font-family: var(--heading-font);
+    font-size: clamp(1.08rem, 1.35vw, 1.38rem);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+}
+
+.history-season-card__copy > span:not(.history-season-card__result) {
+    display: -webkit-box;
+    overflow: hidden;
+    max-width: 42rem;
+    color: var(--white-a70);
+    font-size: clamp(0.72rem, 0.78vw, 0.8rem);
+    line-height: 1.42;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.history-season-card__result {
+    display: grid;
+    gap: 0.14rem;
+    min-height: 1rem;
+}
+
+.history-season-card__result b {
+    color: var(--brand-white);
+    font-size: 0.72rem;
+    line-height: 1.25;
+}
+
+.history-season-card__copy > i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2.55rem;
+    margin-top: auto;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--white-a20);
+    border-radius: 0.8rem;
+    background: var(--white-a035);
+    color: var(--brand-white);
+    font-size: 0.57rem;
+    font-style: normal;
+    font-weight: var(--eyebrow-weight);
+    line-height: 1;
+    letter-spacing: 0.11em;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.history-season-card > button:hover .history-season-card__copy > i,
+.history-season-card > button:focus-visible .history-season-card__copy > i {
+    border-color: color-mix(in srgb, var(--history-blue) 65%, var(--brand-white));
+    background: var(--accent-a18);
+}
+
+@media (max-width: 1100px) {
+    .history-chapters__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .history-season-card > button {
+        grid-template-rows: clamp(11rem, 24vw, 14rem) 1fr;
+    }
+}
+
+@media (max-width: 780px) {
+    .history-chapters {
+        width: min(100% - 1.2rem, 46rem);
+        padding: 3.5rem 0;
+    }
+
+    .history-chapters__header {
+        margin-bottom: 0.85rem;
+    }
+
+    .history-chapters__header h2 {
+        font-size: clamp(2.65rem, 13vw, 3.8rem);
+    }
+
+    .history-chapters__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-season-card > button {
+        grid-template-rows: clamp(11rem, 52vw, 13rem) auto;
+    }
+
+    .history-season-card__copy {
+        gap: 0.45rem;
+        min-height: 15.75rem;
+        padding: 1rem;
+    }
+
+    .history-season-card__copy strong {
+        font-size: clamp(1.15rem, 5.3vw, 1.42rem);
+    }
+
+    .history-season-card__copy > span:not(.history-season-card__result) {
+        font-size: 0.78rem;
+    }
+
+    .history-season-card__copy > i {
+        min-height: 2.7rem;
+        padding: 0.62rem 0.72rem;
+    }
+}

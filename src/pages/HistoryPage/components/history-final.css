@@ -1,0 +1,63 @@
+@import "../../../styles/variables.css";
+
+.history-final {
+    display: grid;
+    place-items: center;
+    min-height: 100svh;
+    padding: 7rem 1rem;
+    text-align: center;
+}
+
+.history-final > span {
+    color: var(--white-a72);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.38em;
+}
+
+.history-final h2 {
+    max-width: min(12ch, calc(100vw - 2rem));
+    margin: 1.5rem 0 2rem;
+    font-family: var(--heading-font);
+    font-size: clamp(3.6rem, 10vw, 10rem);
+    font-weight: 500;
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    overflow-wrap: anywhere;
+}
+
+.history-final a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.9rem 1.2rem;
+    font-size: 0.6rem;
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: 0.18em;
+}
+
+@media (max-width: 980px) {
+    .history-final {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.45rem;
+        padding: 5rem 1rem;
+    }
+
+    .history-final > span {
+        max-width: calc(100vw - 2rem);
+        line-height: 1.5;
+    }
+
+    .history-final h2 {
+        width: 100%;
+        max-width: calc(100vw - 2rem);
+        margin: 0;
+        font-size: clamp(2rem, 8vw, 3.25rem);
+        line-height: 0.82;
+        letter-spacing: -0.045em;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+}

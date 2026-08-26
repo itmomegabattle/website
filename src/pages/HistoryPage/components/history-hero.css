@@ -1,0 +1,65 @@
+@import "../../../styles/variables.css";
+
+.history-hero {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 100svh;
+    overflow: hidden;
+}
+
+.history-hero__title {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    width: min(64rem, 88vw);
+    text-align: center;
+}
+
+.history-hero__title > span {
+    display: block;
+    margin-bottom: 1.35rem;
+    color: var(--white-a76);
+    font-size: clamp(0.65rem, 0.85vw, 0.82rem);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: 0.65em;
+}
+
+.history-hero__logo {
+    display: block;
+    width: min(36rem, 52vw);
+    height: auto;
+    filter: drop-shadow(0 1.2rem 3.5rem var(--black-a42));
+}
+
+.history-hero__title p {
+    margin: 1.5rem 0 0;
+    color: var(--white-a72);
+    font-size: clamp(0.82rem, 1.05vw, 1rem);
+    font-weight: 800;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 980px) {
+    .history-hero__title {
+        width: calc(100vw - 2rem);
+    }
+
+    .history-hero__title > span {
+        margin-bottom: 1rem;
+        font-size: 0.55rem;
+        letter-spacing: 0.5em;
+    }
+
+    .history-hero__logo {
+        width: min(19rem, 76vw);
+    }
+
+    .history-hero__title p {
+        margin-top: 1.1rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.28em;
+    }
+}

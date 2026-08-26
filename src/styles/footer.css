@@ -20,16 +20,10 @@
   grid-template-rows: repeat(2, minmax(82px, auto));
 }
 
+/* Ячейки плоские в обеих темах; фон появляется только при наведении. */
 .footer-content > * {
   min-width: 0;
   border-radius: 1.1rem;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.045),
-      rgba(255, 255, 255, 0.012)
-    );
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
 }
 
 .footer-brand {
@@ -39,7 +33,6 @@
   align-items: center;
   justify-content: center;
   padding: clamp(1rem, 2vw, 1.5rem);
-  background: rgba(255, 255, 255, 0.018);
 }
 
 .footer-logo {
@@ -74,35 +67,24 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
 
 .footer-info p {
   margin: 0;
-  color: color-mix(in srgb, var(--text-color) 70%, transparent);
-  font: 500 clamp(0.78rem, 1vw, 0.94rem) / 1.55 var(--body-font);
+  color: var(--text-muted);
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  font-weight: 500;
+  line-height: var(--body-line-height);
 }
 
-.footer-info a,
-.footer-policy a,
-.footer-policy button {
-  color: inherit;
-  text-decoration: none;
-}
-
-.footer-policy button { padding:0; border:0; background:none; font:inherit; cursor:pointer; text-align:left; }
-
-.footer-info a {
-  color: var(--text-color);
-  font-weight: 650;
-}
-
-.footer-info a:hover,
-.footer-policy a:hover,
-.footer-policy button:hover {
-  color: var(--accent-color);
+/* Ссылки футера — общий ActionLink; длинные подписи переносим внутри слова. */
+.footer-info .action-link__label,
+.footer-policy .action-link__label {
+  overflow-wrap: anywhere;
 }
 
 /* Подложку и кнопку закрытия дает общий Modal; заголовок фиксирован, скроллится тело. */
 .footer-modal { display:grid; grid-template-rows:auto minmax(0,1fr); gap:.75rem; width:min(100%,38rem); max-height:min(90vh,54rem); padding:clamp(1rem,3vw,1.5rem); border-radius:1.5rem; }
 .footer-modal--wide { width:min(100%,52rem); }
 .footer-modal > header { display:flex; align-items:center; gap:1rem; padding-right:3.4rem; }
-.footer-modal > header h2 { margin:0; font: 500 var(--heading-card-compact-size)/0.95 var(--heading-font); text-transform:uppercase; overflow-wrap:anywhere; text-wrap:balance; }
+.footer-modal > header h2 { margin:0; font-family:var(--heading-font); font-size:var(--heading-card-compact-size); font-weight:500; line-height:0.95; text-transform:uppercase; overflow-wrap:anywhere; text-wrap:balance; }
 .footer-modal__body { min-height:0; overflow:auto; padding-right:.25rem; overscroll-behavior:contain; scrollbar-width:thin; }
 .footer-policy-copy { display:grid; gap:.75rem; }
 .footer-policy-copy h3 { margin:.65rem 0 0; font-size:1rem; }
@@ -125,7 +107,6 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
 
 @media (max-width:560px) {
   .footer-modal { max-height:92vh; border-radius:1.25rem; }
-  .footer-modal > header h2 { font-size:1.45rem; }
 }
 
 .footer-socials {
@@ -145,7 +126,7 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
   border-radius: 0.85rem;
   color: color-mix(in srgb, var(--text-color) 68%, transparent);
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.018);
+  background: transparent;
   transition:
     color 0.22s ease,
     background 0.22s ease,
@@ -155,7 +136,7 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
 .footer-socials a:hover,
 .footer-socials a:focus-visible {
   color: var(--text-color);
-  background: color-mix(in srgb, var(--accent-color) 9%, transparent);
+  background: var(--accent-a10);
   transform: translateY(-2px);
   outline: none;
 }
@@ -192,22 +173,15 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
   justify-content: center;
   gap: 0.28rem;
   padding: 0.85rem 1rem;
-  background: rgba(255, 255, 255, 0.018);
 }
 
 .footer-section-label {
-  color: color-mix(in srgb, var(--text-color) 43%, transparent);
-  font: 700 0.58rem / 1 var(--heading-font);
-  letter-spacing: 0.13em;
+  color: var(--text-faint);
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  line-height: 1;
+  letter-spacing: var(--eyebrow-tracking);
   text-transform: uppercase;
-}
-
-.footer-policy a,
-.footer-policy > button {
-  overflow-wrap: anywhere;
-  color: color-mix(in srgb, var(--text-color) 78%, transparent);
-  font: 550 clamp(0.72rem, 0.9vw, 0.86rem) / 1.3 var(--body-font);
-  transition: color 0.2s ease;
 }
 
 .footer-support {
@@ -219,10 +193,13 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
   justify-content: center;
   gap: 0.75rem;
   color: color-mix(in srgb, var(--text-color) 78%, transparent);
-  background: rgba(255, 255, 255, 0.018);
-  font: 700 clamp(0.7rem, 0.88vw, 0.84rem) / 1.2 var(--body-font);
+  background: transparent;
+  font-family: var(--body-font);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  line-height: 1.2;
   text-align: left;
-  cursor: default;
+  cursor: pointer;
   transition:
     background 0.22s ease,
     transform 0.22s ease;
@@ -230,7 +207,7 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
 
 .footer-support:hover,
 .footer-support:focus-visible {
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--active-wash);
   color: var(--text-color);
   transform: none;
   outline: none;
@@ -336,11 +313,6 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
       0.85rem;
   }
 
-  .footer-info p {
-    font-size: clamp(0.62rem, 2.75vw, 0.72rem);
-    line-height: 1.35;
-  }
-
   /* Socials occupy one full-width row below the header. */
   .footer-socials {
     grid-column: 1 / -1;
@@ -366,10 +338,7 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
     grid-column: 1 / -1;
     grid-row: 3;
 
-    grid-template-columns:
-      minmax(0, 1.12fr)
-      minmax(125px, 0.88fr);
-
+    grid-template-columns: 1fr;
 
     padding: 0.45rem;
   }
@@ -385,16 +354,6 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
     padding:
       0.65rem
       0.75rem;
-  }
-
-  .footer-section-label {
-    font-size: 0.5rem;
-  }
-
-  .footer-policy a,
-  .footer-policy > button,
-  .footer-support {
-    font-size: 0.64rem;
   }
 
   .footer-support {
@@ -436,11 +395,6 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
     padding:
       0.6rem
       0.68rem;
-  }
-
-  .footer-info p {
-    font-size: 0.6rem;
-    line-height: 1.3;
   }
 
   .footer-actions {
@@ -493,11 +447,6 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
     gap: 0.42rem;
   }
 
-  .footer-info p {
-    font-size: clamp(0.62rem, 2.55vw, 0.7rem);
-    line-height: 1.35;
-  }
-
   .footer-socials,
   .footer-actions {
     grid-column: 1 / -1;
@@ -531,8 +480,4 @@ html[data-theme="light"] .footer-brand:hover .footer-logo--inline { color:#000; 
     gap: 0.3rem;
   }
 
-  .footer-info p {
-    font-size: 0.57rem;
-    line-height: 1.28;
-  }
 }

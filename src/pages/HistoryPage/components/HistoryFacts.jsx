@@ -1,3 +1,5 @@
+import "./history-facts.css";
+
 export default function HistoryFacts({ facts }) {
   return (
     <section className="history-facts" id="facts">

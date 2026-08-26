@@ -1,9 +1,7 @@
 import HistorySeasonCard from "./HistorySeasonCard";
+import "./history-chapters.css";
 
-export default function HistorySeasonRail({
-  seasons,
-  onOpen,
-}) {
+export default function HistoryChapters({ seasons, onOpen }) {
   return (
     <section className="history-chapters" id="seasons">
       <header className="history-chapters__header">
