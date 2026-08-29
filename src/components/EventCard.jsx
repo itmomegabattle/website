@@ -8,6 +8,12 @@ export default function EventCard({ event }) {
   const details = Array.isArray(event.details) ? event.details : [];
   const mediaRef = useRef(null);
   const [mediaHeight, setMediaHeight] = useState(null);
+  const brandAvatarTitle = useMemo(() => ({
+    "/images/events/megaquest.svg": "МегаКвест",
+    "/images/events/megaquiz.svg": "МегаКвиз",
+    "/images/events/tour-de-gala.svg": "Тур де Гала",
+    "/images/events/gala-concert.svg": "Гала-концерт",
+  })[event.image] || "", [event.image]);
   const titleSizeClass = useMemo(() => {
     const compactName = String(event.name || "").replace(/\s+/g, "");
     return compactName.length > 20 ? " event-showcase-title--long" : "";
@@ -59,14 +65,30 @@ export default function EventCard({ event }) {
       style={mediaHeight ? { "--event-media-height": `${mediaHeight}px` } : undefined}
     >
       <div className="event-showcase-media" ref={mediaRef}>
-        <img
-          src={Api.normalizeURL(event.image)}
-          alt={event.name}
-          width="900"
-          height="900"
-          loading="lazy"
-          decoding="async"
-        />
+        {brandAvatarTitle ? (
+          <div className="event-brand-avatar" role="img" aria-label={brandAvatarTitle}>
+            <svg className="event-brand-avatar__branches" viewBox="0 0 900 900" aria-hidden="true">
+              <g fill="none" stroke="currentColor" strokeLinecap="round">
+                <path d="M-80 654 C180 654 208 522 378 522 S570 618 980 618" />
+                <path d="M-80 706 C188 706 228 574 388 574 S582 670 980 670" />
+                <path d="M-80 758 C198 758 246 626 400 626 S594 722 980 722" />
+                <path d="M355 522 C468 522 478 366 612 366 S754 444 980 444" />
+                <path d="M390 574 C520 574 530 418 654 418 S790 496 980 496" />
+                <path d="M610 366 C690 366 702 246 792 246 S874 294 980 294" />
+              </g>
+            </svg>
+            <span>{brandAvatarTitle}</span>
+          </div>
+        ) : (
+          <img
+            src={Api.normalizeURL(event.image)}
+            alt={event.name}
+            width="900"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
+        )}
       </div>
 
       <div className="event-showcase-info">
