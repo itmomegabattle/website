@@ -5,5 +5,15 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "megabattle.site",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.megabattle.site",
+      "custom_domain": true
+    }
+  ]
 }
