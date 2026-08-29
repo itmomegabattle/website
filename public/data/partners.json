@@ -1,282 +1,56 @@
 [
   {
-    "id": 1,
-    "name": "Double B Tea",
-    "logo": "/images/partners/double.png",
-    "description": "Чайный партнёр",
-    "link": "https://dbtea.ru/",
-    "partnerKey": 1
+    "id": "7d74470a-6796-4f2b-8dd7-5244ec905245",
+    "partnerKey": "Ягодное-1786487750806",
+    "partnerGroup": "regular",
+    "name": "Мегабайт",
+    "logo": "/images/static-snapshot/partners-a53ded8a15994fa4.png",
+    "description": "",
+    "link": ""
   },
   {
-    "id": 2,
+    "id": "eea1cef9-0eea-4b49-8edd-4481a756b1e8",
+    "partnerKey": "Дринкит-1786370295023",
+    "partnerGroup": "regular",
     "name": "Дринкит",
-    "logo": "/images/partners/drinkit.png",
-    "description": "Кофейный партнёр",
-    "link": "https://drinkit.ru/",
-    "partnerKey": 2
+    "logo": "/images/static-snapshot/partners-6d20432601dcaec6.png",
+    "description": "",
+    "link": ""
   },
   {
-    "id": 3,
-    "name": "Kaori Drinks",
-    "logo": "/images/partners/kaori.jpg",
-    "description": "Партнёр по напиткам",
-    "link": "https://www.instagram.com/kaori.drinks",
-    "partnerKey": 3
+    "id": "c96a0241-d1f9-42f3-8e7e-5a282595684e",
+    "partnerKey": "Перекресток-1786370709233",
+    "partnerGroup": "regular",
+    "name": "Перекресток",
+    "logo": "/images/static-snapshot/partners-59854c52bb616c84.png",
+    "description": "",
+    "link": ""
   },
   {
-    "id": 4,
-    "name": "Перекрёсток",
-    "logo": "/images/partners/perekr.jpeg",
-    "description": "Продуктовый партнёр",
-    "link": "https://spb.perekrestok.at/",
-    "partnerKey": 4
-  },
-  {
-    "id": 5,
+    "id": "1a618f07-11ff-452e-9f31-f8ae52df345a",
+    "partnerKey": "Подписные издания-1786370759331",
+    "partnerGroup": "regular",
     "name": "Подписные издания",
-    "logo": "/images/partners/podpisn.jpeg",
-    "description": "Книжный партнёр",
-    "link": "https://www.podpisnie.ru/",
-    "partnerKey": 5
+    "logo": "/images/static-snapshot/partners-9d9a9e14b53d2d6d.png",
+    "description": "",
+    "link": ""
   },
   {
-    "id": 6,
-    "name": "Double B Tea",
-    "logo": "/images/partners/double.png",
-    "description": "Чайный партнёр",
-    "link": "https://dbtea.ru/",
-    "partnerKey": 1
+    "id": "9423a925-9698-488b-aab7-ba391ecee83b",
+    "partnerKey": "Планетарий 1-1786370846473",
+    "partnerGroup": "regular",
+    "name": "Планетарий 1",
+    "logo": "/images/static-snapshot/partners-a6a3cbee0332451e.png",
+    "description": "",
+    "link": ""
   },
   {
-    "id": 7,
-    "name": "Дринкит",
-    "logo": "/images/partners/drinkit.png",
-    "description": "Кофейный партнёр",
-    "link": "https://drinkit.ru/",
-    "partnerKey": 2
-  },
-  {
-    "id": 8,
-    "name": "Kaori Drinks",
-    "logo": "/images/partners/kaori.jpg",
-    "description": "Партнёр по напиткам",
-    "link": "https://www.instagram.com/kaori.drinks",
-    "partnerKey": 3
-  },
-  {
-    "id": 9,
-    "name": "Перекрёсток",
-    "logo": "/images/partners/perekr.jpeg",
-    "description": "Продуктовый партнёр",
-    "link": "https://spb.perekrestok.at/",
-    "partnerKey": 4
-  },
-  {
-    "id": 10,
-    "name": "Подписные издания",
-    "logo": "/images/partners/podpisn.jpeg",
-    "description": "Книжный партнёр",
-    "link": "https://www.podpisnie.ru/",
-    "partnerKey": 5
-  },
-  {
-    "id": 11,
-    "name": "Double B Tea",
-    "logo": "/images/partners/double.png",
-    "description": "Чайный партнёр",
-    "link": "https://dbtea.ru/",
-    "partnerKey": 1
-  },
-  {
-    "id": 12,
-    "name": "Дринкит",
-    "logo": "/images/partners/drinkit.png",
-    "description": "Кофейный партнёр",
-    "link": "https://drinkit.ru/",
-    "partnerKey": 2
-  },
-  {
-    "id": 13,
-    "name": "Kaori Drinks",
-    "logo": "/images/partners/kaori.jpg",
-    "description": "Партнёр по напиткам",
-    "link": "https://www.instagram.com/kaori.drinks",
-    "partnerKey": 3
-  },
-  {
-    "id": 14,
-    "name": "Перекрёсток",
-    "logo": "/images/partners/perekr.jpeg",
-    "description": "Продуктовый партнёр",
-    "link": "https://spb.perekrestok.at/",
-    "partnerKey": 4
-  },
-  {
-    "id": 15,
-    "name": "Подписные издания",
-    "logo": "/images/partners/podpisn.jpeg",
-    "description": "Книжный партнёр",
-    "link": "https://www.podpisnie.ru/",
-    "partnerKey": 5
-  },
-  {
-    "id": 16,
-    "name": "Double B Tea",
-    "logo": "/images/partners/double.png",
-    "description": "Чайный партнёр",
-    "link": "https://dbtea.ru/",
-    "partnerKey": 1
-  },
-  {
-    "id": 17,
-    "name": "Дринкит",
-    "logo": "/images/partners/drinkit.png",
-    "description": "Кофейный партнёр",
-    "link": "https://drinkit.ru/",
-    "partnerKey": 2
-  },
-  {
-    "id": 18,
-    "name": "Kaori Drinks",
-    "logo": "/images/partners/kaori.jpg",
-    "description": "Партнёр по напиткам",
-    "link": "https://www.instagram.com/kaori.drinks",
-    "partnerKey": 3
-  },
-  {
-    "id": 19,
-    "name": "Перекрёсток",
-    "logo": "/images/partners/perekr.jpeg",
-    "description": "Продуктовый партнёр",
-    "link": "https://spb.perekrestok.at/",
-    "partnerKey": 4
-  },
-  {
-    "id": 20,
-    "name": "Подписные издания",
-    "logo": "/images/partners/podpisn.jpeg",
-    "description": "Книжный партнёр",
-    "link": "https://www.podpisnie.ru/",
-    "partnerKey": 5
-  },
-  {
-    "id": 21,
-    "name": "Double B Tea",
-    "logo": "/images/partners/double.png",
-    "description": "Чайный партнёр",
-    "link": "https://dbtea.ru/",
-    "partnerKey": 1
-  },
-  {
-    "id": 22,
-    "name": "Дринкит",
-    "logo": "/images/partners/drinkit.png",
-    "description": "Кофейный партнёр",
-    "link": "https://drinkit.ru/",
-    "partnerKey": 2
-  },
-  {
-    "id": 23,
-    "name": "Kaori Drinks",
-    "logo": "/images/partners/kaori.jpg",
-    "description": "Партнёр по напиткам",
-    "link": "https://www.instagram.com/kaori.drinks",
-    "partnerKey": 3
-  },
-  {
-    "id": 24,
-    "name": "Перекрёсток",
-    "logo": "/images/partners/perekr.jpeg",
-    "description": "Продуктовый партнёр",
-    "link": "https://spb.perekrestok.at/",
-    "partnerKey": 4
-  },
-  {
-    "id": 25,
-    "name": "Подписные издания",
-    "logo": "/images/partners/podpisn.jpeg",
-    "description": "Книжный партнёр",
-    "link": "https://www.podpisnie.ru/",
-    "partnerKey": 5
-  },
-  {
-    "id": 26,
-    "name": "Double B Tea",
-    "logo": "/images/partners/double.png",
-    "description": "Чайный партнёр",
-    "link": "https://dbtea.ru/",
-    "partnerKey": 1
-  },
-  {
-    "id": 27,
-    "name": "Дринкит",
-    "logo": "/images/partners/drinkit.png",
-    "description": "Кофейный партнёр",
-    "link": "https://drinkit.ru/",
-    "partnerKey": 2
-  },
-  {
-    "id": 28,
-    "name": "Kaori Drinks",
-    "logo": "/images/partners/kaori.jpg",
-    "description": "Партнёр по напиткам",
-    "link": "https://www.instagram.com/kaori.drinks",
-    "partnerKey": 3
-  },
-  {
-    "id": 29,
-    "name": "Перекрёсток",
-    "logo": "/images/partners/perekr.jpeg",
-    "description": "Продуктовый партнёр",
-    "link": "https://spb.perekrestok.at/",
-    "partnerKey": 4
-  },
-  {
-    "id": 30,
-    "name": "Подписные издания",
-    "logo": "/images/partners/podpisn.jpeg",
-    "description": "Книжный партнёр",
-    "link": "https://www.podpisnie.ru/",
-    "partnerKey": 5
-  },
-  {
-    "id": 31,
-    "name": "Double B Tea",
-    "logo": "/images/partners/double.png",
-    "description": "Чайный партнёр",
-    "link": "https://dbtea.ru/",
-    "partnerKey": 1
-  },
-  {
-    "id": 32,
-    "name": "Дринкит",
-    "logo": "/images/partners/drinkit.png",
-    "description": "Кофейный партнёр",
-    "link": "https://drinkit.ru/",
-    "partnerKey": 2
-  },
-  {
-    "id": 33,
-    "name": "Kaori Drinks",
-    "logo": "/images/partners/kaori.jpg",
-    "description": "Партнёр по напиткам",
-    "link": "https://www.instagram.com/kaori.drinks",
-    "partnerKey": 3
-  },
-  {
-    "id": 34,
-    "name": "Перекрёсток",
-    "logo": "/images/partners/perekr.jpeg",
-    "description": "Продуктовый партнёр",
-    "link": "https://spb.perekrestok.at/",
-    "partnerKey": 4
-  },
-  {
-    "id": 35,
-    "name": "Подписные издания",
-    "logo": "/images/partners/podpisn.jpeg",
-    "description": "Книжный партнёр",
-    "link": "https://www.podpisnie.ru/",
-    "partnerKey": 5
+    "id": "f7418606-341d-4cdb-8f54-d5a38fd5775f",
+    "partnerKey": "Мегабайт-1786357372024",
+    "partnerGroup": "regular",
+    "name": "Ягодное",
+    "logo": "/images/static-snapshot/partners-2daeac552ce2a88e.png",
+    "description": "",
+    "link": ""
   }
 ]

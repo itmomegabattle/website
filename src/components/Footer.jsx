@@ -10,8 +10,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 import ModalPortal from "./ModalPortal";
-import { backendApi } from "../lib/backendApi";
-import { supabase } from "../lib/supabase";
 
 function FooterModal({ title, onClose, children, wide = false }) {
   useEffect(() => {
@@ -35,37 +33,11 @@ function PrivacyPolicy({ onClose, onSupport }) {
 }
 
 function SupportForm({ onClose, onPolicy }) {
-  const [contact, setContact] = useState("");
-  const [message, setMessage] = useState("");
-  const [file, setFile] = useState(null);
-  const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState("");
-  const [sending, setSending] = useState(false);
-  const submit = async (event) => {
-    event.preventDefault(); setSending(true); setStatus("");
-    try {
-      let attachment = {};
-      if (file) {
-        if (file.size > 20 * 1024 * 1024) throw new Error("Файл должен быть не больше 20 МБ");
-        if (!supabase) throw new Error("Загрузка файлов временно недоступна");
-        const signed = await backendApi("/api/v1/support/upload", { method: "POST", body: JSON.stringify({ mimeType: file.type, sizeBytes: file.size }) });
-        const { error } = await supabase.storage.from(signed.bucket).uploadToSignedUrl(signed.path, signed.token, file, { contentType: file.type });
-        if (error) throw error;
-        attachment = { attachmentPath: signed.path, attachmentName: file.name, attachmentMime: file.type };
-      }
-      await backendApi("/api/v1/support", { method: "POST", body: JSON.stringify({ contact, message, consent, ...attachment }) });
-      setStatus("Обращение отправлено. Мы свяжемся с тобой по указанному контакту."); setContact(""); setMessage(""); setFile(null); setConsent(false);
-    } catch (error) { setStatus(error.message); } finally { setSending(false); }
-  };
-  return <FooterModal title="Поддержка" onClose={onClose}><form className="footer-support-form" onSubmit={submit}>
-    <p>Напиши по любому вопросу: проблемы с сайтом, участие, данные профиля или предложения.</p>
-    <label><span>Как с тобой связаться</span><input value={contact} onChange={(e) => setContact(e.target.value)} placeholder="Telegram, почта или телефон" minLength="3" maxLength="200" required /></label>
-    <label><span>Что случилось</span><textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Опиши вопрос и, если нужно, шаги до возникновения проблемы" minLength="10" maxLength="5000" rows="6" required /></label>
-    <label className="footer-file"><span>Вложение <small>до 20 МБ</small></span><input type="file" accept="image/*,video/mp4,video/webm,application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />{file && <em>{file.name}</em>}</label>
-    <label className="footer-consent"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} required /><span>Согласен на обработку контакта и содержания обращения согласно <button type="button" onClick={onPolicy}>политике конфиденциальности</button>.</span></label>
-    {status && <p className="footer-support-status" role="status">{status}</p>}
-    <button className="footer-modal-primary" type="submit" disabled={sending}>{sending ? "Отправляем…" : "Отправить обращение"}</button>
-  </form></FooterModal>;
+  return <FooterModal title="Поддержка" onClose={onClose}><div className="footer-support-form">
+    <p>Напиши по любому вопросу: участие, мероприятия, предложения или проблемы с сайтом.</p>
+    <a className="footer-modal-primary" href="https://t.me/itmomegabattle" target="_blank" rel="noreferrer">Написать в Telegram</a>
+    <p className="footer-consent">Отправляя сообщение, ознакомься с <button type="button" onClick={onPolicy}>политикой конфиденциальности</button>.</p>
+  </div></FooterModal>;
 }
 
 function FooterLogo() {

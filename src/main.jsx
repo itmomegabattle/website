@@ -42,9 +42,6 @@ const HistoryPage = lazy(routeModuleLoaders["/history"]);
 const PartnersPage = lazy(routeModuleLoaders["/partners"]);
 const EventsPage = lazy(routeModuleLoaders["/events"]);
 const RatingsPage = lazy(routeModuleLoaders["/ratings"]);
-const AuthPage = lazy(routeModuleLoaders["/auth"]);
-const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
-const NfcPage = lazy(() => import("./pages/NfcPage"));
 
 function App() {
   const matches = useMatches();
@@ -93,15 +90,10 @@ const router = createBrowserRouter(
       <Route path="/ratings" element={<RatingsPage />} />
       <Route path="/roles" element={<Navigate to="/ratings#roles" replace />} />
       <Route path="/admin" element={<Navigate to="/ratings" replace />} />
-      <Route path="/auth" element={<AuthPage />} />
-      <Route path="/auth/register" element={<AuthPage mode="signup" />} />
       <Route path="/profile" element={<Navigate to="/ratings" replace />} />
-      <Route path="/u/:profileId" element={<PublicProfilePage />} />
-      <Route
-        path="/nfc/:tagCode"
-        element={<NfcPage />}
-        handle={{ hideFooter: true, compactViewport: true }}
-      />
+      <Route path="/auth/*" element={<Navigate to="/ratings" replace />} />
+      <Route path="/u/:profileId" element={<Navigate to="/ratings" replace />} />
+      <Route path="/nfc/*" element={<Navigate to="/ratings" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>,
   ),

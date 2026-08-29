@@ -3,9 +3,6 @@ import "../styles/partners.css";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ModalPortal from "./ModalPortal";
-import { PartnerEditor } from "./PartnersBento";
-import { useAuth } from "../context/AuthContext";
-import { isAdminProfile } from "../services/adminService";
 
 function uniquePartners(partners) {
   return Array.from(
@@ -15,8 +12,6 @@ function uniquePartners(partners) {
 
 export default function Partners() {
   const wallRef = useRef(null);
-  const { profile } = useAuth();
-  const canEdit = isAdminProfile(profile);
   const [activePartner, setActivePartner] = useState(null);
 
   // получить данные с API (или из кэша)
@@ -117,7 +112,6 @@ export default function Partners() {
 
   return (
     <div className="partners-section">
-      {canEdit && <PartnerEditor fallbackPartners={partners} />}
       <div className="partners-wall" aria-label="Витрина партнёров" ref={wallRef}>
         <div className="partners-wall__shade partners-wall__shade--top" />
         <div className="partners-wall__shade partners-wall__shade--bottom" />

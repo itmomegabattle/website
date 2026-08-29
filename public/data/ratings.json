@@ -1,10 +1,40 @@
 {
   "facultyLeaderboard": [
-    { "place": 1, "name": "ФТМИ", "score": 1280, "badge": "Лучший актёр" },
-    { "place": 2, "name": "КТУ", "score": 1215, "badge": "Мемный двигатель" },
-    { "place": 3, "name": "ПИиКТ", "score": 1170, "badge": "Техномаги" },
-    { "place": 4, "name": "ФБИТ", "score": 1095, "badge": "Секретный штаб" },
-    { "place": 5, "name": "ФЭТиФ", "score": 1030, "badge": "Лучший свет" }
+    {
+      "place": 1,
+      "name": "КТУ",
+      "faculty": "КТУ",
+      "score": 0,
+      "badge": ""
+    },
+    {
+      "place": 2,
+      "name": "ФТМИ",
+      "faculty": "ФТМИ",
+      "score": 0,
+      "badge": ""
+    },
+    {
+      "place": 3,
+      "name": "ТИНТ",
+      "faculty": "ТИНТ",
+      "score": 0,
+      "badge": ""
+    },
+    {
+      "place": 4,
+      "name": "НОЖ",
+      "faculty": "НОЖ",
+      "score": 0,
+      "badge": ""
+    },
+    {
+      "place": 5,
+      "name": "ФТМФ",
+      "faculty": "ФТМФ",
+      "score": 0,
+      "badge": ""
+    }
   ],
   "features": [
     {

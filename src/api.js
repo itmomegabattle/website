@@ -1,5 +1,3 @@
-import { BACKEND_API } from "./lib/apiBase";
-
 const API_BASE = `${import.meta.env.BASE_URL}`;
 
 async function fetchJson(path) {
@@ -33,50 +31,17 @@ export const Api = {
     return fetchJson('data/events.json');
   },
 
-  async getEvents() {
-    const { getPublishedEvents } = await import("./services/eventService");
-    return getPublishedEvents();
-  },
+  getEvents() { return fetchJson('data/events.json'); },
 
-  getOrganizers() {
-    return fetchJson('data/organizers.json').then(async (fallback) => {
-      const { getPublishedTeamMembers } = await import("./services/teamService");
-      return getPublishedTeamMembers("organizers", fallback);
-    });
-  },
+  getOrganizers() { return fetchJson('data/organizers.json'); },
 
-  getResponsible() {
-    return fetchJson('data/responsible.json').then(async (fallback) => {
-      const { getPublishedTeamMembers } = await import("./services/teamService");
-      return getPublishedTeamMembers("responsible", fallback);
-    });
-  },
+  getResponsible() { return fetchJson('data/responsible.json'); },
 
-  getContributors() {
-    return fetchJson('data/contributors.json').then(async (fallback) => {
-      const { getPublishedTeamMembers, getLocallyPreservedContributors } = await import("./services/teamService");
-      const published = await getPublishedTeamMembers("contributors", []);
-      return Array.from(
-        new Map(
-          [...getLocallyPreservedContributors(), ...published, ...fallback].map((person) => [person.name.trim().toLocaleLowerCase("ru"), person]),
-        ).values(),
-      );
-    });
-  },
+  getContributors() { return fetchJson('data/contributors.json'); },
 
-  getStories() {
-    return fetchJson('data/stories.json').then(async (fallback) => {
-      const { getPublishedStories } = await import("./services/contentService");
-      return getPublishedStories(fallback);
-    });
-  },
+  getStories() { return fetchJson('data/stories.json'); },
 
-  getPartners() {
-    return fetchJson('data/partners.json').then(async (fallback) => {
-      const { getPublishedPartners } = await import("./services/contentService");
-      return getPublishedPartners(fallback);
-    });
-  },
+  getPartners() { return fetchJson('data/partners.json'); },
 
   getFaculties() {
     return fetchJson('data/faculties.json');
@@ -90,27 +55,5 @@ export const Api = {
     return fetchJson('data/external-pr.json');
   },
 
-  async getRatings() {
-    const fallback = await fetchJson('data/ratings.json');
-    let facultyLeaderboard = fallback.facultyLeaderboard || [];
-    try {
-      const response = await fetch(`${BACKEND_API}/api/v1/game/leaderboard?limit=100`, { credentials: "include" });
-      if (response.ok) {
-        const data = await response.json();
-        facultyLeaderboard = (data.faculties || []).map((item) => ({
-          place: Number(item.place),
-          faculty: item.faculty,
-          name: item.faculty,
-          score: Number(item.balance),
-        }));
-      }
-    } catch { /* The static table remains available when the game API is offline. */ }
-
-    try {
-      const { getPublishedFacultyRatings } = await import("./services/ratingsService");
-      facultyLeaderboard = await getPublishedFacultyRatings(facultyLeaderboard);
-    } catch { /* An empty content store falls back to the game leaderboard. */ }
-
-    return { ...fallback, facultyLeaderboard };
-  }
+  getRatings() { return fetchJson('data/ratings.json'); }
 };
