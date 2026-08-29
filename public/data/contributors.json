@@ -1,5 +1,54 @@
 [
   {
+    "key": "pleiad-anastasia-gladysheva",
+    "name": "Анастасия Гладышева",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/anastasia-gladysheva.webp",
+    "bigImage": "/images/people/pleiad/anastasia-gladysheva.webp"
+  },
+  {
+    "key": "pleiad-sofia-peeva",
+    "name": "Пеева Софья",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/sofia-peeva.webp",
+    "bigImage": "/images/people/pleiad/sofia-peeva.webp"
+  },
+  {
+    "key": "pleiad-vlad",
+    "name": "Влад",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/vlad.webp",
+    "bigImage": "/images/people/pleiad/vlad.webp"
+  },
+  {
+    "key": "pleiad-gleb-zubov",
+    "name": "Зубов Глеб",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/gleb-zubov.webp",
+    "bigImage": "/images/people/pleiad/gleb-zubov.webp"
+  },
+  {
+    "key": "pleiad-olesya-volosenko",
+    "name": "Волосенко Олеся",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/olesya-volosenko.webp",
+    "bigImage": "/images/people/pleiad/olesya-volosenko.webp"
+  },
+  {
+    "key": "pleiad-eleonora-ovcharova",
+    "name": "Овчарова Элеонора",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/eleonora-ovcharova.webp",
+    "bigImage": "/images/people/pleiad/eleonora-ovcharova.webp"
+  },
+  {
+    "key": "pleiad-tanya-merkulova",
+    "name": "Таня Меркулова",
+    "activity": "Плеяда Megabattle",
+    "smallImage": "/images/people/pleiad/tanya-merkulova.webp",
+    "bigImage": "/images/people/pleiad/tanya-merkulova.webp"
+  },
+  {
     "key": "pleiad-majinhka-mjk",
     "name": "Малышко Степан",
     "activity": "Плеяда Megabattle",
