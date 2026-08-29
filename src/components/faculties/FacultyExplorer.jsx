@@ -484,7 +484,7 @@ export default function FacultyExplorer() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Telegram мегафака
+                Telegram
                 <ArrowIcon />
               </a>
               <a
