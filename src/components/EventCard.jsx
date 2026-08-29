@@ -24,7 +24,7 @@ const BRAND_AVATARS = {
     ],
   },
   "/images/events/tour-de-gala.svg": {
-    title: "Тур де Гала",
+    title: "Спешл Ивент",
     paths: [
       "M-76 84 C164 164 240 402 460 330 S714 100 982 178",
       "M-70 756 C144 568 294 706 456 568 S694 202 982 342",
