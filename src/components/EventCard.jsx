@@ -68,13 +68,22 @@ export default function EventCard({ event }) {
         {brandAvatarTitle ? (
           <div className="event-brand-avatar" role="img" aria-label={brandAvatarTitle}>
             <svg className="event-brand-avatar__branches" viewBox="0 0 900 900" aria-hidden="true">
-              <g fill="none" stroke="currentColor" strokeLinecap="round">
-                <path d="M-80 654 C180 654 208 522 378 522 S570 618 980 618" />
-                <path d="M-80 706 C188 706 228 574 388 574 S582 670 980 670" />
-                <path d="M-80 758 C198 758 246 626 400 626 S594 722 980 722" />
-                <path d="M355 522 C468 522 478 366 612 366 S754 444 980 444" />
-                <path d="M390 574 C520 574 530 418 654 418 S790 496 980 496" />
-                <path d="M610 366 C690 366 702 246 792 246 S874 294 980 294" />
+              <defs>
+                <path id="event-branch-a" d="M-80 130 C130 300 276 88 486 205 S760 190 980 30" />
+                <path id="event-branch-b" d="M-70 674 C154 500 282 824 490 604 S732 300 980 438" />
+                <path id="event-branch-c" d="M92-70 C218 120 292 270 430 390 S676 700 980 740" />
+                <path id="event-branch-d" d="M-90 402 C146 356 302 654 520 554 S760 530 990 692" />
+                <path id="event-branch-e" d="M-24 970 C186 616 340 842 550 790 S786 660 976 610" />
+              </defs>
+              <g className="event-brand-avatar__branch-shadow">
+                <use href="#event-branch-a" /><use href="#event-branch-b" />
+                <use href="#event-branch-c" /><use href="#event-branch-d" />
+                <use href="#event-branch-e" />
+              </g>
+              <g className="event-brand-avatar__branch-core">
+                <use href="#event-branch-a" /><use href="#event-branch-b" />
+                <use href="#event-branch-c" /><use href="#event-branch-d" />
+                <use href="#event-branch-e" />
               </g>
             </svg>
             <span>{brandAvatarTitle}</span>
