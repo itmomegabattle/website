@@ -41,7 +41,6 @@ const FacultiesPage = lazy(routeModuleLoaders["/faculties"]);
 const HistoryPage = lazy(routeModuleLoaders["/history"]);
 const PartnersPage = lazy(routeModuleLoaders["/partners"]);
 const EventsPage = lazy(routeModuleLoaders["/events"]);
-const RatingsPage = lazy(routeModuleLoaders["/ratings"]);
 
 function App() {
   const matches = useMatches();
@@ -87,13 +86,13 @@ const router = createBrowserRouter(
       />
       <Route path="/partners" element={<PartnersPage />} />
       <Route path="/events" element={<EventsPage />} />
-      <Route path="/ratings" element={<RatingsPage />} />
-      <Route path="/roles" element={<Navigate to="/ratings#roles" replace />} />
-      <Route path="/admin" element={<Navigate to="/ratings" replace />} />
-      <Route path="/profile" element={<Navigate to="/ratings" replace />} />
-      <Route path="/auth/*" element={<Navigate to="/ratings" replace />} />
-      <Route path="/u/:profileId" element={<Navigate to="/ratings" replace />} />
-      <Route path="/nfc/*" element={<Navigate to="/ratings" replace />} />
+      <Route path="/ratings" element={<Navigate to="/" replace />} />
+      <Route path="/roles" element={<Navigate to="/history#roles" replace />} />
+      <Route path="/admin" element={<Navigate to="/" replace />} />
+      <Route path="/profile" element={<Navigate to="/" replace />} />
+      <Route path="/auth/*" element={<Navigate to="/" replace />} />
+      <Route path="/u/:profileId" element={<Navigate to="/" replace />} />
+      <Route path="/nfc/*" element={<Navigate to="/" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>,
   ),

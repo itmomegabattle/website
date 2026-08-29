@@ -6,7 +6,6 @@ export const SOCIALS = [
   { id: "vk", label: "ВКонтакте", icon: faVk, href: "https://vk.ru/itmomegabattle" },
   { id: "instagram", label: "Instagram", icon: faInstagram, href: "https://www.instagram.com/itmo.megabattle/" },
   { id: "tiktok", label: "TikTok", icon: faTiktok, href: "https://www.tiktok.com/@itmo_megabattle" },
-  { id: "rutube", label: "Rutube", short: "RU", href: "https://rutube.ru/channel/78402593/videos/" },
 ];
 
 export const FALLBACK_STATS = {
@@ -14,28 +13,6 @@ export const FALLBACK_STATS = {
   vk: { followers: 5860 },
   instagram: { followers: 1095, posts: 115, following: 4 },
   tiktok: { followers: 169, likes: 1716, posts: 10 },
-  rutube: {
-    followers: 206,
-    posts: 15,
-    cover: "https://pic.rtbcdn.ru/userappearance/2026-05-18/5c/7b/5c7b78979571f647d04e15606e1866f6.jpeg",
-    videos: [
-      {
-        title: "ITMO MEGABATTLE 8 сезон 2 раунд",
-        thumbnail: "/images/about-image.webp",
-        url: "https://rutube.ru/channel/78402593/videos/",
-      },
-      {
-        title: "ITMO MEGABATTLE 8 сезон 1 раунд",
-        thumbnail: "/images/events/event1.webp",
-        url: "https://rutube.ru/channel/78402593/videos/",
-      },
-      {
-        title: "Гала-концерт ITMO MEGABATTLE",
-        thumbnail: "/images/events/event2.webp",
-        url: "https://rutube.ru/channel/78402593/videos/",
-      },
-    ],
-  },
 };
 
 export const PROJECT_AVATAR = "/logo.svg";

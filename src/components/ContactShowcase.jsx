@@ -1,37 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BusinessCard, TelegramProfile, VkProfile } from "./contact/ProjectProfiles";
-import { InstagramProfile, RutubeProfile, TiktokProfile } from "./contact/SocialProfiles";
+import { InstagramProfile, TiktokProfile } from "./contact/SocialProfiles";
 import { FALLBACK_STATS, SOCIALS } from "./contact/contactData";
 import "../styles/contact-showcase.css";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 export default function ContactShowcase() {
   const [activeTab, setActiveTab] = useState("card");
-  const [remoteStats, setRemoteStats] = useState(null);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 6000);
-
-    fetch("/api/social-stats", { signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((payload) => payload?.stats && setRemoteStats(payload.stats))
-      .catch(() => {})
-      .finally(() => window.clearTimeout(timeout));
-
-    return () => {
-      window.clearTimeout(timeout);
-      controller.abort();
-    };
-  }, []);
-
-  const stats = useMemo(
-    () => Object.fromEntries(
-      Object.entries(FALLBACK_STATS).map(([key, value]) => [key, { ...value, ...(remoteStats?.[key] || {}) }]),
-    ),
-    [remoteStats],
-  );
+  const stats = FALLBACK_STATS;
 
   const activeSocial = SOCIALS.find((item) => item.id === activeTab) || SOCIALS[0];
 
@@ -43,7 +20,6 @@ export default function ContactShowcase() {
         {activeTab === "vk" && <VkProfile data={stats.vk} href={activeSocial.href} />}
         {activeTab === "instagram" && <InstagramProfile data={stats.instagram} href={activeSocial.href} />}
         {activeTab === "tiktok" && <TiktokProfile data={stats.tiktok} href={activeSocial.href} />}
-        {activeTab === "rutube" && <RutubeProfile data={stats.rutube} href={activeSocial.href} />}
       </div>
       <div className="contact-tabs" role="tablist" aria-label="Контакты и социальные сети">
         {SOCIALS.map((item) => (

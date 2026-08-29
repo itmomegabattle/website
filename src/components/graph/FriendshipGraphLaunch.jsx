@@ -8,7 +8,7 @@ export default function FriendshipGraphLaunch() {
       </div>
       <div className="friendship-graph-card__launch-copy">
 
-        <time dateTime="2026-08-29">29.08.26</time>
+        <time>soon</time>
 
       </div>
     </article>

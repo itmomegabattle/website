@@ -148,6 +148,26 @@
   text-shadow: 0 0 2rem rgba(0, 0, 0, 0.96);
 }
 
+html[data-theme="light"] .event-brand-avatar {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(0, 105, 224, 0.1), transparent 46%),
+    #f8fbff;
+  color: #05070a;
+}
+
+html[data-theme="light"] .event-brand-avatar__branch-shadow {
+  stroke: rgba(0, 72, 158, 0.16);
+}
+
+html[data-theme="light"] .event-brand-avatar__branch-core {
+  stroke: #0069e0;
+}
+
+html[data-theme="light"] .event-brand-avatar span {
+  color: #05070a;
+  text-shadow: 0 0 1.5rem rgba(248, 251, 255, 0.98);
+}
+
 .event-showcase-media::after {
   position: absolute;
   inset: 0;

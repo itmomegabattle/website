@@ -8,7 +8,6 @@ import {
   faTelegram,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 import ModalPortal from "./ModalPortal";
 
 function FooterModal({ title, onClose, children, wide = false }) {
@@ -130,15 +129,6 @@ export default function Footer() {
               <FontAwesomeIcon icon={faTiktok} />
             </a>
 
-            <a
-              href="https://rutube.ru/channel/78402593/videos/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Rutube"
-              aria-label="Rutube"
-            >
-              <FontAwesomeIcon icon={faCirclePlay} />
-            </a>
           </nav>
 
           <div className="footer-actions">

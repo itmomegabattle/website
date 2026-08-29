@@ -5,13 +5,12 @@ const pageLoaders = {
   "/history": () => import("../pages/HistoryPage"),
   "/partners": () => import("../pages/PartnersPage"),
   "/events": () => import("../pages/EventsPage"),
-  "/ratings": () => import("../pages/RatingsPage"),
 };
 
 function normalizeRoute(pathname) {
-  if (pathname.startsWith("/u/")) return "/ratings";
-  if (pathname.startsWith("/nfc/")) return "/ratings";
-  if (pathname.startsWith("/auth/")) return "/ratings";
+  if (pathname.startsWith("/u/")) return "/";
+  if (pathname.startsWith("/nfc/")) return "/";
+  if (pathname.startsWith("/auth/")) return "/";
   return pathname in pageLoaders ? pathname : "/";
 }
 
