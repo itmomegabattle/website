@@ -335,6 +335,7 @@
   color: var(--brand-white);
   font: 500 clamp(4rem, 11vw, 9rem)/0.9 var(--heading-font);
   letter-spacing: -0.06em;
+  text-transform: uppercase;
 }
 
 .people-connections .friendship-graph-toolbar {
