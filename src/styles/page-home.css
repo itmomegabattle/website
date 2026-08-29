@@ -619,7 +619,7 @@
 
 .contact-tabs {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 0.35rem;
     padding: 0.55rem;
     background: rgba(0, 0, 0, 0.42);
@@ -752,7 +752,7 @@
 
 /* Larger icons, but without making the whole footer oversized. */
 .contact-tabs {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
 
     gap: 0.35rem;
     padding: 0.5rem 0.55rem;

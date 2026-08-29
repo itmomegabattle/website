@@ -8,6 +8,7 @@ import {
   faTelegram,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ModalPortal from "./ModalPortal";
 
 function FooterModal({ title, onClose, children, wide = false }) {
@@ -97,7 +98,7 @@ export default function Footer() {
 
           <nav
             className="footer-socials"
-            aria-label="Социальные сети"
+            aria-label="Контакты и социальные сети"
           >
             <a
               href="https://vk.com/itmomegabattle"
@@ -127,6 +128,14 @@ export default function Footer() {
               aria-label="TikTok"
             >
               <FontAwesomeIcon icon={faTiktok} />
+            </a>
+
+            <a
+              href="mailto:megabattle@itmo.ru"
+              title="megabattle@itmo.ru"
+              aria-label="Написать на почту megabattle@itmo.ru"
+            >
+              <FontAwesomeIcon icon={faEnvelope} />
             </a>
 
           </nav>
