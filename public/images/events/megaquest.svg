@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-labelledby="title">
+  <title id="title">МекаКвест</title>
+  <rect width="900" height="900" rx="96" fill="#f4f4f0"/>
+  <path d="M126 126h648v648H126z" fill="none" stroke="#0a0a0a" stroke-width="20"/>
+  <path d="M214 214h472v472H214zm96 96h280v280H310zm92 92h96v96h-96z" fill="none" stroke="#0a0a0a" stroke-width="28"/>
+  <path d="M450 214v96M310 450h92M498 450h188M450 590v96" stroke="#f4f4f0" stroke-width="44"/>
+  <circle cx="686" cy="214" r="25" fill="#0069e0"/>
+  <text x="126" y="832" fill="#0a0a0a" font-family="Arial Black, Arial, sans-serif" font-size="58" font-weight="900" letter-spacing="-2">МЕКАКВЕСТ</text>
+</svg>

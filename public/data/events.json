@@ -11,7 +11,7 @@
     "registration": { "status": "soon", "label": "Регистрация скоро", "link": "" },
     "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
     "details": ["командный формат", "несколько корпусов", "задания и шифры"],
-    "image": "/images/events/event2.jpg"
+    "image": "/images/events/megaquest.svg"
   },
   {
     "id": "megaquiz",
@@ -25,7 +25,7 @@
     "registration": { "status": "soon", "label": "Регистрация скоро", "link": "" },
     "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
     "details": ["команды факультетов", "два игровых дня", "баллы в общий зачёт"],
-    "image": "/images/events/event1.jpg"
+    "image": "/images/events/megaquiz.svg"
   },
   {
     "id": "tour-de-gala",
@@ -39,7 +39,7 @@
     "registration": { "status": "closed", "label": "Вход по анонсу", "link": "" },
     "telegram": { "label": "Следить за анонсами", "link": "https://t.me/itmomegabattle" },
     "details": ["вручение тем", "старт подготовки", "9 сезон"],
-    "image": "/images/about-image.png"
+    "image": "/images/events/tour-de-gala.svg"
   },
   {
     "id": "gala-round-1-season-9",
@@ -53,7 +53,7 @@
     "registration": { "status": "soon", "label": "Регистрация скоро", "link": "" },
     "telegram": { "label": "Telegram проекта", "link": "https://t.me/itmomegabattle" },
     "details": ["первый раунд", "главная сцена", "9 сезон"],
-    "image": "/images/events/event1.jpg"
+    "image": "/images/events/gala-concert.svg"
   },
   {
     "id": "chto",

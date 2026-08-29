@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-labelledby="title">
+  <title id="title">Гала-концерт</title>
+  <rect width="900" height="900" rx="96" fill="#f4f4f0"/>
+  <path d="M158 151h584v550H158z" fill="none" stroke="#0a0a0a" stroke-width="22"/>
+  <path d="M158 151c164 72 222 196 292 550M742 151C578 223 520 347 450 701" fill="none" stroke="#0a0a0a" stroke-width="72"/>
+  <path d="M450 176 337 701h226z" fill="#0069e0"/>
+  <circle cx="450" cy="176" r="63" fill="#0a0a0a"/>
+  <path d="M272 701h356" stroke="#0a0a0a" stroke-width="40" stroke-linecap="square"/>
+  <text x="126" y="812" fill="#0a0a0a" font-family="Arial Black, Arial, sans-serif" font-size="48" font-weight="900" letter-spacing="-2">ГАЛА-КОНЦЕРТ</text>
+  <text x="129" y="852" fill="#0a0a0a" font-family="Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="5">ITMO MEGABATTLE</text>
+</svg>

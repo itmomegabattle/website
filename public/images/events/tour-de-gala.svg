@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-labelledby="title">
+  <title id="title">Тур де Гала</title>
+  <rect width="900" height="900" rx="96" fill="#f4f4f0"/>
+  <circle cx="450" cy="406" r="270" fill="none" stroke="#0a0a0a" stroke-width="22"/>
+  <path d="M450 136v540M180 406h540M259 215l382 382M641 215 259 597" stroke="#0a0a0a" stroke-width="30"/>
+  <circle cx="450" cy="406" r="119" fill="#f4f4f0" stroke="#0a0a0a" stroke-width="34"/>
+  <path d="m450 322 28 57 63 9-46 44 11 63-56-29-56 29 11-63-46-44 63-9z" fill="#0a0a0a"/>
+  <circle cx="686" cy="214" r="25" fill="#0069e0"/>
+  <text x="126" y="812" fill="#0a0a0a" font-family="Arial Black, Arial, sans-serif" font-size="58" font-weight="900" letter-spacing="-2">ТУР ДЕ ГАЛА</text>
+  <text x="129" y="852" fill="#0a0a0a" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="7">ITMO MEGABATTLE</text>
+</svg>

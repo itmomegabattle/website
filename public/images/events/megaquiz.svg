@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-labelledby="title">
+  <title id="title">МегаКвиз</title>
+  <rect width="900" height="900" rx="96" fill="#f4f4f0"/>
+  <circle cx="450" cy="402" r="268" fill="none" stroke="#0a0a0a" stroke-width="22"/>
+  <path d="M288 371c0-99 70-166 166-166 94 0 158 57 158 142 0 74-42 108-95 141-49 30-62 51-62 102" fill="none" stroke="#0a0a0a" stroke-width="74" stroke-linecap="round"/>
+  <circle cx="453" cy="661" r="39" fill="#0a0a0a"/>
+  <circle cx="686" cy="214" r="25" fill="#0069e0"/>
+  <text x="126" y="832" fill="#0a0a0a" font-family="Arial Black, Arial, sans-serif" font-size="64" font-weight="900" letter-spacing="-3">МЕГАКВИЗ</text>
+</svg>
