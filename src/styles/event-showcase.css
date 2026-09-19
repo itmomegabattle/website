@@ -617,7 +617,7 @@ html[data-theme="light"] .events-page .event-registration-button--disabled {
   }
 
   .event-showcase-media {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 1;
   }
 
   .event-showcase-desktop-details {
@@ -721,7 +721,7 @@ html[data-theme="light"] .events-page .event-registration-button--disabled {
   }
 
   .event-showcase-media {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1;
     border-radius: calc(var(--corner-radius) - 0.65rem);
   }
 

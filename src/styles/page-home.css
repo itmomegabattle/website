@@ -272,6 +272,7 @@
 }
 
 .events .event-showcase-card {
+    width: 100%;
     max-width: 1240px;
     margin-inline: auto;
 }
