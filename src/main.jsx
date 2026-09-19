@@ -39,7 +39,7 @@ const HomePage = lazy(routeModuleLoaders["/"]);
 const PeoplePage = lazy(routeModuleLoaders["/people"]);
 const FacultiesPage = lazy(routeModuleLoaders["/faculties"]);
 const HistoryPage = lazy(routeModuleLoaders["/history"]);
-const PartnersPage = lazy(routeModuleLoaders["/partners"]);
+const PartnerOfferPage = lazy(routeModuleLoaders["/offer"]);
 const EventsPage = lazy(routeModuleLoaders["/events"]);
 
 function App() {
@@ -84,7 +84,7 @@ const router = createBrowserRouter(
         element={<HistoryPage />}
         handle={{ hideFooter: true }}
       />
-      <Route path="/partners" element={<PartnersPage />} />
+      <Route path="/offer" element={<PartnerOfferPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<Navigate to="/" replace />} />
       <Route path="/roles" element={<Navigate to="/history#roles" replace />} />

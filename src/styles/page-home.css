@@ -321,6 +321,10 @@
 }
 
 @media (max-width: 560px) {
+    .events.events-page.main-width {
+        width: calc(100vw - 1rem);
+    }
+
     .project-menu {
         margin-top: 1rem;
     }

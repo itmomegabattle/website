@@ -203,6 +203,7 @@ export default function HomePage() {
 
         <section id="partners" className="partners">
           <h1>ПАРТНЕРЫ</h1>
+          <Link className="home-partners-offer-link" to="/offer">Стать партнёром</Link>
           <Partners />
         </section>
 

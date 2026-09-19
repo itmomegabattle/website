@@ -9,7 +9,6 @@ const routeQueries = {
   ],
   "/faculties": [["faculties", Api.getFaculties]],
   "/history": [["history", Api.getHistory]],
-  "/partners": [["partners", Api.getPartners]],
   "/events": [["events", Api.getEvents]],
 };
 
@@ -32,9 +31,6 @@ function imageUrlsForRoute(pathname, values) {
         .map((person) => isLocalOptimizedPersonImage(person?.smallImage || person?.bigImage, "small")),
       ...stories.map((story) => story?.image || story?.image_url),
     ];
-  }
-  if (pathname === "/partners") {
-    return values.flat().map((partner) => partner?.image);
   }
   if (pathname === "/events") {
     return values.flat().map((event) => event?.image || event?.image_url);
