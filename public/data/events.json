@@ -31,7 +31,7 @@
       "link": ""
     },
     "details": [],
-    "image": "/images/events/gala-concert.svg"
+    "image": "/images/events/gala-concert.jpg"
   },
   {
     "id": "game",
@@ -69,7 +69,7 @@
       "link": ""
     },
     "details": [],
-    "image": "/images/events/tour-de-gala.svg"
+    "image": "/images/events/special-event.jpg"
   },
   {
     "id": "chto",
@@ -297,6 +297,6 @@
       "link": ""
     },
     "details": [],
-    "image": "/images/events/megaquiz.svg"
+    "image": "/images/events/megaquiz.jpg"
   }
 ]
