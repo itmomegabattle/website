@@ -6,13 +6,7 @@ export const mapDbPartner = (item) => ({ id: item.id, sourceKey: item.source_key
 export const mapDbStory = (item) => ({ id: item.id, key: item.source_key || item.id, name: item.name, faculty: item.faculty || "", description: item.description || "", date: item.story_date_label || "", image: item.image_url || "/images/people/member.jpg", status: item.status, sortOrder: item.sort_order, submitterProfileId: item.submitter_profile_id, submitterContact: item.submitter_contact || "", moderationComment: item.moderation_comment || "", createdAt: item.created_at });
 
 export async function getPublishedPartners(fallback = []) {
-  try {
-    const data = await backendApi("/api/v1/content/partners?limit=200");
-    const items = data.items ?? [];
-    return items.length > 0 ? items.map(mapDbPartner) : fallback;
-  } catch {
-    return fallback;
-  }
+  return fallback;
 }
 export async function getAdminPartners() { return (await backendApi("/api/v1/admin/content/partners")).items ?? []; }
 export async function upsertPartner(partner) {
@@ -46,13 +40,7 @@ export async function importStaticPartners(partners) {
 }
 
 export async function getPublishedStories(fallback = []) {
-  try {
-    const data = await backendApi("/api/v1/content/stories?limit=200");
-    const items = data.items ?? [];
-    return items.length > 0 ? items.map(mapDbStory) : fallback;
-  } catch {
-    return fallback;
-  }
+  return fallback;
 }
 export async function getAdminStories() { return (await backendApi("/api/v1/admin/content/stories")).items ?? []; }
 export async function upsertStory(story) {

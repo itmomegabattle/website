@@ -1,45 +1,5 @@
 import { Api } from "../api";
-import { splitEventDetails } from "../components/events/eventConfig";
-import { backendApi } from "../lib/backendApi";
-
-function mapDbEvent(event) {
-  const parsedDetails = splitEventDetails(event.details);
-  return {
-    id: event.slug,
-    dbId: event.id,
-    slug: event.slug,
-    status: event.status,
-    group_key: event.group_key,
-    group: event.group_key,
-    name: event.name,
-    type: event.type,
-    event_date_label: event.event_date_label,
-    event_time_label: event.event_time_label,
-    image_url: event.image_url,
-    registration_status: event.registration_status,
-    registration_label: event.registration_label,
-    registration_link: event.registration_link,
-    itmo_events_id: event.itmo_events_id,
-    sort_order: event.sort_order,
-    date: event.event_date_label || "дата уточняется",
-    time: event.event_time_label || "время уточняется",
-    location: event.location || "место уточняется",
-    description: event.description || "",
-    registration: {
-      status: event.registration_status || "soon",
-      label: event.registration_label || "Регистрация скоро",
-      link: event.registration_link || "",
-    },
-    details: parsedDetails.details,
-    telegram: parsedDetails.telegram,
-    image: event.image_url || "/images/events/event1.jpg",
-  };
-}
 
 export async function getPublishedEvents() {
-  try {
-    const result = await backendApi("/api/v1/content/events?limit=200");
-    const items = result.items ?? [];
-    return items.length > 0 ? items.map(mapDbEvent) : Api.getStaticEvents();
-  } catch { return Api.getStaticEvents(); }
+  return Api.getStaticEvents();
 }

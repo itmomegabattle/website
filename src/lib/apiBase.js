@@ -1,3 +1,3 @@
-export const BACKEND_API = import.meta.env.PROD
-  ? "/api/backend"
-  : (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000").replace(/\/+$/, "");
+const configuredApiBase = import.meta.env.VITE_API_BASE_URL?.replace(/\/+$/, "");
+
+export const BACKEND_API = configuredApiBase || (import.meta.env.PROD ? "/api/backend" : "http://localhost:4000");

@@ -17,13 +17,7 @@ function preserveContributorLocally(member) {
   localStorage.setItem(LOCAL_CONTRIBUTORS_KEY, JSON.stringify([...current, mapped]));
 }
 export async function getPublishedTeamMembers(section, fallback = []) {
-  try {
-    const data = await backendApi("/api/v1/content/people?limit=200");
-    const rows = (data.items ?? []).filter((item) => item.section === section);
-    return rows.length > 0 ? rows.map(mapDbMember) : fallback;
-  } catch {
-    return fallback;
-  }
+  return fallback;
 }
 export async function getAdminTeamMembers(section) { const data=await backendApi("/api/v1/admin/content/people"); return (data.items??[]).filter((item)=>item.section===section); }
 
