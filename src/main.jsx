@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
   Navigate,
   Outlet,
@@ -10,7 +10,6 @@ import {
   ScrollRestoration,
   useMatches,
 } from "react-router-dom";
-import { Api } from "./api";
 import Background from "./components/Background";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -73,7 +72,7 @@ function App() {
 }
 
 // Создание роутов
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route element={<App />}>
       <Route path="/" element={<HomePage />} />
@@ -96,7 +95,6 @@ const router = createBrowserRouter(
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>,
   ),
-  { basename: Api.normalizeURL("/") },
 );
 
 // Создание всего приложения

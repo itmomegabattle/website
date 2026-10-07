@@ -113,7 +113,8 @@ export function scheduleSiteWarmup(queryClient) {
     if (cancelled || document.visibilityState !== "visible") return;
     // Подготавливаем только код ближайшего логичного раздела. Данные и
     // изображения грузятся по намерению пользователя, а не целиком при входе.
-    const nextRoute = window.location.pathname === "/" ? "/people" : "/";
+    const hashPath = window.location.hash.replace(/^#/, "") || "/";
+    const nextRoute = hashPath === "/" ? "/people" : "/";
     prefetchRoute(nextRoute, queryClient, { data: false }).catch(() => null);
   };
 
