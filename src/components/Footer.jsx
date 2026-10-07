@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import ModalPortal from "./ModalPortal";
+import { Api } from "../api";
 
 function FooterModal({ title, onClose, children, wide = false }) {
   useEffect(() => {
@@ -28,7 +29,7 @@ function PrivacyPolicy({ onClose, onSupport }) {
     <h3>Хранение и доступ</h3><p>Доступ получают только уполномоченные организаторы и технические администраторы. Вложения поддержки хранятся в закрытом хранилище и открываются по временной ссылке. Мы не публикуем и не продаём данные. Сведения хранятся не дольше, чем это необходимо для указанных целей и выполнения обязательных требований.</p>
     <h3>Права пользователя</h3><p>Можно запросить сведения об обработке, исправление или удаление данных, а также отозвать согласие. Для этого отправьте обращение через поддержку и укажите контакт, по которому можно подтвердить запрос.</p>
     <h3>Безопасность и обновления</h3><p>Мы применяем разграничение доступа, закрытое хранение вложений и защищённое соединение. Политика может обновляться при изменении сайта или требований; актуальная версия всегда доступна в подвале.</p>
-    <div className="footer-policy-actions"><a className="footer-modal-primary" href="/itmo-megabattle-privacy-policy.pdf" target="_blank" rel="noreferrer">Открыть полную политику PDF</a><button className="footer-modal-primary" type="button" onClick={onSupport}>Связаться по вопросу данных</button></div>
+    <div className="footer-policy-actions"><a className="footer-modal-primary" href={Api.normalizeURL("/itmo-megabattle-privacy-policy.pdf")} target="_blank" rel="noreferrer">Открыть полную политику PDF</a><button className="footer-modal-primary" type="button" onClick={onSupport}>Связаться по вопросу данных</button></div>
   </div></FooterModal>;
 }
 
@@ -45,7 +46,7 @@ function FooterLogo() {
 
   useEffect(() => {
     let active = true;
-    fetch("/logo.svg")
+    fetch(Api.normalizeURL("/logo.svg"))
       .then((response) => response.text())
       .then((svg) => {
         if (active) setMarkup(svg.replaceAll('fill="white"', 'fill="currentColor"'));
@@ -54,7 +55,7 @@ function FooterLogo() {
     return () => { active = false; };
   }, []);
 
-  if (!markup) return <img className="footer-logo" src="/logo.svg" width="130" height="88" alt="ITMO Megabattle" />;
+  if (!markup) return <img className="footer-logo" src={Api.normalizeURL("/logo.svg")} width="130" height="88" alt="ITMO Megabattle" />;
   return <span className="footer-logo footer-logo--inline" role="img" aria-label="ITMO Megabattle" dangerouslySetInnerHTML={{ __html: markup }} />;
 }
 

@@ -1,3 +1,5 @@
+import { Api } from "../../api";
+
 export default function HistoryHero({ featured, onNavigate }) {
   return (
     <header className="history-hero" id="history-top">
@@ -10,7 +12,7 @@ export default function HistoryHero({ featured, onNavigate }) {
         <span>THE STORY OF</span>
         <img
           className="history-hero__logo"
-          src="/history-logo.svg"
+          src={Api.normalizeURL("/history-logo.svg")}
           alt="ITMO Megabattle"
           width="420"
           height="256"

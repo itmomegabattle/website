@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { Api } from "../api";
 
-const MODEL_URL = "/models/moving-head-beam-high-poly.glb";
+const MODEL_URL = Api.normalizeURL("/models/moving-head-beam-high-poly.glb");
 const BODY_YAW = -0.05;
 const CLIP_START = 0.15;
 const CLIP_FACE_CAMERA = 2.91;

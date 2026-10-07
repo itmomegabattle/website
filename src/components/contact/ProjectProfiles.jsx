@@ -11,13 +11,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { ProjectAvatar, SocialScreen } from "./ContactPrimitives";
 import { formatSocialStat as stat } from "./contactData";
+import { Api } from "../../api";
 
 export function BusinessCard() {
   return (
     <div className="employee-card">
       <div className="employee-card__media">
         <img
-          src="/images/about-image.webp"
+          src={Api.normalizeURL("/images/about-image.webp")}
           alt=""
           width="670"
           height="777"
@@ -86,7 +87,7 @@ export function VkProfile({ data, href }) {
     <SocialScreen className="vk-screen" href={href}>
       <div className="vk-screen__cover">
         <img
-          src="/images/about-image.webp"
+          src={Api.normalizeURL("/images/about-image.webp")}
           alt=""
           width="670"
           height="777"
@@ -95,7 +96,7 @@ export function VkProfile({ data, href }) {
         />
         <img
           className="vk-screen__logo"
-          src="/logo.svg"
+          src={Api.normalizeURL("/logo.svg")}
           alt="ITMO Megabattle"
           width="109"
           height="67"

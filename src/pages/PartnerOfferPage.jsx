@@ -1,4 +1,5 @@
 import "../styles/partner-offer.css";
+import { Api } from "../api";
 
 const advantages = [
   "взаимодействие с активной аудиторией студентов",
@@ -102,7 +103,7 @@ export default function PartnerOfferPage() {
   return (
     <main className="partner-offer-page">
       <section className="partner-offer-hero main-width">
-        <img className="partner-offer-logo" src="/history-logo.svg" alt="ITMO Megabattle" width="420" height="256" />
+        <img className="partner-offer-logo" src={Api.normalizeURL("/history-logo.svg")} alt="ITMO Megabattle" width="420" height="256" />
       </section>
 
       <section className="partner-offer-about main-width">
@@ -115,10 +116,10 @@ export default function PartnerOfferPage() {
             <p>Мы создаём не просто мероприятия, а пространство для взаимодействия студентов, брендов и университета.</p>
           </div>
           <div className="partner-offer-about-gallery" aria-label="Фотографии ITMO Megabattle">
-            <img src="/images/events/event1.webp" alt="Выступление ITMO Megabattle" loading="lazy" />
-            <img src="/images/history/archive/830.webp" alt="Танцевальное выступление ITMO Megabattle" loading="lazy" />
-            <img src="/images/history/archive/807.webp" alt="Команда на сцене ITMO Megabattle" loading="lazy" />
-            <img src="/images/history/archive/765.webp" alt="Участники ITMO Megabattle" loading="lazy" />
+            <img src={Api.normalizeURL("/images/events/event1.webp")} alt="Выступление ITMO Megabattle" loading="lazy" />
+            <img src={Api.normalizeURL("/images/history/archive/830.webp")} alt="Танцевальное выступление ITMO Megabattle" loading="lazy" />
+            <img src={Api.normalizeURL("/images/history/archive/807.webp")} alt="Команда на сцене ITMO Megabattle" loading="lazy" />
+            <img src={Api.normalizeURL("/images/history/archive/765.webp")} alt="Участники ITMO Megabattle" loading="lazy" />
           </div>
         </div>
       </section>
@@ -180,7 +181,7 @@ export default function PartnerOfferPage() {
         <h2>Контакты</h2>
         <div className="partner-offer-jury-contact-panel">
           <div className="partner-offer-jury-photo">
-            <img src="/images/partners/anastasia-contact.jpeg" alt="Настюша" width="640" height="640" />
+            <img src={Api.normalizeURL("/images/partners/anastasia-contact.jpeg")} alt="Настюша" width="640" height="640" />
           </div>
           <div className="partner-offer-jury-copy">
             <strong>Настюша</strong>

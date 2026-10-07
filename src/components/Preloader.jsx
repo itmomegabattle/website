@@ -1,4 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { Api } from "../api";
 import "../styles/preloader.css";
 
 const PreloaderCapture = lazy(() => import("./PreloaderCapture"));
@@ -37,13 +38,16 @@ export function startThemeChangePreloader() {
   return new Promise((resolve) => {
     const isMobile = window.matchMedia?.(MOBILE_PRELOADER_QUERY)?.matches ?? false;
     const variant = isMobile ? "mobile" : "desktop";
+    const poster = Api.normalizeURL(`/videos/preloader-${variant}-poster.jpg`);
+    const webm = Api.normalizeURL(`/videos/preloader-${variant}.webm`);
+    const mp4 = Api.normalizeURL(`/videos/preloader-${variant}.mp4`);
     const overlay = document.createElement("div");
     overlay.className = "site-preloader site-preloader--theme-change";
     overlay.setAttribute("aria-label", "Смена темы ITMO MEGABATTLE");
     overlay.innerHTML = `
-      <video class="site-preloader__video" autoplay muted playsinline preload="auto" poster="/videos/preloader-${variant}-poster.jpg">
-        <source src="/videos/preloader-${variant}.webm" type="video/webm" />
-        <source src="/videos/preloader-${variant}.mp4" type="video/mp4" />
+      <video class="site-preloader__video" autoplay muted playsinline preload="auto" poster="${poster}">
+        <source src="${webm}" type="video/webm" />
+        <source src="${mp4}" type="video/mp4" />
       </video>`;
     document.body.classList.add("preloader-lock");
     document.body.appendChild(overlay);
@@ -76,7 +80,7 @@ export default function Preloader() {
   const videoRef = useRef(null);
   const useVideoPreloader = !captureMode && !videoError;
   const videoVariant = isMobileVideo ? "mobile" : "desktop";
-  const preloaderPosterSrc = `/videos/preloader-${videoVariant}-poster.jpg`;
+  const preloaderPosterSrc = Api.normalizeURL(`/videos/preloader-${videoVariant}-poster.jpg`);
 
   const handleMediaReady = useCallback(() => {
     mediaReadyRef.current = true;
@@ -199,14 +203,14 @@ export default function Preloader() {
           onError={handleVideoError}
           aria-hidden="true"
         >
-          <source src={`/videos/preloader-${videoVariant}.webm`} type="video/webm" />
-          <source src={`/videos/preloader-${videoVariant}.mp4`} type="video/mp4" />
+          <source src={Api.normalizeURL(`/videos/preloader-${videoVariant}.webm`)} type="video/webm" />
+          <source src={Api.normalizeURL(`/videos/preloader-${videoVariant}.mp4`)} type="video/mp4" />
         </video>
       ) : null}
 
       {!captureMode && videoError ? (
         <div className="site-preloader__video-fallback" aria-hidden="true">
-          <img src="/logo.svg" width="109" height="67" alt="" />
+          <img src={Api.normalizeURL("/logo.svg")} width="109" height="67" alt="" />
         </div>
       ) : null}
     </div>
