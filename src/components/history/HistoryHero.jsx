@@ -21,7 +21,7 @@ export default function HistoryHero({ featured, onNavigate }) {
       </div>
       <a
         className="history-scroll-cue"
-        href="#origin"
+        href="#/history?section=origin"
         onClick={(event) => onNavigate(event, "origin")}
       >
         <span>SCROLL TO EXPLORE</span><i>↓</i>

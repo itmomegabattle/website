@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Api } from "../../api";
 import ModalPortal from "../ModalPortal";
 
 export default function HistoryChapter({
@@ -10,6 +11,7 @@ export default function HistoryChapter({
   onNext,
 }) {
   const swipeStart = useRef(null);
+  const image = Api.normalizeURL(season.image);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -58,8 +60,8 @@ export default function HistoryChapter({
           onPointerUp={(event) => event.pointerType !== "touch" && finishSwipe(event)}
         >
           <button type="button" className="history-chapter__close" onClick={onClose} aria-label="Закрыть" autoFocus>×</button>
-          <div className="history-chapter__visual" style={{ "--history-image": `url("${season.image}")` }}>
-            <img src={season.image} alt="" width="1280" height="960" />
+          <div className="history-chapter__visual" style={{ "--history-image": `url("${image}")` }}>
+            <img src={image} alt="" width="1280" height="960" />
             <span>CHAPTER {String(season.number).padStart(2, "0")}</span>
             <strong>{season.years}</strong>
           </div>

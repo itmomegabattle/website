@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import HistoryBirth from "./HistoryBirth";
 import HistoryChapter from "./HistoryChapter";
 import HistoryFacts from "./HistoryFacts";
@@ -13,15 +14,17 @@ import useHistoryArchive from "./useHistoryArchive";
 const RolesDomeSection = lazy(() => import("../RolesDomeSection"));
 
 export default function HistoryExperience({ data }) {
+  const location = useLocation();
   const [activeVideo, setActiveVideo] = useState(null);
   const [activeSeason, setActiveSeason] = useState(null);
 
   useEffect(() => {
-    if (!window.location.hash) return undefined;
+    const section = new URLSearchParams(location.search).get("section");
+    if (!section) return undefined;
     let attempts = 0;
     let timer;
     const revealAnchor = () => {
-      const target = document.querySelector(window.location.hash);
+      const target = document.getElementById(section);
       if (target) {
         target.scrollIntoView({ block: "start" });
         return;
@@ -31,7 +34,7 @@ export default function HistoryExperience({ data }) {
     };
     revealAnchor();
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [location.search]);
 
   const seasons = data.seasons || [];
   const quickFacts = data.quickFacts || [];
@@ -46,7 +49,7 @@ export default function HistoryExperience({ data }) {
     if (!target) return;
     const top = target.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top, behavior: "smooth" });
-    window.history.replaceState(null, "", `#${id}`);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#/history?section=${encodeURIComponent(id)}`);
   };
 
   const activeSeasonIndex = activeSeason ? seasons.indexOf(activeSeason) : -1;

@@ -1,11 +1,13 @@
+import { Api } from "../../api";
 import { pad } from "./historyUtils";
 
 export default function HistorySeasonCard({ season, index, onOpen }) {
+  const image = Api.normalizeURL(season.image);
   return (
     <article className="history-season-card" style={{ "--card": index, "--card-lift": index % 2 }}>
       <button type="button" onClick={() => onOpen(season)} aria-label={`Открыть историю ${season.number} сезона`}>
-        <span className="history-season-card__media" style={{ "--history-image": `url("${season.image}")` }}>
-          <img src={season.image} alt="" width="1280" height="960" loading="lazy" />
+        <span className="history-season-card__media" style={{ "--history-image": `url("${image}")` }}>
+          <img src={image} alt="" width="1280" height="960" loading="lazy" />
           <span className="history-season-card__shade" />
         </span>
         <span className="history-season-card__number">{pad(index)}</span>

@@ -86,7 +86,7 @@ const router = createHashRouter(
       <Route path="/offer" element={<PartnerOfferPage />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/ratings" element={<Navigate to="/" replace />} />
-      <Route path="/roles" element={<Navigate to="/history#roles" replace />} />
+      <Route path="/roles" element={<Navigate to="/history?section=roles" replace />} />
       <Route path="/admin" element={<Navigate to="/" replace />} />
       <Route path="/profile" element={<Navigate to="/" replace />} />
       <Route path="/auth/*" element={<Navigate to="/" replace />} />
